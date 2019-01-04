@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "339756093450",
+    "firebase_url": "https://jihuzurdb.firebaseio.com",
+    "project_id": "jihuzurdb",
+    "storage_bucket": "jihuzurdb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:339756093450:android:2668bc719d6139db",
+        "android_client_info": {
+          "package_name": "com.example.awizom.jihuzur"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "339756093450-87rk21i94o4fsuiqfjtq7rh0e1nov5t0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.awizom.jihuzur",
+            "certificate_hash": "b01d040b3dd669c1929c25c3f8f9deb94f7f784a"
+          }
+        },
+        {
+          "client_id": "339756093450-itcr652ocnh7hihu3945o4lfl51jmmlo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqjgBEuUHxFzj7IV6F0d5e9tnhmnRrXAU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "339756093450-itcr652ocnh7hihu3945o4lfl51jmmlo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
