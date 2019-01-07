@@ -1,7 +1,13 @@
 package com.example.awizom.jihuzur;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,16 +16,57 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.awizom.jihuzur.Fragment.SearchFragment;
+
 public class CustomerHomePage extends AppCompatActivity
 
-        implements NavigationView.OnNavigationItemSelectedListener {
+    //side navigation drawer start
 
+        implements NavigationView.OnNavigationItemSelectedListener {
+String TAG;
+private Fragment fragment=null;
+private Fragment searchFragment;
+    //bottom navigation drawer started
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+
+        //bottom navigation Button Onclick
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Class framentClass=null;
+            switch (item.getItemId()) {
+                case R.id.navigation_search:
+                    getSupportActionBar().setTitle("Search");
+                    fragment = searchFragment;
+                    framentClass=SearchFragment.class;
+
+                    break;
+            }
+            try {
+                fragment = (Fragment)framentClass.newInstance();
+                android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.home_container, fragment).commit();
+                setTitle("");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+            return false;
+        }
+    };
+
+    //layout declaration
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        searchFragment=new SearchFragment();
         setContentView(R.layout.activity_customer_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -40,6 +87,7 @@ public class CustomerHomePage extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    //fumctionalities for side navigation drawer
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -71,6 +119,8 @@ public class CustomerHomePage extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
+    //side navigation drwaer started onCLick
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
