@@ -15,10 +15,10 @@
         android:id="@+id/navigation_helpCenter"
         android:icon="@drawable/ic_help_black_24dp"
         android:title="@string/Help_Center" />
-    <item
-        android:id="@+id/navigation_Profile"
-        android:icon="@drawable/ic_account_circle_black_24dp"
-        android:title="@string/Profile" />
+    <!--<item-->
+        <!--android:id="@+id/navigation_Profile"-->
+        <!--android:icon="@drawable/ic_account_circle_black_24dp"-->
+        <!--android:title="@string/Profile" />-->
 
 
 </menu>
