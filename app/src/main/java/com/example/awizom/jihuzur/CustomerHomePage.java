@@ -2,7 +2,11 @@ package com.example.awizom.jihuzur;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -15,17 +19,36 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import okhttp3.internal.http2.Header;
 
 public class CustomerHomePage extends AppCompatActivity
 
     //side navigation drawer start
 
         implements NavigationView.OnNavigationItemSelectedListener {
-String TAG;
-private Fragment fragment=null;
-private Fragment searchFragment;
+          String TAG;
+          private Fragment fragment=null;
+          private Fragment searchFragment;
+
+    DatabaseReference datauser,datauserpro;
+    String role;
+    String Url;
+    Boolean active=false;
+    View header;
+    ImageView profileImage;
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -42,6 +65,7 @@ private Fragment searchFragment;
                     framentClass=SearchFragment.class;
 
                     break;
+
             }
             try {
                 fragment = (Fragment)framentClass.newInstance();
@@ -62,11 +86,14 @@ private Fragment searchFragment;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         searchFragment=new SearchFragment();
+
         setContentView(R.layout.activity_customer_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +112,27 @@ private Fragment searchFragment;
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        View headerview = navigationView.getHeaderView(0);
+      profileImage=headerview.findViewById(R.id.profileImage);
+
+
+        getUser();
+
+
+
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), DrawingActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
+
 
     //fumctionalities for side navigation drawer
     @Override
@@ -113,7 +160,9 @@ private Fragment searchFragment;
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_signout) {
+            finish();
+
             return true;
         }
 
@@ -141,10 +190,65 @@ private Fragment searchFragment;
         } else if (id == R.id.nav_send) {
 
         }
+        else if (id==R.id.profileImage)
+        {
+            Intent imageView=new Intent(CustomerHomePage.this,DrawingActivity.class);
+            startActivity(imageView);
+        }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void getUser() {
+        try {
+            //String res="";
+
+
+            datauserpro =  FirebaseDatabase.getInstance().getReference("userprofile").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+            datauserpro.addValueEventListener(new ValueEventListener() {
+
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    role= dataSnapshot.child( "role" ).getValue().toString();
+                    active=Boolean.valueOf(  dataSnapshot.child( "active" ).getValue().toString());
+                    getSupportActionBar().setTitle("Ji Huzur "+role);
+
+                    if(role.equals( "Employee" ))
+                    {
+                        Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/image.jpg?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
+
+                        Glide.with(getApplicationContext()).load(Url).into(profileImage);
+                    }
+                    else
+
+                    {
+                        Toast.makeText(getApplicationContext(), "Error: " , Toast.LENGTH_SHORT).show();
+                    }
+
+                    //iterating through all the nodes
+
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+            //   new MyCourse.GETCourseList().execute(SharedPrefManager.getInstance(this).getUser().access_token);
+            //Toast.makeText(getApplicationContext(),res,Toast.LENGTH_SHORT).show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+            // System.out.println("Error: " + e);
+        }
+    }
+
+
+
 }
 
