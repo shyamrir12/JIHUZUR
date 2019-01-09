@@ -8,8 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.example.awizom.jihuzur.Model.EmployeeProfile;
+import com.example.awizom.jihuzur.Model.Profile;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
@@ -36,7 +35,7 @@ public class VerifyPhoneActivityEmployee extends AppCompatActivity {
     private EditText editTextCode;
     DatabaseReference datauserprofile;
     private FirebaseAuth mAuth;
-    EmployeeProfile employeeProfile;
+    Profile employeeProfile;
     //firebase auth object
 
 
@@ -145,7 +144,7 @@ public class VerifyPhoneActivityEmployee extends AppCompatActivity {
 
 
                             //verification successful we will start the profile activity
-                            Intent intent = new Intent(VerifyPhoneActivityEmployee.this, CustomerHomePage.class);
+                            Intent intent = new Intent(VerifyPhoneActivityEmployee.this, EmployeeHomePage.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
 
@@ -175,10 +174,10 @@ public class VerifyPhoneActivityEmployee extends AppCompatActivity {
     private boolean addEmployeeProfile() {
         Date c = Calendar.getInstance().getTime();
 
-        datauserprofile = FirebaseDatabase.getInstance().getReference("employeeprofile");
+        datauserprofile = FirebaseDatabase.getInstance().getReference("profile");
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String mobileNo = mAuth.getCurrentUser().getPhoneNumber();
-        employeeProfile = new EmployeeProfile(id, "", "0.0", "0.0", false, "Employee", mobileNo,"","", c.toString());
+        employeeProfile = new Profile(id, "", "0.0", "0.0", false, "Employee", mobileNo,"","", c.toString());
 
         datauserprofile.child(id).setValue(employeeProfile);
         Toast.makeText(getApplicationContext(), "Profile Added", Toast.LENGTH_LONG).show();

@@ -30,4 +30,5 @@
         completions."
     </string>
     <string name="title_activity_customer_home_page">CustomerHomePage</string>
+    <string name="title_activity_employee_home_page">EmployeeHomePage</string>
 </resources>

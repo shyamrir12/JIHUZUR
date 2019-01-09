@@ -21,7 +21,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -35,24 +34,22 @@ import com.google.firebase.database.ValueEventListener;
 
 import okhttp3.internal.http2.Header;
 
-public class CustomerHomePage extends AppCompatActivity
+public class EmployeeHomePage extends AppCompatActivity
 
-    //side navigation drawer start
+        //side navigation drawer start
 
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
-          String TAG;
-          private Fragment fragment=null;
-          private Fragment searchFragment;
+        implements NavigationView.OnNavigationItemSelectedListener {
+    String TAG;
+    private Fragment fragment=null;
+    private Fragment searchFragment;
 
     DatabaseReference datauser,datauserpro;
-    String dUser;
-    String name;
     String role;
     String Url;
     Boolean active=false;
     View header;
     ImageView profileImage;
-    TextView userName,identityNo,identityType;
+    String dUser;
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -120,13 +117,11 @@ public class CustomerHomePage extends AppCompatActivity
 
         View headerview = navigationView.getHeaderView(0);
         profileImage=headerview.findViewById(R.id.profileImage);
-        identityNo=headerview.findViewById(R.id.identityNo);
-        identityType=headerview.findViewById(R.id.identityType);
 
-        profileImage.setOnClickListener(this);
-        identityNo.setOnClickListener(this);
-        identityType.setOnClickListener(this);
+
         getUser();
+
+
 
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,13 +166,6 @@ public class CustomerHomePage extends AppCompatActivity
 
             return true;
         }
-        if (id == R.id.action_customerHome) {
-          Intent i = new Intent(CustomerHomePage.this,CustomerHomePage.class);
-          startActivity(i);
-
-
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -205,7 +193,7 @@ public class CustomerHomePage extends AppCompatActivity
         }
         else if (id==R.id.profileImage)
         {
-            Intent imageView=new Intent(CustomerHomePage.this,DrawingActivity.class);
+            Intent imageView=new Intent(EmployeeHomePage.this,DrawingActivity.class);
             startActivity(imageView);
         }
 
@@ -228,17 +216,13 @@ public class CustomerHomePage extends AppCompatActivity
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     role= dataSnapshot.child( "role" ).getValue().toString();
                     active=Boolean.valueOf(  dataSnapshot.child( "active" ).getValue().toString());
-                    name=FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
                     getSupportActionBar().setTitle("Ji Huzur "+role);
-
 
                         dUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/"+dUser+"image.jpg?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
 
-
-
-
                         Glide.with(getApplicationContext()).load(Url).into(profileImage);
+
 
                     //iterating through all the nodes
 
@@ -260,15 +244,5 @@ public class CustomerHomePage extends AppCompatActivity
     }
 
 
-    @Override
-    public void onClick(View v) {
-        if(v.getId()==identityNo.getId())
-        {
-            Intent intent = new Intent(CustomerHomePage.this,UpdateProfile.class);
-            startActivity(intent);
 
-
-        }
-    }
 }
-

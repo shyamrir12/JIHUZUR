@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.awizom.jihuzur.Model.CustomerProfile;
+import com.example.awizom.jihuzur.Model.Profile;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
@@ -22,6 +22,8 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class VerifyPhoneActivity extends AppCompatActivity {
@@ -34,7 +36,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
     private EditText editTextCode;
     DatabaseReference datauserprofile;
     private FirebaseAuth mAuth;
-    CustomerProfile customerProfile;
+ Profile customerProfile;
     //firebase auth object
 
 
@@ -171,11 +173,11 @@ public class VerifyPhoneActivity extends AppCompatActivity {
     }
 
     private boolean addUserProfile() {
-
-        datauserprofile = FirebaseDatabase.getInstance().getReference( "userprofile" );
+        Date c = Calendar.getInstance().getTime();
+        datauserprofile = FirebaseDatabase.getInstance().getReference( "profile" );
         String id =FirebaseAuth.getInstance().getCurrentUser().getUid();
         String mobileNo=mAuth.getCurrentUser().getPhoneNumber();
-        customerProfile=new CustomerProfile ( id, "","0.0","0.0",false,"Customer",mobileNo );
+        customerProfile=new Profile ( id, "","0.0","0.0",false,"Customer",mobileNo,"","",c.toString() );
 
         datauserprofile.child( id ).setValue( customerProfile );
         Toast.makeText( getApplicationContext(), "Profile Added", Toast.LENGTH_LONG ).show();

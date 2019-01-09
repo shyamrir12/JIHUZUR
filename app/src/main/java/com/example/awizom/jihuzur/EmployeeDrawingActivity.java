@@ -20,7 +20,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-public class DrawingActivity extends AppCompatActivity {
+public class EmployeeDrawingActivity extends AppCompatActivity {
     Button chooseImg, uploadImg;
     ImageView imgView;
     int PICK_IMAGE_REQUEST = 111;
@@ -36,7 +36,7 @@ public class DrawingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drawing);
+        setContentView(R.layout.activity_employee_drawing);
 
         chooseImg = (Button)findViewById(R.id.chooseImg);
         uploadImg = (Button)findViewById(R.id.uploadImg);
@@ -64,7 +64,7 @@ public class DrawingActivity extends AppCompatActivity {
                     pd.show();
                     datauser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                    StorageReference childRef = storageRef.child(datauser + "image.jpg");
+                    StorageReference childRef = storageRef.child( datauser + "image.jpg");
 
                     //uploading the image
                     UploadTask uploadTask = childRef.putFile(filePath);
@@ -73,18 +73,18 @@ public class DrawingActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             pd.dismiss();
-                            Toast.makeText(DrawingActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EmployeeDrawingActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             pd.dismiss();
-                            Toast.makeText(DrawingActivity.this, "Upload Failed -> " + e, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EmployeeDrawingActivity.this, "Upload Failed -> " + e, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
                 else {
-                    Toast.makeText(DrawingActivity.this, "Select an image", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EmployeeDrawingActivity.this, "Select an image", Toast.LENGTH_SHORT).show();
                 }
             }
         });

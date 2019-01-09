@@ -1,6 +1,8 @@
 package com.example.awizom.jihuzur.Model;
 
-public class CustomerProfile {
+public class Profile
+
+ {
 
     private String Id;
     private String Name;
@@ -9,8 +11,12 @@ public class CustomerProfile {
     private boolean Active;
     private String Role;
     private String MobileNo;
+    private String IdentityType;
+    private String IdentityNo;
+    private String RegistrationDate;
 
-    public CustomerProfile(String id,String name,String lat,String longs,boolean active,String role,String mobileNo){
+
+     public Profile(String id, String name, String lat, String longs, boolean active, String role, String mobileNo, String identityType, String identityNo, String registrationDate){
         Id=id;
         Name=name;
         Lat=lat;
@@ -18,6 +24,9 @@ public class CustomerProfile {
         Active=active;
         Role=role;
         MobileNo= mobileNo;
+        IdentityType=identityType;
+        IdentityNo=identityNo;
+        RegistrationDate=registrationDate;
     }
 
     public String getId() {
@@ -75,4 +84,30 @@ public class CustomerProfile {
     public void setMobileNo(String mobileNo) {
         MobileNo = mobileNo;
     }
-}
+
+     public String getIdentityType() {
+         return IdentityType;
+     }
+
+     public void setIdentityType(String identityType) {
+         IdentityType = identityType;
+     }
+
+     public String getIdentityNo() {
+         return IdentityNo;
+     }
+
+     public void setIdentityNo(String identityNo) {
+         IdentityNo = identityNo;
+              }
+
+     public String getRegistrationDate()
+              {
+                  return RegistrationDate;
+              }
+     public void setRegistrationDate(String registrationDate)
+              {
+                  RegistrationDate = registrationDate;
+              }
+
+ }
