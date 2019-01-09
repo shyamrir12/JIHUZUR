@@ -10,16 +10,9 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:theme="@style/Base.Animation.AppCompat.DropDownUp">
 
-    <!--<ImageView-->
-        <!--android:id="@+id/profileImage"-->
-        <!--android:layout_width="80dp"-->
-        <!--android:layout_height="80dp"-->
-        <!--android:contentDescription="@string/nav_header_desc"-->
-        <!--android:paddingTop="@dimen/nav_header_vertical_spacing"-->
-        <!--android:drawable="@drawable/circle"-->
-       <!--/>-->
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileImage"
         android:layout_width="70dp"
@@ -27,24 +20,37 @@
         android:layout_centerInParent="true"
         android:scaleType="centerCrop"
         android:src="@drawable/jihuzurfull" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/profileName"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="UserName"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+
+<TextView
+    android:id="@+id/profileName"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textColor="@color/colorBlack"
+    android:fontFamily="cursive"
+    android:textSize="20sp"
+    android:textStyle="bold"
+    android:text="This is my tiny purple text"
+    />
+
 
     <TextView
         android:id="@+id/identityNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorBlack"
+
+        android:textStyle="bold"
         android:text="IdentityNo" />
 
     <TextView
         android:id="@+id/identityType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorBlack"
+
+
+        android:textStyle="bold"
         android:text="IdentityType" />
 
 </LinearLayout>

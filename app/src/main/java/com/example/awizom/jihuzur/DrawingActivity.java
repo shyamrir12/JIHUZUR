@@ -74,6 +74,9 @@ public class DrawingActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             pd.dismiss();
                             Toast.makeText(DrawingActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(DrawingActivity.this,CustomerHomePage.class);
+                            startActivity(intent);
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

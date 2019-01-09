@@ -36,7 +36,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
     private EditText editTextCode;
     DatabaseReference datauserprofile;
     private FirebaseAuth mAuth;
- Profile customerProfile;
+    Profile customerProfile;
     //firebase auth object
 
 
