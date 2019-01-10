@@ -26,7 +26,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SearchActivity" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
@@ -42,7 +41,7 @@
             android:label="@string/title_activity_employee_home_page"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".EmployeeDrawingActivity" />
-        <activity android:name=".UpdateProfile"></activity>
+        <activity android:name=".UpdateProfile" />
     </application>
 
 </manifest>

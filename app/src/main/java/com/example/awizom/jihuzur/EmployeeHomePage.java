@@ -21,16 +21,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 
 import okhttp3.internal.http2.Header;
 
@@ -38,18 +41,20 @@ public class EmployeeHomePage extends AppCompatActivity
 
         //side navigation drawer start
 
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     String TAG;
-    private Fragment fragment=null;
+    private Fragment fragment = null;
     private Fragment searchFragment;
 
-    DatabaseReference datauser,datauserpro;
+    DatabaseReference datauser, datauserpro;
+    String dUser;
+    String name;
     String role;
     String Url;
-    Boolean active=false;
+    Boolean active = false;
     View header;
     ImageView profileImage;
-    String dUser;
+    TextView userName, identityNo, identityType;
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -58,18 +63,18 @@ public class EmployeeHomePage extends AppCompatActivity
         //bottom navigation Button Onclick
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Class framentClass=null;
+            Class framentClass = null;
             switch (item.getItemId()) {
                 case R.id.navigation_search:
                     getSupportActionBar().setTitle("Search");
                     fragment = searchFragment;
-                    framentClass=SearchFragment.class;
+                    framentClass = SearchFragment.class;
 
                     break;
 
             }
             try {
-                fragment = (Fragment)framentClass.newInstance();
+                fragment = (Fragment) framentClass.newInstance();
                 android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.home_container, fragment).commit();
                 setTitle("");
@@ -86,9 +91,9 @@ public class EmployeeHomePage extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        searchFragment=new SearchFragment();
+        searchFragment = new SearchFragment();
 
-        setContentView(R.layout.activity_customer_home_page);
+        setContentView(R.layout.activity_employee_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -116,17 +121,38 @@ public class EmployeeHomePage extends AppCompatActivity
 
 
         View headerview = navigationView.getHeaderView(0);
-        profileImage=headerview.findViewById(R.id.profileImage);
+        profileImage = headerview.findViewById(R.id.profileImage);
+        userName = headerview.findViewById(R.id.profileName);
+        identityNo = headerview.findViewById(R.id.identityNo);
+        identityType = headerview.findViewById(R.id.identityType);
 
 
-        getUser();
+        identityNo.setOnClickListener(this);
+        identityType.setOnClickListener(this);
+        userName.setOnClickListener(this);
 
 
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            getUser();
+        } else {
+
+            Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/blank-profile.png?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
+            Glide.with(EmployeeHomePage.this).load(Url).into(profileImage);
+
+            String identNo = "identity no";
+            String name = "welcome user";
+
+            String identType = "identity type";
+            identityType.setText(identType);
+            identityNo.setText(identNo);
+            userName.setText(name);
+
+        }
 
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getApplicationContext(), DrawingActivity.class);
+                Intent intent = new Intent(getApplicationContext(), DrawingActivity.class);
                 startActivity(intent);
             }
         });
@@ -149,7 +175,7 @@ public class EmployeeHomePage extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.customer_home_page, menu);
+        getMenuInflater().inflate(R.menu.employee_home_page, menu);
         return true;
     }
 
@@ -162,7 +188,15 @@ public class EmployeeHomePage extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_signout) {
-            finish();
+            FirebaseAuth fAuth = FirebaseAuth.getInstance();
+            fAuth.signOut();
+
+            return true;
+        }
+        if (id == R.id.action_customerHome) {
+            Intent i = new Intent(EmployeeHomePage.this, EmployeeHomePage.class);
+            startActivity(i);
+
 
             return true;
         }
@@ -190,10 +224,8 @@ public class EmployeeHomePage extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        }
-        else if (id==R.id.profileImage)
-        {
-            Intent imageView=new Intent(EmployeeHomePage.this,DrawingActivity.class);
+        } else if (id == R.id.profileImage) {
+            Intent imageView = new Intent(EmployeeHomePage.this, DrawingActivity.class);
             startActivity(imageView);
         }
 
@@ -208,30 +240,74 @@ public class EmployeeHomePage extends AppCompatActivity
             //String res="";
 
 
-            datauserpro =  FirebaseDatabase.getInstance().getReference("profile").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//            datauserpro = FirebaseDatabase.getInstance().getReference("profile").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//
+//            datauserpro.addListenerForSingleValueEvent(new ValueEventListener() {
+//
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                    getSupportActionBar().setTitle("Ji Huzur " + role);
+//
+//
+//                    //iterating through all the nodes
+//
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                }
+//            });
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            datauserpro.addValueEventListener(new ValueEventListener() {
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("profile").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
+
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    role= dataSnapshot.child( "role" ).getValue().toString();
-                    active=Boolean.valueOf(  dataSnapshot.child( "active" ).getValue().toString());
-                    getSupportActionBar().setTitle("Ji Huzur "+role);
-
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot datas : dataSnapshot.getChildren()) {
                         dUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/"+dUser+"image.jpg?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
+                        if (Url.equals(true)) {
+                            Glide.with(EmployeeHomePage.this).load(Url).into(profileImage);
 
-                        Glide.with(getApplicationContext()).load(Url).into(profileImage);
+                        } else {
+                            String Urlnew = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/blank-profile.png?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
+                            Glide.with(EmployeeHomePage.this).load(Urlnew).into(profileImage);
+
+                        }
+                        String identNo = dataSnapshot.child("identityNo").getValue().toString();
+                        String name = dataSnapshot.child("name").getValue().toString();
+
+                        String identType = dataSnapshot.child("identityType").getValue().toString();
+                        identityType.setText(identType);
 
 
-                    //iterating through all the nodes
+                        if (identNo.isEmpty()) {
+                            identityNo.setText("0");
+                        } else {
+                            identityNo.setText(identNo);
+                        }
+                        if (name.isEmpty()) {
+                            userName.setText("Welcome User");
+                        } else {
+                            userName.setText(name);
+                        }
 
+                    }
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
+
+
             });
+
+
             //   new MyCourse.GETCourseList().execute(SharedPrefManager.getInstance(this).getUser().access_token);
             //Toast.makeText(getApplicationContext(),res,Toast.LENGTH_SHORT).show();
 
@@ -244,5 +320,36 @@ public class EmployeeHomePage extends AppCompatActivity
     }
 
 
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == identityNo.getId()) {
+            Intent intent = new Intent(EmployeeHomePage.this, UpdateProfile.class);
 
+
+            String uname = userName.getText().toString();
+            String idenNo = identityNo.getText().toString();
+            String idenType = identityType.getText().toString();
+//Create the bundle
+            Bundle bundle = new Bundle();
+
+//Add your data to bundle
+            bundle.putString("uname", uname);
+            bundle.putString("idenNo", idenNo);
+            bundle.putString("idenType", idenType);
+
+//Add the bundle to the intent
+            intent.putExtras(bundle);
+
+
+//            intent.putExtra("name", String.valueOf(userName));
+//            intent.putExtra("idno", String.valueOf(identityNo));
+//            intent.putExtra("idtype", String.valueOf(identityType));
+
+            startActivity(intent);
+
+
+        }
+    }
 }
+
+

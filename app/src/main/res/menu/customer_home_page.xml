@@ -14,6 +14,6 @@
     <item
         android:id="@+id/action_customerHome"
         android:orderInCategory="100"
-        android:title="Sign Out"
+        android:title="Home"
         app:showAsAction="never" />
 </menu>

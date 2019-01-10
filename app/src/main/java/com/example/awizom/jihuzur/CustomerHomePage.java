@@ -1,12 +1,6 @@
 package com.example.awizom.jihuzur;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -25,17 +19,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
+import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-
-import okhttp3.internal.http2.Header;
 
 public class CustomerHomePage extends AppCompatActivity
 
@@ -44,7 +36,7 @@ public class CustomerHomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     String TAG;
     private Fragment fragment = null;
-    private Fragment searchFragment;
+    private Fragment searchFragment,myBookingFragment,helpCenterFragment;
 
     DatabaseReference datauser, datauserpro;
     String dUser;
@@ -71,6 +63,16 @@ public class CustomerHomePage extends AppCompatActivity
                     framentClass = SearchFragment.class;
 
                     break;
+                case R.id.navigation_booking:
+                    getSupportActionBar().setTitle("My Booking");
+                    fragment = myBookingFragment;
+                    framentClass = MyBookingFragment.class;
+                    break;
+                case R.id.navigation_helpCenter:
+                    getSupportActionBar().setTitle("Help Center");
+                    fragment = helpCenterFragment;
+                    framentClass = HelpCenterFragment.class;
+                    break;
 
             }
             try {
@@ -92,6 +94,7 @@ public class CustomerHomePage extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         searchFragment = new SearchFragment();
+        myBookingFragment= new MyBookingFragment();
 
         setContentView(R.layout.activity_customer_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -122,7 +125,7 @@ public class CustomerHomePage extends AppCompatActivity
 
         View headerview = navigationView.getHeaderView(0);
         profileImage = headerview.findViewById(R.id.profileImage);
-        userName=headerview.findViewById(R.id.profileName);
+        userName = headerview.findViewById(R.id.profileName);
         identityNo = headerview.findViewById(R.id.identityNo);
         identityType = headerview.findViewById(R.id.identityType);
 
@@ -132,11 +135,22 @@ public class CustomerHomePage extends AppCompatActivity
         userName.setOnClickListener(this);
 
 
- if (FirebaseAuth.getInstance().getCurrentUser()!= null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             getUser();
+        } else {
+
+            Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/blank-profile.png?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
+            Glide.with(CustomerHomePage.this).load(Url).into(profileImage);
+
+            String identNo = "identity no";
+            String name = "welcome user";
+
+            String identType = "identity type";
+            identityType.setText(identType);
+            identityNo.setText(identNo);
+            userName.setText(name);
+
         }
-
-
 
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,7 +191,8 @@ public class CustomerHomePage extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_signout) {
-            finish();
+            FirebaseAuth fAuth = FirebaseAuth.getInstance();
+            fAuth.signOut();
 
             return true;
         }
@@ -247,10 +262,9 @@ public class CustomerHomePage extends AppCompatActivity
 //
 //                }
 //            });
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("profile");
-
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("profile").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
 
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -258,22 +272,38 @@ public class CustomerHomePage extends AppCompatActivity
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot datas : dataSnapshot.getChildren()) {
                         dUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/" + dUser + "image.jpg?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
-                        Glide.with(CustomerHomePage.this).load(Url).into(profileImage);
+                        Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/"+dUser+"image.jpg?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
+                        if (Url.equals(true)) {
+                               Glide.with(CustomerHomePage.this).load(Url).into(profileImage);
 
-                        String identNo = datas.child("identityNo").getValue().toString();
-                        String name = datas.child("name").getValue().toString();
+                        } else {
+                            String Urlnew = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/blank-profile.png?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
+                            Glide.with(CustomerHomePage.this).load(Urlnew).into(profileImage);
 
-                        String identType = datas.child("identityType").getValue().toString();
-                        identityType.setText(identType);
-
-                        userName.setText(name);
-                        if(identNo.isEmpty())
-                        {
-                            identityNo.setText("0");
                         }
-                        else {
+                        String identNo = dataSnapshot.child("identityNo").getValue().toString();
+                        String name = dataSnapshot.child("name").getValue().toString();
+
+                        String identType = dataSnapshot.child("identityType").getValue().toString();
+
+
+                        if (identType.isEmpty()) {
+                            identityType.setText("Id Type");
+                        } else {
+                            identityType.setText(identType);
+                        }
+
+
+
+                        if (identNo.isEmpty()) {
+                            identityNo.setText("Id No");
+                        } else {
                             identityNo.setText(identNo);
+                        }
+                        if (name.isEmpty()) {
+                            userName.setText("Welcome User");
+                        } else {
+                            userName.setText(name);
                         }
 
                     }
@@ -306,21 +336,19 @@ public class CustomerHomePage extends AppCompatActivity
             Intent intent = new Intent(CustomerHomePage.this, UpdateProfile.class);
 
 
-            String uname=userName.getText().toString();
-            String idenNo=identityNo.getText().toString();
-            String idenType=identityType.getText().toString();
+            String uname = userName.getText().toString();
+            String idenNo = identityNo.getText().toString();
+            String idenType = identityType.getText().toString();
 //Create the bundle
             Bundle bundle = new Bundle();
 
 //Add your data to bundle
             bundle.putString("uname", uname);
-            bundle.putString("idenNo",idenNo);
-            bundle.putString("idenType",idenType);
+            bundle.putString("idenNo", idenNo);
+            bundle.putString("idenType", idenType);
 
 //Add the bundle to the intent
             intent.putExtras(bundle);
-
-
 
 
 //            intent.putExtra("name", String.valueOf(userName));
