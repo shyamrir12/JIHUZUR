@@ -47,8 +47,14 @@ android:textStyle="bold"
             android:text="Skip Login"
 
            />
-
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:id="@+id/tl1">
         <EditText
+            android:drawableLeft="@drawable/ic_account_circle_black_24dp"
+            android:drawableTint="#000000"
             android:id="@+id/editTextMobile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -60,13 +66,15 @@ android:textStyle="bold"
             android:hint="enter your mobile number"
             android:inputType="phone"
             android:maxLength="10" />
+        </android.support.design.widget.TextInputLayout>
 
 
         <Button
             android:id="@+id/buttonContinue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/editTextMobile"
+         android:layout_below="@+id/tl1"
+
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
             android:background="@color/colorPrimaryDark"
@@ -86,6 +94,13 @@ android:textStyle="bold"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="225dp"
+        android:layout_marginBottom="16dp"
+
+        android:gravity="center_horizontal"
+
+        android:textSize="16sp"
+        android:textStyle="bold"
+
 
         android:text="SIGN IN AS EMPLOYEE "
 

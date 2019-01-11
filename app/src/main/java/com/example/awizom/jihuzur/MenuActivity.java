@@ -1,32 +1,17 @@
-package com.example.awizom.jihuzur.Fragment;
+package com.example.awizom.jihuzur;
 
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toolbar;
 
 import com.example.awizom.jihuzur.Adapter.PageAdapter;
-import com.example.awizom.jihuzur.MenuActivity;
-import com.example.awizom.jihuzur.R;
 
-public class SearchFragment extends Fragment {
+public class MenuActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     TabLayout tabLayout;
@@ -35,20 +20,20 @@ public class SearchFragment extends Fragment {
     TabItem appliance;
     TabItem massage;
     TabItem homecleaning;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-     View view= inflater.inflate(R.layout.activity_menu,container,false);
-       initView(view);
-       return  view;
-    }
-    private void initView(View view)
-    {
-        tabLayout = view.findViewById(R.id.tablayout);
-        appliance = view.findViewById(R.id.applianceRepair);
-        massage =view.findViewById(R.id.massageFitness);
-        homecleaning =view.findViewById(R.id.homeCleaning);
-        viewPager =view.findViewById(R.id.viewPager);
-        pageAdapter = new PageAdapter(getFragmentManager(), tabLayout.getTabCount());
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_menu);
+
+//        toolbar = findViewById(R.id.toolbar);
+//        toolbar.setTitle(getResources().getString(R.string.app_name));
+        tabLayout = findViewById(R.id.tablayout);
+        appliance = findViewById(R.id.applianceRepair);
+        massage = findViewById(R.id.massageFitness);
+        homecleaning = findViewById(R.id.homeCleaning);
+        viewPager = findViewById(R.id.viewPager);
+        pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -58,28 +43,28 @@ public class SearchFragment extends Fragment {
                 if (tab.getPosition() == 1) {
 //                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
 //                            R.color.colorAccent));
-                    tabLayout.setBackgroundColor(ContextCompat.getColor(getActivity(),
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
                             R.color.colorAccent));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getActivity(),
+                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
                                 R.color.colorAccent));
                     }
                 } else if (tab.getPosition() == 2) {
 //                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
 //                            android.R.color.darker_gray));
-                    tabLayout.setBackgroundColor(ContextCompat.getColor(getActivity(),
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
                             android.R.color.darker_gray));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getActivity(),
+                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
                                 android.R.color.darker_gray));
                     }
                 } else {
 //                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
 //                            R.color.colorPrimary));
-                    tabLayout.setBackgroundColor(ContextCompat.getColor(getActivity(),
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
                             R.color.colorPrimary));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getActivity().getWindow().setStatusBarColor(ContextCompat.getColor(getActivity(),
+                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
                                 R.color.colorPrimaryDark));
                     }
                 }
@@ -95,7 +80,7 @@ public class SearchFragment extends Fragment {
 
             }
         });
+
+
     }
-
-
 }

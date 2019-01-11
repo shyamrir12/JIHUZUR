@@ -152,7 +152,7 @@ public class EmployeeHomePage extends AppCompatActivity
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), DrawingActivity.class);
+                Intent intent = new Intent(getApplicationContext(), EmployeeDrawingActivity.class);
                 startActivity(intent);
             }
         });
@@ -285,8 +285,16 @@ public class EmployeeHomePage extends AppCompatActivity
                         identityType.setText(identType);
 
 
+                        if (identType.isEmpty()) {
+                            identityType.setText("Id Type");
+                        } else {
+                            identityType.setText(identType);
+                        }
+
+
+
                         if (identNo.isEmpty()) {
-                            identityNo.setText("0");
+                            identityNo.setText("Id No");
                         } else {
                             identityNo.setText(identNo);
                         }
@@ -295,6 +303,10 @@ public class EmployeeHomePage extends AppCompatActivity
                         } else {
                             userName.setText(name);
                         }
+
+
+
+
 
                     }
                 }

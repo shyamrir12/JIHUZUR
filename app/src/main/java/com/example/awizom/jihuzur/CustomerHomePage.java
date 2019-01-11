@@ -60,7 +60,10 @@ public class CustomerHomePage extends AppCompatActivity
                 case R.id.navigation_search:
                     getSupportActionBar().setTitle("Search");
                     fragment = searchFragment;
+
                     framentClass = SearchFragment.class;
+
+
 
                     break;
                 case R.id.navigation_booking:
