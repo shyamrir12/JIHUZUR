@@ -31,4 +31,10 @@
     </string>
     <string name="title_activity_customer_home_page">CustomerHomePage</string>
     <string name="title_activity_employee_home_page">EmployeeHomePage</string>
+    <string name="homecleaning"><![CDATA[Home Cleaning & Repairs]]></string>
+    <string name="massage"><![CDATA[Body Massage & Hair Spa]]></string>
+    <string name="truck"><![CDATA[Truck loader Transportation]]></string>
+    <string name="ring"><![CDATA[Gold & Silver Platinum Jwellary]]></string>
+    <string name="teacher"><![CDATA[Home Tutorial & Online Tutorial]]></string>
+    <string name="washing"><![CDATA[Washing Machine repairs]]></string>
 </resources>

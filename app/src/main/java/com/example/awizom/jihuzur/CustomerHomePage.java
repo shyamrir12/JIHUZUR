@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.awizom.jihuzur.Fragment.CatalogFragment;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
 import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
@@ -36,7 +37,7 @@ public class CustomerHomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     String TAG;
     private Fragment fragment = null;
-    private Fragment searchFragment,myBookingFragment,helpCenterFragment;
+    private Fragment searchFragment,myBookingFragment,helpCenterFragment,catalogFragment;
 
     DatabaseReference datauser, datauserpro;
     String dUser;
@@ -58,12 +59,9 @@ public class CustomerHomePage extends AppCompatActivity
             Class framentClass = null;
             switch (item.getItemId()) {
                 case R.id.navigation_search:
-                    getSupportActionBar().setTitle("Search");
-                    fragment = searchFragment;
-
-                    framentClass = SearchFragment.class;
-
-
+                    getSupportActionBar().setTitle("Catalog");
+                    fragment = catalogFragment;
+                    framentClass = CatalogFragment.class;
 
                     break;
                 case R.id.navigation_booking:
@@ -98,6 +96,7 @@ public class CustomerHomePage extends AppCompatActivity
         super.onCreate(savedInstanceState);
         searchFragment = new SearchFragment();
         myBookingFragment= new MyBookingFragment();
+        catalogFragment = new CatalogFragment();
 
         setContentView(R.layout.activity_customer_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
