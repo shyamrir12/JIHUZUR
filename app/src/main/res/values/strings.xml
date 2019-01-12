@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/tools">
     <string name="app_name">JiHuzur</string>
     <string name="title_home">Home</string>
     <string name="Search">Search</string>
@@ -15,6 +15,22 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">Sign in</string>
+
+
+    <string-array name="Appliance">
+        <item android:icon="@drawable/appliance_repair" android:showAsAction="always">AC Service and Repair</item>
+        <item>RO or water Purifier Repair</item>
+        <item>Washing Machine Repair</item>
+        <item>Refrigerator Repair</item>
+        <item>Microwave Repair</item>
+        <item>Chimney Cleaning and Repair</item>
+        <item>Television Repair and Installation</item>
+        <item>Geyser/Water Heater Repair </item>
+        <item>Laptop Repair</item>
+        <item>iPad,Mac Repair</item>
+        <item>Mobile Screen Repair </item>
+        <item>Computer Repair</item>
+    </string-array>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

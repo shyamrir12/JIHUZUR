@@ -275,7 +275,7 @@ public class CustomerHomePage extends AppCompatActivity
                     for (DataSnapshot datas : dataSnapshot.getChildren()) {
                         dUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/"+dUser+"image.jpg?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
-                        if (Url.equals(true)) {
+                        if (Url!=null) {
                                Glide.with(CustomerHomePage.this).load(Url).into(profileImage);
 
                         } else {
