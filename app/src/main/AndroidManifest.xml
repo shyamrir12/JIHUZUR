@@ -33,7 +33,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"
@@ -52,11 +56,9 @@
         <activity android:name=".EmployeeDrawingActivity" />
         <activity android:name=".MenuActivity" />
         <activity android:name=".UpdateProfile" />
-        <activity android:name=".ServiceAndRepair"> <intent-filter>
-        <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".ServiceAndRepair">
 
-        <category android:name="android.intent.category.LAUNCHER" />
-    </intent-filter></activity>
+        </activity>
     </application>
 
 </manifest>
