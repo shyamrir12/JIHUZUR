@@ -157,6 +157,7 @@ public class LocationOneActivity extends FragmentActivity implements OnMapReadyC
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            //hh
             Address address = addressList.get(0);
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
             mMap.addMarker(new MarkerOptions().position(latLng).title(location));
