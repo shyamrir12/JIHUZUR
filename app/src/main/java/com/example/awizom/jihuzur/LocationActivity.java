@@ -67,17 +67,23 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             query.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-//                                   profile = postSnapshot.getValue(ProfileModel.class);
-//                                    profilelist.add(profile);
-//                                if(!profilelist.equals(null)) {
-//                                    for(int i=0 ; i<profilelist.size(); i++) {
-//                                        lat =String.valueOf(profilelist.get(i).getLat());
-//                                        longitud = String.valueOf(profilelist.get(i).getLong());
-//                                        getMapvalue();
-//                                    }
-//                                }
-//                            }
+
+                                try{
+                                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                        profile = postSnapshot.getValue(ProfileModel.class);
+                                        profilelist.add(profile);
+                                        if(!profilelist.equals(null)) {
+                                            for(int i=0 ; i<profilelist.size(); i++) {
+                                                lat = String.valueOf(profilelist.get(i).getLat());
+                                                longitud = String.valueOf(profilelist.get(i).getLat());
+                                                getMapvalue();
+                                            }
+                                        }
+                                    }
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+
 
                             }
 
@@ -107,11 +113,9 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        LatLng raipur = new LatLng(Double.parseDouble(lat.trim()),Double.parseDouble(longitud.trim()));
 
-        // Add a marker in Sydney and move the camera
- //       LatLng raipur = new LatLng(Double.valueOf(lat.trim()), Double.valueOf(longitud.trim()));
-
-        LatLng raipur = new LatLng(21.21495,81.676263);
+      //  LatLng raipur = new LatLng(21.21495,81.676263);
         mMap.addMarker(new MarkerOptions().position(raipur).title("Marker in Raipur"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(raipur));
     }

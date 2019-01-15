@@ -15,12 +15,10 @@
         android:required="false" />
     <uses-feature android:name="android.hardware.camera.flash"
         android:required="false" />
-<uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -39,14 +37,14 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
         <activity android:name=".MainActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         <activity
             android:name=".CustomerHomePage"
             android:label="@string/title_activity_customer_home_page"
@@ -65,12 +63,21 @@
         <activity android:name=".UpdateProfile" />
         <activity android:name=".LocationActivity">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-        <activity android:name=".LocationOneActivity"/>
+        <activity android:name=".SplashActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        </activity>
+
+        <activity android:name=".FirstPage"></activity>
+        <activity android:name=".FirstLoginPage"/>
+        <activity android:name=".AdminHomePage"
+            android:label="@string/title_activity_customer_home_page"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".RegistrationActivity">
+
+        </activity>
+
     </application>
 
 </manifest>

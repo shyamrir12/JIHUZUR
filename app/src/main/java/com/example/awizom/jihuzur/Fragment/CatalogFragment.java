@@ -48,7 +48,7 @@ public class CatalogFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if(v.getId() == homeCleaningCardView.getId()){
 
-             intent = new Intent(getActivity(), LocationActivity.class);
+             intent = new Intent(getActivity(), MenuActivity.class);
             startActivity(intent);
 //            SearchFragment fragment1 = new SearchFragment();
 //            FragmentManager fragmentManager = getFragmentManager();

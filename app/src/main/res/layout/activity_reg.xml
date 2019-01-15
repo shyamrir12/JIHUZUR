@@ -60,34 +60,24 @@
                 android:maxLength="10" />
         </android.support.design.widget.TextInputLayout>
 
+        <Spinner
+            android:id="@+id/roleSpiner"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/tl1"/>
 
         <Button
             android:id="@+id/buttonContinue"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_below="@+id/tl1"
-
+            android:layout_below="@+id/roleSpiner"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
             android:background="@drawable/button_background"
-            android:text="Continue"
+            android:text="SignUp"
             android:textAllCaps="false"
             android:textColor="#cdd8f1" />
-        <Button
-            android:id="@+id/signUp"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/buttonContinue"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal"
-            android:background="@color/colorPrimary"
-            android:textSize="14sp"
-            android:textColor="@color/white"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:text="Create user "
-            />
+
 
     </RelativeLayout>
 
@@ -96,7 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-       android:layout_centerVertical="true"
+       android:layout_marginTop="260dp"
         android:gravity="center_horizontal"
         android:textSize="17sp"
         android:textStyle="bold"

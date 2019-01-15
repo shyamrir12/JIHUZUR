@@ -31,7 +31,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.IOException;
 import java.util.List;
 
-public class LocationOneActivity extends FragmentActivity implements OnMapReadyCallback,
+public class ZooActivity extends FragmentActivity implements OnMapReadyCallback,
         LocationListener,GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
@@ -157,7 +157,7 @@ public class LocationOneActivity extends FragmentActivity implements OnMapReadyC
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            //hh
+
             Address address = addressList.get(0);
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
             mMap.addMarker(new MarkerOptions().position(latLng).title(location));

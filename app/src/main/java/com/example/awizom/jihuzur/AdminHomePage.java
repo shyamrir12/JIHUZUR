@@ -1,12 +1,6 @@
 package com.example.awizom.jihuzur;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -25,26 +19,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.awizom.jihuzur.Fragment.CatalogFragment;
+import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
+import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 
-import okhttp3.internal.http2.Header;
-
-public class EmployeeHomePage extends AppCompatActivity
+public class AdminHomePage extends AppCompatActivity
 
         //side navigation drawer start
 
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     String TAG;
     private Fragment fragment = null;
-    private Fragment searchFragment;
+    private Fragment searchFragment,myBookingFragment,helpCenterFragment,catalogFragment;
 
     DatabaseReference datauser, datauserpro;
     String dUser;
@@ -66,10 +59,20 @@ public class EmployeeHomePage extends AppCompatActivity
             Class framentClass = null;
             switch (item.getItemId()) {
                 case R.id.navigation_search:
-                    getSupportActionBar().setTitle("Search");
-                    fragment = searchFragment;
-                    framentClass = SearchFragment.class;
+                    getSupportActionBar().setTitle("Catalog");
+                    fragment = catalogFragment;
+                    framentClass = CatalogFragment.class;
 
+                    break;
+                case R.id.navigation_booking:
+                    getSupportActionBar().setTitle("My Booking");
+                    fragment = myBookingFragment;
+                    framentClass = MyBookingFragment.class;
+                    break;
+                case R.id.navigation_helpCenter:
+                    getSupportActionBar().setTitle("Help Center");
+                    fragment = helpCenterFragment;
+                    framentClass = HelpCenterFragment.class;
                     break;
 
             }
@@ -92,12 +95,12 @@ public class EmployeeHomePage extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         searchFragment = new SearchFragment();
+        myBookingFragment= new MyBookingFragment();
+        catalogFragment = new CatalogFragment();
 
-        setContentView(R.layout.activity_employee_home_page);
+        setContentView(R.layout.activity_customer_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -139,7 +142,7 @@ public class EmployeeHomePage extends AppCompatActivity
         } else {
 
             Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/blank-profile.png?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
-            Glide.with(EmployeeHomePage.this).load(Url).into(profileImage);
+            Glide.with(AdminHomePage.this).load(Url).into(profileImage);
 
             String identNo = "identity no";
             String name = "welcome user";
@@ -154,7 +157,7 @@ public class EmployeeHomePage extends AppCompatActivity
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), EmployeeDrawingActivity.class);
+                Intent intent = new Intent(getApplicationContext(), DrawingActivity.class);
                 startActivity(intent);
             }
         });
@@ -177,7 +180,7 @@ public class EmployeeHomePage extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.employee_home_page, menu);
+        getMenuInflater().inflate(R.menu.customer_home_page, menu);
         return true;
     }
 
@@ -196,7 +199,7 @@ public class EmployeeHomePage extends AppCompatActivity
             return true;
         }
         if (id == R.id.action_customerHome) {
-            Intent i = new Intent(EmployeeHomePage.this, EmployeeHomePage.class);
+            Intent i = new Intent(this, CustomerHomePage.class);
             startActivity(i);
 
 
@@ -227,7 +230,7 @@ public class EmployeeHomePage extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         } else if (id == R.id.profileImage) {
-            Intent imageView = new Intent(EmployeeHomePage.this, DrawingActivity.class);
+            Intent imageView = new Intent(this, DrawingActivity.class);
             startActivity(imageView);
         }
 
@@ -273,18 +276,17 @@ public class EmployeeHomePage extends AppCompatActivity
                         dUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/"+dUser+"image.jpg?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
                         if (Url!=null) {
-                            Glide.with(EmployeeHomePage.this).load(Url).into(profileImage);
+                            Glide.with(AdminHomePage.this).load(Url).into(profileImage);
 
                         } else {
                             String Urlnew = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/blank-profile.png?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
-                            Glide.with(EmployeeHomePage.this).load(Urlnew).into(profileImage);
+                            Glide.with(AdminHomePage.this).load(Urlnew).into(profileImage);
 
                         }
                         String identNo = dataSnapshot.child("identityNo").getValue().toString();
                         String name = dataSnapshot.child("name").getValue().toString();
 
                         String identType = dataSnapshot.child("identityType").getValue().toString();
-                        identityType.setText(identType);
 
 
                         if (identType.isEmpty()) {
@@ -305,10 +307,6 @@ public class EmployeeHomePage extends AppCompatActivity
                         } else {
                             userName.setText(name);
                         }
-
-
-
-
 
                     }
                 }
@@ -337,7 +335,7 @@ public class EmployeeHomePage extends AppCompatActivity
     @Override
     public void onClick(View v) {
         if (v.getId() == identityNo.getId()) {
-            Intent intent = new Intent(EmployeeHomePage.this, UpdateProfile.class);
+            Intent intent = new Intent(AdminHomePage.this, UpdateProfile.class);
 
 
             String uname = userName.getText().toString();
@@ -365,5 +363,4 @@ public class EmployeeHomePage extends AppCompatActivity
         }
     }
 }
-
 

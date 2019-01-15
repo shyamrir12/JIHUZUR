@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
 
@@ -15,10 +18,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView empsign,skiplogin;
     private Button butonContinue;
 
+    DatabaseReference datauserprofile;
+    private FirebaseAuth mAuth;
+    private String mobileNumber="",mobile="";
+    Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
+        initView();
+
+        }
+
+    private void initView() {
+
 
         editTextMobile = findViewById(R.id.editTextMobile);
         empsign=findViewById(R.id.empsignin);
@@ -27,44 +43,41 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         butonContinue.setOnClickListener(this);
         skiplogin.setOnClickListener(this);
         empsign.setOnClickListener(this);
+
+        try {
+            mAuth = FirebaseAuth.getInstance();
+            mobileNumber = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().toString();
+
+            if (editTextMobile.getText().toString().isEmpty() || editTextMobile.getText().toString().length() < 10) {
+
+                editTextMobile.setError("Enter a valid mobile");
+                editTextMobile.requestFocus();
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
+
+
+    }
+
 
     @Override
     public void onClick(View v) {
       switch (v.getId())
       {
           case R.id.buttonContinue:
-              String mobile = editTextMobile.getText().toString().trim();
-
-              if (mobile.isEmpty() || mobile.length() < 10) {
-                  editTextMobile.setError("Enter a valid mobile");
-                  editTextMobile.requestFocus();
-                  return;
-              }
-
-              Intent intent = new Intent(LoginActivity.this, VerifyPhoneActivity.class);
-              intent.putExtra("mobile", mobile);
-              startActivity(intent);
+              redirectPage();
               break;
 
 
           case R.id.empsignin:
-             String mobiles=editTextMobile.getText().toString().trim();
-
-              if (mobiles.isEmpty() || mobiles.length() < 10) {
-                  editTextMobile.setError("Enter a valid mobile");
-                  editTextMobile.requestFocus();
-                  return;
-              }
-
-              Intent i = new Intent(LoginActivity.this, VerifyPhoneActivityEmployee.class);
-              i.putExtra("mobile", mobiles);
-              startActivity(i);
+              redirectPage();
               break;
 
           case R.id.skiplogin:
               Intent skip = new Intent(LoginActivity.this, CustomerHomePage.class);
-
               startActivity(skip);
               break;
       }
@@ -72,5 +85,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
       }
 
+    private void redirectPage() {
+        mobile= editTextMobile.getText().toString();
 
+         if(editTextMobile.getText().toString().equals(mobileNumber)){
+
+            intent = new Intent(LoginActivity.this, CustomerHomePage.class);
+            intent.putExtra("mobile", mobile);
+            startActivity(intent);
+
+        }else if(!editTextMobile.getText().toString().equals(mobileNumber)) {
+
+            intent = new Intent(LoginActivity.this, VerifyPhoneActivity.class);
+            intent.putExtra("mobile", mobile);
+            startActivity(intent);
+
+        }else {
+
+            intent = new Intent(LoginActivity.this, LoginActivity.class);
+            startActivity(intent);
+
+        }
     }
+
+
+}
