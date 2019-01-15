@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.awizom.jihuzur.LocationActivity;
 import com.example.awizom.jihuzur.MenuActivity;
 import com.example.awizom.jihuzur.Model.Profile;
 import com.example.awizom.jihuzur.R;
@@ -47,7 +48,7 @@ public class CatalogFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if(v.getId() == homeCleaningCardView.getId()){
 
-             intent = new Intent(getActivity(), MenuActivity.class);
+             intent = new Intent(getActivity(), LocationActivity.class);
             startActivity(intent);
 //            SearchFragment fragment1 = new SearchFragment();
 //            FragmentManager fragmentManager = getFragmentManager();
