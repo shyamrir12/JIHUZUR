@@ -67,18 +67,17 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             query.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                                   profile = postSnapshot.getValue(ProfileModel.class);
-                                    profilelist.add(profile);
-                                    if(!profilelist.equals(null)) {
-
-                                        for(int i=0 ; i<profilelist.size(); i++) {
-                                           lat =String.valueOf(profilelist.get(i).getLat());
-                                            longitud = String.valueOf(profilelist.get(i).getLong());
-                                            getMapvalue();
-                                        }
-                                    }
-                                }
+//                                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+//                                   profile = postSnapshot.getValue(ProfileModel.class);
+//                                    profilelist.add(profile);
+//                                if(!profilelist.equals(null)) {
+//                                    for(int i=0 ; i<profilelist.size(); i++) {
+//                                        lat =String.valueOf(profilelist.get(i).getLat());
+//                                        longitud = String.valueOf(profilelist.get(i).getLong());
+//                                        getMapvalue();
+//                                    }
+//                                }
+//                            }
 
                             }
 

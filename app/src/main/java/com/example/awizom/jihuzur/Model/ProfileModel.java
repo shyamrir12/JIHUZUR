@@ -3,8 +3,8 @@ package com.example.awizom.jihuzur.Model;
 public class ProfileModel {
     private String Id;
     private String Name;
-    private Double Lat;
-    private Double Long;
+    private String Lat;
+    private String Long;
     private boolean Active;
     private String Role;
     private String MobileNo;
@@ -28,19 +28,19 @@ public class ProfileModel {
         Name = name;
     }
 
-    public Double getLat() {
+    public String getLat() {
         return Lat;
     }
 
-    public void setLat(Double lat) {
+    public void setLat(String lat) {
         Lat = lat;
     }
 
-    public Double getLong() {
+    public String getLong() {
         return Long;
     }
 
-    public void setLong(Double aLong) {
+    public void setLong(String aLong) {
         Long = aLong;
     }
 
