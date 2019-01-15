@@ -17,7 +17,6 @@ import com.google.firebase.database.ValueEventListener;
 public class ServiceAndRepair extends AppCompatActivity {
 
     TextView service1,service2;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
