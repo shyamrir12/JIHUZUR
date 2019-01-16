@@ -16,7 +16,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private EditText editTextMobile;
     private TextView empsign,skiplogin;
-    private Button butonContinue;
+    private Button butonContinue,createuser;
 
     DatabaseReference datauserprofile;
     private FirebaseAuth mAuth;
@@ -43,6 +43,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         butonContinue.setOnClickListener(this);
         skiplogin.setOnClickListener(this);
         empsign.setOnClickListener(this);
+        createuser=findViewById(R.id.signUp);
+        createuser.setOnClickListener(this);
 
         try {
             mAuth = FirebaseAuth.getInstance();
@@ -77,8 +79,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
               break;
 
           case R.id.skiplogin:
-              Intent skip = new Intent(LoginActivity.this, CustomerHomePage.class);
-              startActivity(skip);
+              intent = new Intent(LoginActivity.this, CustomerHomePage.class);
+              startActivity(intent);
+              break;
+
+          case R.id.signUp:
+               intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+               startActivity(intent);
               break;
       }
 
