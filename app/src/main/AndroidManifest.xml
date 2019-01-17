@@ -40,11 +40,7 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"
@@ -63,7 +59,13 @@
         <activity android:name=".EmployeeDrawingActivity"></activity>
         <activity android:name=".MenuActivity"></activity>
         <activity android:name=".UpdateProfile" />
-        <activity android:name=".LocationActivity"></activity>
+        <activity android:name=".LocationActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".SplashActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
