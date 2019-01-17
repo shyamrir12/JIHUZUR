@@ -69,6 +69,7 @@ public class DrawingActivity extends AppCompatActivity {
         upload=findViewById(R.id.upload);
         pd = new ProgressDialog(this);
         pd.setMessage("Uploading....");
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,37 +78,43 @@ public class DrawingActivity extends AppCompatActivity {
             }
         });
 
+
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(outputFileUri != null) {
-                    pd.show();
-                    datauser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                    StorageReference childRef = storageRef.child(datauser + "image.jpg");
-
-                    //uploading the image
-                    UploadTask uploadTask = childRef.putFile(outputFileUri);
-
-                    uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            pd.dismiss();
-                            Toast.makeText(DrawingActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(DrawingActivity.this,CustomerHomePage.class);
-                            startActivity(intent);
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            pd.dismiss();
-                            Toast.makeText(DrawingActivity.this, "Upload Failed -> " + e, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                if (FirebaseAuth.getInstance().getCurrentUser()==null)
+                {
+                    Toast.makeText(getApplicationContext(),"First you have to login for upload profile picture",Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(DrawingActivity.this, "Select an image", Toast.LENGTH_SHORT).show();
+                    if (outputFileUri != null) {
+                        pd.show();
+                        datauser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        StorageReference childRef = storageRef.child(datauser + "image.jpg");
+
+                        //uploading the image
+                        UploadTask uploadTask = childRef.putFile(outputFileUri);
+
+                        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                pd.dismiss();
+                                Toast.makeText(DrawingActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(DrawingActivity.this, CustomerHomePage.class);
+                                startActivity(intent);
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                pd.dismiss();
+                                Toast.makeText(DrawingActivity.this, "Upload Failed -> " + e, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(DrawingActivity.this, "Select an image", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

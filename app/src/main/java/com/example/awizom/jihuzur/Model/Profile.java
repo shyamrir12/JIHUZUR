@@ -4,37 +4,37 @@ public class Profile
 
  {
 
-    private String Id;
+    private String ID;
     private String Name;
     private String Lat;
     private String Long;
     private boolean Active;
     private String Role;
     private String MobileNo;
-    private String IdentityType;
-    private String IdentityNo;
-    private String RegistrationDate;
+    private String Image;
+    private String IdentityImage;
+    private  boolean BusyStatus;
 
-
-     public Profile(String id, String name, String lat, String longs, boolean active, String role, String mobileNo, String identityType, String identityNo, String registrationDate){
-        Id=id;
+     public Profile(String id, String name, String lat, String longs, boolean active, String role, String mobileNo,String image,String identityImage,boolean busyStatus){
+        ID=id;
         Name=name;
         Lat=lat;
         Long=longs;
         Active=active;
         Role=role;
         MobileNo= mobileNo;
-        IdentityType=identityType;
-        IdentityNo=identityNo;
-        RegistrationDate=registrationDate;
+        Image=image;
+        IdentityImage=identityImage;
+        BusyStatus=busyStatus;
+
     }
 
     public String getId() {
-        return Id;
+        return ID;
     }
 
     public void setId(String id) {
-        Id = id;
+        ID = id;
     }
 
     public String getName() {
@@ -85,29 +85,28 @@ public class Profile
         MobileNo = mobileNo;
     }
 
-     public String getIdentityType() {
-         return IdentityType;
+
+     public String getImage() {
+         return Image;
      }
 
-     public void setIdentityType(String identityType) {
-         IdentityType = identityType;
+     public void setImage(String image) {
+         Image = image;
      }
 
-     public String getIdentityNo() {
-         return IdentityNo;
+     public String getIdentityImage() {
+         return IdentityImage;
      }
 
-     public void setIdentityNo(String identityNo) {
-         IdentityNo = identityNo;
-              }
+     public void setIdentityImage(String identityImage) {
+         IdentityImage = identityImage;
+     }
 
-     public String getRegistrationDate()
-              {
-                  return RegistrationDate;
-              }
-     public void setRegistrationDate(String registrationDate)
-              {
-                  RegistrationDate = registrationDate;
-              }
+     public boolean isBusyStatus() {
+         return BusyStatus;
+     }
 
+     public void setBusyStatus(boolean busyStatus) {
+         BusyStatus = busyStatus;
+     }
  }

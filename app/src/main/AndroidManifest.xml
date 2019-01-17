@@ -69,15 +69,12 @@
         <activity
             android:name=".SplashActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
-        <activity android:name=".FirstPage" />
-        <activity android:name=".FirstLoginPage" />
         <activity
             android:name=".AdminHomePage"
             android:label="@string/title_activity_customer_home_page"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".RegistrationActivity"></activity>
         <activity android:name=".ServiceAndRepair" />
-        <activity android:name=".CartActivity"></activity>
     </application>
 
 </manifest>

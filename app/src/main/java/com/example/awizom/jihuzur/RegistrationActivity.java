@@ -25,7 +25,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private EditText editTextMobile;
     private TextView empsign, skiplogin;
     private Button butonContinue;
-
     DatabaseReference datauserprofile;
     private FirebaseAuth mAuth;
     private String mobileNumber = "", mobile = "",ur = "User";
@@ -123,8 +122,5 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         return true;
 
     }
-
-
-
 
 }
