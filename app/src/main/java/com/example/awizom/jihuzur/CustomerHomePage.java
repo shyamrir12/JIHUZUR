@@ -10,6 +10,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,6 +47,11 @@ public class CustomerHomePage extends AppCompatActivity
     String Url;
     Boolean active = false;
     View header;
+    private CardView homeCleaningCardView;
+    private ImageView homecleaning;
+    private TextView homeCleaningTextView;
+    DatabaseReference datauserprofile;
+    private Intent intent;
     ImageView profileImage;
     TextView userName, identityNo, identityType;
     //bottom navigation drawer started
@@ -60,21 +66,21 @@ public class CustomerHomePage extends AppCompatActivity
             switch (item.getItemId()) {
                 case R.id.navigation_search:
                     getSupportActionBar().setTitle("Catalog");
-                    fragment = catalogFragment;
-                    framentClass = CatalogFragment.class;
-
+                  intent=new Intent(CustomerHomePage.this,CustomerHomePage.class);
+                  startActivity(intent);
                     break;
+
                 case R.id.navigation_booking:
                     getSupportActionBar().setTitle("My Booking");
                     fragment = myBookingFragment;
                     framentClass = MyBookingFragment.class;
                     break;
+
                 case R.id.navigation_helpCenter:
                     getSupportActionBar().setTitle("Help Center");
                     fragment = helpCenterFragment;
                     framentClass = HelpCenterFragment.class;
                     break;
-
             }
             try {
                 fragment = (Fragment) framentClass.newInstance();
@@ -100,21 +106,21 @@ public class CustomerHomePage extends AppCompatActivity
 
         setContentView(R.layout.activity_customer_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        homeCleaningCardView = findViewById(R.id.homeCleancardViewOne);
+        homeCleaningCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
+                startActivity(intent);
+            }
+        });
+        homecleaning = findViewById(R.id.homecleaning);
+
+        homeCleaningTextView = findViewById(R.id.homecleaningTextView);
         setSupportActionBar(toolbar);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -137,9 +143,6 @@ public class CustomerHomePage extends AppCompatActivity
         userName.setOnClickListener(this);
 
 
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            getUser();
-        } else {
 
             Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/blank-profile.png?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
             Glide.with(CustomerHomePage.this).load(Url).into(profileImage);
@@ -152,7 +155,6 @@ public class CustomerHomePage extends AppCompatActivity
             identityNo.setText(identNo);
             userName.setText(name);
 
-        }
 
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -240,104 +242,13 @@ public class CustomerHomePage extends AppCompatActivity
         return true;
     }
 
-    private void getUser() {
-        try {
-            //String res="";
 
-
-//            datauserpro = FirebaseDatabase.getInstance().getReference("profile").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-//
-//            datauserpro.addListenerForSingleValueEvent(new ValueEventListener() {
-//
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                    getSupportActionBar().setTitle("Ji Huzur " + role);
-//
-//
-//                    //iterating through all the nodes
-//
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                }
-//            });
-            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("profile").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-
-            ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot datas : dataSnapshot.getChildren()) {
-                        dUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/"+dUser+"image.jpg?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
-                        if (Url!=null) {
-                               Glide.with(CustomerHomePage.this).load(Url).into(profileImage);
-
-                        } else {
-                            String Urlnew = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/blank-profile.png?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
-                            Glide.with(CustomerHomePage.this).load(Urlnew).into(profileImage);
-
-                        }
-                        String identNo = dataSnapshot.child("identityNo").getValue().toString();
-                        String name = dataSnapshot.child("name").getValue().toString();
-
-                        String identType = dataSnapshot.child("identityType").getValue().toString();
-
-
-                        if (identType.isEmpty()) {
-                            identityType.setText("Id Type");
-                        } else {
-                            identityType.setText(identType);
-                        }
-
-
-
-                        if (identNo.isEmpty()) {
-                            identityNo.setText("Id No");
-                        } else {
-                            identityNo.setText(identNo);
-                        }
-                        if (name.isEmpty()) {
-                            userName.setText("Welcome User");
-                        } else {
-                            userName.setText(name);
-                        }
-
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-
-
-            });
-
-
-            //   new MyCourse.GETCourseList().execute(SharedPrefManager.getInstance(this).getUser().access_token);
-            //Toast.makeText(getApplicationContext(),res,Toast.LENGTH_SHORT).show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
-            // System.out.println("Error: " + e);
-        }
-    }
 
 
     @Override
     public void onClick(View v) {
         if (v.getId() == identityNo.getId()) {
             Intent intent = new Intent(CustomerHomePage.this, UpdateProfile.class);
-
-
             String uname = userName.getText().toString();
             String idenNo = identityNo.getText().toString();
             String idenType = identityType.getText().toString();
@@ -351,12 +262,6 @@ public class CustomerHomePage extends AppCompatActivity
 
 //Add the bundle to the intent
             intent.putExtras(bundle);
-
-
-//            intent.putExtra("name", String.valueOf(userName));
-//            intent.putExtra("idno", String.valueOf(identityNo));
-//            intent.putExtra("idtype", String.valueOf(identityType));
-
             startActivity(intent);
 
 

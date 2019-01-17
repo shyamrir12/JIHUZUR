@@ -1,9 +1,9 @@
 package com.example.awizom.jihuzur.Model;
 
+import java.util.Date;
+
 public class Profile
-
  {
-
     private String ID;
     private String Name;
     private String Lat;
@@ -14,20 +14,8 @@ public class Profile
     private String Image;
     private String IdentityImage;
     private  boolean BusyStatus;
+    private Date CreatedDate;
 
-     public Profile(String id, String name, String lat, String longs, boolean active, String role, String mobileNo,String image,String identityImage,boolean busyStatus){
-        ID=id;
-        Name=name;
-        Lat=lat;
-        Long=longs;
-        Active=active;
-        Role=role;
-        MobileNo= mobileNo;
-        Image=image;
-        IdentityImage=identityImage;
-        BusyStatus=busyStatus;
-
-    }
 
     public String getId() {
         return ID;
@@ -108,5 +96,13 @@ public class Profile
 
      public void setBusyStatus(boolean busyStatus) {
          BusyStatus = busyStatus;
+     }
+
+     public Date getCreatedDate() {
+         return CreatedDate;
+     }
+
+     public void setCreatedDate(Date createdDate) {
+         CreatedDate = createdDate;
      }
  }
