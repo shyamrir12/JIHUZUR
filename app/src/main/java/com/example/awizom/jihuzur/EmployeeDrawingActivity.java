@@ -2,6 +2,7 @@ package com.example.awizom.jihuzur;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -50,6 +51,7 @@ public class EmployeeDrawingActivity extends AppCompatActivity {
     Button upload;
     Uri filePath;
     String datauser;
+    ProgressDialog pd;
 
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
@@ -73,11 +75,12 @@ public class EmployeeDrawingActivity extends AppCompatActivity {
             }
         });
 
+
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(outputFileUri != null) {
-
+                    pd.show();
                     datauser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                     StorageReference childRef = storageRef.child(datauser + "image.jpg");
@@ -88,7 +91,7 @@ public class EmployeeDrawingActivity extends AppCompatActivity {
                     uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
+                            pd.dismiss();
                             Toast.makeText(EmployeeDrawingActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
                             Intent intent=new Intent(EmployeeDrawingActivity.this,EmployeeHomePage.class);
                             startActivity(intent);
@@ -97,7 +100,7 @@ public class EmployeeDrawingActivity extends AppCompatActivity {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-
+                            pd.dismiss();
                             Toast.makeText(EmployeeDrawingActivity.this, "Upload Failed -> " + e, Toast.LENGTH_SHORT).show();
                         }
                     });

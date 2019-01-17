@@ -38,6 +38,7 @@ public class ZooActivity extends FragmentActivity implements OnMapReadyCallback,
     private GoogleMap mMap;
     Location mLastLocation;
     Marker mCurrLocationMarker;
+
     GoogleApiClient mGoogleApiClient;
     LocationRequest mLocationRequest;
 

@@ -105,8 +105,8 @@ public class ApplianceFragment extends ListFragment  {
 
 if(position==0)
 {
-     intent=new Intent(getActivity(), ServiceAndRepair.class);
-    startActivity(intent);
+                intent=new Intent(getActivity(), ServiceAndRepair.class);
+                startActivity(intent);
 
 }
 

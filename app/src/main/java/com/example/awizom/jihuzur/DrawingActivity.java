@@ -2,6 +2,7 @@ package com.example.awizom.jihuzur;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -50,6 +51,7 @@ public class DrawingActivity extends AppCompatActivity {
     Button upload;
     Uri filePath;
     String datauser;
+    ProgressDialog pd;
 
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
@@ -65,6 +67,8 @@ public class DrawingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawing);
         upload=findViewById(R.id.upload);
+        pd = new ProgressDialog(this);
+        pd.setMessage("Uploading....");
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +81,7 @@ public class DrawingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(outputFileUri != null) {
-
+                    pd.show();
                     datauser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                     StorageReference childRef = storageRef.child(datauser + "image.jpg");
@@ -88,7 +92,7 @@ public class DrawingActivity extends AppCompatActivity {
                     uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
+                            pd.dismiss();
                             Toast.makeText(DrawingActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
                             Intent intent=new Intent(DrawingActivity.this,CustomerHomePage.class);
                             startActivity(intent);
@@ -97,7 +101,7 @@ public class DrawingActivity extends AppCompatActivity {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-
+                            pd.dismiss();
                             Toast.makeText(DrawingActivity.this, "Upload Failed -> " + e, Toast.LENGTH_SHORT).show();
                         }
                     });

@@ -9,12 +9,17 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-feature android:name="android.hardware.camera"
+
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="false" />
-    <uses-feature android:name="android.hardware.camera.autofocus"
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
         android:required="false" />
-    <uses-feature android:name="android.hardware.camera.flash"
+    <uses-feature
+        android:name="android.hardware.camera.flash"
         android:required="false" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -23,8 +28,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/jihuzurapplogo"
@@ -32,19 +35,20 @@
         android:roundIcon="@mipmap/jihuzurapplogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-        <activity android:name=".MainActivity">
-        </activity>
 
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login" >
-
-        </activity>
-
+            android:label="@string/title_activity_login"></activity>
         <activity
             android:name=".CustomerHomePage"
             android:label="@string/title_activity_customer_home_page"
@@ -56,31 +60,22 @@
             android:name=".EmployeeHomePage"
             android:label="@string/title_activity_employee_home_page"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".EmployeeDrawingActivity">
-        </activity>
-        <activity android:name=".MenuActivity">
-        </activity>
+        <activity android:name=".EmployeeDrawingActivity"></activity>
+        <activity android:name=".MenuActivity"></activity>
         <activity android:name=".UpdateProfile" />
-        <activity android:name=".LocationActivity">
-
-        </activity>
-        <activity android:name=".SplashActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".FirstPage"></activity>
-        <activity android:name=".FirstLoginPage"/>
-        <activity android:name=".AdminHomePage"
+        <activity android:name=".LocationActivity"></activity>
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity android:name=".FirstPage" />
+        <activity android:name=".FirstLoginPage" />
+        <activity
+            android:name=".AdminHomePage"
             android:label="@string/title_activity_customer_home_page"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".RegistrationActivity">
-
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".RegistrationActivity"></activity>
+        <activity android:name=".ServiceAndRepair" />
+        <activity android:name=".CartActivity"></activity>
     </application>
 
 </manifest>

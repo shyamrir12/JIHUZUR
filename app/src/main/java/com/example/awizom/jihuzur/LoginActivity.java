@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private String mobileNumber="",mobile="";
     Intent intent;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +46,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         empsign.setOnClickListener(this);
         createuser=findViewById(R.id.signUp);
         createuser.setOnClickListener(this);
+
 
         try {
             mAuth = FirebaseAuth.getInstance();

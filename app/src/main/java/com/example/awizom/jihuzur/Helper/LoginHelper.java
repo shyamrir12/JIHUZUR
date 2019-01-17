@@ -26,7 +26,7 @@ public class LoginHelper extends AppCompatActivity{
 
 
     DatabaseReference datauserprofile;
-    private FirebaseAuth mAuth;
+
     Profile customerProfile;
     private String mVerificationId;
     String role="",userId="";
