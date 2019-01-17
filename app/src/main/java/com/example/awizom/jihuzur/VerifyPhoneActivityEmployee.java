@@ -177,7 +177,7 @@ public class VerifyPhoneActivityEmployee extends AppCompatActivity {
         datauserprofile = FirebaseDatabase.getInstance().getReference("profile");
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String mobileNo = mAuth.getCurrentUser().getPhoneNumber();
-        employeeProfile = new Profile(id, "", "0.0", "0.0", false, "Employee", mobileNo,"","", c.toString());
+     //   employeeProfile = new Profile(id, "", "0.0", "0.0", false, "Employee", mobileNo,"","", c.toString());
 
         datauserprofile.child(id).setValue(employeeProfile);
         Toast.makeText(getApplicationContext(), "Profile Added", Toast.LENGTH_LONG).show();

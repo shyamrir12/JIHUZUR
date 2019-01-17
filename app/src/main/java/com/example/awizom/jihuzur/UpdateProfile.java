@@ -69,7 +69,7 @@ Button submit;
         String name = userName.getText().toString();
         String idno = idNo.getText().toString();
         String idtyp = idtype.getText().toString();
-        customerProfile = new Profile(id, name, "0.0", "0.0", false, "Customer", mobileNo, idtyp, idno, c.toString());
+        //customerProfile = new Profile(id, name, "0.0", "0.0", false, "Customer", mobileNo, idtyp, idno, c.toString());
 
         datauserprofile.child(id).setValue(customerProfile);
         Toast.makeText(getApplicationContext(), "Profile Added", Toast.LENGTH_LONG).show();

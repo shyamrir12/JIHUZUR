@@ -9,7 +9,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class LoginHelper extends AppCompatActivity {
+public class MyBookingHelper extends AppCompatActivity {
     ProgressDialog progressDialog= new ProgressDialog(this);
 
     private class GetLogin extends AsyncTask<String, Void, String> {

@@ -1,25 +1,18 @@
 package com.example.awizom.jihuzur;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.example.awizom.jihuzur.Model.Profile;
 import com.example.awizom.jihuzur.Model.ProfileModel;
-import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,11 +21,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 public class LocationActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -42,6 +31,9 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     private static final String TAG = "LocationActivity";
     List<ProfileModel> profilelist;
     ProfileModel profile;
+    private String[] profileNameList;
+    private String[] profileLatList;
+    private String[] profilelongList;
 
     private GoogleMap googleMap;
     private MarkerOptions options = new MarkerOptions();
@@ -57,13 +49,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
 
 
 
-        latlngs.add(new LatLng(21.21895, 81.676263));
-        latlngs.add(new LatLng(21.24495, 81.633263));
-        latlngs.add(new LatLng(21.21495, 81.699263));
-        latlngs.add(new LatLng(21.21795, 81.678263));
-        latlngs.add(new LatLng(21.26495, 81.622263));
-        latlngs.add(new LatLng(21.21035, 81.678883));
-        latlngs.add(new LatLng(21.21236, 81.633263));
+
 
         InitView();
 
@@ -86,6 +72,14 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                                         profile = postSnapshot.getValue(ProfileModel.class);
                                         profilelist.add(profile);
+                                        profileNameList = new String[profilelist.size()];
+                                        profileLatList = new String[profilelist.size()];
+                                        profilelongList = new String[profilelist.size()];
+                                        for (int i = 0; i < profilelist.size(); i++) {
+                                            profileNameList[i] = String.valueOf(profilelist.get(i).getName());
+                                            profileLatList[i] = String.valueOf(profilelist.get(i).getLat());
+                                            profilelongList[i] = String.valueOf(profilelist.get(i).getLong());
+                                        }
                                         if(!profilelist.equals(null)) {
                                             for(int i=0 ; i<profilelist.size(); i++) {
                                                 lat = String.valueOf(profilelist.get(i).getLat());
@@ -128,11 +122,17 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
+        latlngs.add(new LatLng(21.21895, 81.676263));
+        latlngs.add(new LatLng(21.24495, 81.633263));
+        latlngs.add(new LatLng(21.21495, 81.699263));
+        latlngs.add(new LatLng(21.21795, 81.678263));
+        latlngs.add(new LatLng(21.26495, 81.622263));
+        latlngs.add(new LatLng(21.21035, 81.678883));
+        latlngs.add(new LatLng(21.21236, 81.633263));
 
-        for (LatLng point : latlngs) {
+            for (LatLng point : latlngs) {
             options.position(point);
-            options.title("someTitle");
-            options.snippet("someDesc");
+            options.title(profileNameList[0]);
             mMap.addMarker(options);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(options.getPosition()));
             mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
