@@ -10,9 +10,12 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class LoginHelper extends AppCompatActivity {
-    ProgressDialog progressDialog= new ProgressDialog(this);
 
-    private class GetLogin extends AsyncTask<String, Void, String> {
+
+
+    public static final class GetLogin extends AsyncTask<String, Void, String> {
+        //ProgressDialog progressDialog= new ProgressDialog(LoginHelper.this);
+
         @Override
         protected String doInBackground(String... params) {
 
@@ -56,11 +59,11 @@ public class LoginHelper extends AppCompatActivity {
         protected void onPostExecute(String result) {
             try {
                 if (result.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "This User Id is not registered", Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
+                   // Toast.makeText(LoginHelper.this, "This User Id is not registered", Toast.LENGTH_SHORT).show();
+                    //progressDialog.dismiss();
                 } else {
                     super.onPostExecute(result);
-                    progressDialog.dismiss();
+                    //progressDialog.dismiss();
 //                    Gson gson = new Gson();
 //                    UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
 //

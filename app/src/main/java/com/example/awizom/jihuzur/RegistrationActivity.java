@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.awizom.jihuzur.Helper.LoginHelper;
 import com.example.awizom.jihuzur.Model.Profile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +30,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private FirebaseAuth mAuth;
     private String mobileNumber = "", mobile = "",ur = "User";
     Profile customerProfile;
+    private LoginHelper anotherClass;
 
     Intent intent;
     private Spinner role;
@@ -52,6 +54,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         butonContinue.setOnClickListener(this);
         skiplogin.setOnClickListener(this);
         empsign.setOnClickListener(this);
+
+        anotherClass = new LoginHelper();
 
        role = findViewById(R.id.roleSpiner);
         String userrole[] = {"Admin", "Customer", "Employee"};
@@ -103,6 +107,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         if ( editTextMobile.getText().toString() != null || role != null)
             ur = role.getSelectedItem().toString().trim();
         try {
+           new LoginHelper.GetLogin().execute(editTextMobile.getText().toString(),"","","Employee");
 
         } catch (Exception e) {
 
