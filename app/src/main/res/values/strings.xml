@@ -55,4 +55,6 @@
     <string name="teacher"><![CDATA[Home Tutorial & Online Tutorial]]></string>
     <string name="washing"><![CDATA[Washing Machine repairs]]></string>
     <string name="complaint">Complaint</string>
+    <string name="title_activity_form_filling">FormFilling</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

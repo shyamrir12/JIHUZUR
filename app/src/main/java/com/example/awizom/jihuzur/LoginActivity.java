@@ -17,18 +17,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText editTextMobile;
     private TextView empsign,skiplogin;
     private Button butonContinue,createuser;
-
-
     private String mobileNumber="",mobile="";
     Intent intent;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
         initView();
 
         }
