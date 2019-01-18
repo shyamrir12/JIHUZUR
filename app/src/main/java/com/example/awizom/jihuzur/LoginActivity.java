@@ -18,8 +18,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView empsign,skiplogin;
     private Button butonContinue,createuser;
 
-    DatabaseReference datauserprofile;
-    private FirebaseAuth mAuth;
+
     private String mobileNumber="",mobile="";
     Intent intent;
 
@@ -49,8 +48,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         try {
-            mAuth = FirebaseAuth.getInstance();
-            mobileNumber = FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber().toString();
+
 
             if (editTextMobile.getText().toString().isEmpty() || editTextMobile.getText().toString().length() < 10) {
 
@@ -103,11 +101,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             intent.putExtra("mobile", mobile);
             startActivity(intent);
 
-        }else if(!editTextMobile.getText().toString().equals(mobileNumber)) {
-
-            intent = new Intent(LoginActivity.this, VerifyPhoneActivity.class);
-            intent.putExtra("mobile", mobile);
-            startActivity(intent);
+//        }else if(!editTextMobile.getText().toString().equals(mobileNumber)) {
+//
+//            intent = new Intent(LoginActivity.this, VerifyPhoneActivity.class);
+//            intent.putExtra("mobile", mobile);
+//            startActivity(intent);
 
         }else {
 

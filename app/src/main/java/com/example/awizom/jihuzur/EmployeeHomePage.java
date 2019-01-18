@@ -103,14 +103,6 @@ public class EmployeeHomePage extends AppCompatActivity
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -134,9 +126,7 @@ public class EmployeeHomePage extends AppCompatActivity
         userName.setOnClickListener(this);
 
 
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            getUser();
-        } else {
+
 
             Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/blank-profile.png?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
             Glide.with(EmployeeHomePage.this).load(Url).into(profileImage);
@@ -149,7 +139,7 @@ public class EmployeeHomePage extends AppCompatActivity
             identityNo.setText(identNo);
             userName.setText(name);
 
-        }
+
 
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,101 +228,6 @@ public class EmployeeHomePage extends AppCompatActivity
         return true;
     }
 
-    private void getUser() {
-        try {
-            //String res="";
-
-
-//            datauserpro = FirebaseDatabase.getInstance().getReference("profile").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-//
-//            datauserpro.addListenerForSingleValueEvent(new ValueEventListener() {
-//
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                    getSupportActionBar().setTitle("Ji Huzur " + role);
-//
-//
-//                    //iterating through all the nodes
-//
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                }
-//            });
-            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("profile").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-
-            ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot datas : dataSnapshot.getChildren()) {
-                        dUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/"+dUser+"image.jpg?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
-                        if (Url!=null) {
-                            Glide.with(EmployeeHomePage.this).load(Url).into(profileImage);
-
-                        } else {
-                            String Urlnew = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/blank-profile.png?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
-                            Glide.with(EmployeeHomePage.this).load(Urlnew).into(profileImage);
-
-                        }
-                        String identNo = dataSnapshot.child("identityNo").getValue().toString();
-                        String name = dataSnapshot.child("name").getValue().toString();
-
-                        String identType = dataSnapshot.child("identityType").getValue().toString();
-                        identityType.setText(identType);
-
-
-                        if (identType.isEmpty()) {
-                            identityType.setText("Id Type");
-                        } else {
-                            identityType.setText(identType);
-                        }
-
-
-
-                        if (identNo.isEmpty()) {
-                            identityNo.setText("Id No");
-                        } else {
-                            identityNo.setText(identNo);
-                        }
-                        if (name.isEmpty()) {
-                            userName.setText("Welcome User");
-                        } else {
-                            userName.setText(name);
-                        }
-
-
-
-
-
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-
-
-            });
-
-
-            //   new MyCourse.GETCourseList().execute(SharedPrefManager.getInstance(this).getUser().access_token);
-            //Toast.makeText(getApplicationContext(),res,Toast.LENGTH_SHORT).show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
-            // System.out.println("Error: " + e);
-        }
-    }
 
 
     @Override
@@ -356,9 +251,6 @@ public class EmployeeHomePage extends AppCompatActivity
             intent.putExtras(bundle);
 
 
-//            intent.putExtra("name", String.valueOf(userName));
-//            intent.putExtra("idno", String.valueOf(identityNo));
-//            intent.putExtra("idtype", String.valueOf(identityType));
 
             startActivity(intent);
 
