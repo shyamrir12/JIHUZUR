@@ -41,7 +41,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
         initView();
 
     }
@@ -49,7 +48,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private void initView() {
 
         editTextMobile = findViewById(R.id.editTextMobile);
-
         butonContinue=findViewById(R.id.buttonContinue);
         skiplogin=findViewById(R.id.skiplogin);
         butonContinue.setOnClickListener(this);
@@ -65,10 +63,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         role.setAdapter(spinnerArrayAdapter);
 
         progressDialog = new ProgressDialog(this);
-
-
-
-
 
     }
 
