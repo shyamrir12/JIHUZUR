@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.awizom.jihuzur.Fragment.CatalogFragment;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
+import com.example.awizom.jihuzur.Fragment.MyBokingsActivity;
 import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,10 +33,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class CustomerHomePage extends AppCompatActivity
-
-        //side navigation drawer start
-
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+
     String TAG;
     private Fragment fragment = null;
     private Fragment searchFragment,myBookingFragment,helpCenterFragment,catalogFragment;
@@ -71,9 +70,12 @@ public class CustomerHomePage extends AppCompatActivity
                     break;
 
                 case R.id.navigation_booking:
-                    getSupportActionBar().setTitle("My Booking");
-                    fragment = myBookingFragment;
-                    framentClass = MyBookingFragment.class;
+//                    getSupportActionBar().setTitle("My Booking");
+//                    fragment = myBookingFragment;
+//                    framentClass = MyBookingFragment.class;
+                    intent=new Intent(CustomerHomePage.this,MyBokingsActivity.class);
+                    startActivity(intent);
+
                     break;
 
                 case R.id.navigation_helpCenter:
@@ -100,6 +102,12 @@ public class CustomerHomePage extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+       initView();
+    }
+
+    private void initView() {
+
+
         searchFragment = new SearchFragment();
         myBookingFragment= new MyBookingFragment();
         catalogFragment = new CatalogFragment();
@@ -144,16 +152,16 @@ public class CustomerHomePage extends AppCompatActivity
 
 
 
-            Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/blank-profile.png?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
-            Glide.with(CustomerHomePage.this).load(Url).into(profileImage);
+        Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/blank-profile.png?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
+        Glide.with(CustomerHomePage.this).load(Url).into(profileImage);
 
-            String identNo = "identity no";
-            String name = "welcome user";
+        String identNo = "identity no";
+        String name = "welcome user";
 
-            String identType = "identity type";
-            identityType.setText(identType);
-            identityNo.setText(identNo);
-            userName.setText(name);
+        String identType = "identity type";
+        identityType.setText(identType);
+        identityNo.setText(identNo);
+        userName.setText(name);
 
 
         profileImage.setOnClickListener(new View.OnClickListener() {
@@ -202,6 +210,13 @@ public class CustomerHomePage extends AppCompatActivity
         }
         if (id == R.id.action_customerHome) {
             Intent i = new Intent(CustomerHomePage.this, CustomerHomePage.class);
+            startActivity(i);
+
+
+            return true;
+        }
+        if(id == R.id.action_settings){
+            Intent i = new Intent(CustomerHomePage.this, SettingsActivity.class);
             startActivity(i);
 
 

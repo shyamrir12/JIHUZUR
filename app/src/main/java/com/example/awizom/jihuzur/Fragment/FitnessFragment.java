@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class FitnessFragment  extends ListFragment {
+public class FitnessFragment extends ListFragment {
 
 
-    String[] Fitness = new String[] {
+    String[] Fitness = new String[]{
             "Massage For Men",
             "Fitness Trainer at Home",
             "Massage For Women",
@@ -47,31 +47,28 @@ public class FitnessFragment  extends ListFragment {
     // Array of strings to store currencies
 
 
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 //        setHasOptionsMenu(true);
 //        return inflater.inflate(R.layout.fragment_appliance, container, false);
-        List<HashMap<String,String>> aList = new ArrayList<HashMap<String,String>>();
+        List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
 
-        for(int i=0;i<7;i++){
-            HashMap<String, String> hm = new HashMap<String,String>();
-            hm.put("txt" , Fitness[i]);
+        for (int i = 0; i < 7; i++) {
+            HashMap<String, String> hm = new HashMap<String, String>();
+            hm.put("txt", Fitness[i]);
 
-            hm.put("Icons", Integer.toString(Icons[i]) );
+            hm.put("Icons", Integer.toString(Icons[i]));
             aList.add(hm);
 
         }
 
         // Keys used in Hashmap
-        String[] from = { "Icons","txt" };
+        String[] from = {"Icons", "txt"};
 
         // Ids of views in listview_layout
-        int[] to = { R.id.flag,R.id.txt};
+        int[] to = {R.id.flag, R.id.txt};
 
         // Instantiating an adapter to store each items
         // R.layout.listview_layout defines the layout of each item
@@ -89,7 +86,7 @@ public class FitnessFragment  extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         {
-            Toast.makeText(getActivity(), "Clicked on " , Toast.LENGTH_SHORT)
+            Toast.makeText(getActivity(), "Clicked on ", Toast.LENGTH_SHORT)
                     .show();
         }
     }

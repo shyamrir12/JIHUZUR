@@ -1,22 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tablayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Booking"
-        android:background="#ff045445"
-        android:bottomRightRadius="10dp"
-        android:bottomLeftRadius="10dp"
-        android:topLeftRadius="10dp"
-        android:topRightRadius="10dp"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="187dp"
-        tools:ignore="MissingConstraints" />
-</android.support.constraint.ConstraintLayout>
+        android:background="@color/colorPrimary"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextAppearance="@style/MineCustomTabText"
+        app:tabTextColor="@color/white">
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/outgoing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Out Going" />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="History" />
+
+
+
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

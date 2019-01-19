@@ -30,9 +30,9 @@ public class CatalogFragment extends Fragment implements View.OnClickListener {
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.catalog_layout,container,false);
+        View view = inflater.inflate(R.layout.catalog_layout, container, false);
         initView(view);
-        return  view;
+        return view;
     }
 
     private void initView(View view) {
@@ -46,16 +46,17 @@ public class CatalogFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == homeCleaningCardView.getId()){
+        if (v.getId() == homeCleaningCardView.getId()) {
 
-             intent = new Intent(getActivity(), MenuActivity.class);
+            intent = new Intent(getActivity(), MenuActivity.class);
             startActivity(intent);
-//            SearchFragment fragment1 = new SearchFragment();
+//            SearchOnlyFragment fragment1 = new SearchOnlyFragment();
 //            FragmentManager fragmentManager = getFragmentManager();
 //            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //            fragmentTransaction.replace(android.R.id.content, fragment1);
 //            fragmentTransaction.commit();
-        }if(v.getId() == homecleaning.getId()){
+        }
+        if (v.getId() == homecleaning.getId()) {
 
         }
     }
@@ -66,7 +67,6 @@ public class CatalogFragment extends Fragment implements View.OnClickListener {
 
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String homecleaningTextView = homeCleaningTextView.getText().toString();
-
 
 
         Toast.makeText(getContext(), "Profile Added", Toast.LENGTH_LONG).show();

@@ -9,7 +9,10 @@
     <color name="colorBlack">#140806</color>
     <color name="colorPrimaryBlack">#140806</color>
     <color name="colorAccentBlack">#FF4081</color>
-
-
-
+    <color name="grey">#d6d4d4</color>
+    <color name="blue">#082d89</color>
+    <color name="greydark">#464545</color>
+    <color name="yellow">#d48138</color>
+<color name="greyhint">#1877a3</color>
+    <color name="halfwhite">#f3f6f7</color>
 </resources>

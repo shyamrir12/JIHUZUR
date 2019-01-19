@@ -111,18 +111,15 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         if (role != null)
             ur = role.getSelectedItem().toString().trim();
         try {
-            progressDialog.setMessage("loading...");
-            progressDialog.show();
+
             try {
                 new LoginHelper.GetLogin().execute(name,ur);
-
             } catch (Exception e) {
 
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            progressDialog.dismiss();
             Toast.makeText(this, "Error: " + e, Toast.LENGTH_SHORT).show();
         }
     }

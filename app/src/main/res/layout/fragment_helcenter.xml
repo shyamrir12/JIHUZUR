@@ -3,55 +3,386 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
+    android:layout_height="match_parent"
+    android:background="@color/grey">
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey">
+<RelativeLayout
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
+ <LinearLayout
+     android:id="@+id/layoutContainer1"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:orientation="horizontal"
+     android:layout_margin="10dp">
+
+     <LinearLayout
+         android:layout_width="40dp"
+         android:layout_height="wrap_content"
+         android:layout_weight="1"
+         android:orientation="vertical">
+
+         <ImageView
+             android:layout_width="30dp"
+             android:layout_height="30dp"
+             android:src="@drawable/ic_assignment_black_24dp"
+             android:padding="3dp"
+             android:tint="@color/blue"
+             android:layout_marginTop="10dp"/>
+     </LinearLayout>
+
+     <LinearLayout
+         android:layout_width="237dp"
+         android:layout_height="wrap_content"
+         android:layout_weight="1"
+         android:orientation="vertical">
+
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:padding="8dp"
+             android:text="@string/manage"
+             android:textAlignment="viewStart"
+             android:textColor="@color/colorBlack"
+             android:textSize="16sp"
+             android:textStyle="bold" />
+
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:padding="8dp"
+             android:text="@string/getHelp"
+             android:textAlignment="viewStart"
+             android:textColor="@color/greydark"
+             android:textSize="13sp"
+             android:textStyle="normal" />
+     </LinearLayout>
+    <LinearLayout
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+        <ImageView
+            android:id="@+id/click"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_chevron_right_black_24dp"/>
+    </LinearLayout>
+ </LinearLayout>
+
+    <TextView
+        android:id="@+id/popular_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/popular"
+        android:textColor="@color/greydark"
+        android:textSize="17sp"
+        android:layout_below="@+id/layoutContainer1"
+        android:background="@color/grey"
+        android:padding="20dp"/>
 
     <LinearLayout
+        android:id="@+id/layoutContainer2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/FAQ"
-            android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/popular_textView"
+        android:layout_marginTop="30dp">
+
+        <LinearLayout
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:text="F.A.Q.      >"
-            android:textSize="20dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            tools:layout_editor_absoluteX="32dp"
-            tools:layout_editor_absoluteY="36dp" />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_delete_forever_black_24dp"
+                android:tint="@color/blue"
+                android:padding="3dp"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView2"
+        <LinearLayout
+            android:layout_width="237dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/cancel"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/cancel_change"
+                android:textAlignment="viewStart"
+                android:textColor="@color/greydark"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/click1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_chevron_right_black_24dp"/>
+        </LinearLayout>
+    </LinearLayout>
+    <view
+        android:layout_below="@+id/layoutContainer2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        class="android.support.v7.app.AlertController$RecycleListView"/>
+
+    <LinearLayout
+        android:id="@+id/layoutContainer3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/layoutContainer2"
         android:layout_marginTop="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Booking Service        >"
-        android:textSize="20dp"
-        android:textColor="@color/colorBlack"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="36dp" />
-    <TextView
-        android:layout_marginTop="20dp"
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorBlack"
-        android:text="Paying for Servicec    >"
-        android:textSize="20dp"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="36dp" />
-        <TextView
-            android:layout_marginTop="20dp"
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorBlack"
-            android:text="A Guide For JiHuzur   >"
-            android:textSize="20dp"
-            tools:layout_editor_absoluteX="32dp"
-            tools:layout_editor_absoluteY="36dp" />
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_account_circle_black_24dp"
+                android:tint="@color/blue"
+                android:padding="3dp"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="237dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/account"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/change_mobile"
+                android:textAlignment="viewStart"
+                android:textColor="@color/greydark"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/click2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_chevron_right_black_24dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/faq_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/faq"
+        android:textColor="@color/greydark"
+        android:textSize="17sp"
+        android:layout_below="@+id/layoutContainer3"
+        android:padding="20dp"
+        android:background="@color/grey"/>
+
+    <LinearLayout
+        android:id="@+id/layoutContainer4"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/faq_textView"
+        android:layout_marginTop="30dp"
+        >
+
+
+        <LinearLayout
+            android:layout_width="237dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/booking"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/click3"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_chevron_right_black_24dp"/>
+        </LinearLayout>
+    </LinearLayout>
+    <view
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        android:layout_below="@id/layoutContainer4"
+        class="android.support.v7.app.AlertController$RecycleListView"/>
+
+    <LinearLayout
+        android:id="@+id/layoutContainer5"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/layoutContainer4">
+        <LinearLayout
+            android:layout_width="237dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/payment"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/click5"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_chevron_right_black_24dp"/>
+        </LinearLayout>
+    </LinearLayout>
+    <view
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        android:layout_below="@id/layoutContainer5"
+        class="android.support.v7.app.AlertController$RecycleListView"/>
+
+    <LinearLayout
+        android:id="@+id/layoutContainer6"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/layoutContainer5">
+        <LinearLayout
+            android:layout_width="237dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/Aguid"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/click4"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_chevron_right_black_24dp"/>
+        </LinearLayout>
+    </LinearLayout>
+    <view
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        android:layout_below="@id/layoutContainer6"
+        class="android.support.v7.app.AlertController$RecycleListView"/>
+
+
+    <LinearLayout
+        android:id="@+id/layoutContainer7"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/layoutContainer6">
 
     </LinearLayout>
+
+</RelativeLayout>
+    </RelativeLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>

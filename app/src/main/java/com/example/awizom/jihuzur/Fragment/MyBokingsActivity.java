@@ -1,4 +1,4 @@
-package com.example.awizom.jihuzur;
+package com.example.awizom.jihuzur.Fragment;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -9,22 +9,23 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toolbar;
 
-import com.example.awizom.jihuzur.Adapter.PageAdapter;
+import com.example.awizom.jihuzur.Adapter.PageAdapterBookings;
 
-public class MenuActivity extends AppCompatActivity {
+import com.example.awizom.jihuzur.R;
+
+public class MyBokingsActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     TabLayout tabLayout;
     ViewPager viewPager;
-    PageAdapter pageAdapter;
-    TabItem appliance;
-    TabItem massage;
-    TabItem homecleaning;
+    PageAdapterBookings pageAdapter;
+    TabItem outGoing,history;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+        setContentView(R.layout.fragment_mybooking);
 
         initview();
     }
@@ -34,17 +35,17 @@ public class MenuActivity extends AppCompatActivity {
 
 //        toolbar = findViewById(R.id.toolbar);
 //        toolbar.setTitle(getResources().getString(R.string.app_name));
-        getSupportActionBar().setTitle("Home Services");
+        getSupportActionBar().setTitle("My Bookings");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
 
         tabLayout = findViewById(R.id.tablayout);
-        appliance = findViewById(R.id.applianceRepair);
-        massage = findViewById(R.id.massageFitness);
-        homecleaning = findViewById(R.id.homeCleaning);
+        outGoing = findViewById(R.id.outgoing);
+        history = findViewById(R.id.history);
+
         viewPager = findViewById(R.id.viewPager);
 
-        pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        pageAdapter = new PageAdapterBookings(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
@@ -55,29 +56,20 @@ public class MenuActivity extends AppCompatActivity {
                 if (tab.getPosition() == 1) {
 //                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
 //                            R.color.colorAccent));
-                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(MyBokingsActivity.this,
                             R.color.colorPrimary));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
+                        getWindow().setStatusBarColor(ContextCompat.getColor(MyBokingsActivity.this,
                                 R.color.colorPrimary));
                     }
                 } else if (tab.getPosition() == 2) {
 //                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
 //                            android.R.color.darker_gray));
-                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(MyBokingsActivity.this,
                             android.R.color.black));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
+                        getWindow().setStatusBarColor(ContextCompat.getColor(MyBokingsActivity.this,
                                 android.R.color.black));
-                    }
-                } else {
-//                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
-//                            R.color.colorPrimary));
-                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
-                            R.color.colorPrimary));
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
-                                R.color.colorPrimaryDark));
                     }
                 }
             }

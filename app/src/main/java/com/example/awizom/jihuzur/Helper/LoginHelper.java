@@ -51,7 +51,6 @@ public class LoginHelper extends AppCompatActivity {
 //                Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
             }
 
-
             return json;
         }
 

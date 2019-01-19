@@ -39,18 +39,9 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         super.onCreate(savedInstanceState);
         setContentView(R.layout.location_activity);
 
-        datauserprofile = FirebaseDatabase.getInstance().getReference("profile");
 
 
 
-
-        latlngs.add(new LatLng(21.21895, 81.676263));
-        latlngs.add(new LatLng(21.24495, 81.633263));
-        latlngs.add(new LatLng(21.21495, 81.699263));
-        latlngs.add(new LatLng(21.21795, 81.678263));
-        latlngs.add(new LatLng(21.26495, 81.622263));
-        latlngs.add(new LatLng(21.21035, 81.678883));
-        latlngs.add(new LatLng(21.21236, 81.633263));
 
         InitView();
 
@@ -61,6 +52,17 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
 
 
     public void InitView() {
+
+        getMapvalue();
+        datauserprofile = FirebaseDatabase.getInstance().getReference("profile");
+
+        latlngs.add(new LatLng(21.21895, 81.676263));
+        latlngs.add(new LatLng(21.24495, 81.633263));
+        latlngs.add(new LatLng(21.21495, 81.699263));
+        latlngs.add(new LatLng(21.21795, 81.678263));
+        latlngs.add(new LatLng(21.26495, 81.622263));
+        latlngs.add(new LatLng(21.21035, 81.678883));
+        latlngs.add(new LatLng(21.21236, 81.633263));
     }
 
 
