@@ -28,15 +28,15 @@ public class LoginHelper extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_REG + "Register" + "/" + cliente + "/" + clave );
+                builder.url(AppConfig.BASE_URL_API_REG + "Register");
                 builder.addHeader("Content-Type", "Application/json");
-//                builder.addHeader("Accept", "application/json");
+                builder.addHeader("Accept", "application/json");
 
                 FormBody.Builder parameters = new FormBody.Builder();
                 parameters.add("UserName", cliente);
                 parameters.add("Password", "Jihuzur@123");
                 parameters.add("ConfirmPassword", "Jihuzur@123");
-                parameters.add("Role", "Employee");
+                parameters.add("Role", clave);
                 builder.post(parameters.build());
 
                 Response response = client.newCall(builder.build()).execute();
