@@ -5,13 +5,13 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 import com.example.awizom.jihuzur.Config.AppConfig;
+
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 public class LoginHelper extends AppCompatActivity {
-
-
 
     public static final class GetLogin extends AsyncTask<String, Void, String> {
         //ProgressDialog progressDialog= new ProgressDialog(LoginHelper.this);
@@ -28,22 +28,21 @@ public class LoginHelper extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_REG + "UserLoginGet/" + cliente + "/" + clave);
-                builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
-                builder.addHeader("Accept", "application/json");
+                builder.url(AppConfig.BASE_URL_API_REG + "Register" + "/" + cliente + "/" + clave );
+                builder.addHeader("Content-Type", "Application/json");
+//                builder.addHeader("Accept", "application/json");
 
-               /* FormBody.Builder parameters = new FormBody.Builder();
-                parameters.add("grant_type", "password");
-                parameters.add("username", cliente);
-                parameters.add("password", clave);
-                builder.post(parameters.build());*/
+                FormBody.Builder parameters = new FormBody.Builder();
+                parameters.add("UserName", cliente);
+                parameters.add("Password", "Jihuzur@123");
+                parameters.add("ConfirmPassword", "Jihuzur@123");
+                parameters.add("Role", "Employee");
+                builder.post(parameters.build());
 
                 Response response = client.newCall(builder.build()).execute();
 
                 if (response.isSuccessful()) {
                     json = response.body().string();
-                    //System.out.println(json);
-//                    Toast.makeText(getApplicationContext(), "Result is Successfull", Toast.LENGTH_SHORT).show();
 
                 }
             } catch (Exception e) {
@@ -59,7 +58,7 @@ public class LoginHelper extends AppCompatActivity {
         protected void onPostExecute(String result) {
             try {
                 if (result.isEmpty()) {
-                   // Toast.makeText(LoginHelper.this, "This User Id is not registered", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(LoginHelper.this, "This User Id is not registered", Toast.LENGTH_SHORT).show();
                     //progressDialog.dismiss();
                 } else {
                     super.onPostExecute(result);

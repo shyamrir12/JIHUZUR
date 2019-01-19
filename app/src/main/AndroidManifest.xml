@@ -42,36 +42,36 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+
+
             </intent-filter>
+
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
         <activity
             android:name=".CustomerHomePage"
             android:label="@string/title_activity_customer_home_page"
-            android:theme="@style/AppTheme.NoActionBar">   </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".DrawingActivity" />
         <activity
             android:name=".EmployeeHomePage"
             android:label="@string/title_activity_employee_home_page"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".EmployeeDrawingActivity"></activity>
-        <activity android:name=".MenuActivity"></activity>
+        <activity android:name=".EmployeeDrawingActivity" />
+        <activity android:name=".MenuActivity" />
         <activity android:name=".UpdateProfile" />
-        <activity android:name=".LocationActivity">
-
-        </activity>
+        <activity android:name=".LocationActivity" />
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".AdminHomePage"
             android:label="@string/title_activity_customer_home_page"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".RegistrationActivity"></activity>
+        <activity android:name=".RegistrationActivity" />
         <activity android:name=".ServiceAndRepair" />
     </application>
 
