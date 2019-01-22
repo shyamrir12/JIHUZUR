@@ -25,6 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
+import com.example.awizom.jihuzur.Fragment.MyBokingsActivity;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,8 +46,8 @@ public class EmployeeHomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     String TAG;
     private Fragment fragment = null;
-    private Fragment searchFragment;
-
+    private Fragment searchFragment,helpCenterFragment;
+    private Intent intent;
     DatabaseReference datauser, datauserpro;
     String dUser;
     String name;
@@ -70,6 +72,20 @@ public class EmployeeHomePage extends AppCompatActivity
                     fragment = searchFragment;
                     framentClass = SearchFragment.class;
 
+                    break;
+                case R.id.navigation_booking:
+//                    getSupportActionBar().setTitle("My Booking");
+//                    fragment = myBookingFragment;
+//                    framentClass = MyBookingFragment.class;
+                    intent=new Intent(EmployeeHomePage.this,MyBokingsActivity.class);
+                    startActivity(intent);
+
+                    break;
+
+                case R.id.navigation_helpCenter:
+                    getSupportActionBar().setTitle("Help Center");
+                    fragment = helpCenterFragment;
+                    framentClass = HelpCenterFragment.class;
                     break;
 
             }
@@ -212,22 +228,23 @@ public class EmployeeHomePage extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_profile) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_booking) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_skill) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_logout) {
 
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
-        } else if (id == R.id.profileImage) {
-            Intent imageView = new Intent(EmployeeHomePage.this, DrawingActivity.class);
-            startActivity(imageView);
         }
+// else if (id == R.id.profileImage) {
+//            Intent imageView = new Intent(EmployeeHomePage.this, DrawingActivity.class);
+//            startActivity(imageView);
+//        }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

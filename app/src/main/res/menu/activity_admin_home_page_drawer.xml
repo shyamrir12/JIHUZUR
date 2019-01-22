@@ -5,25 +5,25 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_booking"
+            android:id="@+id/nav_employee"
+            android:icon="@drawable/ic_person_outline_black_24dp"
+            android:title="@string/myEmployee" />
+        <item
+            android:id="@+id/nav_master"
             android:icon="@drawable/ic_history_black_24dp"
-            android:title="@string/My_Booking" />
+            android:title="@string/master" />
         <item
-            android:id="@+id/nav_complaint"
-            android:icon="@drawable/ic_comment_black_24dp"
-            android:title="@string/complaint" />
-        <item
-            android:id="@+id/nav_order"
+            android:id="@+id/nav_catalogName"
             android:icon="@drawable/ic_shopping_cart_black_24dp"
-            android:title="@string/order" />
+            android:title="@string/catalog" />
+        <item
+            android:id="@+id/nav_catalogpricing"
+            android:icon="@drawable/ic_monetization_on_black_24dp"
+            android:title="@string/catalogPricing" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_settings_power_black_24dp"
             android:title="logout" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
     </group>
 
     <item android:title="Communicate">

@@ -3,8 +3,6 @@ package com.example.awizom.jihuzur.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.awizom.jihuzur.LocationActivity;
 import com.example.awizom.jihuzur.MenuActivity;
-import com.example.awizom.jihuzur.Model.Profile;
 import com.example.awizom.jihuzur.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -69,7 +65,7 @@ public class CatalogFragment extends Fragment implements View.OnClickListener {
         String homecleaningTextView = homeCleaningTextView.getText().toString();
 
 
-        Toast.makeText(getContext(), "Profile Added", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "DataProfile Added", Toast.LENGTH_LONG).show();
         return true;
     }
 

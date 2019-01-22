@@ -98,7 +98,7 @@ public class AdminHomePage extends AppCompatActivity
         myBookingFragment= new MyBookingFragment();
         catalogFragment = new CatalogFragment();
 
-        setContentView(R.layout.activity_customer_home_page);
+        setContentView(R.layout.activity_admin_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -180,7 +180,7 @@ public class AdminHomePage extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.customer_home_page, menu);
+        getMenuInflater().inflate(R.menu.admin_home_page, menu);
         return true;
     }
 
@@ -224,13 +224,15 @@ public class AdminHomePage extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_employee) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_master) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_catalogName) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_catalogpricing) {
+
+        } else if (id == R.id.nav_logout) {
 
         } else if (id == R.id.nav_share) {
 
@@ -249,28 +251,7 @@ public class AdminHomePage extends AppCompatActivity
 
     private void getUser() {
         try {
-            //String res="";
 
-
-//            datauserpro = FirebaseDatabase.getInstance().getReference("profile").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-//
-//            datauserpro.addListenerForSingleValueEvent(new ValueEventListener() {
-//
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                    getSupportActionBar().setTitle("Ji Huzur " + role);
-//
-//
-//                    //iterating through all the nodes
-//
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                }
-//            });
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("profile").child(FirebaseAuth.getInstance().getCurrentUser().getUid());

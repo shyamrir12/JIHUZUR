@@ -3,9 +3,7 @@ package com.example.awizom.jihuzur;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.solver.widgets.Helper;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ThemedSpinnerAdapter;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,13 +13,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.awizom.jihuzur.Helper.LoginHelper;
-import com.example.awizom.jihuzur.Model.Profile;
+import com.example.awizom.jihuzur.Model.DataProfile;
+import com.example.awizom.jihuzur.Model.UserLogin;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText editTextMobile;
@@ -29,22 +27,22 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private Button butonContinue;
     DatabaseReference datauserprofile;
     private FirebaseAuth mAuth;
-    private String mobileNumber = "", mobile = "",ur = "User";
-    Profile customerProfile;
+    private String mobileNumber = "", mobile = "",ur = "User",result="";
+    DataProfile customerDataProfile;
     private ProgressDialog progressDialog;
     Intent intent;
     private Spinner role;
     private LoginHelper loginHelper;
 
-
+    /*For layout binding */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         initView();
-
     }
 
+    /*For Initialization */
     private void initView() {
 
         editTextMobile = findViewById(R.id.editTextMobile);
@@ -57,6 +55,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         role = findViewById(R.id.roleSpiner);
 
+
         String userrole[] = {"Admin", "Customer", "Employee"};
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, userrole);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
@@ -66,31 +65,21 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     }
 
+    /*For Event Listeners*/
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
-            case R.id.buttonContinue:
-                if(validation()){
 
-                    createuser();
-                }
-              else
-                {
-                    Toast.makeText(getApplicationContext(),"Mobile No is not Valid",Toast.LENGTH_SHORT).show();
-
-                }
-                break;
-
-                case R.id.skiplogin:
-                Intent skip = new Intent(RegistrationActivity.this, CustomerHomePage.class);
-                startActivity(skip);
-                break;
+        if(v.getId() == butonContinue.getId()){
+            createuser();
+        }  if(v.getId() == skiplogin.getId()){
+            intent = new Intent(RegistrationActivity.this, CustomerHomePage.class);
+            startActivity(intent);
         }
+
     }
 
+    /*For Validation */
     private boolean validation() {
-
 
         if (editTextMobile.getText().toString().isEmpty() || editTextMobile.getText().toString().length() < 10) {
 
@@ -102,27 +91,46 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         return true;
     }
 
-
+    /*For Post API call with the use of Helper class*/
     private void createuser() {
 
-        String name = editTextMobile.getText().toString().trim();
+        if(validation()){
 
-        String ur = "Customer";
-        if (role != null)
-            ur = role.getSelectedItem().toString().trim();
+            if (role != null)
+                ur = role.getSelectedItem().toString().trim();
         try {
+            result   = new LoginHelper.GetLogin().execute(editTextMobile.getText().toString().trim(),"Jihuzur@123","Jihuzur@123",ur).get();
+            Gson gson = new Gson();
 
+            UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
             try {
-                new LoginHelper.GetLogin().execute(name,ur);
-            } catch (Exception e) {
+                if (jsonbody.isStatus()) {
+                    Toast.makeText(getApplicationContext(),jsonbody.Message,Toast.LENGTH_SHORT).show();
+                    intent = new Intent(RegistrationActivity.this, VerifyPhoneActivity.class);
+                    intent.putExtra("OTP",jsonbody.OtpCode);
+                    intent.putExtra("Uid",jsonbody.dataProfile.ID);
+                    intent.putExtra("Role",jsonbody.dataProfile.Role);
+                    startActivity(intent);
+                }
 
+            }catch (Exception e){
+                e.printStackTrace();
             }
 
-        } catch (Exception e) {
+        } catch (ExecutionException e) {
             e.printStackTrace();
-            Toast.makeText(this, "Error: " + e, Toast.LENGTH_SHORT).show();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+             }
+        }else
+        {
+            Toast.makeText(getApplicationContext(),"Mobile No is not Valid",Toast.LENGTH_SHORT).show();
+
         }
+
     }
+
+
 
 
 }

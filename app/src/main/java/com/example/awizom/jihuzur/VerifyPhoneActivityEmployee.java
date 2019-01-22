@@ -8,7 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.example.awizom.jihuzur.Model.Profile;
+
+import com.example.awizom.jihuzur.Model.DataProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskExecutors;
@@ -35,7 +36,7 @@ public class VerifyPhoneActivityEmployee extends AppCompatActivity {
     private EditText editTextCode;
     DatabaseReference datauserprofile;
     private FirebaseAuth mAuth;
-    Profile employeeProfile;
+    DataProfile employeeDataProfile;
     //firebase auth object
 
 
@@ -47,7 +48,7 @@ public class VerifyPhoneActivityEmployee extends AppCompatActivity {
 
         //initializing objects
         mAuth = FirebaseAuth.getInstance();
-        editTextCode = findViewById(R.id.editTextCode);
+        editTextCode = findViewById(R.id.editTextOtp);
 
 
         //getting mobile number from the previous activity
@@ -59,7 +60,7 @@ public class VerifyPhoneActivityEmployee extends AppCompatActivity {
 
         //if the automatic sms detection did not work, user can also enter the code manually
         //so adding a click listener to the button
-        findViewById(R.id.buttonSignIn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.buttonVerify).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String code = editTextCode.getText().toString().trim();
@@ -177,10 +178,10 @@ public class VerifyPhoneActivityEmployee extends AppCompatActivity {
         datauserprofile = FirebaseDatabase.getInstance().getReference("profile");
         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String mobileNo = mAuth.getCurrentUser().getPhoneNumber();
-     //   employeeProfile = new Profile(id, "", "0.0", "0.0", false, "Employee", mobileNo,"","", c.toString());
+     //   employeeDataProfile = new DataProfile(id, "", "0.0", "0.0", false, "Employee", mobileNo,"","", c.toString());
 
-        datauserprofile.child(id).setValue(employeeProfile);
-        Toast.makeText(getApplicationContext(), "Profile Added", Toast.LENGTH_LONG).show();
+        datauserprofile.child(id).setValue(employeeDataProfile);
+        Toast.makeText(getApplicationContext(), "DataProfile Added", Toast.LENGTH_LONG).show();
         return true;
     }
     }

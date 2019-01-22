@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+
+
+        <LinearLayout
+            android:id="@+id/l2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="35dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginLeft="25dp">
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="Select date"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_border_edittext"/>
+
+            <TextView
+                android:id="@+id/start_time"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="Start time"
+                android:padding="5dp"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_border_edittext"
+                />
+            <TextView
+                android:id="@+id/end_time"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="End time"
+                android:padding="5dp"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_border_edittext"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/l3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/l2"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                android:id="@+id/catalogName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingLeft="10dp"
+                android:layout_weight="1"
+                android:hint="Catalog Name"
+                android:background="@drawable/background_border_edittext" />
+
+            <EditText
+                android:id="@+id/serviceName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:hint="Service Name"
+                android:background="@drawable/background_border_edittext" />
+
+            <EditText
+                android:id="@+id/amount"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:hint="Amount"
+                android:background="@drawable/background_border_edittext" />
+            <EditText
+                android:id="@+id/discount"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:hint="Discount"
+                android:background="@drawable/background_border_edittext" />
+
+            <EditText
+                android:id="@+id/discounttype"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:hint="Discount type"
+                android:background="@drawable/background_border_edittext"/>
+
+        </LinearLayout>
+        <view
+            android:id="@+id/t14"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            android:layout_below="@id/l3"
+            android:layout_marginTop="10dp"
+            class="android.support.v7.app.AlertController$RecycleListView" />
+
+        <TextView
+            android:id="@+id/t1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="normal"
+            android:textSize="16sp"
+            android:layout_margin="20dp"
+            android:text="TOTAL AMOUNT"
+            android:layout_below="@+id/t14" />
+        <view
+            android:id="@+id/t2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            android:layout_below="@id/t1"
+            class="android.support.v7.app.AlertController$RecycleListView" />
+
+
+        <view
+            android:id="@+id/l5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            android:layout_below="@id/t2"
+            class="android.support.v7.app.AlertController$RecycleListView" />
+
+        <LinearLayout
+            android:id="@+id/l6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/l5"
+            android:layout_margin="20dp">
+
+            <Button
+                android:id="@+id/Next"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#000000"
+                android:text="Next->"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:letterSpacing="0.2" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

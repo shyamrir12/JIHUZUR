@@ -7,19 +7,18 @@ import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-public class LoginHelper extends AppCompatActivity {
+public class OrderPostHelper extends AppCompatActivity {
 
-    public static final class GetLogin extends AsyncTask<String, Void, String> {
+    public static final class OrderPost extends AsyncTask<String, Void, String> {
 
 
         @Override
         protected String doInBackground(String... params) {
 
-            //     InputStream inputStream = null;
-            String name = params[0];
-            String password = params[1];
-            String cnfrmpassword = params[2];
-            String role = params[3];
+            String customerId = params[0];
+            String empId = params[1];
+            String orderDate = params[2];
+            String catalogId = params[3];
             String json = "";
             try {
 
@@ -29,11 +28,13 @@ public class LoginHelper extends AppCompatActivity {
                 builder.addHeader("Content-Type", "application/json");
                 builder.addHeader("Accept", "application/json");
 
+
+
                 FormBody.Builder parameters = new FormBody.Builder();
-                parameters.add("UserName", name);
-                parameters.add("Password", password);
-                parameters.add("ConfirmPassword", cnfrmpassword);
-                parameters.add("Role", role);
+                parameters.add("CustomerID", customerId);
+                parameters.add("EmployeeID", empId);
+                parameters.add("OrderDate", orderDate);
+                parameters.add("CatalogID", catalogId);
                 builder.post(parameters.build());
 
                 okhttp3.Response response = client.newCall(builder.build()).execute();
@@ -57,8 +58,6 @@ public class LoginHelper extends AppCompatActivity {
 
                 } else {
                     super.onPostExecute(result);
-
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -67,3 +66,4 @@ public class LoginHelper extends AppCompatActivity {
         }
     }
 }
+

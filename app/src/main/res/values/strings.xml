@@ -238,4 +238,13 @@
     </string>
     <string name="repair"><![CDATA[Repair & Fixes]]></string>
     <string name="instal">Standard Installation</string>
+    <string name="addAdress">Add Address</string>
+    <string name="house"><![CDATA[House & Street]]></string>
+    <string name="locality">Locality</string>
+    <string name="NickName">NICKNAME FOR ADDRESS</string>
+    <string name="order">Order</string>
+    <string name="myEmployee">My Employee</string>
+    <string name="master">Master</string>
+    <string name="catalog">Catalog</string>
+    <string name="catalogPricing">Catalog Pricing</string>
 </resources>

@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.awizom.jihuzur.Model.Profile;
+import com.example.awizom.jihuzur.Model.DataProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -22,7 +22,7 @@ EditText userName,idNo,idtype;
 Button submit;
     DatabaseReference datauserprofile;
     private FirebaseAuth mAuth;
-    Profile customerProfile;
+    DataProfile customerDataProfile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,10 +69,10 @@ Button submit;
         String name = userName.getText().toString();
         String idno = idNo.getText().toString();
         String idtyp = idtype.getText().toString();
-        //customerProfile = new Profile(id, name, "0.0", "0.0", false, "Customer", mobileNo, idtyp, idno, c.toString());
+        //customerDataProfile = new DataProfile(id, name, "0.0", "0.0", false, "Customer", mobileNo, idtyp, idno, c.toString());
 
-        datauserprofile.child(id).setValue(customerProfile);
-        Toast.makeText(getApplicationContext(), "Profile Added", Toast.LENGTH_LONG).show();
+        datauserprofile.child(id).setValue(customerDataProfile);
+        Toast.makeText(getApplicationContext(), "DataProfile Added", Toast.LENGTH_LONG).show();
         return true;
     }
     }

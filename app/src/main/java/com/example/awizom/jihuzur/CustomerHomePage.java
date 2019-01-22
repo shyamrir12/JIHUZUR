@@ -64,7 +64,7 @@ public class CustomerHomePage extends AppCompatActivity
             Class framentClass = null;
             switch (item.getItemId()) {
                 case R.id.navigation_search:
-                    getSupportActionBar().setTitle("Catalog");
+                    getSupportActionBar().setTitle("Customer Home");
                   intent=new Intent(CustomerHomePage.this,CustomerHomePage.class);
                   startActivity(intent);
                     break;
@@ -234,13 +234,15 @@ public class CustomerHomePage extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_booking) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_complaint) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_order) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_logout) {
+
+        }else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
 

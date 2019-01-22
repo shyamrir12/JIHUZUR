@@ -1,11 +1,15 @@
 package com.example.awizom.jihuzur;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
+import com.example.awizom.jihuzur.Helper.GetEmployeeProfileHelper;
+import com.example.awizom.jihuzur.Helper.VerifyMobileHelper;
+import com.example.awizom.jihuzur.Model.UserLogin;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -18,15 +22,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class LocationActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    DatabaseReference datauserprofile;
-    String lat="", longitud="";
+
+    String lat="", longitud="",result="";
     private static final String TAG = "LocationActivity";
 
 
@@ -38,11 +44,6 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.location_activity);
-
-
-
-
-
         InitView();
 
 
@@ -54,7 +55,6 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     public void InitView() {
 
         getMapvalue();
-        datauserprofile = FirebaseDatabase.getInstance().getReference("profile");
 
         latlngs.add(new LatLng(21.21895, 81.676263));
         latlngs.add(new LatLng(21.24495, 81.633263));
@@ -63,13 +63,25 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         latlngs.add(new LatLng(21.26495, 81.622263));
         latlngs.add(new LatLng(21.21035, 81.678883));
         latlngs.add(new LatLng(21.21236, 81.633263));
+        verifyPostOtp();
     }
 
+    private void verifyPostOtp() {
+
+            try {
+                result   = new GetEmployeeProfileHelper.GetEmployeeProfileForShow().execute().get();
+                Gson gson = new Gson();
+                UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
+                Toast.makeText(getApplicationContext(),jsonbody.Message,Toast.LENGTH_SHORT).show();
 
 
 
-
-
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
 
 

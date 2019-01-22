@@ -8,19 +8,16 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import com.example.awizom.jihuzur.Model.Profile;
+import com.example.awizom.jihuzur.Model.DataProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SplashActivity extends AppCompatActivity {
 
     private  static int SPLASH_TIME_OUT=4000;
     DatabaseReference datauserprofile;
     private FirebaseAuth mAuth;
-    Profile customerProfile;
+    DataProfile customerDataProfile;
     private String mVerificationId;
     String role="",userId="";
     boolean active=false;
