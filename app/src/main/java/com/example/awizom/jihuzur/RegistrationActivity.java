@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.awizom.jihuzur.Helper.LoginHelper;
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.UserLogin;
+import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.gson.Gson;
@@ -106,6 +107,13 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             try {
                 if (jsonbody.isStatus()) {
                     Toast.makeText(getApplicationContext(),jsonbody.Message,Toast.LENGTH_SHORT).show();
+                    DataProfile dataProfile = new DataProfile();
+                    dataProfile.ID=jsonbody.dataProfile.ID;
+                    dataProfile.Active =jsonbody.dataProfile.Active;
+                    dataProfile.BusyStatus =jsonbody.dataProfile.BusyStatus;
+                    dataProfile.Role = jsonbody.dataProfile.Role;
+
+                    SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
                     intent = new Intent(RegistrationActivity.this, VerifyPhoneActivity.class);
                     intent.putExtra("OTP",jsonbody.OtpCode);
                     intent.putExtra("Uid",jsonbody.dataProfile.ID);

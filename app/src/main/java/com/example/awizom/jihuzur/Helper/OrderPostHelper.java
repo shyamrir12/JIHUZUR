@@ -11,27 +11,26 @@ public class OrderPostHelper extends AppCompatActivity {
 
     public static final class OrderPost extends AsyncTask<String, Void, String> {
 
-
         @Override
         protected String doInBackground(String... params) {
 
-            String customerId = params[0];
+            //     InputStream inputStream = null;
+            String customerid = params[0];
             String empId = params[1];
             String orderDate = params[2];
             String catalogId = params[3];
+
             String json = "";
             try {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_REG + "Register");
+                builder.url(AppConfig.BASE_URL_API_Customer + "OrderPost");
                 builder.addHeader("Content-Type", "application/json");
                 builder.addHeader("Accept", "application/json");
 
-
-
                 FormBody.Builder parameters = new FormBody.Builder();
-                parameters.add("CustomerID", customerId);
+                parameters.add("CustomerID", customerid);
                 parameters.add("EmployeeID", empId);
                 parameters.add("OrderDate", orderDate);
                 parameters.add("CatalogID", catalogId);
@@ -46,18 +45,20 @@ public class OrderPostHelper extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Error: " + e);
-
             }
 
             return json;
         }
 
         protected void onPostExecute(String result) {
+
             try {
                 if (result.isEmpty()) {
 
                 } else {
                     super.onPostExecute(result);
+
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -66,4 +67,3 @@ public class OrderPostHelper extends AppCompatActivity {
         }
     }
 }
-

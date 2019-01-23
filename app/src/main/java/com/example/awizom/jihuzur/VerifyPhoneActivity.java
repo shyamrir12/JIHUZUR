@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.example.awizom.jihuzur.Helper.VerifyMobileHelper;
 import com.example.awizom.jihuzur.Model.UserLogin;
+import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.gson.Gson;
 import java.util.concurrent.ExecutionException;
 
@@ -17,7 +18,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
 
     private EditText otpEditText;
     private Button verifyOtpBtn;
-    private String result,userId="",otp="",role="";
+    private String result,userId="",otp="",role="",uid;
     private Intent intent;
 
     /*For layout binding */
@@ -39,7 +40,11 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
         userId = getIntent().getExtras().getString("Uid","");
         role = getIntent().getExtras().getString("Role","");
 
+
+         uid = SharedPrefManager.getInstance(getApplicationContext()).getUser().getID();
+
         if(otp.contains("mobile already verified")){
+            role = SharedPrefManager.getInstance(VerifyPhoneActivity.this).getUser().Role;
             Toast.makeText(getApplicationContext(),"mobile already verified",Toast.LENGTH_SHORT).show();
             if(role.equals("Employee")){
                 intent = new Intent(VerifyPhoneActivity.this, EmployeeHomePage.class);

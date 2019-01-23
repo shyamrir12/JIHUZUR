@@ -11,7 +11,6 @@ public class LoginHelper extends AppCompatActivity {
 
     public static final class GetLogin extends AsyncTask<String, Void, String> {
 
-
         @Override
         protected String doInBackground(String... params) {
 
@@ -45,13 +44,13 @@ public class LoginHelper extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Error: " + e);
-
             }
 
             return json;
         }
 
         protected void onPostExecute(String result) {
+
             try {
                 if (result.isEmpty()) {
 
