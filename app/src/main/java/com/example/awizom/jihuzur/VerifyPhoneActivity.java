@@ -46,16 +46,16 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
         if(otp.contains("mobile already verified")){
             role = SharedPrefManager.getInstance(VerifyPhoneActivity.this).getUser().Role;
             Toast.makeText(getApplicationContext(),"mobile already verified",Toast.LENGTH_SHORT).show();
-            if(role.equals("Employee")){
-                intent = new Intent(VerifyPhoneActivity.this, EmployeeHomePage.class);
-                startActivity(intent);
-            }else if(role.equals("Customer")){
-                intent = new Intent(VerifyPhoneActivity.this, CustomerHomePage.class);
-                startActivity(intent);
-            }else if(role.equals("Admin")){
-                intent = new Intent(VerifyPhoneActivity.this, AdminHomePage.class);
-                startActivity(intent);
-            }
+//            if(role.equals("Employee")){
+//                intent = new Intent(VerifyPhoneActivity.this, EmployeeHomePage.class);
+//                startActivity(intent);
+//            }else if(role.equals("Customer")){
+//                intent = new Intent(VerifyPhoneActivity.this, CustomerHomePage.class);
+//                startActivity(intent);
+//            }else if(role.equals("Admin")){
+//                intent = new Intent(VerifyPhoneActivity.this, AdminHomePage.class);
+//                startActivity(intent);
+//            }
 
         }else {
             validation();
@@ -95,16 +95,19 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
 
                 if(!result.equals(null)){
 
-                    if(role.equals("Employee")){
-                        intent = new Intent(VerifyPhoneActivity.this, EmployeeHomePage.class);
-                        startActivity(intent);
-                    }else if(role.equals("Customer")){
-                        intent = new Intent(VerifyPhoneActivity.this, CustomerHomePage.class);
-                        startActivity(intent);
-                    }else if(role.equals("Admin")){
-                        intent = new Intent(VerifyPhoneActivity.this, AdminHomePage.class);
-                        startActivity(intent);
-                    }
+                    intent = new Intent(VerifyPhoneActivity.this, CustomerHomePage.class);
+                    startActivity(intent);
+//                    role = SharedPrefManager.getInstance(VerifyPhoneActivity.this).getUser().Role;
+//                    if(role.equals("Employee")){
+//                        intent = new Intent(VerifyPhoneActivity.this, EmployeeHomePage.class);
+//                        startActivity(intent);
+//                    }else if(role.equals("Customer")){
+//                        intent = new Intent(VerifyPhoneActivity.this, CustomerHomePage.class);
+//                        startActivity(intent);
+//                    }else if(role.equals("Admin")){
+//                        intent = new Intent(VerifyPhoneActivity.this, AdminHomePage.class);
+//                        startActivity(intent);
+//                    }
                 }
 
 
