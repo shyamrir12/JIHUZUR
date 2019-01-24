@@ -10,7 +10,7 @@ public class SharedPrefManager {
     private static SharedPrefManager mInstance;
     private static Context mCtx;
 
-    private static final String SHARED_PREF_NAME = "simplifiedcodingsharedprefretrofit";
+    private static final String SHARED_PREF_NAME = "jihuzursharedpref";
 
 
     private static final String KEY_USER_Role = "userrole";
@@ -53,5 +53,19 @@ public class SharedPrefManager {
         return  token;
     }
 
+    public boolean isLoggedIn() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        if (sharedPreferences.getString(KEY_USER_ID, null) != null)
+            return true;
+        return false;
+    }
+
+    public boolean logout() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+        return true;
+    }
 
 }

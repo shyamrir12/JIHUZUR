@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.firebase.auth.FirebaseAuth;
 
 
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Splash screen timer
     private static int SPLASH_TIME_OUT = 3000;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +35,38 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                // This method will be executed once the timer is over
-                // Start your app main activity
 
-      Intent intent = new Intent(MainActivity.this,RegistrationActivity.class);
-      startActivity(intent);
+               if(SharedPrefManager.getInstance( getApplicationContext() ).isLoggedIn()){
+
+                   if(SharedPrefManager.getInstance( getApplicationContext()).getUser().getRole().equals( "Employee" )){
+
+                       if(SharedPrefManager.getInstance( getApplicationContext() ).getUser().isActive()){
+                           intent = new Intent( MainActivity.this, EmployeeHomePage.class );
+                           startActivity( intent );
+                       }else {
+                           Toast.makeText(getApplicationContext(),"Please Contact Your Admin",Toast.LENGTH_SHORT).show();
+                       }
+
+                   }else  if(SharedPrefManager.getInstance( getApplicationContext()).getUser().getRole().equals( "Customer" )){
+
+                       intent = new Intent( MainActivity.this, CustomerHomePage.class );
+                       startActivity( intent );
+
+                   }else  if(SharedPrefManager.getInstance( getApplicationContext()).getUser().getRole().equals( "Admin" )){
+
+                       intent = new Intent( MainActivity.this, AdminHomePage.class );
+                       startActivity( intent );
+
+                   }else {
+                       Intent intent = new Intent(MainActivity.this,RegistrationActivity.class);
+                       startActivity(intent);
+                   }
+               }else {
+                   Intent intent = new Intent(MainActivity.this,RegistrationActivity.class);
+                   startActivity(intent);
+               }
+
+
 
                 // close this activity
                 finish();

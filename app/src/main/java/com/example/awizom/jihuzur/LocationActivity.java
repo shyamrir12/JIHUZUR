@@ -114,40 +114,40 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
-        PolylineOptions polylineOptions = new PolylineOptions();
-        polylineOptions.addAll(latlngs);
-        polylineOptions
-                .width(5)
-                .color(Color.BLUE);
-        for (LatLng point : latlngs) {
-            options.position(point);
-            options.title("someTitle");
-            options.snippet("someDesc");
-            mMap.addMarker(options);
-            mMap.addPolyline(polylineOptions);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(options.getPosition()));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
-
-        }
-
-
-
-
-
-
-//        mMap = googleMap;
-//        googleMap.setOnMarkerClickListener(this);
-//        LatLng raipur = new LatLng(Double.parseDouble(String.valueOf(latitude)),Double.parseDouble(String.valueOf(longitude)));
-//        mMap.addMarker(new MarkerOptions().position(raipur)
-//                .title("Marker in Raipur")
-//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(raipur));
-//        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+//        PolylineOptions polylineOptions = new PolylineOptions();
+//        polylineOptions.addAll(latlngs);
+//        polylineOptions
+//                .width(5)
+//                .color(Color.BLUE);
+//        for (LatLng point : latlngs) {
+//            options.position(point);
+//            options.title("someTitle");
+//            options.snippet("someDesc");
+//            mMap.addMarker(options);
+//            mMap.addPolyline(polylineOptions);
+//            mMap.moveCamera(CameraUpdateFactory.newLatLng(options.getPosition()));
+//            mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
 //
-//        LatLng Bhilai = new LatLng(Double.parseDouble(String.valueOf(latitude1)),Double.parseDouble(String.valueOf(longitude1)));
-//        mMap.addMarker(new MarkerOptions().position(Bhilai).title("Marker in Bhilai"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(Bhilai));
-//        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+//        }
+
+
+
+
+
+
+        mMap = googleMap;
+        googleMap.setOnMarkerClickListener(this);
+        LatLng raipur = new LatLng(Double.parseDouble(String.valueOf(latitude)),Double.parseDouble(String.valueOf(longitude)));
+        mMap.addMarker(new MarkerOptions().position(raipur)
+                .title("Marker in Raipur")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(raipur));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+
+        LatLng Bhilai = new LatLng(Double.parseDouble(String.valueOf(latitude1)),Double.parseDouble(String.valueOf(longitude1)));
+        mMap.addMarker(new MarkerOptions().position(Bhilai).title("Marker in Bhilai"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(Bhilai));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
 
 
 

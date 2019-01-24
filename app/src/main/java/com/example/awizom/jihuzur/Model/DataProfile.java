@@ -10,12 +10,12 @@ public class DataProfile {
     public Object Name;
     public Object Lat;
     public Object Long;
-    public Boolean Active;
+  public boolean Active;
     public String Role;
     public String MobileNo;
     public Object Image;
     public Object IdentityImage;
-    public Boolean BusyStatus;
+    public boolean BusyStatus;
     public String CreatedDate;
 
     public String getID() {
@@ -50,13 +50,7 @@ public class DataProfile {
         Long = aLong;
     }
 
-    public Boolean getActive() {
-        return Active;
-    }
 
-    public void setActive(Boolean active) {
-        Active = active;
-    }
 
     public String getRole() {
         return Role;
@@ -90,11 +84,19 @@ public class DataProfile {
         IdentityImage = identityImage;
     }
 
-    public Boolean getBusyStatus() {
+    public boolean isActive() {
+        return Active;
+    }
+
+    public void setActive(boolean active) {
+        Active = active;
+    }
+
+    public boolean isBusyStatus() {
         return BusyStatus;
     }
 
-    public void setBusyStatus(Boolean busyStatus) {
+    public void setBusyStatus(boolean busyStatus) {
         BusyStatus = busyStatus;
     }
 

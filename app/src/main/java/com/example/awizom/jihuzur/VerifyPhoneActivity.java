@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.example.awizom.jihuzur.Helper.VerifyMobileHelper;
+import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.gson.Gson;
@@ -18,7 +19,8 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
 
     private EditText otpEditText;
     private Button verifyOtpBtn;
-    private String result,userId="",otp="",role="",uid;
+    private String result,userId="",otp="",role="";
+    boolean active=false;
     private Intent intent;
 
     /*For layout binding */
@@ -39,27 +41,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
         otp = getIntent().getExtras().getString("OTP","");
         userId = getIntent().getExtras().getString("Uid","");
         role = getIntent().getExtras().getString("Role","");
-
-
-         uid = SharedPrefManager.getInstance(getApplicationContext()).getUser().getID();
-
-        if(otp.contains("mobile already verified")){
-            role = SharedPrefManager.getInstance(VerifyPhoneActivity.this).getUser().Role;
-            Toast.makeText(getApplicationContext(),"mobile already verified",Toast.LENGTH_SHORT).show();
-//            if(role.equals("Employee")){
-//                intent = new Intent(VerifyPhoneActivity.this, EmployeeHomePage.class);
-//                startActivity(intent);
-//            }else if(role.equals("Customer")){
-//                intent = new Intent(VerifyPhoneActivity.this, CustomerHomePage.class);
-//                startActivity(intent);
-//            }else if(role.equals("Admin")){
-//                intent = new Intent(VerifyPhoneActivity.this, AdminHomePage.class);
-//                startActivity(intent);
-//            }
-
-        }else {
-            validation();
-        }
+        active = getIntent().getExtras().getBoolean("Active",false);
 
     }
 
@@ -88,26 +70,39 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
         if(validation()){
 
             try {
-                result   = new VerifyMobileHelper.PostVerifyMobile().execute(otpEditText.getText().toString().trim(),userId.toString().trim(),otp.toString().trim()).get();
+                result   = new VerifyMobileHelper.PostVerifyMobile().execute(otpEditText.getText().toString().trim(),userId,otp.toString().trim()).get();
                 Gson gson = new Gson();
                 UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
                 Toast.makeText(getApplicationContext(),jsonbody.Message,Toast.LENGTH_SHORT).show();
 
                 if(!result.equals(null)){
 
-                    intent = new Intent(VerifyPhoneActivity.this, CustomerHomePage.class);
-                    startActivity(intent);
-//                    role = SharedPrefManager.getInstance(VerifyPhoneActivity.this).getUser().Role;
-//                    if(role.equals("Employee")){
-//                        intent = new Intent(VerifyPhoneActivity.this, EmployeeHomePage.class);
-//                        startActivity(intent);
-//                    }else if(role.equals("Customer")){
-//                        intent = new Intent(VerifyPhoneActivity.this, CustomerHomePage.class);
-//                        startActivity(intent);
-//                    }else if(role.equals("Admin")){
-//                        intent = new Intent(VerifyPhoneActivity.this, AdminHomePage.class);
-//                        startActivity(intent);
-//                    }
+                   if(jsonbody.isStatus()) {
+
+
+                       DataProfile dataProfile = new DataProfile();
+                       dataProfile.ID = userId;
+                       dataProfile.Active = Boolean.valueOf( active );
+                       dataProfile.Role = role;
+                       SharedPrefManager.getInstance( getApplicationContext() ).userLogin( dataProfile );
+
+                       role = SharedPrefManager.getInstance( VerifyPhoneActivity.this ).getUser().Role;
+                        if (role.equals( "Customer" )) {
+                           intent = new Intent( VerifyPhoneActivity.this, CustomerHomePage.class );
+                           startActivity( intent );
+                       } else if (role.equals( "Admin" )) {
+                           intent = new Intent( VerifyPhoneActivity.this, AdminHomePage.class );
+                           startActivity( intent );
+                       }
+
+                       if (role.equals( "Employee" )&& active==true ) {
+                           intent = new Intent( VerifyPhoneActivity.this, EmployeeHomePage.class );
+                           startActivity( intent );
+                       } else
+                       {
+                           Toast.makeText(getApplicationContext(),"Please Contact Your Admin",Toast.LENGTH_SHORT).show();
+                       }
+                   }
                 }
 
 

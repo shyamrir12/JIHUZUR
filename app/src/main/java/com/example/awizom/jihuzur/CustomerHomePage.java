@@ -26,6 +26,7 @@ import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
 import com.example.awizom.jihuzur.Fragment.MyBokingsActivity;
 import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
+import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -248,7 +249,10 @@ public class CustomerHomePage extends AppCompatActivity
         } else if (id == R.id.nav_order) {
 
         } else if (id == R.id.nav_logout) {
-                finish();
+            SharedPrefManager.getInstance(this).logout();
+            Intent login = new Intent(getApplicationContext(), RegistrationActivity.class);
+            startActivity(login);
+            finish();
         }else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
