@@ -194,7 +194,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         try {
             result   = new OrderPostHelper.OrderPost().execute(customerid,empId,orderDate,catalogId).get();
             if(!result.equals(null)){
-                intent = new Intent(this,CurrentOrderActivity.class);
+                intent = new Intent(this,EmployeeBookingsActivity.class);
                 startActivity(intent);
             }
         } catch (ExecutionException e) {

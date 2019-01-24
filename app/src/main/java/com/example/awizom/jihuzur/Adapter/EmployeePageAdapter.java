@@ -3,14 +3,15 @@ package com.example.awizom.jihuzur.Adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import com.example.awizom.jihuzur.Fragment.HistoryFragment;
-import com.example.awizom.jihuzur.Fragment.CutomerCurrentOrderFragment;
 
-public class PageAdapterBookings  extends FragmentPagerAdapter {
+import com.example.awizom.jihuzur.Fragment.EmployeeCurrentOrderFragment;
+import com.example.awizom.jihuzur.Fragment.EmployeeHistoryCurrentFragment;
+
+public class EmployeePageAdapter extends FragmentPagerAdapter {
 
     private int numOfTabs;
 
-    public PageAdapterBookings(FragmentManager fm, int numOfTabs) {
+    public EmployeePageAdapter(FragmentManager fm, int numOfTabs) {
         super(fm);
         this.numOfTabs = numOfTabs;
     }
@@ -19,9 +20,9 @@ public class PageAdapterBookings  extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new CutomerCurrentOrderFragment();
+                return new EmployeeCurrentOrderFragment();
             case 1:
-                return new HistoryFragment();
+                return new EmployeeHistoryCurrentFragment();
 
             default:
                 return null;

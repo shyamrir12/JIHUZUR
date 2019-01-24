@@ -1,4 +1,4 @@
-package com.example.awizom.jihuzur.Fragment;
+package com.example.awizom.jihuzur;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -10,31 +10,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toolbar;
 
 import com.example.awizom.jihuzur.Adapter.CustomerPageAdapterBookings;
+import com.example.awizom.jihuzur.Adapter.EmployeePageAdapter;
 
-import com.example.awizom.jihuzur.R;
 
-public class MyBokingsActivity extends AppCompatActivity {
+public class EmployeeBookingsActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     TabLayout tabLayout;
     ViewPager viewPager;
-    CustomerPageAdapterBookings pageAdapter;
+    EmployeePageAdapter pageAdapter;
     TabItem outGoing,history;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_mybooking);
+        setContentView(R.layout.employee_booking_activity);
 
         initview();
     }
 
     private void initview() {
 
-
-//        toolbar = findViewById(R.id.toolbar);
-//        toolbar.setTitle(getResources().getString(R.string.app_name));
         getSupportActionBar().setTitle("My Bookings");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -45,7 +41,7 @@ public class MyBokingsActivity extends AppCompatActivity {
 
         viewPager = findViewById(R.id.viewPager);
 
-        pageAdapter = new CustomerPageAdapterBookings(getSupportFragmentManager(), tabLayout.getTabCount());
+        pageAdapter = new EmployeePageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
@@ -54,21 +50,19 @@ public class MyBokingsActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
                 if (tab.getPosition() == 1) {
-//                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
-//                            R.color.colorAccent));
-                    tabLayout.setBackgroundColor(ContextCompat.getColor(MyBokingsActivity.this,
+
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(EmployeeBookingsActivity.this,
                             R.color.colorPrimary));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().setStatusBarColor(ContextCompat.getColor(MyBokingsActivity.this,
+                        getWindow().setStatusBarColor(ContextCompat.getColor(EmployeeBookingsActivity.this,
                                 R.color.colorPrimary));
                     }
                 } else if (tab.getPosition() == 2) {
-//                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
-//                            android.R.color.darker_gray));
-                    tabLayout.setBackgroundColor(ContextCompat.getColor(MyBokingsActivity.this,
+
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(EmployeeBookingsActivity.this,
                             android.R.color.black));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().setStatusBarColor(ContextCompat.getColor(MyBokingsActivity.this,
+                        getWindow().setStatusBarColor(ContextCompat.getColor(EmployeeBookingsActivity.this,
                                 android.R.color.black));
                     }
                 }

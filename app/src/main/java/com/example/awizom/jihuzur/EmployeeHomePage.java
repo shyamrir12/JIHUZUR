@@ -1,12 +1,7 @@
 package com.example.awizom.jihuzur;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -22,22 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
 import com.example.awizom.jihuzur.Fragment.MyBokingsActivity;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
+import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-
-import okhttp3.internal.http2.Header;
 
 public class EmployeeHomePage extends AppCompatActivity
 
@@ -77,7 +64,7 @@ public class EmployeeHomePage extends AppCompatActivity
 //                    getSupportActionBar().setTitle("My Booking");
 //                    fragment = myBookingFragment;
 //                    framentClass = MyBookingFragment.class;
-                    intent=new Intent(EmployeeHomePage.this,MyBokingsActivity.class);
+                    intent=new Intent(EmployeeHomePage.this,EmployeeBookingsActivity.class);
                     startActivity(intent);
 
                     break;
@@ -232,13 +219,33 @@ public class EmployeeHomePage extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_booking) {
 
+            intent=new Intent(EmployeeHomePage.this,EmployeeBookingsActivity.class);
+            startActivity(intent);
+
         } else if (id == R.id.nav_skill) {
 
         } else if (id == R.id.nav_logout) {
 
+            SharedPrefManager.getInstance(this).logout();
+            Intent login = new Intent(getApplicationContext(), RegistrationActivity.class);
+            startActivity(login);
+            finish();
+
         } else if (id == R.id.nav_share) {
 
+            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+            sharingIntent.setType("text/plain");
+            String shareBody = "Here is the share content body";
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+            startActivity(Intent.createChooser(sharingIntent, "Share via"));
+
         } else if (id == R.id.nav_send) {
+
+            String phoneNumber="",message="";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + phoneNumber));
+            intent.putExtra("sms_body", message);
+            startActivity(intent);
 
         }
 // else if (id == R.id.profileImage) {
