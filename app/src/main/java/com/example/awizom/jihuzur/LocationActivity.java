@@ -9,19 +9,15 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 import com.example.awizom.jihuzur.Helper.GetEmployeeProfileHelper;
-import com.example.awizom.jihuzur.Helper.LoginHelper;
 import com.example.awizom.jihuzur.Helper.OrderPostHelper;
-import com.example.awizom.jihuzur.Helper.VerifyMobileHelper;
 import com.example.awizom.jihuzur.Model.EmployeeProfileModel;
-
 import com.example.awizom.jihuzur.Model.UserLogin;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -41,10 +37,8 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     private MapView mapView;
     private GoogleMap mMap;
     Polyline line;
-    private GoogleApiClient googleApiClient;
-    private FusedLocationProviderClient mFusedLocationClient;
-    private Marker fromMarker, toMarker;
-    private LatLng fromLatLong,toLatLong;
+    PolylineOptions polylineOptions;
+    ArrayList markerPoints= new ArrayList();
 
     String lat="", longitud="",result="";
     private static final String TAG = "LocationActivity";
@@ -66,21 +60,16 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     public void InitView() {
-//        getMapvalue();
-//        latlngs.add(new LatLng(21.21895, 81.676263));
-//        latlngs.add(new LatLng(21.24495, 81.633263));
-//        latlngs.add(new LatLng(21.21495, 81.699263));
-//        latlngs.add(new LatLng(21.21795, 81.678263));
-//        latlngs.add(new LatLng(21.26495, 81.622263));
-//        latlngs.add(new LatLng(21.21035, 81.678883));
-//        latlngs.add(new LatLng(21.21236, 81.633263));
+        getMapvalue();
+        //latlngs.add(new LatLng(latitude, longitude));
+       // latlngs.add(new LatLng(latitude1, longitude1));
 
-        verifyPostOtp();
+        employeeProfileGet();
 
 
     }
 
-    private void verifyPostOtp() {
+    private void employeeProfileGet() {
 
             try {
 
@@ -97,13 +86,15 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                     empNameList[i] = String.valueOf(employeeProfileModelList.get(i).getName());
                     empLat[i] = String.valueOf(employeeProfileModelList.get(i).getLat());
                     empLong[i] = String.valueOf(employeeProfileModelList.get(i).getLong());
+                    latlngs.add(new LatLng(Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLat())),
+                            Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLong()))));
                 }
                 latitude =Double.valueOf(String.valueOf(empLat[0]));
                 longitude = Double.valueOf(String.valueOf(empLong[0]));
                 latitude1 =Double.valueOf(String.valueOf(empLat[1]));
                 longitude1 = Double.valueOf(String.valueOf(empLong[1]));
                 getMapvalue();
-                 Toast.makeText(this,"Sds",Toast.LENGTH_SHORT).show();
+
 
             } catch (ExecutionException e) {
                 e.printStackTrace();
@@ -122,33 +113,41 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-//        mMap = googleMap;
-//        for (LatLng point : latlngs) {
-//            options.position(point);
-//            options.title("someTitle");
-//            options.snippet("someDesc");
-//            mMap.addMarker(options);
-//            mMap.moveCamera(CameraUpdateFactory.newLatLng(options.getPosition()));
-//            mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
-//
-//        }
+        mMap = googleMap;
+        PolylineOptions polylineOptions = new PolylineOptions();
+        polylineOptions.addAll(latlngs);
+        polylineOptions
+                .width(5)
+                .color(Color.BLUE);
+        for (LatLng point : latlngs) {
+            options.position(point);
+            options.title("someTitle");
+            options.snippet("someDesc");
+            mMap.addMarker(options);
+            mMap.addPolyline(polylineOptions);
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(options.getPosition()));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
 
-        if (line != null) {
-            mMap.clear();
         }
 
-        mMap = googleMap;
-        googleMap.setOnMarkerClickListener(this);
-        LatLng raipur = new LatLng(Double.parseDouble(String.valueOf(latitude)),Double.parseDouble(String.valueOf(longitude)));
-        mMap.addMarker(new MarkerOptions().position(raipur).title("Marker in Raipur"));
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(raipur));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
 
-        LatLng Bhilai = new LatLng(Double.parseDouble(String.valueOf(latitude1)),Double.parseDouble(String.valueOf(longitude1)));
-        mMap.addMarker(new MarkerOptions().position(Bhilai).title("Marker in Bhilai"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(Bhilai));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+
+
+
+//        mMap = googleMap;
+//        googleMap.setOnMarkerClickListener(this);
+//        LatLng raipur = new LatLng(Double.parseDouble(String.valueOf(latitude)),Double.parseDouble(String.valueOf(longitude)));
+//        mMap.addMarker(new MarkerOptions().position(raipur)
+//                .title("Marker in Raipur")
+//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(raipur));
+//        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+//
+//        LatLng Bhilai = new LatLng(Double.parseDouble(String.valueOf(latitude1)),Double.parseDouble(String.valueOf(longitude1)));
+//        mMap.addMarker(new MarkerOptions().position(Bhilai).title("Marker in Bhilai"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(Bhilai));
+//        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
 
 
 

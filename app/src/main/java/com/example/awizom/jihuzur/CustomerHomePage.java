@@ -1,6 +1,7 @@
 package com.example.awizom.jihuzur;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -209,15 +210,19 @@ public class CustomerHomePage extends AppCompatActivity
             return true;
         }
         if (id == R.id.action_customerHome) {
-            Intent i = new Intent(CustomerHomePage.this, CustomerHomePage.class);
-            startActivity(i);
+            intent = new Intent(CustomerHomePage.this, CustomerHomePage.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
 
 
             return true;
         }
         if(id == R.id.action_settings){
-            Intent i = new Intent(CustomerHomePage.this, SettingsActivity.class);
-            startActivity(i);
+            intent = new Intent(CustomerHomePage.this, SettingsActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
 
 
             return true;
@@ -235,18 +240,32 @@ public class CustomerHomePage extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_booking) {
-            // Handle the camera action
+            intent=new Intent(CustomerHomePage.this,MyBokingsActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_complaint) {
-
+            intent=new Intent(CustomerHomePage.this,ComplaintActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_order) {
 
         } else if (id == R.id.nav_logout) {
-
+                finish();
         }else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
 
+            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+            sharingIntent.setType("text/plain");
+            String shareBody = "Here is the share content body";
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+            startActivity(Intent.createChooser(sharingIntent, "Share via"));
+
         } else if (id == R.id.nav_send) {
+
+            String phoneNumber="",message="";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + phoneNumber));
+            intent.putExtra("sms_body", message);
+            startActivity(intent);
 
         } else if (id == R.id.profileImage) {
             Intent imageView = new Intent(CustomerHomePage.this, DrawingActivity.class);
