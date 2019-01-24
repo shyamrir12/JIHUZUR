@@ -4,7 +4,6 @@ package com.example.awizom.jihuzur;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
@@ -12,6 +11,7 @@ import com.example.awizom.jihuzur.Helper.GetEmployeeProfileHelper;
 import com.example.awizom.jihuzur.Helper.OrderPostHelper;
 import com.example.awizom.jihuzur.Model.EmployeeProfileModel;
 import com.example.awizom.jihuzur.Model.UserLogin;
+import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -40,11 +40,16 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     PolylineOptions polylineOptions;
     ArrayList markerPoints= new ArrayList();
 
-    String lat="", longitud="",result="";
+    String lat="", longitud="",result="",empNames="";
     private static final String TAG = "LocationActivity";
     private GoogleMap googleMap;
     private MarkerOptions options = new MarkerOptions();
+
     private ArrayList<LatLng> latlngs = new ArrayList<>();
+    private ArrayList<String> empID = new ArrayList<>();
+    private ArrayList<String> empMobile = new ArrayList<>();
+    private ArrayList<String> empName = new ArrayList<>();
+
     List<EmployeeProfileModel> employeeProfileModelList;
     private String[] empNameList,empLat,empLong;
     Double latitude,latitude1;
@@ -88,11 +93,14 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                     empLong[i] = String.valueOf(employeeProfileModelList.get(i).getLong());
                     latlngs.add(new LatLng(Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLat())),
                             Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLong()))));
+
+                    empID.add(employeeProfileModelList.get(i).getID());
+                    empMobile.add(employeeProfileModelList.get(i).getMobileNo());
+                    empName.add(employeeProfileModelList.get(i).getName());
+
+
                 }
-                latitude =Double.valueOf(String.valueOf(empLat[0]));
-                longitude = Double.valueOf(String.valueOf(empLong[0]));
-                latitude1 =Double.valueOf(String.valueOf(empLat[1]));
-                longitude1 = Double.valueOf(String.valueOf(empLong[1]));
+
                 getMapvalue();
 
 
@@ -114,40 +122,34 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
-//        PolylineOptions polylineOptions = new PolylineOptions();
-//        polylineOptions.addAll(latlngs);
-//        polylineOptions
-//                .width(5)
-//                .color(Color.BLUE);
-//        for (LatLng point : latlngs) {
-//            options.position(point);
-//            options.title("someTitle");
-//            options.snippet("someDesc");
-//            mMap.addMarker(options);
-//            mMap.addPolyline(polylineOptions);
-//            mMap.moveCamera(CameraUpdateFactory.newLatLng(options.getPosition()));
-//            mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
+//        Marker[] allMarkers = new Marker[employeeProfileModelList.size()];
 //
+//        for (int i = 0; i < employeeProfileModelList.size(); i++)
+//        {
+//            LatLng latLng = new LatLng(Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLat())),
+//                    Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLong())));
+//            empID.add(employeeProfileModelList.get(i).getID());
+//            if (googleMap != null) {
+//                googleMap.setOnMarkerClickListener(this);
+//                allMarkers[i] = googleMap.addMarker(new MarkerOptions().position(empID);
+//                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17.0f));
+//                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+//
+//            }
 //        }
-
-
-
-
-
-
-        mMap = googleMap;
         googleMap.setOnMarkerClickListener(this);
-        LatLng raipur = new LatLng(Double.parseDouble(String.valueOf(latitude)),Double.parseDouble(String.valueOf(longitude)));
-        mMap.addMarker(new MarkerOptions().position(raipur)
-                .title("Marker in Raipur")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(raipur));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
-
-        LatLng Bhilai = new LatLng(Double.parseDouble(String.valueOf(latitude1)),Double.parseDouble(String.valueOf(longitude1)));
-        mMap.addMarker(new MarkerOptions().position(Bhilai).title("Marker in Bhilai"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(Bhilai));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+        for (LatLng point : latlngs) {
+            for (String id : empName) {
+                for (String mbile : empID) {
+                    mMap.addMarker(new MarkerOptions().position(point)
+                            .title(id)
+                            .snippet(String.valueOf(mbile))
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(point));
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+                }
+            }
+        }
 
 
 
@@ -185,10 +187,10 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     private void postOderCreate() {
 
             Date date = new Date();
-            String customerid = "f2176447-19c3-4d33-a181-13c466037e28";
-            String empId ="e29a466e-9391-411d-b0eb-f25da65abd7e";
+            String customerid = SharedPrefManager.getInstance(getApplicationContext()).getUser().getID();
+            String empId = "90d694f4-01d0-42c0-9f02-06220f225082";
             String orderDate= String.valueOf(date);
-            String catalogId = String.valueOf(3);
+            String catalogId = String.valueOf(2);
         try {
             result   = new OrderPostHelper.OrderPost().execute(customerid,empId,orderDate,catalogId).get();
             if(!result.equals(null)){
