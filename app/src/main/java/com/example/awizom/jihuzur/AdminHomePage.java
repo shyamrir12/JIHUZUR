@@ -38,12 +38,12 @@ public class AdminHomePage extends AppCompatActivity
     String TAG;
     private Fragment fragment = null;
     private Fragment searchFragment,myBookingFragment,helpCenterFragment,catalogFragment;
-
     DatabaseReference datauser, datauserpro;
     String dUser;
     String name;
     String role;
     String Url;
+    Intent intent;
     Boolean active = false;
     View header;
     ImageView profileImage;
@@ -59,15 +59,20 @@ public class AdminHomePage extends AppCompatActivity
             Class framentClass = null;
             switch (item.getItemId()) {
                 case R.id.navigation_search:
-                    getSupportActionBar().setTitle("Catalog");
-                    fragment = catalogFragment;
-                    framentClass = CatalogFragment.class;
+//                    getSupportActionBar().setTitle("Catalog");
+//                    fragment = catalogFragment;
+//                    framentClass = CatalogFragment.class;
+                    intent = new Intent(AdminHomePage.this,AdminCatalogActivity.class);
+                    startActivity(intent);
 
                     break;
                 case R.id.navigation_booking:
-                    getSupportActionBar().setTitle("My Booking");
-                    fragment = myBookingFragment;
-                    framentClass = MyBookingFragment.class;
+//                    getSupportActionBar().setTitle("My Booking");
+//                    fragment = myBookingFragment;
+//                    framentClass = MyBookingFragment.class;
+
+                    intent = new Intent(AdminHomePage.this,AdminPricingActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.navigation_helpCenter:
                     getSupportActionBar().setTitle("Help Center");
