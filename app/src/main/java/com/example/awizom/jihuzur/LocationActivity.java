@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
+
+import com.example.awizom.jihuzur.Fragment.MyBokingsActivity;
 import com.example.awizom.jihuzur.Helper.GetEmployeeProfileHelper;
 import com.example.awizom.jihuzur.Helper.OrderPostHelper;
 import com.example.awizom.jihuzur.Model.EmployeeProfileModel;
@@ -27,6 +29,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -139,16 +142,15 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
 //        }
         googleMap.setOnMarkerClickListener(this);
         for (LatLng point : latlngs) {
-            for (String id : empName) {
-                for (String mbile : empID) {
+
                     mMap.addMarker(new MarkerOptions().position(point)
-                            .title(id)
-                            .snippet(String.valueOf(mbile))
+                            .title(String.valueOf(empID))
+                            .snippet(String.valueOf(empMobile))
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(point));
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
-                }
-            }
+
+
         }
 
 
@@ -187,14 +189,15 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     private void postOderCreate() {
 
             Date date = new Date();
+
             String customerid = SharedPrefManager.getInstance(getApplicationContext()).getUser().getID();
             String empId = "90d694f4-01d0-42c0-9f02-06220f225082";
             String orderDate= String.valueOf(date);
             String catalogId = String.valueOf(2);
         try {
-            result   = new OrderPostHelper.OrderPost().execute(customerid,empId,orderDate,catalogId).get();
-            if(!result.equals(null)){
-                intent = new Intent(this,EmployeeBookingsActivity.class);
+            result   = new OrderPostHelper.OrderPost().execute(customerid,empId,"25/01/19",catalogId).get();
+            if(!result.isEmpty()){
+                intent = new Intent(this,MyBokingsActivity.class);
                 startActivity(intent);
             }
         } catch (ExecutionException e) {

@@ -74,6 +74,7 @@ public class EmployeeGetMyCurrentOrderRunning extends AppCompatActivity {
                 builder.addHeader("Content-Type", "application/json");
                 builder.addHeader("Accept", "application/json");
                 FormBody.Builder parameters = new FormBody.Builder();
+                builder.post(parameters.build());
                 okhttp3.Response response = client.newCall(builder.build()).execute();
 
                 if (response.isSuccessful()) {

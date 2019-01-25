@@ -2,6 +2,7 @@ package com.example.awizom.jihuzur.Adapter;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.awizom.jihuzur.CustomerHomePage;
 import com.example.awizom.jihuzur.Helper.CustomerGetMyOrderRunningHelper;
 import com.example.awizom.jihuzur.Model.Order;
 import com.example.awizom.jihuzur.R;
@@ -116,8 +118,10 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                         @Override
                         public void onClick(View v) {
                             try {
-                                result = new CustomerGetMyOrderRunningHelper.AcceptOtp().execute(enterOtp.getText().toString(),otpCode).get();
+                                result = new CustomerGetMyOrderRunningHelper.AcceptOtp().execute(orderId,enterOtp.getText().toString()).get();
                                 Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(mCtx,CustomerHomePage.class);
+                                mCtx.startActivity(intent);
 
                             } catch (ExecutionException e) {
                                 e.printStackTrace();
@@ -126,6 +130,8 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                             }
                         }
                     });
+
+
 
                     break;
                 case R.id.trackBtn:

@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.awizom.jihuzur.Fragment.EmployeeCurrentOrderFragment;
 import com.example.awizom.jihuzur.Helper.CustomerGetMyOrderRunningHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeGetMyCurrentOrderRunning;
 import com.example.awizom.jihuzur.Model.Order;
@@ -26,9 +27,9 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
     private Order order;
     private String orderId="",otpCode="",result="",empId="";
 
-    public EmployeeCurrentOrderAdapter(Context context, List<Order> orderList) {
+    public EmployeeCurrentOrderAdapter(Context employeeCurrentOrderFragment, List<Order> orderList) {
 
-        this.mCtx = context;
+        this.mCtx = employeeCurrentOrderFragment;
         this.orderitemList = orderList;
 
     }
@@ -57,7 +58,11 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             E.printStackTrace();
         }
     }
-
+    @Override
+    public int getItemCount() {
+        return orderitemList.size();
+    }
+    
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
 
         private Context mCtx;
@@ -140,8 +145,5 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 
     }
 
-    @Override
-    public int getItemCount() {
-        return 0;
-    }
+
 }

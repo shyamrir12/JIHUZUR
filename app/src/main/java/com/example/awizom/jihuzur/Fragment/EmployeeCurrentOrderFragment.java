@@ -45,6 +45,7 @@ public class EmployeeCurrentOrderFragment extends Fragment {
         relativeLayout = view.findViewById(R.id.textRelate);
         recyclerView = view.findViewById(R.id.recyclerView);
 
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         getMyOrderRunning();
@@ -52,16 +53,16 @@ public class EmployeeCurrentOrderFragment extends Fragment {
     private void getMyOrderRunning() {
         try {
             result   = new EmployeeGetMyCurrentOrderRunning.EmployeeGetMyCurrentOrder().execute(empId).get();
-            String ss = result.toString();
-            Gson gson = new Gson();
-            Type listType = new TypeToken<List<Order>>() {
-            }.getType();
-            orderList = new Gson().fromJson(result, listType);
-            if(orderList.equals(null)){
+            if (result.isEmpty()) {
                 relativeLayout.setVisibility(View.VISIBLE);
+            }else {
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<Order>>() {
+                }.getType();
+                orderList = new Gson().fromJson(result, listType);
+                employeeCurrentOrderAdapter = new EmployeeCurrentOrderAdapter(getContext(), orderList);
+                recyclerView.setAdapter(employeeCurrentOrderAdapter);
             }
-            employeeCurrentOrderAdapter = new EmployeeCurrentOrderAdapter(getContext(), orderList);
-            recyclerView.setAdapter(employeeCurrentOrderAdapter);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
