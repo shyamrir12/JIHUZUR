@@ -9,13 +9,22 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.awizom.jihuzur.Config.AppConfig;
+import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.Result;
+import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.List;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -25,29 +34,63 @@ public class AdminCatalogActivity extends AppCompatActivity {
 
     FloatingActionButton addCatalog;
     ProgressDialog progressDialog;
+    Spinner editCatalogName;
+    private String[] catalogNameList,catlogName;
+    private List <Catalog>catalogs;
+    String catalogname;
+    ArrayAdapter<String> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_catalog);
         addCatalog=(FloatingActionButton) findViewById(R.id.addCatalog);
         progressDialog = new ProgressDialog(this);
+        getCatalog();
+        getCategory();
+
         addCatalog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAddCatalogDialog();
+                showAddCatalogDialog(catalogname);
             }
         });
     }
 
+    private void getCategory() {
 
-    private void showAddCatalogDialog() {
+
+        try {
+//            mSwipeRefreshLayout.setRefreshing(true);
+            new GETCategoryList().execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+//            mSwipeRefreshLayout.setRefreshing(false);
+            // System.out.println("Error: " + e);
+        }
+    }
+
+
+    private void showAddCatalogDialog(String catalogname) {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.add_catalog_layout, null);
         dialogBuilder.setView(dialogView);
 
-        final EditText editCatalogName = (EditText) dialogView.findViewById(R.id.editCatalogName);
+
+        editCatalogName = (Spinner) dialogView.findViewById(R.id.editCatalogName);
+
+//        String[] items = catalogname.split(",");
+//        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, items);
+//        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+        editCatalogName.setAdapter(adapter);
+
+
+
+
+
         final EditText addCategory = (EditText) dialogView.findViewById(R.id.addCategory);
         final EditText serviceName = (EditText) dialogView.findViewById(R.id.serviceName);
         final EditText description = (EditText) dialogView.findViewById(R.id.description);
@@ -64,7 +107,7 @@ public class AdminCatalogActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String catalogName = editCatalogName.getText().toString().trim();
+                String catalogName = editCatalogName.getSelectedItem().toString();
                 String category = addCategory.getText().toString().trim();
                 String service = serviceName.getText().toString().trim();
                 String descriptions = description.getText().toString().trim();
@@ -100,6 +143,20 @@ public class AdminCatalogActivity extends AppCompatActivity {
         });
     }
 
+    private void getCatalog() {
+
+
+        try {
+//            mSwipeRefreshLayout.setRefreshing(true);
+            new GETCatalogList().execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+//            mSwipeRefreshLayout.setRefreshing(false);
+            // System.out.println("Error: " + e);
+        }
+    }
+
     private class POSTCatalog extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
@@ -109,7 +166,6 @@ public class AdminCatalogActivity extends AppCompatActivity {
             String category = params[1];
             String service = params[2];
             String description = params[3];
-
 
             String json = "";
             try {
@@ -163,5 +219,117 @@ public class AdminCatalogActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    private class GETCatalogList extends AsyncTask<String, Void, String> implements View.OnClickListener {
+        @Override
+        protected String doInBackground(String... params) {
+
+            String json = "";
+
+
+            try {
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                builder.url(AppConfig. BASE_URL_API_Admin + "GetCatalogName/" );
+
+
+                okhttp3.Response response = client.newCall(builder.build()).execute();
+                if (response.isSuccessful()) {
+                    json = response.body().string();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+//                mSwipeRefreshLayout.setRefreshing(false);
+                // System.out.println("Error: " + e);
+//                Toast.makeText(getContext(),"Error: " + e,Toast.LENGTH_SHORT).show();
+            }
+            return json;
+        }
+
+        protected void onPostExecute(String result) {
+
+            try {
+                if (result.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    //System.out.println(result);
+                    Gson gson = new Gson();
+                    Type listType = new TypeToken<String[]>() {
+                    }.getType();
+                    catalogNameList = new Gson().fromJson(result, listType);
+                    adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.select_dialog_item, catalogNameList);
+
+
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        @Override
+        public void onClick(View v) {
+
+        }
+    }
+
+    private class GETCategoryList extends AsyncTask<String, Void, String> implements View.OnClickListener {
+        @Override
+        protected String doInBackground(String... params) {
+
+            String json = "";
+
+
+            try {
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                builder.url(AppConfig. BASE_URL_API_Admin + "GetCatalogName/" );
+
+
+                okhttp3.Response response = client.newCall(builder.build()).execute();
+                if (response.isSuccessful()) {
+                    json = response.body().string();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+//                mSwipeRefreshLayout.setRefreshing(false);
+                // System.out.println("Error: " + e);
+//                Toast.makeText(getContext(),"Error: " + e,Toast.LENGTH_SHORT).show();
+            }
+            return json;
+        }
+
+        protected void onPostExecute(String result) {
+
+            try {
+                if (result.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    //System.out.println(result);
+                    Gson gson = new Gson();
+                    Type listType = new TypeToken<String[]>() {
+                    }.getType();
+                    catalogNameList = new Gson().fromJson(result, listType);
+                    adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.select_dialog_item, catalogNameList);
+
+
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        @Override
+        public void onClick(View v) {
+
+        }
     }
 }

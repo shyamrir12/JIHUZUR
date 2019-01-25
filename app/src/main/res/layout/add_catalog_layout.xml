@@ -10,13 +10,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <EditText
+        <Spinner
             android:id="@+id/editCatalogName"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:hint="Catalog Name"
-            android:inputType="textPersonName" />
+          />
 
         <EditText
             android:id="@+id/addCategory"
