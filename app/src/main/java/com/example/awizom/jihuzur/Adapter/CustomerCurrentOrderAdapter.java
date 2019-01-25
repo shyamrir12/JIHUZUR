@@ -17,9 +17,13 @@ import android.widget.Toast;
 import com.example.awizom.jihuzur.CustomerHomePage;
 import com.example.awizom.jihuzur.Helper.CustomerGetMyOrderRunningHelper;
 import com.example.awizom.jihuzur.Model.Order;
+import com.example.awizom.jihuzur.Model.ResultModel;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -57,6 +61,11 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             holder.startTime.setText( order.getEmployeeID().toString());
             holder.endtime.setText( order.getCustomerID().toString());
 
+            if(order.getOrderStartTime().equals("NULL")){
+                holder.canclBtn.setVisibility(View.VISIBLE);
+            }else {
+                holder.canclBtn.setVisibility(View.GONE);
+            }
         } catch (Exception E) {
             E.printStackTrace();
         }
@@ -90,6 +99,8 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             trackinBtn = itemView.findViewById(R.id.trackBtn);
             canclBtn = itemView.findViewById(R.id.cancelBtn);
 
+
+
             acceptBtn.setOnClickListener(this);
             trackinBtn.setOnClickListener(this);
             canclBtn.setOnClickListener(this);
@@ -119,6 +130,14 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                         public void onClick(View v) {
                             try {
                                 result = new CustomerGetMyOrderRunningHelper.AcceptOtp().execute(orderId,enterOtp.getText().toString()).get();
+                                Gson gson = new Gson();
+                                Type getType = new TypeToken<ResultModel>() {
+                                }.getType();
+                                ResultModel resultModel = new Gson().fromJson(result, getType);
+                                if(resultModel.getMessage().contains("Order Started")){
+                                    canclBtn.setVisibility(View.GONE);
+                                }
+
                                 Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(mCtx,CustomerHomePage.class);
                                 mCtx.startActivity(intent);
