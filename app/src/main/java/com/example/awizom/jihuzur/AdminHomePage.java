@@ -37,7 +37,7 @@ public class AdminHomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     String TAG;
     private Fragment fragment = null;
-    private Fragment searchFragment,myBookingFragment,helpCenterFragment,catalogFragment;
+    private Fragment searchFragment, myBookingFragment, helpCenterFragment, catalogFragment;
     DatabaseReference datauser, datauserpro;
     String dUser;
     String name;
@@ -62,7 +62,7 @@ public class AdminHomePage extends AppCompatActivity
 //                    getSupportActionBar().setTitle("Catalog");
 //                    fragment = catalogFragment;
 //                    framentClass = CatalogFragment.class;
-                    intent = new Intent(AdminHomePage.this,AdminCatalogActivity.class);
+                    intent = new Intent(AdminHomePage.this, AdminCatalogActivity.class);
                     startActivity(intent);
 
                     break;
@@ -71,7 +71,7 @@ public class AdminHomePage extends AppCompatActivity
 //                    fragment = myBookingFragment;
 //                    framentClass = MyBookingFragment.class;
 
-                    intent = new Intent(AdminHomePage.this,AdminPricingActivity.class);
+                    intent = new Intent(AdminHomePage.this, AdminPricingActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.navigation_helpCenter:
@@ -100,7 +100,7 @@ public class AdminHomePage extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         searchFragment = new SearchFragment();
-        myBookingFragment= new MyBookingFragment();
+        myBookingFragment = new MyBookingFragment();
         catalogFragment = new CatalogFragment();
 
         setContentView(R.layout.activity_admin_home_page);
@@ -210,7 +210,7 @@ public class AdminHomePage extends AppCompatActivity
 
             return true;
         }
-        if(id == R.id.action_settings){
+        if (id == R.id.action_settings) {
             Intent i = new Intent(AdminHomePage.this, SettingsActivity.class);
             startActivity(i);
 
@@ -267,8 +267,8 @@ public class AdminHomePage extends AppCompatActivity
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot datas : dataSnapshot.getChildren()) {
                         dUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/"+dUser+"image.jpg?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
-                        if (Url!=null) {
+                        Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/" + dUser + "image.jpg?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
+                        if (Url != null) {
                             Glide.with(AdminHomePage.this).load(Url).into(profileImage);
 
                         } else {
@@ -287,7 +287,6 @@ public class AdminHomePage extends AppCompatActivity
                         } else {
                             identityType.setText(identType);
                         }
-
 
 
                         if (identNo.isEmpty()) {

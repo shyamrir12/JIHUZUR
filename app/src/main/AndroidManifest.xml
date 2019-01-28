@@ -78,7 +78,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".AdminHomePage"
-            android:label="@string/title_activity_customer_home_page"
+            android:label="@string/title_activity_admin_home_page"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

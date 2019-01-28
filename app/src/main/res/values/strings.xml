@@ -47,6 +47,7 @@
         completions."
     </string>
     <string name="title_activity_customer_home_page">Customer Home</string>
+    <string name="title_activity_admin_home_page">Admin Home</string>
     <string name="title_activity_employee_home_page">Employee Home</string>
     <string name="homecleaning"><![CDATA[Home Cleaning & Repairs]]></string>
     <string name="massage"><![CDATA[Body Massage & Hair Spa]]></string>
