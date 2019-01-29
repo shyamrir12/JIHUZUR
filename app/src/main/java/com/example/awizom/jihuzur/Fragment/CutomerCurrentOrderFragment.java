@@ -51,7 +51,6 @@ public class CutomerCurrentOrderFragment extends Fragment {
     private void getMyOrderRunning() {
         try {
             result   = new CustomerGetMyOrderRunningHelper.GetMyOrderRunning().execute(userId).get();
-            String ss = result.toString();
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Order>>() {
             }.getType();

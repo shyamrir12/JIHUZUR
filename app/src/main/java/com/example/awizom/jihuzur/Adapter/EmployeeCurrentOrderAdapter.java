@@ -9,11 +9,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.awizom.jihuzur.Helper.CustomerGetMyOrderRunningHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeGetMyCurrentOrderRunning;
 import com.example.awizom.jihuzur.Model.Order;
+import com.example.awizom.jihuzur.Model.ResultModel;
+import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.R;
+import com.google.gson.Gson;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -26,9 +27,9 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
     private Order order;
     private String orderId="",otpCode="",result="",empId="";
 
-    public EmployeeCurrentOrderAdapter(Context context, List<Order> orderList) {
+    public EmployeeCurrentOrderAdapter(Context employeeCurrentOrderFragment, List<Order> orderList) {
 
-        this.mCtx = context;
+        this.mCtx = employeeCurrentOrderFragment;
         this.orderitemList = orderList;
 
     }
@@ -56,6 +57,10 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
         } catch (Exception E) {
             E.printStackTrace();
         }
+    }
+    @Override
+    public int getItemCount() {
+        return orderitemList.size();
     }
 
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
@@ -108,7 +113,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 
 
                     break;
-                case R.id.cancelBtn:
+                case R.id.stopBtn:
 
                     try {
                         result = new EmployeeGetMyCurrentOrderRunning.StopOrder().execute(orderId).get();
@@ -123,7 +128,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                 case R.id.acceptPaymentBtn:
 
                     try {
-                        result = new EmployeeGetMyCurrentOrderRunning.AcceptPayment().execute(empId).get();
+                        result = new EmployeeGetMyCurrentOrderRunning.AcceptPayment().execute(orderId,empId).get();
                         Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
@@ -140,8 +145,5 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 
     }
 
-    @Override
-    public int getItemCount() {
-        return 0;
-    }
+
 }

@@ -17,10 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
-import com.example.awizom.jihuzur.Fragment.MyBokingsActivity;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -127,9 +125,6 @@ public class EmployeeHomePage extends AppCompatActivity
         identityNo.setOnClickListener(this);
         identityType.setOnClickListener(this);
         userName.setOnClickListener(this);
-
-
-
 
             Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/blank-profile.png?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
             Glide.with(EmployeeHomePage.this).load(Url).into(profileImage);
@@ -270,19 +265,14 @@ public class EmployeeHomePage extends AppCompatActivity
             String uname = userName.getText().toString();
             String idenNo = identityNo.getText().toString();
             String idenType = identityType.getText().toString();
-//Create the bundle
+            //Create the bundle
             Bundle bundle = new Bundle();
-
-//Add your data to bundle
+            //Add your data to bundle
             bundle.putString("uname", uname);
             bundle.putString("idenNo", idenNo);
             bundle.putString("idenType", idenType);
-
-//Add the bundle to the intent
+            //Add the bundle to the intent
             intent.putExtras(bundle);
-
-
-
             startActivity(intent);
 
 

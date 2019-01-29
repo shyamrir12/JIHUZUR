@@ -8,9 +8,9 @@ public class Order {
     private int OrderID;
     private String CustomerID;
     private String EmployeeID;
-    private Date OrderDate;
-    private Time OrderStartTime;
-    private Time OrderEndTime;
+    private String OrderDate;
+    private String OrderStartTime;
+    private String OrderEndTime;
     private int CatalogID;
     private boolean Payment;
     private String DiscountName;
@@ -40,27 +40,27 @@ public class Order {
         EmployeeID = employeeID;
     }
 
-    public Date getOrderDate() {
+    public String getOrderDate() {
         return OrderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(String orderDate) {
         OrderDate = orderDate;
     }
 
-    public Time getOrderStartTime() {
+    public String getOrderStartTime() {
         return OrderStartTime;
     }
 
-    public void setOrderStartTime(Time orderStartTime) {
+    public void setOrderStartTime(String orderStartTime) {
         OrderStartTime = orderStartTime;
     }
 
-    public Time getOrderEndTime() {
+    public String getOrderEndTime() {
         return OrderEndTime;
     }
 
-    public void setOrderEndTime(Time orderEndTime) {
+    public void setOrderEndTime(String orderEndTime) {
         OrderEndTime = orderEndTime;
     }
 
