@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".AdminCatalogActivity">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="43dp" />
+
+
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addCatalog"
@@ -19,6 +30,16 @@
         app:srcCompat="@android:drawable/ic_input_add"
         tools:layout_editor_absoluteX="328dp"
         tools:layout_editor_absoluteY="448dp" />
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Catalog List"
+        android:textColor="@color/colorBlack"
+        android:textSize="25sp" />
 
 
 </RelativeLayout>

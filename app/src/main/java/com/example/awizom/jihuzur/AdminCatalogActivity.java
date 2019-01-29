@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -14,11 +16,16 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.example.awizom.jihuzur.Adapter.CatalogListAdapter;
 import com.example.awizom.jihuzur.Config.AppConfig;
+import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.Result;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import java.util.List;
+
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -27,10 +34,12 @@ public class AdminCatalogActivity extends AppCompatActivity {
     FloatingActionButton addCatalog;
     AutoCompleteTextView editCatalogName, addCategory;
     ProgressDialog progressDialog;
-
-    private String[] catalogNameList, categoryNameList;
+    RecyclerView recyclerView;
+    private String[]catalogNameList, categoryNameList;
+    List<Catalog> catalogList;
     String catalogname;
     ArrayAdapter<String> adapter;
+    CatalogListAdapter adapterCatalogList;
     ArrayAdapter<String> adaptercategory;
 
     @Override
@@ -38,9 +47,14 @@ public class AdminCatalogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_catalog);
         addCatalog = (FloatingActionButton) findViewById(R.id.addCatalog);
-        progressDialog = new ProgressDialog(this);
-        getCatalog();
+        recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
 
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        progressDialog = new ProgressDialog(this);
+        getCatalogName();
+        getCatalogList();
 
         addCatalog.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +62,20 @@ public class AdminCatalogActivity extends AppCompatActivity {
                 showAddCatalogDialog(catalogname);
             }
         });
+    }
+
+    private void getCatalogList() {
+        try {
+//            mSwipeRefreshLayout.setRefreshing(true);
+            new GETCatalogList().execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+//            mSwipeRefreshLayout.setRefreshing(false);
+            // System.out.println("Error: " + e);
+        }
+
+
     }
 
     private void showAddCatalogDialog(String catalogname) {
@@ -140,12 +168,12 @@ public class AdminCatalogActivity extends AppCompatActivity {
         });
     }
 
-    private void getCatalog() {
+    private void getCatalogName() {
 
 
         try {
 //            mSwipeRefreshLayout.setRefreshing(true);
-            new GETCatalogList().execute();
+            new GETCatalogNameList().execute();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
@@ -154,7 +182,7 @@ public class AdminCatalogActivity extends AppCompatActivity {
         }
     }
 
-    private class GETCatalogList extends AsyncTask<String, Void, String> implements View.OnClickListener {
+    private class GETCatalogNameList extends AsyncTask<String, Void, String> implements View.OnClickListener {
         @Override
         protected String doInBackground(String... params) {
 
@@ -193,6 +221,7 @@ public class AdminCatalogActivity extends AppCompatActivity {
                     }.getType();
                     catalogNameList = new Gson().fromJson(result, listType);
                     adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.select_dialog_item, catalogNameList);
+
 
 
                 }
@@ -357,4 +386,62 @@ public class AdminCatalogActivity extends AppCompatActivity {
     }
 
 
+    private class GETCatalogList extends AsyncTask<String, Void, String> implements View.OnClickListener {
+        @Override
+        protected String doInBackground(String... params) {
+
+            String json = "";
+
+
+            try {
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                builder.url(AppConfig.BASE_URL_API_Admin + "GetCatalogList");
+
+
+                okhttp3.Response response = client.newCall(builder.build()).execute();
+                if (response.isSuccessful()) {
+                    json = response.body().string();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+//                mSwipeRefreshLayout.setRefreshing(false);
+                // System.out.println("Error: " + e);
+//                Toast.makeText(getContext(),"Error: " + e,Toast.LENGTH_SHORT).show();
+            }
+            return json;
+        }
+
+        protected void onPostExecute(String result) {
+
+            try {
+                if (result.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    //System.out.println(result);
+                    Gson gson = new Gson();
+                    Type listType = new TypeToken<List<Catalog>>() {
+                    }.getType();
+                    catalogList = new Gson().fromJson(result, listType);
+                    adapterCatalogList = new CatalogListAdapter(getBaseContext(),catalogList);
+
+                    recyclerView.setAdapter(adapterCatalogList);
+
+
+
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        @Override
+        public void onClick(View v) {
+
+        }
+    }
 }
