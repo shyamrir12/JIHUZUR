@@ -21,6 +21,10 @@
             android:icon="@drawable/ic_monetization_on_black_24dp"
             android:title="@string/catalogPricing" />
         <item
+            android:id="@+id/nav_discount"
+            android:icon="@drawable/ic_local_offer_black_24dp"
+            android:title="Discount Offer" />
+        <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_settings_power_black_24dp"
             android:title="logout" />

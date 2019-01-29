@@ -112,6 +112,12 @@
         <activity
             android:name=".AdminPricingActivity"
             android:label="Pricing" />
+        <activity
+            android:name=".AdminDiscountActivity"
+            android:label="@string/title_activity_admin_discount"></activity>
+        <activity
+            android:name=".AdminCategoryActivity"
+            android:label="@string/title_activity_admin_category"></activity>
     </application>
 
 </manifest>

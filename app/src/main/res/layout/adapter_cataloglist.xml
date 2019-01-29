@@ -94,17 +94,6 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:textColor="@color/colorBlack" />
 
 
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/L2">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Description- "/>
                 <TextView
                     android:id="@+id/description"
                     android:layout_width="match_parent"
@@ -115,7 +104,12 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/colorBlack" />
 
+
+
             </LinearLayout>
+
+
+
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

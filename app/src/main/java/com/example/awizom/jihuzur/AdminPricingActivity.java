@@ -62,7 +62,7 @@ public class AdminPricingActivity extends AppCompatActivity {
         });
     }
 
-    private void getPricing() {
+    private void getPricing()  {
 
 
         try {

@@ -1,6 +1,7 @@
 package com.example.awizom.jihuzur;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,11 +13,15 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.awizom.jihuzur.Adapter.CatalogGridViewAdapter;
 import com.example.awizom.jihuzur.Adapter.CatalogListAdapter;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.Model.Catalog;
@@ -29,32 +34,51 @@ import java.util.List;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-public class AdminCatalogActivity extends AppCompatActivity {
+public class AdminCatalogActivity extends AppCompatActivity  {
 
     FloatingActionButton addCatalog;
     AutoCompleteTextView editCatalogName, addCategory;
     ProgressDialog progressDialog;
-    RecyclerView recyclerView;
+    GridView gridview;
     private String[]catalogNameList, categoryNameList;
     List<Catalog> catalogList;
     String catalogname;
     ArrayAdapter<String> adapter;
     CatalogListAdapter adapterCatalogList;
     ArrayAdapter<String> adaptercategory;
+    Intent intent;
+    int[] gridViewImageId = {
+            R.drawable.home_cleaning,   R.drawable.home_cleaning,   R.drawable.home_cleaning,
+                };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_catalog);
         addCatalog = (FloatingActionButton) findViewById(R.id.addCatalog);
-        recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
+        gridview=(GridView) findViewById(R.id.gridview);
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+           @Override
+           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
+               if(position>=0)
+               {
+                   Toast.makeText(getApplicationContext(),((TextView)view.findViewById(R.id.catalogName)).getText(), Toast.LENGTH_SHORT).show();
+                   intent=new Intent(AdminCatalogActivity.this,AdminCategoryActivity.class);
+                   intent.putExtra("Catalogname",((TextView) view.findViewById(R.id.catalogName)).getText());
+                   startActivity(intent);
+
+
+
+               }
+
+           }
+       });
         progressDialog = new ProgressDialog(this);
         getCatalogName();
-        getCatalogList();
+//        getCatalogList();
 
         addCatalog.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,19 +88,23 @@ public class AdminCatalogActivity extends AppCompatActivity {
         });
     }
 
-    private void getCatalogList() {
-        try {
-//            mSwipeRefreshLayout.setRefreshing(true);
-            new GETCatalogList().execute();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
-//            mSwipeRefreshLayout.setRefreshing(false);
-            // System.out.println("Error: " + e);
-        }
 
 
-    }
+
+
+//    private void getCatalogList() {
+//        try {
+////            mSwipeRefreshLayout.setRefreshing(true);
+//            new GETCatalogList().execute();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+////            mSwipeRefreshLayout.setRefreshing(false);
+//            // System.out.println("Error: " + e);
+//        }
+//
+//
+//    }
 
     private void showAddCatalogDialog(String catalogname) {
 
@@ -182,6 +210,8 @@ public class AdminCatalogActivity extends AppCompatActivity {
         }
     }
 
+
+
     private class GETCatalogNameList extends AsyncTask<String, Void, String> implements View.OnClickListener {
         @Override
         protected String doInBackground(String... params) {
@@ -220,8 +250,9 @@ public class AdminCatalogActivity extends AppCompatActivity {
                     Type listType = new TypeToken<String[]>() {
                     }.getType();
                     catalogNameList = new Gson().fromJson(result, listType);
-                    adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.select_dialog_item, catalogNameList);
+                    CatalogGridViewAdapter  adaptercatalog = new CatalogGridViewAdapter(AdminCatalogActivity.this, catalogNameList, gridViewImageId);
 
+                    gridview.setAdapter(adaptercatalog);
 
 
                 }
@@ -386,62 +417,62 @@ public class AdminCatalogActivity extends AppCompatActivity {
     }
 
 
-    private class GETCatalogList extends AsyncTask<String, Void, String> implements View.OnClickListener {
-        @Override
-        protected String doInBackground(String... params) {
-
-            String json = "";
-
-
-            try {
-                OkHttpClient client = new OkHttpClient();
-                Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Admin + "GetCatalogList");
-
-
-                okhttp3.Response response = client.newCall(builder.build()).execute();
-                if (response.isSuccessful()) {
-                    json = response.body().string();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-//                mSwipeRefreshLayout.setRefreshing(false);
-                // System.out.println("Error: " + e);
-//                Toast.makeText(getContext(),"Error: " + e,Toast.LENGTH_SHORT).show();
-            }
-            return json;
-        }
-
-        protected void onPostExecute(String result) {
-
-            try {
-                if (result.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
-                } else {
-
-                    //System.out.println(result);
-                    Gson gson = new Gson();
-                    Type listType = new TypeToken<List<Catalog>>() {
-                    }.getType();
-                    catalogList = new Gson().fromJson(result, listType);
-                    adapterCatalogList = new CatalogListAdapter(getBaseContext(),catalogList);
-
-                    recyclerView.setAdapter(adapterCatalogList);
-
-
-
-                }
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        @Override
-        public void onClick(View v) {
-
-        }
-    }
+//    private class GETCatalogList extends AsyncTask<String, Void, String> implements View.OnClickListener {
+//        @Override
+//        protected String doInBackground(String... params) {
+//
+//            String json = "";
+//
+//
+//            try {
+//                OkHttpClient client = new OkHttpClient();
+//                Request.Builder builder = new Request.Builder();
+//                builder.url(AppConfig.BASE_URL_API_Admin + "GetCatalogList");
+//
+//
+//                okhttp3.Response response = client.newCall(builder.build()).execute();
+//                if (response.isSuccessful()) {
+//                    json = response.body().string();
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+////                mSwipeRefreshLayout.setRefreshing(false);
+//                // System.out.println("Error: " + e);
+////                Toast.makeText(getContext(),"Error: " + e,Toast.LENGTH_SHORT).show();
+//            }
+//            return json;
+//        }
+//
+//        protected void onPostExecute(String result) {
+//
+//            try {
+//                if (result.isEmpty()) {
+//                    Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
+//                } else {
+//
+//                    //System.out.println(result);
+//                    Gson gson = new Gson();
+//                    Type listType = new TypeToken<List<Catalog>>() {
+//                    }.getType();
+//                    catalogList = new Gson().fromJson(result, listType);
+//                    adapterCatalogList = new CatalogListAdapter(getBaseContext(),catalogList);
+//
+//                    recyclerView.setAdapter(adapterCatalogList);
+//
+//
+//
+//                }
+//
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//
+//        @Override
+//        public void onClick(View v) {
+//
+//        }
+//    }
 }

@@ -10,6 +10,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,6 +48,7 @@ public class AdminHomePage extends AppCompatActivity
     Boolean active = false;
     View header;
     ImageView profileImage;
+    CardView homecleaning;
     TextView userName, identityNo, identityType;
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -59,20 +61,20 @@ public class AdminHomePage extends AppCompatActivity
             Class framentClass = null;
             switch (item.getItemId()) {
                 case R.id.navigation_search:
-//                    getSupportActionBar().setTitle("Catalog");
-//                    fragment = catalogFragment;
-//                    framentClass = CatalogFragment.class;
-                    intent = new Intent(AdminHomePage.this, AdminCatalogActivity.class);
-                    startActivity(intent);
+                    getSupportActionBar().setTitle("Catalog");
+                    fragment = catalogFragment;
+                    framentClass = CatalogFragment.class;
+//                    intent = new Intent(AdminHomePage.this, AdminCatalogActivity.class);
+//                    startActivity(intent);
 
                     break;
                 case R.id.navigation_booking:
-//                    getSupportActionBar().setTitle("My Booking");
-//                    fragment = myBookingFragment;
-//                    framentClass = MyBookingFragment.class;
+                    getSupportActionBar().setTitle("My Booking");
+                    fragment = myBookingFragment;
+                    framentClass = MyBookingFragment.class;
 
-                    intent = new Intent(AdminHomePage.this, AdminPricingActivity.class);
-                    startActivity(intent);
+//                    intent = new Intent(AdminHomePage.this, AdminPricingActivity.class);
+//                    startActivity(intent);
                     break;
                 case R.id.navigation_helpCenter:
                     getSupportActionBar().setTitle("Help Center");
@@ -105,6 +107,9 @@ public class AdminHomePage extends AppCompatActivity
 
         setContentView(R.layout.activity_admin_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+         homecleaning=(CardView)findViewById(R.id.homeCleancardViewOne);
+        homecleaning.setOnClickListener(this);
+
         setSupportActionBar(toolbar);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 
@@ -233,11 +238,25 @@ public class AdminHomePage extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_master) {
 
+
+
+
         } else if (id == R.id.nav_catalogName) {
 
-        } else if (id == R.id.nav_catalogpricing) {
+            intent = new Intent(AdminHomePage.this, AdminCatalogActivity.class);
+                   startActivity(intent);
 
-        } else if (id == R.id.nav_logout) {
+
+        } else if (id == R.id.nav_catalogpricing) {
+            intent = new Intent(AdminHomePage.this, AdminPricingActivity.class);
+            startActivity(intent);
+        }
+
+        else if (id == R.id.nav_discount) {
+            intent = new Intent(AdminHomePage.this, AdminDiscountActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.nav_logout) {
 
         } else if (id == R.id.nav_share) {
 
@@ -312,9 +331,6 @@ public class AdminHomePage extends AppCompatActivity
             });
 
 
-            //   new MyCourse.GETCourseList().execute(SharedPrefManager.getInstance(this).getUser().access_token);
-            //Toast.makeText(getApplicationContext(),res,Toast.LENGTH_SHORT).show();
-
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -343,16 +359,19 @@ public class AdminHomePage extends AppCompatActivity
 
 //Add the bundle to the intent
             intent.putExtras(bundle);
-
-
-//            intent.putExtra("name", String.valueOf(userName));
-//            intent.putExtra("idno", String.valueOf(identityNo));
-//            intent.putExtra("idtype", String.valueOf(identityType));
-
             startActivity(intent);
 
 
         }
+
+        if (v.getId() == homecleaning.getId())
+        {
+            Intent intent = new Intent(AdminHomePage.this, AdminCatalogActivity.class);
+            startActivity(intent);
+
+
+        }
+
     }
 }
 
