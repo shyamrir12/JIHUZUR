@@ -91,7 +91,10 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".SelectServices"
-            android:parentActivityName=".MenuActivity" />
+
+            android:label="Services"
+            android:theme="@style/AppTheme.NoActionBar"
+          />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -114,10 +117,11 @@
             android:label="Pricing" />
         <activity
             android:name=".AdminDiscountActivity"
-            android:label="@string/title_activity_admin_discount"></activity>
+            android:label="@string/title_activity_admin_discount" />
         <activity
             android:name=".AdminCategoryActivity"
-            android:label="@string/title_activity_admin_category"></activity>
+            android:label="@string/title_activity_admin_category"
+            android:parentActivityName=".AdminCatalogActivity"></activity>
     </application>
 
 </manifest>

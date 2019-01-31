@@ -9,17 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.awizom.jihuzur.MenuActivity;
 import com.example.awizom.jihuzur.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class CatalogFragment extends Fragment implements View.OnClickListener {
-    private CardView homeCleaningCardView;
-    private ImageView homecleaning;
+    private CardView homeCleaningCardView,appliancecardView;
+    private ImageView homecleaning,appliance;
     private TextView homeCleaningTextView;
     DatabaseReference datauserprofile;
     private Intent intent;
@@ -34,8 +31,12 @@ public class CatalogFragment extends Fragment implements View.OnClickListener {
     private void initView(View view) {
 
         homeCleaningCardView = view.findViewById(R.id.homeCleancardViewOne);
+        appliancecardView=view.findViewById(R.id.appliancecardView);
         homeCleaningCardView.setOnClickListener(this);
+        appliancecardView.setOnClickListener(this);
         homecleaning = view.findViewById(R.id.homecleaning);
+        appliance=view.findViewById(R.id.appliance);
+        appliance.setOnClickListener(this);
         homecleaning.setOnClickListener(this);
         homeCleaningTextView = view.findViewById(R.id.homecleaningTextView);
     }
@@ -52,21 +53,18 @@ public class CatalogFragment extends Fragment implements View.OnClickListener {
 //            fragmentTransaction.replace(android.R.id.content, fragment1);
 //            fragmentTransaction.commit();
         }
+        if(v.getId()==appliancecardView.getId())
+        {
+            intent = new Intent(getActivity(), MenuActivity.class);
+            startActivity(intent);
+
+        }
+
         if (v.getId() == homecleaning.getId()) {
 
         }
     }
 
-    private boolean addCatalog() {
 
-        datauserprofile = FirebaseDatabase.getInstance().getReference("Catalog");
-
-        String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        String homecleaningTextView = homeCleaningTextView.getText().toString();
-
-
-        Toast.makeText(getContext(), "DataProfile Added", Toast.LENGTH_LONG).show();
-        return true;
-    }
 
 }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.Pricing;
+import com.example.awizom.jihuzur.Model.PricingView;
 import com.example.awizom.jihuzur.R;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
 public class PricingListAdapter extends
         RecyclerView.Adapter<PricingListAdapter.MyViewHolder> {
 
-    private List<Pricing> pricingList;
+    private List<PricingView> pricingList;
     private Context mCtx;
 
 
@@ -27,24 +28,28 @@ public class PricingListAdapter extends
      * View holder class
      * */
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView pricingId;
-        public TextView description;
-        public TextView pricingTerms;
+        public TextView pricingterms;
         public TextView amount;
-        public TextView catalogId;
+        public TextView description;
+        public TextView pricingStart;
+        public TextView pricingEnd;
+        public TextView pricingendSlot;
+        public TextView startAmount;
 
         public MyViewHolder(View view) {
             super(view);
-            pricingId = (TextView) view.findViewById(R.id.pricingid);
-            description = (TextView) view.findViewById(R.id.description);
-            pricingTerms = (TextView) view.findViewById(R.id.pricingTerms);
+            pricingterms = (TextView) view.findViewById(R.id.pricingTerms);
             amount = (TextView) view.findViewById(R.id.amount);
-            catalogId = (TextView) view.findViewById(R.id.catalogID);
+            description = (TextView) view.findViewById(R.id.description);
+            pricingStart = (TextView) view.findViewById(R.id.pricingStart);
+            pricingEnd = (TextView) view.findViewById(R.id.pricingEnd);
+            pricingendSlot = (TextView) view.findViewById(R.id.pricingEndSlot);
+            startAmount = (TextView) view.findViewById(R.id.startAmount);
 
         }
     }
 
-    public PricingListAdapter(Context baseContext, List<Pricing> pricingList) {
+    public PricingListAdapter(Context baseContext, List<PricingView> pricingList) {
         this.pricingList = pricingList;
         this.mCtx=baseContext;
 
@@ -53,12 +58,15 @@ public class PricingListAdapter extends
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Pricing c = pricingList.get(position);
-        holder.pricingId.setText(Integer.toString(c.getPricingID()));
-        holder.description.setText(String.valueOf(c.getDescription()));
-        holder.pricingTerms.setText(c.getPricingTerms());
+        PricingView c = pricingList.get(position);
+        holder.pricingterms.setText((c.getPricingTerms()));
         holder.amount.setText(String.valueOf(c.getAmount()));
-        holder.catalogId.setText(Integer.toString(c.getCatalogID()));
+        holder.description.setText(c.getPrizingDesc());
+        holder.pricingStart.setText(String.valueOf(c.getPricingStart()));
+        holder.pricingEnd.setText(String.valueOf(c.getPricingEnd()));
+        holder.pricingendSlot.setText(String.valueOf(c.getPricingEndSlot()));
+        holder.startAmount.setText(String.valueOf(c.getStartAmount()));
+
 
     }
 

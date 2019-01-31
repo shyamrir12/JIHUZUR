@@ -9,6 +9,34 @@ private String PricingTerms;
 private Double Amount;
 private int CatalogID;
 
+    public double getPricingStart() {
+        return PricingStart;
+    }
+
+    public void setPricingStart(double pricingStart) {
+        PricingStart = pricingStart;
+    }
+
+    public double getPricingEnd() {
+        return PricingEnd;
+    }
+
+    public void setPricingEnd(double pricingEnd) {
+        PricingEnd = pricingEnd;
+    }
+
+    public double getPricingEndSlot() {
+        return PricingEndSlot;
+    }
+
+    public void setPricingEndSlot(double pricingEndSlot) {
+        PricingEndSlot = pricingEndSlot;
+    }
+
+    private double PricingStart;
+    private double PricingEnd ;
+    private double PricingEndSlot;
+
     public int getPricingID() {
         return PricingID;
     }

@@ -28,13 +28,13 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Pricing ID - "/>
+    android:text="Pricing Terms - "/>
                 <TextView
-                    android:id="@+id/pricingid"
+                    android:id="@+id/pricingTerms"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Pricing ID"
+                    android:hint="Pricing terms"
 
                     android:textColor="@color/colorBlack"
                     android:textStyle="bold" />
@@ -42,13 +42,13 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Description - "/>
+                    android:text="Amount - "/>
                 <TextView
-                    android:id="@+id/description"
+                    android:id="@+id/amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Description"
+                    android:hint="Amount"
                     android:layout_marginLeft="10dp"
 
                     android:textColor="@color/colorBlack"
@@ -67,14 +67,14 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pricing Terms- "/>
+                    android:text="Description- "/>
                 <TextView
-                    android:id="@+id/pricingTerms"
+                    android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
 
-                    android:hint="Pricing Terms."
+                    android:hint="Description"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/colorBlack"
                     android:textStyle="bold" />
@@ -82,31 +82,87 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Amount- "/>
+                    android:text="Pricing Start- "/>
                 <TextView
-                    android:id="@+id/amount"
+                    android:id="@+id/pricingStart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Amount"
+                    android:hint="pricing Start"
 
                     android:textStyle="bold"
                     android:textColor="@color/colorBlack" />
 
-                <TextView
-                    android:id="@+id/catalogID"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="Catalog ID"
-                    android:textStyle="bold"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/colorBlack" />
 
 
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/L3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/L2"
+                android:orientation="horizontal"
+                android:padding="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pricing End- "/>
+                <TextView
+                    android:id="@+id/pricingEnd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
 
+                    android:hint="Pricing End"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/colorBlack"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pricing End Slot- "/>
+                <TextView
+                    android:id="@+id/pricingEndSlot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Pricing End Slot"
+
+                    android:textStyle="bold"
+                    android:textColor="@color/colorBlack" />
+
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/L4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/L3"
+                android:orientation="horizontal"
+                android:padding="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start Amount- "/>
+                <TextView
+                    android:id="@+id/startAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    android:hint="Start Amount"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/colorBlack"
+                    android:textStyle="bold" />
+
+
+
+
+            </LinearLayout>
 
 
         </RelativeLayout>

@@ -88,10 +88,6 @@ public class AdminCatalogActivity extends AppCompatActivity  {
         });
     }
 
-
-
-
-
 //    private void getCatalogList() {
 //        try {
 ////            mSwipeRefreshLayout.setRefreshing(true);
@@ -209,8 +205,6 @@ public class AdminCatalogActivity extends AppCompatActivity  {
             // System.out.println("Error: " + e);
         }
     }
-
-
 
     private class GETCatalogNameList extends AsyncTask<String, Void, String> implements View.OnClickListener {
         @Override

@@ -91,7 +91,7 @@
                         android:layout_weight="1.5" />
 
                     <android.support.v7.widget.CardView
-                        android:id="@+id/cardViewOne1"
+                        android:id="@+id/appliancecardview"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         card_view:contentPadding="16dp"
@@ -100,7 +100,7 @@
                         android:layout_weight="1">
 
                         <ImageView
-                            android:id="@+id/massage"
+                            android:id="@+id/appliance"
                             android:layout_width="30dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center_horizontal"
@@ -109,7 +109,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/massage"
+                            android:text="@string/appliance"
                             android:layout_gravity="bottom"
                             android:gravity="center"
                             android:textSize="10sp"

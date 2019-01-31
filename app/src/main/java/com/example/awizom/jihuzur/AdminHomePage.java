@@ -1,7 +1,13 @@
 package com.example.awizom.jihuzur;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -40,6 +46,7 @@ public class AdminHomePage extends AppCompatActivity
     private Fragment fragment = null;
     private Fragment searchFragment, myBookingFragment, helpCenterFragment, catalogFragment;
     DatabaseReference datauser, datauserpro;
+    private static int SPLASH_TIME_OUT = 2000;
     String dUser;
     String name;
     String role;
@@ -48,7 +55,7 @@ public class AdminHomePage extends AppCompatActivity
     Boolean active = false;
     View header;
     ImageView profileImage;
-    CardView homecleaning;
+    CardView homecleaning,appliance;
     TextView userName, identityNo, identityType;
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -108,7 +115,9 @@ public class AdminHomePage extends AppCompatActivity
         setContentView(R.layout.activity_admin_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
          homecleaning=(CardView)findViewById(R.id.homeCleancardViewOne);
-        homecleaning.setOnClickListener(this);
+        appliance=(CardView)findViewById(R.id.appliancecardview);
+        appliance.setOnClickListener(this);
+         homecleaning.setOnClickListener(this);
 
         setSupportActionBar(toolbar);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -145,7 +154,7 @@ public class AdminHomePage extends AppCompatActivity
         identityNo.setOnClickListener(this);
         identityType.setOnClickListener(this);
         userName.setOnClickListener(this);
-
+        initView();
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             getUser();
@@ -171,6 +180,55 @@ public class AdminHomePage extends AppCompatActivity
                 startActivity(intent);
             }
         });
+
+
+    }
+
+    public static boolean isConnectingToInternet(Context context) {
+        ConnectivityManager connectivity =
+                (ConnectivityManager) context.getSystemService(
+                        Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null) {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null)
+                for (int i = 0; i < info.length; i++)
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+                        return true;
+                    }
+        }
+        return false;
+    }
+
+    private void initView() {
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                if (isConnectingToInternet(AdminHomePage.this)) {
+
+
+                } else {
+                    AlertDialog.Builder alertbox = new AlertDialog.Builder(AdminHomePage.this);
+                    alertbox.setIcon(R.drawable.ic_warning_black_24dp);
+                    alertbox.setTitle("Internet Connection Is Not Available");
+                    alertbox.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            finishAffinity();
+                            System.exit(0);
+
+                        }
+                    });
+
+                    alertbox.show();
+
+
+                }
+
+
+            }
+        }, SPLASH_TIME_OUT);
 
 
     }
@@ -366,11 +424,21 @@ public class AdminHomePage extends AppCompatActivity
 
         if (v.getId() == homecleaning.getId())
         {
-            Intent intent = new Intent(AdminHomePage.this, AdminCatalogActivity.class);
+            Intent intent = new Intent(AdminHomePage.this, AdminCategoryActivity.class);
+            intent.putExtra("CatalogName","Home Cleaning & Repairs");
             startActivity(intent);
 
 
         }
+        if (v.getId() == appliance.getId())
+        {
+            Intent intent = new Intent(AdminHomePage.this, AdminCategoryActivity.class);
+            intent.putExtra("CatalogName","Appliance & Repairs");
+            startActivity(intent);
+
+
+        }
+
 
     }
 }

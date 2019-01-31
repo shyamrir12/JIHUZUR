@@ -20,6 +20,7 @@ import com.example.awizom.jihuzur.Adapter.PricingListAdapter;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.Pricing;
+import com.example.awizom.jihuzur.Model.PricingView;
 import com.example.awizom.jihuzur.Model.Result;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -40,8 +41,9 @@ public class AdminPricingActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     RecyclerView recyclerView;
     ArrayAdapter<String> adapter;
-    List<Pricing> pricingList;
+    List<PricingView> pricingList;
     PricingListAdapter adapterPricingList;
+    String serviceID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class AdminPricingActivity extends AppCompatActivity {
         getPricing();
         recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
+        serviceID=getIntent().getStringExtra("serviceID");
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         addPricing = (FloatingActionButton) findViewById(R.id.addPricing);
         progressDialog = new ProgressDialog(this);
@@ -67,7 +70,7 @@ public class AdminPricingActivity extends AppCompatActivity {
 
         try {
 //            mSwipeRefreshLayout.setRefreshing(true);
-            new AdminPricingActivity.GETPricingList().execute();
+            new AdminPricingActivity.GETPricingList().execute(serviceID.toString());
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
@@ -287,12 +290,13 @@ public class AdminPricingActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             String json = "";
+            String serviceid=params[0];
 
 
             try {
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Admin + "GetPricingList");
+                builder.url(AppConfig.BASE_URL_API_Admin + "GetPricing/" +serviceid);
 
 
                 okhttp3.Response response = client.newCall(builder.build()).execute();
@@ -317,7 +321,7 @@ public class AdminPricingActivity extends AppCompatActivity {
 
                     //System.out.println(result);
                     Gson gson = new Gson();
-                    Type listType = new TypeToken<List<Pricing>>() {
+                    Type listType = new TypeToken<List<PricingView>>() {
                     }.getType();
                     pricingList = new Gson().fromJson(result, listType);
                     adapterPricingList = new PricingListAdapter(getBaseContext(),pricingList);

@@ -51,6 +51,7 @@
     <string name="title_activity_employee_home_page">Employee Home</string>
     <string name="homecleaning"><![CDATA[Home Cleaning & Repairs]]></string>
     <string name="massage"><![CDATA[Body Massage & Hair Spa]]></string>
+    <string name="appliance"><![CDATA[Appliance & Repair]]></string>
     <string name="truck"><![CDATA[Truck loader Transportation]]></string>
     <string name="ring"><![CDATA[Gold & Silver Platinum Jwellary]]></string>
     <string name="teacher"><![CDATA[Home Tutorial & Online Tutorial]]></string>
@@ -251,4 +252,5 @@
     <string name="title_activity_admin_catalog">AdminCatalog Activity</string>
     <string name="title_activity_admin_discount">AdminDiscountActivity</string>
     <string name="title_activity_admin_category">AdminCategoryActivity</string>
+    <string name="title_activity_admin_services">AdminServicesActivity</string>
 </resources>
