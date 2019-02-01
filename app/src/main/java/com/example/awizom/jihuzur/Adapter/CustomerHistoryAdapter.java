@@ -8,15 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.example.awizom.jihuzur.Model.Order;
 import com.example.awizom.jihuzur.R;
+
 import java.util.List;
 
 public class CustomerHistoryAdapter extends RecyclerView.Adapter<CustomerHistoryAdapter.OrderItemViewHolder> {
     private Context mCtx;
     private List<Order> orderitemList;
     private Order order;
-    private String orderId="",otpCode="",result="";
+    private String orderId = "", otpCode = "", result = "";
     int curposition;
 
     public CustomerHistoryAdapter(Context context, List<Order> orderList) {
@@ -41,8 +43,8 @@ public class CustomerHistoryAdapter extends RecyclerView.Adapter<CustomerHistory
             orderId = String.valueOf(order.getOrderID());
 
             holder.headerName.setText(String.valueOf(order.getOrderID()));
-            holder.startTime.setText( order.getEmployeeID().toString());
-            holder.endtime.setText( order.getCustomerID().toString());
+            holder.startTime.setText(order.getEmployeeID().toString());
+            holder.endtime.setText(order.getCustomerID().toString());
 
         } catch (Exception E) {
             E.printStackTrace();
@@ -59,7 +61,7 @@ public class CustomerHistoryAdapter extends RecyclerView.Adapter<CustomerHistory
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context mCtx;
-        private TextView startTime,endtime,headerName;
+        private TextView startTime, endtime, headerName;
         private Button deleteBtn;
         private List<Order> orderitemList;
 
@@ -80,12 +82,12 @@ public class CustomerHistoryAdapter extends RecyclerView.Adapter<CustomerHistory
 
         @Override
         public void onClick(View v) {
-            curposition=getAdapterPosition();
-            switch (v.getId()){
+            curposition = getAdapterPosition();
+            switch (v.getId()) {
 
                 case R.id.deleteBtn:
                     orderitemList.remove(curposition);
-                    notifyItemRemoved(curposition  );
+                    notifyItemRemoved(curposition);
                     break;
 
             }

@@ -33,7 +33,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     private Context mCtx;
     private List<Order> orderitemList;
     private Order order;
-    private String orderId="",otpCode="",result="";
+    private String orderId = "", otpCode = "", result = "";
 
     public CustomerCurrentOrderAdapter(Context currentOrderActivity, List<Order> orderList) {
         this.mCtx = currentOrderActivity;
@@ -59,18 +59,18 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             orderId = String.valueOf(order.getOrderID());
 
             holder.headerName.setText(String.valueOf(order.getOrderID()));
-            holder.startTime.setText( order.getEmployeeID().toString());
-            holder.endtime.setText( order.getCustomerID().toString());
+            holder.startTime.setText(order.getEmployeeID().toString());
+            holder.endtime.setText(order.getCustomerID().toString());
 
-            if(order.getOrderStartTime().equals("NULL")){
+            if (order.getOrderStartTime().equals("NULL")) {
                 holder.canclBtn.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 holder.canclBtn.setVisibility(View.GONE);
             }
 
-            if(!order.getOrderStartTime().equals("NULL")){
+            if (!order.getOrderStartTime().equals("NULL")) {
                 holder.acceptBtn.setVisibility(View.GONE);
-            }else {
+            } else {
                 holder.acceptBtn.setVisibility(View.VISIBLE);
             }
 
@@ -85,11 +85,11 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
         return orderitemList.size();
     }
 
-    class OrderItemViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
+    class OrderItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context mCtx;
-        private TextView startTime,endtime,headerName,timercount;
-        private Button acceptBtn,trackinBtn,canclBtn;
+        private TextView startTime, endtime, headerName, timercount;
+        private Button acceptBtn, trackinBtn, canclBtn;
         private List<Order> orderitemList;
 
 
@@ -109,7 +109,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             canclBtn = itemView.findViewById(R.id.cancelBtn);
 
 
-
             acceptBtn.setOnClickListener(this);
             trackinBtn.setOnClickListener(this);
             canclBtn.setOnClickListener(this);
@@ -122,7 +121,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
         @Override
         public void onClick(final View v) {
 
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.acceptOtpBtn:
 
                     android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(v.getRootView().getContext());
@@ -141,17 +140,17 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                         @Override
                         public void onClick(View v) {
                             try {
-                                result = new CustomerGetMyOrderRunningHelper.AcceptOtp().execute(orderId,enterOtp.getText().toString()).get();
+                                result = new CustomerGetMyOrderRunningHelper.AcceptOtp().execute(orderId, enterOtp.getText().toString()).get();
                                 Gson gson = new Gson();
                                 Type getType = new TypeToken<ResultModel>() {
                                 }.getType();
                                 ResultModel resultModel = new Gson().fromJson(result, getType);
-                                if(resultModel.getMessage().contains("Order Started")){
+                                if (resultModel.getMessage().contains("Order Started")) {
                                     canclBtn.setVisibility(View.GONE);
                                 }
 
                                 Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(mCtx,CustomerHomePage.class);
+                                Intent intent = new Intent(mCtx, CustomerHomePage.class);
                                 mCtx.startActivity(intent);
 
                             } catch (ExecutionException e) {
@@ -161,7 +160,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                             }
                         }
                     });
-
 
 
                     break;
@@ -187,8 +185,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                     break;
             }
         }
-
-
 
 
     }

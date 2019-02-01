@@ -29,24 +29,20 @@ public class ServiceListAdapter extends
     String catalogName;
 
 
-
-
-
     /**
      * View holder class
-     * */
+     */
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView serviceName,description,serviceID;
+        public TextView serviceName, description, serviceID;
 
 
         public MyViewHolder(View view) {
             super(view);
 
             serviceName = (TextView) view.findViewById(R.id.serviceName);
-            description=(TextView)view.findViewById(R.id.description);
-            serviceID=(TextView)view.findViewById(R.id.serviceID);
-
+            description = (TextView) view.findViewById(R.id.description);
+            serviceID = (TextView) view.findViewById(R.id.serviceID);
 
 
         }
@@ -54,7 +50,7 @@ public class ServiceListAdapter extends
 
     public ServiceListAdapter(Context baseContext, List<Service> serviceList) {
         this.serviceList = serviceList;
-        this.mCtx=baseContext;
+        this.mCtx = baseContext;
 
 
     }
@@ -62,18 +58,16 @@ public class ServiceListAdapter extends
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         Service c = serviceList.get(position);
-       holder.serviceName.setText(c.getServiceName());
-       holder.description.setText(c.getDescription());
-       holder.serviceID.setText(String.valueOf(c.getServiceID()));
-
-
+        holder.serviceName.setText(c.getServiceName());
+        holder.description.setText(c.getDescription());
+        holder.serviceID.setText(String.valueOf(c.getServiceID()));
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Admin")){
+                if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Admin")) {
 
                     intent = new Intent(mCtx, AdminPricingActivity.class);
                     intent.putExtra("serviceName", holder.serviceName.getText());
@@ -83,7 +77,7 @@ public class ServiceListAdapter extends
 
                     Toast.makeText(mCtx, "" + position, Toast.LENGTH_SHORT).show();
 
-                }else if(SharedPrefManager.getInstance( mCtx).getUser().getRole().equals( "Employee" )){
+                } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Employee")) {
 
                     intent = new Intent(mCtx, CustomerpricingActivity.class);
                     intent.putExtra("serviceName", holder.serviceName.getText());
@@ -93,7 +87,7 @@ public class ServiceListAdapter extends
                     mCtx.startActivity(intent);
 
 
-                }else if(SharedPrefManager.getInstance( mCtx).getUser().getRole().equals( "Customer" )){
+                } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Customer")) {
 
                     intent = new Intent(mCtx, CustomerpricingActivity.class);
                     intent.putExtra("serviceName", holder.serviceName.getText());
@@ -118,7 +112,7 @@ public class ServiceListAdapter extends
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.adapter_servicelist,parent, false);
+                .inflate(R.layout.adapter_servicelist, parent, false);
         return new MyViewHolder(v);
     }
 }
