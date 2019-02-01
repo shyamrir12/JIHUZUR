@@ -20,7 +20,7 @@ public class CatalogFragment extends Fragment implements View.OnClickListener {
     private TextView homeCleaningTextView;
     DatabaseReference datauserprofile;
     private Intent intent;
-
+//hjgfhj
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.catalog_layout, container, false);
