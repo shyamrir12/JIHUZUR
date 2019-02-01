@@ -60,7 +60,7 @@ public class PricingListAdapter extends
     public void onBindViewHolder(MyViewHolder holder, int position) {
         PricingView c = pricingList.get(position);
         holder.pricingterms.setText((c.getPricingTerms()));
-        holder.amount.setText(String.valueOf(c.getAmount()));
+        holder.amount.setText(String.valueOf("Rs " + c.getAmount()));
         holder.description.setText(c.getPrizingDesc());
         holder.pricingStart.setText(String.valueOf(c.getPricingStart()));
         holder.pricingEnd.setText(String.valueOf(c.getPricingEnd()));

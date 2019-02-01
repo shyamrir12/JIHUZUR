@@ -1,34 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-xmlns:app="http://schemas.android.com/apk/res-auto"
->
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="10dp"
-        android:layout_margin="10dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/l1"
+
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp">
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Pricing Terms - "/>
+                android:orientation="vertical"
+    >
+    <LinearLayout
+
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
                 <TextView
                     android:id="@+id/pricingTerms"
                     android:layout_width="match_parent"
@@ -40,133 +26,333 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Amount - "/>
-                <TextView
                     android:id="@+id/amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+
+                    android:gravity="end"
                     android:layout_weight="1"
+                    android:background="@drawable/back"
                     android:hint="Amount"
-                    android:layout_marginLeft="10dp"
 
                     android:textColor="@color/colorBlack"
                     android:textStyle="bold" />
-
-
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/L2"
+    <LinearLayout
+
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        >
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+
+            android:layout_weight="1"
+            android:hint="Description"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Pricing Start- "
+
+                android:textColor="@color/colorBlack" />
+
+            <TextView
+                android:id="@+id/pricingStart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/l1"
-                android:orientation="horizontal"
-                android:padding="5dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Description- "/>
-                <TextView
-                    android:id="@+id/description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                android:layout_marginLeft="40dp"
+                android:layout_weight="1"
+                android:hint="pricing Start"
 
-                    android:hint="Description"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/colorBlack"
-                    android:textStyle="bold" />
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pricing Start- "/>
-                <TextView
-                    android:id="@+id/pricingStart"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="pricing Start"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:orientation="horizontal">
 
-                    android:textStyle="bold"
-                    android:textColor="@color/colorBlack" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pricing End- "
+                android:textColor="@color/colorBlack" />
 
-
-
-
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/L3"
+            <TextView
+                android:id="@+id/pricingEnd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/L2"
-                android:orientation="horizontal"
-                android:padding="5dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pricing End- "/>
-                <TextView
-                    android:id="@+id/pricingEnd"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
 
-                    android:hint="Pricing End"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/colorBlack"
-                    android:textStyle="bold" />
+                android:layout_marginLeft="50dp"
+                android:layout_weight="1"
+                android:hint="Pricing End"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pricing End Slot- "/>
-                <TextView
-                    android:id="@+id/pricingEndSlot"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="Pricing End Slot"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:orientation="horizontal">
 
-                    android:textStyle="bold"
-                    android:textColor="@color/colorBlack" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pricing End Slot- "
+                android:textColor="@color/colorBlack" />
 
-
-
-
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/L4"
+            <TextView
+                android:id="@+id/pricingEndSlot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/L3"
-                android:orientation="horizontal"
-                android:padding="5dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Start Amount- "/>
-                <TextView
-                    android:id="@+id/startAmount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:hint="Pricing End Slot"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-                    android:hint="Start Amount"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/colorBlack"
-                    android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start Amount- "
+                android:textColor="@color/colorBlack" />
+
+            <TextView
+                android:id="@+id/startAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+
+                android:layout_weight="1"
+                android:hint="Start Amount"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textColor="@color/colorBlack" />
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+
+                android:layout_weight="1"
+
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </LinearLayout>
+        </LinearLayout>
+
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--&gt;-->
+<!--<RelativeLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
+
+    <!--<android.support.v7.widget.CardView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:cardCornerRadius="8dp"-->
+        <!--app:cardElevation="10dp"-->
+        <!--android:layout_margin="10dp">-->
+
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+
+            <!--<LinearLayout-->
+                <!--android:id="@+id/l1"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:padding="5dp">-->
+
+
+
+                <!--<TextView-->
+                    <!--android:id="@+id/pricingTerms"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:hint="Pricing terms"-->
+
+                    <!--android:textColor="@color/colorBlack"-->
+                    <!--android:textStyle="bold" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/amount"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:hint="Amount"-->
+                    <!--android:layout_marginLeft="40dp"-->
+                    <!--android:background="@drawable/back"-->
+
+                    <!--android:textColor="@color/colorBlack"-->
+                    <!--android:textStyle="bold" />-->
+
+
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:id="@+id/L2"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/l1"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:padding="5dp">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/description"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+
+                    <!--android:hint="Description"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:textColor="@color/colorBlack"-->
+                    <!--android:textStyle="bold" />-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Pricing Start- "-->
+                    <!--android:textColor="@color/colorBlack"/>-->
+                <!--<TextView-->
+                    <!--android:id="@+id/pricingStart"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:hint="pricing Start"-->
+
+                    <!--android:textStyle="bold"-->
+                    <!--android:textColor="@color/colorBlack" />-->
 
 
 
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
+            <!--<LinearLayout-->
+                <!--android:id="@+id/L3"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/L2"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:padding="5dp">-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Pricing End- "-->
+                    <!--android:textColor="@color/colorBlack"/>-->
+                <!--<TextView-->
+                    <!--android:id="@+id/pricingEnd"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+
+                    <!--android:hint="Pricing End"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:textColor="@color/colorBlack"-->
+                    <!--android:textStyle="bold" />-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Pricing End Slot- "-->
+                    <!--android:textColor="@color/colorBlack"/>-->
+                <!--<TextView-->
+                    <!--android:id="@+id/pricingEndSlot"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:hint="Pricing End Slot"-->
+
+                    <!--android:textStyle="bold"-->
+                    <!--android:textColor="@color/colorBlack" />-->
 
 
-        </RelativeLayout>
 
-    </android.support.v7.widget.CardView>
-</RelativeLayout>
-</android.support.constraint.ConstraintLayout>
+
+            <!--</LinearLayout>-->
+            <!--<LinearLayout-->
+                <!--android:id="@+id/L4"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/L3"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:padding="5dp">-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Start Amount- "-->
+                    <!--android:textColor="@color/colorBlack"/>-->
+                <!--<TextView-->
+                    <!--android:id="@+id/startAmount"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+
+                    <!--android:hint="Start Amount"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:textColor="@color/colorBlack"-->
+                    <!--android:textStyle="bold" />-->
+
+
+
+
+            <!--</LinearLayout>-->
+
+
+        <!--</RelativeLayout>-->
+
+    <!--</android.support.v7.widget.CardView>-->
+<!--</RelativeLayout>-->
+<!--</android.support.constraint.ConstraintLayout>-->

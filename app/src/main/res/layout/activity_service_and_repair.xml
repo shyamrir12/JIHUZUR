@@ -51,8 +51,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-android:orientation="vertical"
-            android:background="@color/greyhint">
+            android:orientation="vertical"
+            android:background="@color/colorBlack">
 
             <TextView
                 android:id="@+id/categoryName"
