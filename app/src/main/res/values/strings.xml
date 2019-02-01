@@ -247,4 +247,6 @@
     <string name="master">Master</string>
     <string name="catalog">Catalog</string>
     <string name="catalogPricing">Catalog Pricing</string>
+    <string name="current_order">Current Order</string>
+    <string name="order_history">Order History</string>
 </resources>

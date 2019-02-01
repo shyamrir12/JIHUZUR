@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.awizom.jihuzur.Fragment.MyBokingsActivity;
 import com.example.awizom.jihuzur.Helper.GetEmployeeProfileHelper;
 import com.example.awizom.jihuzur.Helper.OrderPostHelper;
 import com.example.awizom.jihuzur.Model.EmployeeProfileModel;
@@ -21,7 +20,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -31,6 +29,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -201,10 +200,10 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     private void postOderCreate() {
 
 //            Date date = new Date();
-        String date = new SimpleDateFormat("dd/MM/yy", Locale.getDefault()).format(new Date());
+        String date = new SimpleDateFormat("MM/dd/yy", Locale.getDefault()).format(new Date());
 
         String customerid = SharedPrefManager.getInstance(getApplicationContext()).getUser().getID();
-        String empId = "90d694f4-01d0-42c0-9f02-06220f225082";
+        String empId = "c5e2f335-2258-4f41-98d9-c26f25495745";
         String orderDate = String.valueOf(date);
         String catalogId = String.valueOf(2);
         try {

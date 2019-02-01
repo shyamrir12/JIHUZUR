@@ -1,4 +1,4 @@
-package com.example.awizom.jihuzur.Fragment;
+package com.example.awizom.jihuzur;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -10,8 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toolbar;
 
 import com.example.awizom.jihuzur.Adapter.CustomerPageAdapterBookings;
-
-import com.example.awizom.jihuzur.R;
 
 public class MyBokingsActivity extends AppCompatActivity {
 

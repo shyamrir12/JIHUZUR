@@ -9,10 +9,10 @@ public class AppConfig {
 //    public static final String BASE_URL_API_REG="http://dotweb.somee.com/api/Account/";
 //    public static final String BASE_URL_API_USER="http://dotweb.somee.com/api/Admin/Admin/AllUserGet";
 
-    public static final String BASE_URL="http://192.168.1.203:8890/";
-    public static final String BASE_URL_API_Customer="http://192.168.1.213:7096/api/Customer/CustomerApi/";
-    public static final String BASE_URL_API_REG="http://192.168.1.213:7096/api/AccountApi/";
-    public static final String BASE_URL_API_Employee="http://192.168.1.213:7096/api/Employee/EmployeeApi/";
+    public static final String BASE_URL="http://192.168.1.202:8890/";
+    public static final String BASE_URL_API_Customer="http://192.168.1.202:7096/api/Customer/CustomerApi/";
+    public static final String BASE_URL_API_REG="http://192.168.1.202:7096/api/AccountApi/";
+    public static final String BASE_URL_API_Employee="http://192.168.1.202:7096/api/Employee/EmployeeApi/";
     public static final String BASE_URL_API="http://dotweb.somee.com/api/Admin/Admin/";
 
 }

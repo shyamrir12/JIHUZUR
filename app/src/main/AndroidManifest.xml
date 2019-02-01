@@ -105,7 +105,7 @@
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
         </activity>
         <activity
-            android:name=".Fragment.MyBokingsActivity"
+            android:name=".MyBokingsActivity"
             android:parentActivityName=".CustomerHomePage">
 
         </activity>
