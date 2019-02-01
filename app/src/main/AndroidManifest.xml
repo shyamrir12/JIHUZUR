@@ -41,10 +41,7 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
 
         <activity
@@ -90,15 +87,34 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".AdminHomePage"
-            android:label="@string/title_activity_customer_home_page"
+            android:label="@string/title_activity_admin_home_page"
             android:theme="@style/AppTheme.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AdminCategoryActivity"
+           >
+
+        </activity>
+        <activity
+            android:name=".AdminPricingActivity"
+            >
+
+        </activity>
+        <activity
+            android:name=".AdminCatalogActivity"
+            >
 
         </activity>
         <activity
             android:name=".RegistrationActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".SelectServices"
-            android:parentActivityName=".MenuActivity"/>
+            android:theme="@style/AppTheme.NoActionBar"
+       />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -110,7 +126,7 @@
 
         </activity>
         <activity android:name=".RepairServiceActivity"
-            android:parentActivityName=".SelectServices">
+           >
 
         </activity>
         <activity android:name=".AddAddressActivity">

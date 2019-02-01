@@ -63,7 +63,7 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
 
     RecyclerView recyclerView;
     ImageView imageView;
-    private final static int IMAGE_RESULT = 200;
+
     private static final int SELECT_PHOTO = 100;
     int[] gridViewImageId = {
             R.drawable.home_cleaning,   R.drawable.home_cleaning,   R.drawable.home_cleaning,
@@ -115,7 +115,7 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    private void showAddCategoryDialog() {
+    public void showAddCategoryDialog() {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -282,7 +282,7 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    private class POSTCategory extends AsyncTask<String, Void, String> {
+    public class POSTCategory extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
 

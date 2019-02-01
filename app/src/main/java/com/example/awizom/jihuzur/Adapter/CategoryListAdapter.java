@@ -75,10 +75,6 @@ public class CategoryListAdapter extends
     @Override
     public void onBindViewHolder  (final MyViewHolder holder, final int position) {
         Catalog c = categorylist.get(position);
-
-
-
-
          holder.category.setText(c.getCategory());
          holder.catalogid.setText(String.valueOf(c.getCatalogID()));
         imagestr= AppConfig.BASE_URL+c.getImage();
@@ -111,15 +107,11 @@ e.printStackTrace();
         intent.putExtra("CatalogName", catalogName);
         mCtx.startActivity(intent);
 
-        Toast.makeText(mCtx, "" + position, Toast.LENGTH_SHORT).show();
+
     }
 });
 
-
-
-
-
-        }
+    }
 
     @Override
     public int getItemCount() {

@@ -89,7 +89,7 @@ public class ServiceListAdapter extends
                 intent.putExtra("serviceID", holder.serviceID.getText());
                 mCtx.startActivity(intent);
 
-                Toast.makeText(mCtx, "" + position, Toast.LENGTH_SHORT).show();
+
             }
         });
 
