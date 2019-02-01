@@ -1,7 +1,13 @@
 package com.example.awizom.jihuzur;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -10,6 +16,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,16 +44,18 @@ public class AdminHomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     String TAG;
     private Fragment fragment = null;
-    private Fragment searchFragment,myBookingFragment,helpCenterFragment,catalogFragment;
-
+    private Fragment searchFragment, myBookingFragment, helpCenterFragment, catalogFragment;
     DatabaseReference datauser, datauserpro;
+    private static int SPLASH_TIME_OUT = 2000;
     String dUser;
     String name;
     String role;
     String Url;
+    Intent intent;
     Boolean active = false;
     View header;
     ImageView profileImage;
+    CardView homecleaning,appliance;
     TextView userName, identityNo, identityType;
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -62,12 +71,17 @@ public class AdminHomePage extends AppCompatActivity
                     getSupportActionBar().setTitle("Catalog");
                     fragment = catalogFragment;
                     framentClass = CatalogFragment.class;
+//                    intent = new Intent(AdminHomePage.this, AdminCatalogActivity.class);
+//                    startActivity(intent);
 
                     break;
                 case R.id.navigation_booking:
                     getSupportActionBar().setTitle("My Booking");
                     fragment = myBookingFragment;
                     framentClass = MyBookingFragment.class;
+
+//                    intent = new Intent(AdminHomePage.this, AdminPricingActivity.class);
+//                    startActivity(intent);
                     break;
                 case R.id.navigation_helpCenter:
                     getSupportActionBar().setTitle("Help Center");
@@ -95,11 +109,16 @@ public class AdminHomePage extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         searchFragment = new SearchFragment();
-        myBookingFragment= new MyBookingFragment();
+        myBookingFragment = new MyBookingFragment();
         catalogFragment = new CatalogFragment();
 
         setContentView(R.layout.activity_admin_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+         homecleaning=(CardView)findViewById(R.id.homeCleancardViewOne);
+        appliance=(CardView)findViewById(R.id.appliancecardview);
+        appliance.setOnClickListener(this);
+         homecleaning.setOnClickListener(this);
+
         setSupportActionBar(toolbar);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 
@@ -135,7 +154,7 @@ public class AdminHomePage extends AppCompatActivity
         identityNo.setOnClickListener(this);
         identityType.setOnClickListener(this);
         userName.setOnClickListener(this);
-
+        initView();
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             getUser();
@@ -161,6 +180,55 @@ public class AdminHomePage extends AppCompatActivity
                 startActivity(intent);
             }
         });
+
+
+    }
+
+    public static boolean isConnectingToInternet(Context context) {
+        ConnectivityManager connectivity =
+                (ConnectivityManager) context.getSystemService(
+                        Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null) {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null)
+                for (int i = 0; i < info.length; i++)
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+                        return true;
+                    }
+        }
+        return false;
+    }
+
+    private void initView() {
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                if (isConnectingToInternet(AdminHomePage.this)) {
+
+
+                } else {
+                    AlertDialog.Builder alertbox = new AlertDialog.Builder(AdminHomePage.this);
+                    alertbox.setIcon(R.drawable.ic_warning_black_24dp);
+                    alertbox.setTitle("Internet Connection Is Not Available");
+                    alertbox.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            finishAffinity();
+                            System.exit(0);
+
+                        }
+                    });
+
+                    alertbox.show();
+
+
+                }
+
+
+            }
+        }, SPLASH_TIME_OUT);
 
 
     }
@@ -205,7 +273,7 @@ public class AdminHomePage extends AppCompatActivity
 
             return true;
         }
-        if(id == R.id.action_settings){
+        if (id == R.id.action_settings) {
             Intent i = new Intent(AdminHomePage.this, SettingsActivity.class);
             startActivity(i);
 
@@ -228,11 +296,25 @@ public class AdminHomePage extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_master) {
 
+
+
+
         } else if (id == R.id.nav_catalogName) {
 
-        } else if (id == R.id.nav_catalogpricing) {
+            intent = new Intent(AdminHomePage.this, AdminCatalogActivity.class);
+                   startActivity(intent);
 
-        } else if (id == R.id.nav_logout) {
+
+        } else if (id == R.id.nav_catalogpricing) {
+            intent = new Intent(AdminHomePage.this, AdminPricingActivity.class);
+            startActivity(intent);
+        }
+
+        else if (id == R.id.nav_discount) {
+            intent = new Intent(AdminHomePage.this, AdminDiscountActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.nav_logout) {
 
         } else if (id == R.id.nav_share) {
 
@@ -262,8 +344,8 @@ public class AdminHomePage extends AppCompatActivity
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot datas : dataSnapshot.getChildren()) {
                         dUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/"+dUser+"image.jpg?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
-                        if (Url!=null) {
+                        Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/" + dUser + "image.jpg?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
+                        if (Url != null) {
                             Glide.with(AdminHomePage.this).load(Url).into(profileImage);
 
                         } else {
@@ -282,7 +364,6 @@ public class AdminHomePage extends AppCompatActivity
                         } else {
                             identityType.setText(identType);
                         }
-
 
 
                         if (identNo.isEmpty()) {
@@ -307,9 +388,6 @@ public class AdminHomePage extends AppCompatActivity
 
             });
 
-
-            //   new MyCourse.GETCourseList().execute(SharedPrefManager.getInstance(this).getUser().access_token);
-            //Toast.makeText(getApplicationContext(),res,Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -339,16 +417,29 @@ public class AdminHomePage extends AppCompatActivity
 
 //Add the bundle to the intent
             intent.putExtras(bundle);
-
-
-//            intent.putExtra("name", String.valueOf(userName));
-//            intent.putExtra("idno", String.valueOf(identityNo));
-//            intent.putExtra("idtype", String.valueOf(identityType));
-
             startActivity(intent);
 
 
         }
+
+        if (v.getId() == homecleaning.getId())
+        {
+            Intent intent = new Intent(AdminHomePage.this, AdminCategoryActivity.class);
+            intent.putExtra("CatalogName","Home Cleaning & Repairs");
+            startActivity(intent);
+
+
+        }
+        if (v.getId() == appliance.getId())
+        {
+            Intent intent = new Intent(AdminHomePage.this, AdminCategoryActivity.class);
+            intent.putExtra("CatalogName","Appliance & Repairs");
+            startActivity(intent);
+
+
+        }
+
+
     }
 }
 

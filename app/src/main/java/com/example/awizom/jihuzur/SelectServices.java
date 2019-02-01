@@ -2,46 +2,294 @@ package com.example.awizom.jihuzur;
 
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
+import com.example.awizom.jihuzur.Adapter.CatalogGridViewAdapter;
+import com.example.awizom.jihuzur.Adapter.CategoryListAdapter;
+import com.example.awizom.jihuzur.Adapter.ServiceListAdapter;
+import com.example.awizom.jihuzur.Config.AppConfig;
+import com.example.awizom.jihuzur.Model.Catalog;
+import com.example.awizom.jihuzur.Model.Result;
+import com.example.awizom.jihuzur.Model.Service;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 public class SelectServices extends AppCompatActivity implements View.OnClickListener {
 
-    TextView service1,service2;
+    String categoryName, catalogID;
+    RecyclerView recyclerView;
+    List<Service> serviceList;
+    ServiceListAdapter serviceListAdapter;
+    private String result = "";
+    TextView categoryname;
+    FloatingActionButton addService;
+    AutoCompleteTextView editServicename, editDescription;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_and_repair);
-       initView();
+        initView();
     }
 
     private void initView() {
-        getSupportActionBar().setTitle("Ac Services");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        service1=(TextView)findViewById(R.id.service1);
-        service2=(TextView)findViewById(R.id.service2);
-        service1.setOnClickListener(this);
-        service2.setOnClickListener(this);
+
+        categoryName = getIntent().getStringExtra("CategoryName");
+        catalogID = getIntent().getStringExtra("CatalogID");
+
+
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Services");
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+
+        addService = (FloatingActionButton) findViewById(R.id.addService);
+        addService.setOnClickListener(this);
+        categoryname = (TextView) findViewById(R.id.categoryName);
+        categoryname.setText(categoryName);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        getServiceList();
+
     }
 
+    private void getServiceList() {
+
+
+        try {
+//            mSwipeRefreshLayout.setRefreshing(true);
+            new SelectServices.GETServiceList().execute(catalogID);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+//            mSwipeRefreshLayout.setRefreshing(false);
+            // System.out.println("Error: " + e);
+        }
+    }
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == service1.getId()){
-            Intent i = new Intent(this, RepairServiceActivity.class);
-            startActivity(i);
+        if (v.getId() == addService.getId()) {
+            showAddServiceDialog();
+
         }
     }
+
+    private void showAddServiceDialog() {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.add_servicelayout, null);
+        dialogBuilder.setView(dialogView);
+
+
+        editServicename = (AutoCompleteTextView) dialogView.findViewById(R.id.editServiceName);
+
+        editDescription = (AutoCompleteTextView) dialogView.findViewById(R.id.description);
+
+
+        final Button buttonAddCatalog = (Button) dialogView.findViewById(R.id.buttonAddService);
+        final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
+
+        dialogBuilder.setTitle("Add Service");
+        final AlertDialog b = dialogBuilder.create();
+        b.show();
+
+
+        buttonAddCatalog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                String service = editServicename.getText().toString().trim();
+                String descriptions = editDescription.getText().toString().trim();
+
+                try {
+
+                    new SelectServices.POSTService().execute(catalogID, service, descriptions);
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                    Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+                    // System.out.println("Error: " + e);
+                }
+                b.dismiss();
+
+            }
+
+
+        });
+
+
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                b.dismiss();
+                /*
+                 * we will code this method to delete the artist
+                 * */
+
+            }
+        });
+    }
+
+    private class POSTService extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+
+            //     InputStream inputStream
+            String catalogid = params[0];
+            String service = params[1];
+            String description = params[2];
+
+            String json = "";
+            try {
+
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                builder.url(AppConfig.BASE_URL_API_Admin + "CreateService");
+                builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
+                builder.addHeader("Accept", "application/json");
+                //builder.addHeader("Authorization", "Bearer " + accesstoken);
+
+                FormBody.Builder parameters = new FormBody.Builder();
+                parameters.add("CatalogID", catalogid);
+
+
+                parameters.add("ServiceName", service);
+                parameters.add("Description", description);
+
+                builder.post(parameters.build());
+
+
+                okhttp3.Response response = client.newCall(builder.build()).execute();
+
+                if (response.isSuccessful()) {
+                    json = response.body().string();
+
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                // System.out.println("Error: " + e);
+                Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+            }
+            return json;
+        }
+
+        protected void onPostExecute(String result) {
+
+            if (result.isEmpty()) {
+
+                Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
+            } else {
+                //System.out.println("CONTENIDO:  " + result);
+                Gson gson = new Gson();
+                final Result jsonbodyres = gson.fromJson(result, Result.class);
+                Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+
+
+        }
+
+    }
+
+
+    private class GETServiceList extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+
+
+            String catalogid = params[0];
+            String json = "";
+
+            try {
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                builder.url(AppConfig.BASE_URL_API_Admin + "GetCatalogService/" + catalogid);
+
+
+                okhttp3.Response response = client.newCall(builder.build()).execute();
+                if (response.isSuccessful()) {
+                    json = response.body().string();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+//                mSwipeRefreshLayout.setRefreshing(false);
+                // System.out.println("Error: " + e);
+//                Toast.makeText(getContext(),"Error: " + e,Toast.LENGTH_SHORT).show();
+            }
+            return json;
+        }
+
+        protected void onPostExecute(String result) {
+
+            try {
+                if (result.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    Gson gson = new Gson();
+                    Type listType = new TypeToken<List<Service>>() {
+                    }.getType();
+                    serviceList = new Gson().fromJson(result, listType);
+                    serviceListAdapter = new ServiceListAdapter(getBaseContext(), serviceList);
+
+                    recyclerView.setAdapter(serviceListAdapter);
+
+
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 }
+
+
