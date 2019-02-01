@@ -7,6 +7,15 @@ public class PricingView {
     public int ServiceID;
     public String ServiceName ;
     public String ServiceDesc ;
+    public int PricingID;
+    public String PrizingDesc;
+    public String PricingTerms;
+    public double Amount ;
+    public double PricingStart;
+    public double PricingEnd ;
+    public double PricingEndSlot;
+    public double StartAmount ;
+    public String DisplayType;
 
     public int getCatalogID() {
         return CatalogID;
@@ -112,12 +121,11 @@ public class PricingView {
         StartAmount = startAmount;
     }
 
-    public int PricingID;
-    public String PrizingDesc;
-    public String PricingTerms;
-    public double Amount ;
-    public double PricingStart;
-    public double PricingEnd ;
-    public double PricingEndSlot;
-    public double StartAmount ;
+    public String getDisplayType() {
+        return DisplayType;
+    }
+
+    public void setDisplayType(String displayType) {
+        DisplayType = displayType;
+    }
 }

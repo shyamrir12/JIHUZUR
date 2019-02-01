@@ -3,6 +3,7 @@ package com.example.awizom.jihuzur.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 
 import android.support.v7.widget.RecyclerView;
@@ -66,6 +67,13 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             }else {
                 holder.canclBtn.setVisibility(View.GONE);
             }
+
+            if(!order.getOrderStartTime().equals("NULL")){
+                holder.acceptBtn.setVisibility(View.GONE);
+            }else {
+                holder.acceptBtn.setVisibility(View.VISIBLE);
+            }
+
         } catch (Exception E) {
             E.printStackTrace();
         }
@@ -80,7 +88,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
 
         private Context mCtx;
-        private TextView startTime,endtime,headerName;
+        private TextView startTime,endtime,headerName,timercount;
         private Button acceptBtn,trackinBtn,canclBtn;
         private List<Order> orderitemList;
 
@@ -94,6 +102,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             headerName = itemView.findViewById(R.id.headerName);
             startTime = itemView.findViewById(R.id.starttime);
             endtime = itemView.findViewById(R.id.endtime);
+            timercount = itemView.findViewById(R.id.timeCount);
 
             acceptBtn = itemView.findViewById(R.id.acceptOtpBtn);
             trackinBtn = itemView.findViewById(R.id.trackBtn);
@@ -104,6 +113,9 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             acceptBtn.setOnClickListener(this);
             trackinBtn.setOnClickListener(this);
             canclBtn.setOnClickListener(this);
+
+
+            timercount.setOnClickListener(this);
         }
 
 
@@ -167,6 +179,10 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+
+                    break;
+
+                case R.id.timeCount:
 
                     break;
             }

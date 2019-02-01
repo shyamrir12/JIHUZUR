@@ -115,6 +115,7 @@ public class CustomerHomePage extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 intent=new Intent(CustomerHomePage.this,MenuActivity.class);
+                intent.putExtra("CategoryName","Home Cleaning & Repairs");
                 startActivity(intent);
             }
         });

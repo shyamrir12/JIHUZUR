@@ -99,6 +99,8 @@ public class ApplianceFragment extends ListFragment {
 
             if (position == 0) {
                 intent = new Intent(getActivity(), SelectServices.class);
+                intent.putExtra("CategoryName","Home Cleaning & Repairs");
+                intent.putExtra("CatalogID","1");
                 startActivity(intent);
 
             }

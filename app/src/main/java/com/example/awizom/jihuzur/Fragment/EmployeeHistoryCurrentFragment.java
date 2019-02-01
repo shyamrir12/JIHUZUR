@@ -15,7 +15,7 @@ public class EmployeeHistoryCurrentFragment extends Fragment {
 //    private Intent intent;
 //    RecyclerView recyclerView;
 //    SwipeRefreshLayout mSwipeRefreshLayout;
-//    private HistoryAdapter historyAdapter;
+//    private CustomerHistoryAdapter historyAdapter;
 //    String orderList[];
     private View view;
 
@@ -50,6 +50,6 @@ public class EmployeeHistoryCurrentFragment extends Fragment {
 
     private void getHistoryList() {
 //        String orderList[] = {"Booking Canceled", "Home Cleaning", "DELETE PROJECT"};
-//        historyAdapter = new HistoryAdapter(getContext(), orderList);
+//        historyAdapter = new CustomerHistoryAdapter(getContext(), orderList);
     }
 }

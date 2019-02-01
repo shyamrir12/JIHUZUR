@@ -18,14 +18,12 @@
         <android.support.design.widget.TabItem
             android:id="@+id/outgoing"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/current_order" />
+            android:layout_height="wrap_content" />
 
         <android.support.design.widget.TabItem
             android:id="@+id/history"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/order_history" />
+            android:layout_height="wrap_content" />
 
 
 

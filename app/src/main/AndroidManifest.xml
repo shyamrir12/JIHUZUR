@@ -17,6 +17,7 @@
         android:name="android.hardware.camera.flash"
         android:required="false" />
 
+    <uses-permission android:name="com.javapapers.android.androidlocationmaps.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -52,6 +53,19 @@
             android:label="@string/title_activity_login" />
 
         <activity
+            android:name=".AdminCategoryActivity" />
+
+        <activity
+            android:name=".AdminCatalogActivity" />
+
+
+
+        <activity
+            android:name=".AdminPricingActivity" />
+        <activity
+            android:name=".AdminDiscountActivity" />
+
+        <activity
             android:name=".CustomerHomePage"
             android:label="@string/title_activity_customer_home_page"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -78,7 +92,7 @@
         <activity android:name=".UpdateProfile" />
 
         <activity android:name=".LocationActivity"
-            android:parentActivityName=".RepairServiceActivity">
+            android:parentActivityName=".CustomerpricingActivity">
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
@@ -98,7 +112,7 @@
             android:name=".RegistrationActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".SelectServices"
-            android:parentActivityName=".MenuActivity"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -109,7 +123,7 @@
             android:parentActivityName=".CustomerHomePage">
 
         </activity>
-        <activity android:name=".RepairServiceActivity"
+        <activity android:name=".CustomerpricingActivity"
             android:parentActivityName=".SelectServices">
 
         </activity>
