@@ -1,11 +1,11 @@
-package com.example.awizom.jihuzur.Adapter;
+package com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.awizom.jihuzur.Fragment.EmployeeCurrentOrderFragment;
-import com.example.awizom.jihuzur.Fragment.EmployeeHistoryCurrentFragment;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment.EmployeeCurrentOrderFragment;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment.EmployeeHistoryCurrentFragment;
 
 public class EmployeePageAdapter extends FragmentPagerAdapter {
 

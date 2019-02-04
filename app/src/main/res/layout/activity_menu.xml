@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/grey">
-
+    android:background="@color/grey"
+    android:orientation="vertical">
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <android.support.design.widget.TabLayout
         android:id="@+id/tablayout"
         android:layout_width="match_parent"
@@ -16,28 +18,48 @@
         app:tabTextAppearance="@style/MineCustomTabText"
         app:tabTextColor="@color/white">
 
-        <android.support.design.widget.TabItem
-            android:id="@+id/applianceRepair"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
 
 
-            android:text="Appliance Repair" />
+            <android.support.design.widget.TabItem
+                android:id="@+id/applianceRepair"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HomeService" />
 
-        <android.support.design.widget.TabItem
-            android:id="@+id/massageFitness"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Massage and Fitness" />
+            <android.support.design.widget.TabItem
+                android:id="@+id/massageFitness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Appliance" />
 
-        <android.support.design.widget.TabItem
-            android:id="@+id/homeCleaning"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Home Cleaning" />
+            <android.support.design.widget.TabItem
+                android:id="@+id/homeCleaning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HomeCleaning" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/painting"
+                android:layout_width="500dp"
+                android:layout_height="wrap_content"
+                android:text="Painting" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/movingHome"
+                android:layout_width="500dp"
+                android:layout_height="wrap_content"
+                android:text="Moving" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/Tutor"
+                android:layout_width="500dp"
+                android:layout_height="wrap_content"
+                android:text="Tutor" />
+
+
 
     </android.support.design.widget.TabLayout>
-
+    </HorizontalScrollView>
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"

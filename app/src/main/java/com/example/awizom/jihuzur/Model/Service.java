@@ -5,6 +5,7 @@ public class Service {
     private String ServiceName ;
     private String Description;
     private int CatalogID ;
+    private String DisplayType;
 
     public int getServiceID() {
         return ServiceID;
@@ -36,6 +37,14 @@ public class Service {
 
     public void setCatalogID(int catalogID) {
         CatalogID = catalogID;
+    }
+
+    public String getDisplayType() {
+        return DisplayType;
+    }
+
+    public void setDisplayType(String displayType) {
+        DisplayType = displayType;
     }
 }
 

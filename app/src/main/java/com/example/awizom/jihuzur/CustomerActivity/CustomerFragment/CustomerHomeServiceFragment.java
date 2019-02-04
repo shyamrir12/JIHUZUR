@@ -1,4 +1,4 @@
-package com.example.awizom.jihuzur.Fragment;
+package com.example.awizom.jihuzur.CustomerActivity.CustomerFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,10 +20,10 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class ApplianceFragment extends Fragment {
+public class CustomerHomeServiceFragment extends Fragment {
 
     Intent intent;
-    private String result="",catalogName="Appliance & Repairs";
+    private String result="",catalogName="Home Cleaning & Repairs";
     List<Catalog> categorylist;
     RecyclerView recyclerView;
     RelativeLayout relativeLayout;
@@ -51,19 +51,21 @@ public class ApplianceFragment extends Fragment {
     private void getcatagoryList() {
 
         try {
-            result = new CustomerOrderHelper.GETCustomerCategoryList().execute(catalogName).get();
-            if(result != null){
+           result = new CustomerOrderHelper.GETCustomerCategoryList().execute(catalogName).get();
+           if(result != null){
 
-                Gson gson = new Gson();
-                Type listType = new TypeToken<List<Catalog>>() {
-                }.getType();
-                categorylist = new Gson().fromJson(result, listType);
-                customerCatagoryAdapter = new CustomerCatagoryAdapter(getContext(),categorylist);
-                recyclerView.setAdapter(customerCatagoryAdapter);
-            }
+               Gson gson = new Gson();
+               Type listType = new TypeToken<List<Catalog>>() {
+               }.getType();
+               categorylist = new Gson().fromJson(result, listType);
+               customerCatagoryAdapter = new CustomerCatagoryAdapter(getContext(),categorylist);
+               recyclerView.setAdapter(customerCatagoryAdapter);
+           }
         }catch (Exception e){
             e.printStackTrace();
         }
 
     }
+
+
 }

@@ -1,11 +1,9 @@
-package com.example.awizom.jihuzur.Adapter;
+package com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter;
 
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
-
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,16 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.awizom.jihuzur.CustomerHomePage;
-import com.example.awizom.jihuzur.Helper.CustomerGetMyOrderRunningHelper;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
+import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Model.Order;
 import com.example.awizom.jihuzur.Model.ResultModel;
 import com.example.awizom.jihuzur.R;
-import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -58,10 +53,18 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             order = orderitemList.get(position);
             orderId = String.valueOf(order.getOrderID());
 
-            holder.headerName.setText(String.valueOf(order.getOrderID()));
-            holder.startTime.setText(order.getEmployeeID().toString());
-            holder.endtime.setText(order.getCustomerID().toString());
+            holder.empName.setText(order.getEmpName());
+            holder.empContAct.setText(order.getEmpMob());
+            holder.timercount.setText(order.getTotalTime());
+            holder.startTime.setText(order.getEmployeeID());
+            holder.endtime.setText(order.getCustomerID());
+            holder.catagryName.setText(order.getCategory());
+            holder.servicName.setText(order.getServiceName());
+            holder.pricingterm.setText(order.getPricingTerms());
 
+            if(!order.getPricingTerms().equals(null)){
+                holder.pricingterm.setVisibility(View.VISIBLE);
+            }
             if (order.getOrderStartTime().equals("NULL")) {
                 holder.canclBtn.setVisibility(View.VISIBLE);
             } else {
@@ -69,10 +72,13 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             }
 
             if (!order.getOrderStartTime().equals("NULL")) {
-                holder.acceptBtn.setVisibility(View.GONE);
-            } else {
                 holder.acceptBtn.setVisibility(View.VISIBLE);
+            } else {
+                holder.acceptBtn.setVisibility(View.GONE);
             }
+
+
+
 
         } catch (Exception E) {
             E.printStackTrace();
@@ -88,7 +94,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context mCtx;
-        private TextView startTime, endtime, headerName, timercount;
+        private TextView startTime, endtime, empName, timercount, empContAct,catagryName,servicName,pricingterm;
         private Button acceptBtn, trackinBtn, canclBtn;
         private List<Order> orderitemList;
 
@@ -99,7 +105,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             this.orderitemList = orderitemList;
             itemView.setOnClickListener(this);
 
-            headerName = itemView.findViewById(R.id.headerName);
+            empName = itemView.findViewById(R.id.cusName);
             startTime = itemView.findViewById(R.id.starttime);
             endtime = itemView.findViewById(R.id.endtime);
             timercount = itemView.findViewById(R.id.timeCount);
@@ -108,12 +114,15 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             trackinBtn = itemView.findViewById(R.id.trackBtn);
             canclBtn = itemView.findViewById(R.id.cancelBtn);
 
+            empContAct = itemView.findViewById(R.id.empMobile);
+            catagryName = itemView.findViewById(R.id.catagoryName);
+            servicName = itemView.findViewById(R.id.serviceName);
+            pricingterm = itemView.findViewById(R.id.pricingterm);
+
 
             acceptBtn.setOnClickListener(this);
             trackinBtn.setOnClickListener(this);
             canclBtn.setOnClickListener(this);
-
-
             timercount.setOnClickListener(this);
         }
 
@@ -140,7 +149,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                         @Override
                         public void onClick(View v) {
                             try {
-                                result = new CustomerGetMyOrderRunningHelper.AcceptOtp().execute(orderId, enterOtp.getText().toString()).get();
+                                result = new CustomerOrderHelper.AcceptOtp().execute(orderId, enterOtp.getText().toString()).get();
                                 Gson gson = new Gson();
                                 Type getType = new TypeToken<ResultModel>() {
                                 }.getType();
@@ -170,7 +179,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                 case R.id.cancelBtn:
 
                     try {
-                        result = new CustomerGetMyOrderRunningHelper.CancelOrder().execute(orderId).get();
+                        result = new CustomerOrderHelper.CancelOrder().execute(orderId).get();
                         Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                     } catch (ExecutionException e) {
                         e.printStackTrace();

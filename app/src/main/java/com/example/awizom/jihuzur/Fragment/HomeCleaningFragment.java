@@ -1,110 +1,69 @@
 package com.example.awizom.jihuzur.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.Toast;
+import android.widget.RelativeLayout;
 
+import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerCatagoryAdapter;
+import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
+import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.lang.reflect.Type;
 import java.util.List;
 
-public class HomeCleaningFragment  extends ListFragment {
+public class HomeCleaningFragment extends Fragment {
 
-
-    String[] Home = new String[] {
-            "Home Deep Cleaning",
-            "Kitchen Deep Cleaning",
-            "Carpet Cleaning",
-            "Bathroom Deep Cleaning",
-            "Sofa Cleaning",
-            "Car Cleaning",
-            "Pest Control",
-
-    };
-
-    // Array of integers points to images stored in /res/drawable/
-    int[] Icons = new int[]{
-            R.drawable.home_cleaning,
-            R.drawable.home_cleaning,
-            R.drawable.home_cleaning,
-            R.drawable.home_cleaning,
-            R.drawable.home_cleaning,
-            R.drawable.home_cleaning,
-            R.drawable.home_cleaning
-    };
-
-    // Array of strings to store currencies
-
-
-
-
+    Intent intent;
+    private String result="",catalogName="Appliance & Repairs";
+    List<Catalog> categorylist;
+    RecyclerView recyclerView;
+    RelativeLayout relativeLayout;
+    CustomerCatagoryAdapter customerCatagoryAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-//        setHasOptionsMenu(true);
-//        return inflater.inflate(R.layout.fragment_appliance, container, false);
-        List<HashMap<String,String>> aList = new ArrayList<HashMap<String,String>>();
-
-        for(int i=0;i<7;i++){
-            HashMap<String, String> hm = new HashMap<String,String>();
-            hm.put("txt" , Home[i]);
-
-            hm.put("Icons", Integer.toString(Icons[i]) );
-            aList.add(hm);
-
-        }
-
-        // Keys used in Hashmap
-        String[] from = { "Icons","txt" };
-
-        // Ids of views in listview_layout
-        int[] to = { R.id.flag,R.id.txt};
-
-        // Instantiating an adapter to store each items
-        // R.layout.listview_layout defines the layout of each item
-        SimpleAdapter adapter = new SimpleAdapter(getActivity().getBaseContext(), aList, R.layout.fragment_homecleaning, from, to);
-
-        setListAdapter(adapter);
-
-
-        return super.onCreateView(inflater, container, savedInstanceState);
-
+        View view = inflater.inflate(R.layout.layout_apliance, container, false);
+        initView(view);
+        return view;
 
     }
 
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        {
-            Toast.makeText(getActivity(), "Clicked on " , Toast.LENGTH_SHORT)
-                    .show();
-        }
+    private void initView(View view) {
+
+        relativeLayout = view.findViewById(R.id.textRelate);
+        recyclerView = view.findViewById(R.id.recyclerView);
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        getcatagoryList();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_appliance, menu);
-    }
+    private void getcatagoryList() {
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_appliance) {
-            Toast.makeText(getActivity(), "Clicked on " + item.getTitle(), Toast.LENGTH_SHORT)
-                    .show();
+        try {
+            result = new CustomerOrderHelper.GETCustomerCategoryList().execute(catalogName).get();
+            if(result != null){
+
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<Catalog>>() {
+                }.getType();
+                categorylist = new Gson().fromJson(result, listType);
+                customerCatagoryAdapter = new CustomerCatagoryAdapter(getContext(),categorylist);
+                recyclerView.setAdapter(customerCatagoryAdapter);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        return true;
+
     }
 }

@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.example.awizom.jihuzur.CustomerActivity.CustomerFragment.CustomerHomeServiceFragment;
 import com.example.awizom.jihuzur.Fragment.ApplianceFragment;
-import com.example.awizom.jihuzur.Fragment.FitnessFragment;
 import com.example.awizom.jihuzur.Fragment.HomeCleaningFragment;
 
 public class PageAdapter extends FragmentPagerAdapter {
@@ -21,10 +21,16 @@ public class PageAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new ApplianceFragment();
+                return new CustomerHomeServiceFragment();
             case 1:
-                return new FitnessFragment();
+                return new ApplianceFragment();
             case 2:
+                return new HomeCleaningFragment();
+            case 3:
+                return new CustomerHomeServiceFragment();
+            case 4:
+                return new ApplianceFragment();
+            case 5:
                 return new HomeCleaningFragment();
             default:
                 return null;

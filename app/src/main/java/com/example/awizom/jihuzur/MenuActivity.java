@@ -21,6 +21,10 @@ public class MenuActivity extends AppCompatActivity {
     TabItem massage;
     TabItem homecleaning;
 
+    TabItem painting;
+    TabItem tutors;
+    TabItem movingHome;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +46,11 @@ public class MenuActivity extends AppCompatActivity {
         appliance = findViewById(R.id.applianceRepair);
         massage = findViewById(R.id.massageFitness);
         homecleaning = findViewById(R.id.homeCleaning);
+
+         painting  = findViewById(R.id.painting);
+         tutors  = findViewById(R.id.Tutor);
+         movingHome  = findViewById(R.id.movingHome);
+
         viewPager = findViewById(R.id.viewPager);
 
         pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
@@ -62,6 +71,33 @@ public class MenuActivity extends AppCompatActivity {
                                 R.color.colorPrimary));
                     }
                 } else if (tab.getPosition() == 2) {
+//                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
+//                            android.R.color.darker_gray));
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
+                            android.R.color.black));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
+                                android.R.color.black));
+                    }
+                }else if (tab.getPosition() == 3) {
+//                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
+//                            R.color.colorAccent));
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
+                            R.color.colorPrimary));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
+                                R.color.colorPrimary));
+                    }
+                } else if (tab.getPosition() == 4) {
+//                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
+//                            android.R.color.darker_gray));
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
+                            android.R.color.black));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
+                                android.R.color.black));
+                    }
+                }else if (tab.getPosition() == 5) {
 //                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
 //                            android.R.color.darker_gray));
                     tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,

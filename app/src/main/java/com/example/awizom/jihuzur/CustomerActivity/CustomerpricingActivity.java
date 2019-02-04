@@ -1,4 +1,4 @@
-package com.example.awizom.jihuzur;
+package com.example.awizom.jihuzur.CustomerActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,9 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import com.example.awizom.jihuzur.Adapter.CustomerPricingAdapter;
-import com.example.awizom.jihuzur.Helper.CustomerGetMyOrderRunningHelper;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerPricingAdapter;
+import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
+import com.example.awizom.jihuzur.LocationActivity;
 import com.example.awizom.jihuzur.Model.PricingView;
+import com.example.awizom.jihuzur.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
@@ -25,7 +27,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     CustomerPricingAdapter repairAndServiceAdapter;
     RecyclerView recyclerView;
     RelativeLayout relativeLayout;
-    private String result="",serviceID="";
+    private String result="",serviceID="",description="",serviceName="",displayType="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,12 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     private void initView() {
         getSupportActionBar().setTitle("Customer Pricing");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         serviceID=getIntent().getStringExtra("serviceID");
+        description=getIntent().getStringExtra("description");
+        serviceName=getIntent().getStringExtra("serviceName");
+        displayType=getIntent().getStringExtra("DisplayType");
+
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -49,12 +56,12 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 
     private void getMyOrderRunning() {
         try {
-            result   = new CustomerGetMyOrderRunningHelper.GetCustomerPricing().execute(serviceID.toString()).get();
+            result   = new CustomerOrderHelper.GetCustomerPricing().execute(serviceID.toString()).get();
             Gson gson = new Gson();
             Type listType = new TypeToken<List<PricingView>>() {
             }.getType();
             pricingViewsList = new Gson().fromJson(result, listType);
-            repairAndServiceAdapter = new CustomerPricingAdapter(CustomerpricingActivity.this, pricingViewsList);
+            repairAndServiceAdapter = new CustomerPricingAdapter(CustomerpricingActivity.this, pricingViewsList,displayType);
             recyclerView.setAdapter(repairAndServiceAdapter);
         } catch (ExecutionException e) {
             e.printStackTrace();

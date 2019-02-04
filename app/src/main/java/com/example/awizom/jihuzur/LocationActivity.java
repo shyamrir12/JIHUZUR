@@ -10,8 +10,8 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.awizom.jihuzur.Helper.GetEmployeeProfileHelper;
-import com.example.awizom.jihuzur.Helper.OrderPostHelper;
+import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
+import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Model.EmployeeProfileModel;
 import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
@@ -83,7 +83,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
 
         try {
 
-            result = new GetEmployeeProfileHelper.GetEmployeeProfileForShow().execute().get();
+            result = new EmployeeOrderHelper.GetEmployeeProfileForShow().execute().get();
 
             Type listType = new TypeToken<List<EmployeeProfileModel>>() {
             }.getType();
@@ -207,7 +207,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         String orderDate = String.valueOf(date);
         String catalogId = String.valueOf(2);
         try {
-            result = new OrderPostHelper.OrderPost().execute(customerid, empId, orderDate, catalogId).get();
+            result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId).get();
             if (!result.isEmpty()) {
                 intent = new Intent(this, MyBokingsActivity.class);
                 startActivity(intent);

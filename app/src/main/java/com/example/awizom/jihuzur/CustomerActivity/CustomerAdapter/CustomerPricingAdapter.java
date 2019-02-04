@@ -1,4 +1,4 @@
-package com.example.awizom.jihuzur.Adapter;
+package com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.example.awizom.jihuzur.CustomerActivity.CustomerpricingActivity;
 import com.example.awizom.jihuzur.Model.PricingView;
 import com.example.awizom.jihuzur.R;
 
@@ -19,11 +20,14 @@ public class CustomerPricingAdapter extends RecyclerView.Adapter<CustomerPricing
 
     private Context mCtx;
     private List<PricingView> pricingViewList;
-    private String serviceID = "", result = "";
+    private String serviceID = "", result = "",displytype="";
 
-    public CustomerPricingAdapter(Context applicationContext, List<PricingView> pricingView) {
-        this.mCtx = applicationContext;
-        this.pricingViewList = pricingView;
+
+
+    public CustomerPricingAdapter(CustomerpricingActivity customerpricingActivity, List<PricingView> pricingViewsList, String displayType) {
+        this.mCtx = customerpricingActivity;
+        this.pricingViewList = pricingViewsList;
+        this.displytype = displayType;
     }
 
     @NonNull
@@ -39,15 +43,15 @@ public class CustomerPricingAdapter extends RecyclerView.Adapter<CustomerPricing
 
         try {
             PricingView pricingView = pricingViewList.get(position);
-            holder.radioText.setText(String.valueOf(pricingView.getServiceName()));
+          /*  holder.radioText.setText(String.valueOf(pricingView.getServiceName()));*/
             holder.desText.setText(String.valueOf(pricingView.getPrizingDesc()));
             holder.priceText.setText(String.valueOf(pricingView.getAmount()));
             holder.serviceDescText.setText(pricingView.getPricingTerms());
-            pricingView.setDisplayType("Redio");
 
-            if (pricingView.getDisplayType().equals("Redio")) {
+
+            if (displytype.equals("Redio")) {
                 holder.checkBox.setVisibility(View.GONE);
-            } else if (pricingView.getDisplayType().equals("Checkbox")) {
+            } else if (displytype.equals("Checkbox")) {
                 holder.radioButton.setVisibility(View.GONE);
             }
 
@@ -68,7 +72,7 @@ public class CustomerPricingAdapter extends RecyclerView.Adapter<CustomerPricing
         private List<PricingView> pricingViewList;
         private RadioButton radioButton;
         private CheckBox checkBox;
-        private TextView radioText, priceText, desText, serviceDescText;
+        private TextView  priceText, desText, serviceDescText;
 
 
         public OrderItemViewHolder(View view, Context mCtx, List<PricingView> pricingViewList) {
@@ -79,7 +83,6 @@ public class CustomerPricingAdapter extends RecyclerView.Adapter<CustomerPricing
 
 
             radioButton = view.findViewById(R.id.radioSelectRepair);
-            radioText = view.findViewById(R.id.redioTextView);
             checkBox = view.findViewById(R.id.checkSelectRepairs);
             priceText = view.findViewById(R.id.price);
             desText = view.findViewById(R.id.description);

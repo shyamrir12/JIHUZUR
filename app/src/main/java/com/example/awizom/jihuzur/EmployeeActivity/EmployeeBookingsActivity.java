@@ -1,4 +1,4 @@
-package com.example.awizom.jihuzur;
+package com.example.awizom.jihuzur.EmployeeActivity;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -9,8 +9,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toolbar;
 
-import com.example.awizom.jihuzur.Adapter.CustomerPageAdapterBookings;
-import com.example.awizom.jihuzur.Adapter.EmployeePageAdapter;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeePageAdapter;
+import com.example.awizom.jihuzur.R;
 
 
 public class EmployeeBookingsActivity extends AppCompatActivity {

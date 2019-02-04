@@ -1,4 +1,4 @@
-package com.example.awizom.jihuzur.Adapter;
+package com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -21,6 +21,7 @@ public class CustomerHistoryAdapter extends RecyclerView.Adapter<CustomerHistory
     private String orderId = "", otpCode = "", result = "";
     int curposition;
 
+
     public CustomerHistoryAdapter(Context context, List<Order> orderList) {
         this.mCtx = context;
         this.orderitemList = orderList;
@@ -30,7 +31,7 @@ public class CustomerHistoryAdapter extends RecyclerView.Adapter<CustomerHistory
     @Override
     public CustomerHistoryAdapter.OrderItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.history_adapter, null);
+        View view = inflater.inflate(R.layout.customer_history_adapter, null);
         return new CustomerHistoryAdapter.OrderItemViewHolder(view, mCtx, orderitemList);
     }
 
@@ -42,9 +43,19 @@ public class CustomerHistoryAdapter extends RecyclerView.Adapter<CustomerHistory
             order = orderitemList.get(position);
             orderId = String.valueOf(order.getOrderID());
 
-            holder.headerName.setText(String.valueOf(order.getOrderID()));
-            holder.startTime.setText(order.getEmployeeID().toString());
-            holder.endtime.setText(order.getCustomerID().toString());
+            holder.empName.setText(order.getEmpName());
+            holder.empContAct.setText(order.getEmpMob());
+            holder.timercount.setText(order.getTotalTime());
+            holder.startTime.setText(order.getEmployeeID());
+            holder.endtime.setText(order.getCustomerID());
+            holder.catagryName.setText(order.getCategory());
+            holder.servicName.setText(order.getServiceName());
+            holder.prcingtrm.setText(order.getPricingTerms());
+
+            if(!order.getPricingTerms().equals(null)){
+                holder.prcingtrm.setVisibility(View.VISIBLE);
+            }
+
 
         } catch (Exception E) {
             E.printStackTrace();
@@ -61,7 +72,7 @@ public class CustomerHistoryAdapter extends RecyclerView.Adapter<CustomerHistory
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context mCtx;
-        private TextView startTime, endtime, headerName;
+        private TextView startTime, endtime, empName, timercount, empContAct,catagryName,servicName,prcingtrm;
         private Button deleteBtn;
         private List<Order> orderitemList;
 
@@ -71,9 +82,15 @@ public class CustomerHistoryAdapter extends RecyclerView.Adapter<CustomerHistory
             this.orderitemList = orderitemList;
             itemView.setOnClickListener(this);
 
-            headerName = itemView.findViewById(R.id.headerName);
+            empName = itemView.findViewById(R.id.cusName);
             startTime = itemView.findViewById(R.id.starttime);
             endtime = itemView.findViewById(R.id.endtime);
+            timercount = itemView.findViewById(R.id.timeCount);
+            empContAct = itemView.findViewById(R.id.empMobile);
+            catagryName = itemView.findViewById(R.id.catagoryName);
+            servicName = itemView.findViewById(R.id.serviceName);
+            prcingtrm = itemView.findViewById(R.id.pricingterm);
+
             deleteBtn = itemView.findViewById(R.id.deleteBtn);
             deleteBtn.setOnClickListener(this);
 

@@ -1,4 +1,4 @@
-package com.example.awizom.jihuzur.Adapter;
+package com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,12 +9,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.awizom.jihuzur.Helper.EmployeeGetMyCurrentOrderRunning;
+import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Model.Order;
-import com.example.awizom.jihuzur.Model.ResultModel;
-import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.R;
-import com.google.gson.Gson;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -50,10 +47,16 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
         try {
 
             order = orderitemList.get(position);
-            holder.headerName.setText(String.valueOf(order.getOrderID()));
-            holder.startTime.setText( order.getEmployeeID().toString());
-            holder.endtime.setText( order.getCustomerID().toString());
-
+            holder.customerName.setText(order.getName());
+            holder.startTime.setText( order.getOrderStartTime());
+            holder.endtime.setText( order.getOrderEndTime());
+            holder.customerContact.setText(order.getMobileNo());
+            holder.catagoryName.setText(order.getCatalogName());
+            holder.serviceName.setText( order.getServiceName());
+            holder.totalTime.setText( order.getTotalTime());
+            if(!order.getPricingTerms().equals(null)){
+                holder.pricingterm.setVisibility(View.VISIBLE);
+            }
         } catch (Exception E) {
             E.printStackTrace();
         }
@@ -66,7 +69,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
 
         private Context mCtx;
-        private TextView startTime,endtime,headerName;
+        private TextView startTime,endtime,customerName,customerContact,catagoryName,serviceName,totalTime,pricingterm;
         private Button genrateBtn,trackinBtn,stopBtn,acceptPaymentBtn;
         private List<Order> orderitemList;
 
@@ -77,10 +80,14 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             this.orderitemList = orderitemList;
             itemView.setOnClickListener(this);
 
-            headerName = itemView.findViewById(R.id.headerName);
+            customerName = itemView.findViewById(R.id.cusName);
             startTime = itemView.findViewById(R.id.starttime);
             endtime = itemView.findViewById(R.id.endtime);
-
+            customerContact = itemView.findViewById(R.id.cusMobile);
+            catagoryName = itemView.findViewById(R.id.catagoryName);
+            serviceName= itemView.findViewById(R.id.serviceName);
+            totalTime = itemView.findViewById(R.id.timeCount);
+            pricingterm = itemView.findViewById(R.id.pricingterm);
             genrateBtn = itemView.findViewById(R.id.genOtpBtn);
             trackinBtn = itemView.findViewById(R.id.trackBtn);
             stopBtn = itemView.findViewById(R.id.stopBtn);
@@ -100,7 +107,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                 case R.id.genOtpBtn:
 
                     try {
-                        result = new EmployeeGetMyCurrentOrderRunning.GenerateOtp().execute(orderId).get();
+                        result = new EmployeeOrderHelper.GenerateOtp().execute(orderId).get();
                         Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
@@ -116,7 +123,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                 case R.id.stopBtn:
 
                     try {
-                        result = new EmployeeGetMyCurrentOrderRunning.StopOrder().execute(orderId).get();
+                        result = new EmployeeOrderHelper.StopOrder().execute(orderId).get();
                         Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
@@ -128,7 +135,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                 case R.id.acceptPaymentBtn:
 
                     try {
-                        result = new EmployeeGetMyCurrentOrderRunning.AcceptPayment().execute(orderId,empId).get();
+                        result = new EmployeeOrderHelper.AcceptPayment().execute(orderId,empId).get();
                         Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                     } catch (ExecutionException e) {
                         e.printStackTrace();

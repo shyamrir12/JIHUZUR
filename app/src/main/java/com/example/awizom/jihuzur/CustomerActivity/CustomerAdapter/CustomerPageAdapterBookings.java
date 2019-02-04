@@ -1,10 +1,10 @@
-package com.example.awizom.jihuzur.Adapter;
+package com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import com.example.awizom.jihuzur.Fragment.HistoryFragment;
-import com.example.awizom.jihuzur.Fragment.CutomerCurrentOrderFragment;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerFragment.CustomerHistoryFragment;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerFragment.CutomerCurrentOrderFragment;
 
 public class CustomerPageAdapterBookings extends FragmentPagerAdapter {
 
@@ -21,7 +21,7 @@ public class CustomerPageAdapterBookings extends FragmentPagerAdapter {
             case 0:
                 return new CutomerCurrentOrderFragment();
             case 1:
-                return new HistoryFragment();
+                return new CustomerHistoryFragment();
 
             default:
                 return null;

@@ -1,4 +1,4 @@
-package com.example.awizom.jihuzur;
+package com.example.awizom.jihuzur.EmployeeActivity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -11,30 +11,32 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
-import com.example.awizom.jihuzur.Fragment.CatalogFragment;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
-import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
+import com.example.awizom.jihuzur.R;
+import com.example.awizom.jihuzur.RegistrationActivity;
+import com.example.awizom.jihuzur.SettingsActivity;
+import com.example.awizom.jihuzur.UpdateProfile;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
-public class CustomerHomePage extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class EmployeeHomePage extends AppCompatActivity
 
+        //side navigation drawer start
+
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     String TAG;
     private Fragment fragment = null;
-    private Fragment searchFragment,myBookingFragment,helpCenterFragment,catalogFragment;
-
+    private Fragment searchFragment,helpCenterFragment;
+    private Intent intent;
     DatabaseReference datauser, datauserpro;
     String dUser;
     String name;
@@ -42,11 +44,6 @@ public class CustomerHomePage extends AppCompatActivity
     String Url;
     Boolean active = false;
     View header;
-    private CardView homeCleaningCardView;
-    private ImageView homecleaning;
-    private TextView homeCleaningTextView;
-    DatabaseReference datauserprofile;
-    private Intent intent;
     ImageView profileImage;
     TextView userName, identityNo, identityType;
     //bottom navigation drawer started
@@ -60,16 +57,16 @@ public class CustomerHomePage extends AppCompatActivity
             Class framentClass = null;
             switch (item.getItemId()) {
                 case R.id.navigation_search:
-                    getSupportActionBar().setTitle("Customer Home");
-                  intent=new Intent(CustomerHomePage.this,CustomerHomePage.class);
-                  startActivity(intent);
-                    break;
+                    getSupportActionBar().setTitle("Search");
+                    fragment = searchFragment;
+                    framentClass = SearchFragment.class;
 
+                    break;
                 case R.id.navigation_booking:
 //                    getSupportActionBar().setTitle("My Booking");
 //                    fragment = myBookingFragment;
 //                    framentClass = MyBookingFragment.class;
-                    intent=new Intent(CustomerHomePage.this,MyBokingsActivity.class);
+                    intent=new Intent(EmployeeHomePage.this,EmployeeBookingsActivity.class);
                     startActivity(intent);
 
                     break;
@@ -79,6 +76,7 @@ public class CustomerHomePage extends AppCompatActivity
                     fragment = helpCenterFragment;
                     framentClass = HelpCenterFragment.class;
                     break;
+
             }
             try {
                 fragment = (Fragment) framentClass.newInstance();
@@ -98,34 +96,19 @@ public class CustomerHomePage extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       initView();
-    }
-
-    private void initView() {
-
-
         searchFragment = new SearchFragment();
-        myBookingFragment= new MyBookingFragment();
-        catalogFragment = new CatalogFragment();
 
-        setContentView(R.layout.activity_customer_home_page);
+        setContentView(R.layout.activity_employee_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        homeCleaningCardView = findViewById(R.id.homeCleancardViewOne);
-        homeCleaningCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
-                intent.putExtra("CategoryName","Home Cleaning & Repairs");
-                startActivity(intent);
-            }
-        });
-        homecleaning = findViewById(R.id.homecleaning);
-
-        homeCleaningTextView = findViewById(R.id.homecleaningTextView);
         setSupportActionBar(toolbar);
+
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -147,24 +130,23 @@ public class CustomerHomePage extends AppCompatActivity
         identityType.setOnClickListener(this);
         userName.setOnClickListener(this);
 
+            Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/blank-profile.png?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
+            Glide.with(EmployeeHomePage.this).load(Url).into(profileImage);
 
+            String identNo = "identity no";
+            String name = "welcome user";
 
-        Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/blank-profile.png?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
-        Glide.with(CustomerHomePage.this).load(Url).into(profileImage);
+            String identType = "identity type";
+            identityType.setText(identType);
+            identityNo.setText(identNo);
+            userName.setText(name);
 
-        String identNo = "identity no";
-        String name = "welcome user";
-
-        String identType = "identity type";
-        identityType.setText(identType);
-        identityNo.setText(identNo);
-        userName.setText(name);
 
 
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), DrawingActivity.class);
+                Intent intent = new Intent(getApplicationContext(), EmployeeDrawingActivity.class);
                 startActivity(intent);
             }
         });
@@ -187,13 +169,14 @@ public class CustomerHomePage extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.customer_home_page, menu);
+        getMenuInflater().inflate(R.menu.employee_home_page, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
+        // Handle action bar item clicks here. The action b
+        // ar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
@@ -206,19 +189,15 @@ public class CustomerHomePage extends AppCompatActivity
             return true;
         }
         if (id == R.id.action_customerHome) {
-            intent = new Intent(CustomerHomePage.this, CustomerHomePage.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            Intent i = new Intent(EmployeeHomePage.this, EmployeeHomePage.class);
+            startActivity(i);
 
 
             return true;
         }
         if(id == R.id.action_settings){
-            intent = new Intent(CustomerHomePage.this, SettingsActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            Intent i = new Intent(EmployeeHomePage.this, SettingsActivity.class);
+            startActivity(i);
 
 
             return true;
@@ -235,20 +214,21 @@ public class CustomerHomePage extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_booking) {
-            intent=new Intent(CustomerHomePage.this,MyBokingsActivity.class);
+        if (id == R.id.nav_profile) {
+            // Handle the camera action
+        } else if (id == R.id.nav_booking) {
+
+            intent=new Intent(EmployeeHomePage.this,EmployeeBookingsActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_complaint) {
-            intent=new Intent(CustomerHomePage.this,ComplaintActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_order) {
+
+        } else if (id == R.id.nav_skill) {
 
         } else if (id == R.id.nav_logout) {
+
             SharedPrefManager.getInstance(this).logout();
             Intent login = new Intent(getApplicationContext(), RegistrationActivity.class);
             startActivity(login);
             finish();
-        }else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
 
@@ -266,10 +246,11 @@ public class CustomerHomePage extends AppCompatActivity
             intent.putExtra("sms_body", message);
             startActivity(intent);
 
-        } else if (id == R.id.profileImage) {
-            Intent imageView = new Intent(CustomerHomePage.this, DrawingActivity.class);
-            startActivity(imageView);
         }
+// else if (id == R.id.profileImage) {
+//            Intent imageView = new Intent(EmployeeHomePage.this, DrawingActivity.class);
+//            startActivity(imageView);
+//        }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -279,23 +260,22 @@ public class CustomerHomePage extends AppCompatActivity
 
 
 
-
     @Override
     public void onClick(View v) {
         if (v.getId() == identityNo.getId()) {
-            Intent intent = new Intent(CustomerHomePage.this, UpdateProfile.class);
+            Intent intent = new Intent(EmployeeHomePage.this, UpdateProfile.class);
+
+
             String uname = userName.getText().toString();
             String idenNo = identityNo.getText().toString();
             String idenType = identityType.getText().toString();
-//Create the bundle
+            //Create the bundle
             Bundle bundle = new Bundle();
-
-//Add your data to bundle
+            //Add your data to bundle
             bundle.putString("uname", uname);
             bundle.putString("idenNo", idenNo);
             bundle.putString("idenType", idenType);
-
-//Add the bundle to the intent
+            //Add the bundle to the intent
             intent.putExtras(bundle);
             startActivity(intent);
 
@@ -303,4 +283,5 @@ public class CustomerHomePage extends AppCompatActivity
         }
     }
 }
+
 

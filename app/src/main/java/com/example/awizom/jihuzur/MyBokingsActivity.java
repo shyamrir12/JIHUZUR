@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toolbar;
 
-import com.example.awizom.jihuzur.Adapter.CustomerPageAdapterBookings;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerPageAdapterBookings;
 
 public class MyBokingsActivity extends AppCompatActivity {
 

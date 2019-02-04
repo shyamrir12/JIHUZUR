@@ -7,7 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.example.awizom.jihuzur.Helper.VerifyMobileHelper;
+
+import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
+import com.example.awizom.jihuzur.Helper.LoginHelper;
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
@@ -70,7 +73,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
         if(validation()){
 
             try {
-                result   = new VerifyMobileHelper.PostVerifyMobile().execute(otpEditText.getText().toString().trim(),userId,otp.toString().trim()).get();
+                result   = new LoginHelper.PostVerifyMobile().execute(otpEditText.getText().toString().trim(),userId,otp.toString().trim()).get();
                 Gson gson = new Gson();
                 UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
                 Toast.makeText(getApplicationContext(),jsonbody.Message,Toast.LENGTH_SHORT).show();

@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.example.awizom.jihuzur.AdminPricingActivity;
 import com.example.awizom.jihuzur.Model.Service;
 import com.example.awizom.jihuzur.R;
-import com.example.awizom.jihuzur.CustomerpricingActivity;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerpricingActivity;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 
 import java.util.List;
@@ -34,15 +34,16 @@ public class ServiceListAdapter extends
      */
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView serviceName, description, serviceID;
+        public TextView serviceName, description, serviceID,dType;
 
 
         public MyViewHolder(View view) {
             super(view);
 
-            serviceName = (TextView) view.findViewById(R.id.serviceName);
-            description = (TextView) view.findViewById(R.id.description);
-            serviceID = (TextView) view.findViewById(R.id.serviceID);
+            serviceName =  view.findViewById(R.id.serviceName);
+            description =  view.findViewById(R.id.description);
+            serviceID =  view.findViewById(R.id.serviceID);
+            dType = view.findViewById(R.id.displayTypes);
 
 
         }
@@ -61,6 +62,7 @@ public class ServiceListAdapter extends
         holder.serviceName.setText(c.getServiceName());
         holder.description.setText(c.getDescription());
         holder.serviceID.setText(String.valueOf(c.getServiceID()));
+        holder.dType.setText(c.getDisplayType());
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +85,7 @@ public class ServiceListAdapter extends
                     intent.putExtra("serviceName", holder.serviceName.getText());
                     intent.putExtra("description", holder.description.getText());
                     intent.putExtra("serviceID", holder.serviceID.getText());
+                    intent.putExtra("DisplayType", holder.dType.getText());
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mCtx.startActivity(intent);
 
@@ -93,6 +96,7 @@ public class ServiceListAdapter extends
                     intent.putExtra("serviceName", holder.serviceName.getText());
                     intent.putExtra("description", holder.description.getText());
                     intent.putExtra("serviceID", holder.serviceID.getText());
+                    intent.putExtra("DisplayType", holder.dType.getText());
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mCtx.startActivity(intent);
                 }

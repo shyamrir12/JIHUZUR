@@ -1,4 +1,4 @@
-package com.example.awizom.jihuzur.Fragment;
+package com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,9 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.example.awizom.jihuzur.Adapter.CustomerCurrentOrderAdapter;
-import com.example.awizom.jihuzur.Adapter.CustomerHistoryAdapter;
-import com.example.awizom.jihuzur.Helper.CustomerGetMyOrderRunningHelper;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeCurrentOrderAdapter;
+import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Model.Order;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
@@ -22,20 +21,18 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class HistoryFragment extends Fragment {
-
-    private  View view;
-    private String result="",userId;
+public class EmployeeCurrentOrderFragment extends Fragment {
+    private View view;
+    private String result="",empId;
     List<Order> orderList;
-    CustomerHistoryAdapter currentOrderAdapter;
+    EmployeeCurrentOrderAdapter employeeCurrentOrderAdapter;
     RecyclerView recyclerView;
     RelativeLayout relativeLayout;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.history_item_fragment, container, false);
+        View view = inflater.inflate(R.layout.employee_current_list, container, false);
         initView(view);
         return view;
 
@@ -43,24 +40,28 @@ public class HistoryFragment extends Fragment {
 
     private void initView(View view) {
 
-        userId= SharedPrefManager.getInstance(getContext()).getUser().getID();
-
+        empId= SharedPrefManager.getInstance(getContext()).getUser().getID();
+        relativeLayout = view.findViewById(R.id.textRelate);
         recyclerView = view.findViewById(R.id.recyclerView);
+
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        getHistoryList();
+        getMyOrderRunning();
     }
-
-    private void getHistoryList() {
+    private void getMyOrderRunning() {
         try {
-            result   = new CustomerGetMyOrderRunningHelper.GetMyCompleteOrderGet().execute(userId).get();
-            Gson gson = new Gson();
-            Type listType = new TypeToken<List<Order>>() {
-            }.getType();
-            orderList = new Gson().fromJson(result, listType);
-            currentOrderAdapter = new CustomerHistoryAdapter(getContext(), orderList);
-            recyclerView.setAdapter(currentOrderAdapter);
+            result   = new EmployeeOrderHelper.EmployeeGetMyCurrentOrder().execute(empId).get();
+            if (result.isEmpty()) {
+                relativeLayout.setVisibility(View.VISIBLE);
+            }else {
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<Order>>() {
+                }.getType();
+                orderList = new Gson().fromJson(result, listType);
+                employeeCurrentOrderAdapter = new EmployeeCurrentOrderAdapter(getContext(), orderList);
+                recyclerView.setAdapter(employeeCurrentOrderAdapter);
+            }
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

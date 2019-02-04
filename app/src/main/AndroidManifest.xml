@@ -66,13 +66,13 @@
             android:name=".AdminDiscountActivity" />
 
         <activity
-            android:name=".CustomerHomePage"
+            android:name=".CustomerActivity.CustomerHomePage"
             android:label="@string/title_activity_customer_home_page"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".DrawingActivity" />
 
         <activity
-            android:name=".EmployeeHomePage"
+            android:name=".EmployeeActivity.EmployeeHomePage"
             android:label="@string/title_activity_employee_home_page"
             android:theme="@style/AppTheme.NoActionBar">
             <!--<intent-filter>-->
@@ -81,18 +81,18 @@
             <!--</intent-filter>-->
         </activity>
 
-        <activity android:name=".EmployeeDrawingActivity" />
+        <activity android:name=".EmployeeActivity.EmployeeDrawingActivity" />
 
         <activity
             android:name=".MenuActivity"
-            android:parentActivityName=".CustomerHomePage" >
+            android:parentActivityName=".CustomerActivity.CustomerHomePage" >
 
         </activity>
 
         <activity android:name=".UpdateProfile" />
 
         <activity android:name=".LocationActivity"
-            android:parentActivityName=".CustomerpricingActivity">
+            android:parentActivityName=".CustomerActivity.CustomerpricingActivity">
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
@@ -120,10 +120,10 @@
         </activity>
         <activity
             android:name=".MyBokingsActivity"
-            android:parentActivityName=".CustomerHomePage">
+            android:parentActivityName=".CustomerActivity.CustomerHomePage">
 
         </activity>
-        <activity android:name=".CustomerpricingActivity"
+        <activity android:name=".CustomerActivity.CustomerpricingActivity"
             android:parentActivityName=".SelectServices">
 
         </activity>
@@ -132,8 +132,8 @@
         </activity>
         <activity android:name="VerifyPhoneActivity"></activity>
 
-        <activity android:name=".EmployeeBookingsActivity"
-            android:parentActivityName=".EmployeeHomePage"></activity>
+        <activity android:name=".EmployeeActivity.EmployeeBookingsActivity"
+            android:parentActivityName=".EmployeeActivity.EmployeeHomePage"></activity>
         <activity android:name=".ComplaintActivity"></activity>
     </application>
 

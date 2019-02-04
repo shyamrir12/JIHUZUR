@@ -8,8 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
