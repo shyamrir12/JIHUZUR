@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -16,26 +17,54 @@ import android.widget.AbsListView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
+import com.example.awizom.jihuzur.Adapter.CategoryListAdapter;
+import com.example.awizom.jihuzur.Adapter.DiscountListAdapter;
 import com.example.awizom.jihuzur.Config.AppConfig;
+import com.example.awizom.jihuzur.Helper.AdminHelper;
+import com.example.awizom.jihuzur.Model.Catalog;
+import com.example.awizom.jihuzur.Model.Discount;
+import com.example.awizom.jihuzur.Model.DiscountView;
 import com.example.awizom.jihuzur.Model.Result;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-public class AdminDiscountActivity extends Activity {
+public class AdminDiscountActivity extends AppCompatActivity {
 
     FloatingActionButton addDiscount;
     AutoCompleteTextView editDiscountName, editDiscountType,editDiscountAmount;
     ProgressDialog progressDialog;
     RecyclerView recyclerView;
-
+    String result="";
+    List<DiscountView> discountlist;
+    DiscountListAdapter discountListAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_discount);
+
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+
+        toolbar.setTitle(" Discount offer");
+
+        toolbar.setTitleTextColor(0xFFFFFFFF);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         addDiscount=(FloatingActionButton)findViewById(R.id.adddiscount);
         progressDialog = new ProgressDialog(this);
         recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
@@ -53,10 +82,27 @@ public class AdminDiscountActivity extends Activity {
 
     }
 
+
     private void getPricingList() {
 
+        try {
 
 
+            result = new AdminHelper.GETDiscountList().execute().get();
+            if (result.isEmpty()) {
+                Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
+            } else {
+
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<DiscountView>>() {
+                }.getType();
+                discountlist = new Gson().fromJson(result, listType);
+                discountListAdapter = new DiscountListAdapter(AdminDiscountActivity.this, discountlist);
+                recyclerView.setAdapter(discountListAdapter);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void showAddDiscount() {
