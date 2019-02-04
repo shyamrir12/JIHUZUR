@@ -46,8 +46,8 @@ public class CustomerHistoryAdapter extends RecyclerView.Adapter<CustomerHistory
             holder.empName.setText(order.getEmpName());
             holder.empContAct.setText(order.getEmpMob());
             holder.timercount.setText(order.getTotalTime());
-            holder.startTime.setText(order.getEmployeeID());
-            holder.endtime.setText(order.getCustomerID());
+            holder.startTime.setText(order.getOrderStartTime());
+            holder.endtime.setText(order.getOrderEndTime());
             holder.catagryName.setText(order.getCategory());
             holder.servicName.setText(order.getServiceName());
             holder.prcingtrm.setText(order.getPricingTerms());

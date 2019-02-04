@@ -120,27 +120,43 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/v2"
-                        android:orientation="horizontal">
-
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+                        <TextView
+                            android:id="@+id/catalogName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:text="CatlogName"
+                            android:textColor="@color/colorBlack"
+                            android:textStyle="bold" />
+                        <view
+                            class="android.support.v7.app.AlertController$RecycleListView"
+                            android:layout_width="5dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/white" />
                         <TextView
                             android:id="@+id/catagoryName"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="left"
                             android:text="CatagoryName"
-                            android:padding="10dp"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold" />
-
+                        <view
+                            class="android.support.v7.app.AlertController$RecycleListView"
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/white" />
                         <TextView
                             android:id="@+id/serviceName"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="left"
                             android:text="Service Name"
-                            android:padding="10dp"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold" />
 
@@ -168,18 +184,30 @@
                             android:padding="10dp"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"
-                            android:visibility="gone"/>
+                            android:visibility="visible"/>
 
-                        <!--<TextView-->
-                           <!---->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="40dp"-->
-                            <!--android:layout_weight="1"-->
-                            <!--android:gravity="left"-->
-                            <!--android:text="Service Name"-->
-                            <!--android:padding="10dp"-->
-                            <!--android:textColor="@color/colorBlack"-->
-                            <!--android:textStyle="bold" />-->
+                        <TextView
+                           android:id="@+id/serviceID"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:text="Service ID"
+                            android:padding="10dp"
+                            android:textColor="@color/colorBlack"
+                            android:textStyle="bold"
+                            android:visibility="gone"/>
+                        <TextView
+                            android:id="@+id/catalogID"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:text="catalog ID"
+                            android:padding="10dp"
+                            android:textColor="@color/colorBlack"
+                            android:textStyle="bold"
+                            android:visibility="gone"/>
 
 
                     </LinearLayout>
@@ -188,13 +216,38 @@
                         class="android.support.v7.app.AlertController$RecycleListView"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_below="@+id/l3"
+                        android:layout_below="@+id/l4"
                         android:background="@color/grey" />
                     <LinearLayout
                         android:id="@+id/l5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/v4"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+                        <TextView
+                            android:id="@+id/discountName"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:padding="10dp"
+                            android:textColor="@color/colorBlack"
+                            android:textStyle="bold"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+                    <view
+                        android:id="@+id/v5"
+                        class="android.support.v7.app.AlertController$RecycleListView"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/l5"
+                        android:background="@color/grey" />
+                    <LinearLayout
+                        android:id="@+id/l6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/v5"
                         android:layout_margin="10dp"
                         android:orientation="horizontal"
                         android:visibility="gone">

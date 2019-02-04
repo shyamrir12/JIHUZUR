@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
@@ -56,14 +57,15 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             holder.empName.setText(order.getEmpName());
             holder.empContAct.setText(order.getEmpMob());
             holder.timercount.setText(order.getTotalTime());
-            holder.startTime.setText(order.getEmployeeID());
-            holder.endtime.setText(order.getCustomerID());
+            holder.startTime.setText(order.getOrderStartTime());
+            holder.endtime.setText(order.getOrderEndTime());
             holder.catagryName.setText(order.getCategory());
             holder.servicName.setText(order.getServiceName());
             holder.pricingterm.setText(order.getPricingTerms());
 
             if(!order.getPricingTerms().equals(null)){
                 holder.pricingterm.setVisibility(View.VISIBLE);
+                holder.linearLayout.setVisibility(View.VISIBLE);
             }
             if (order.getOrderStartTime().equals("NULL")) {
                 holder.canclBtn.setVisibility(View.VISIBLE);
@@ -97,6 +99,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
         private TextView startTime, endtime, empName, timercount, empContAct,catagryName,servicName,pricingterm;
         private Button acceptBtn, trackinBtn, canclBtn;
         private List<Order> orderitemList;
+        private LinearLayout linearLayout;
 
 
         public OrderItemViewHolder(View view, Context mCtx, List<Order> orderitemList) {
@@ -118,6 +121,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             catagryName = itemView.findViewById(R.id.catagoryName);
             servicName = itemView.findViewById(R.id.serviceName);
             pricingterm = itemView.findViewById(R.id.pricingterm);
+            linearLayout = itemView.findViewById(R.id.l4);
 
 
             acceptBtn.setOnClickListener(this);

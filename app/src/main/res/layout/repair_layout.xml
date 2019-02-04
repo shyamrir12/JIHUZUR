@@ -18,12 +18,29 @@
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 android:layout_margin="10dp">
-
+                <LinearLayout
+                    android:id="@+id/l0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/catagoryName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/repair"
+                    android:textColor="@color/colorBlack"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:layout_centerHorizontal="true"
+                    android:padding="10dp"
+                    android:layout_marginTop="10dp" />
+                </LinearLayout>
                 <LinearLayout
                     android:id="@+id/l1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_below="@+id/l0">
 
                     <RadioButton
                         android:id="@+id/radioSelectRepair"
@@ -117,8 +134,7 @@
             </RelativeLayout>
 
 
-
-
         </RelativeLayout>
+
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

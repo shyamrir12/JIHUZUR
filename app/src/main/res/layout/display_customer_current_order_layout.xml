@@ -152,7 +152,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/l3"
                         android:orientation="horizontal"
-                        android:visibility="visible">
+                        android:visibility="gone">
                         <TextView
                             android:id="@+id/pricingterm"
                             android:layout_width="match_parent"

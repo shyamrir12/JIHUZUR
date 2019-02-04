@@ -163,7 +163,7 @@
                             android:padding="10dp"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"
-                            android:visibility="gone"/>
+                            android:visibility="visible"/>
 
                         <!--<TextView-->
                         <!---->

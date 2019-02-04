@@ -44,6 +44,7 @@ public class CustomerPricingAdapter extends RecyclerView.Adapter<CustomerPricing
         try {
             PricingView pricingView = pricingViewList.get(position);
           /*  holder.radioText.setText(String.valueOf(pricingView.getServiceName()));*/
+            holder.catagoryName.setText(pricingView.getCatalogName());
             holder.desText.setText(String.valueOf(pricingView.getPrizingDesc()));
             holder.priceText.setText(String.valueOf(pricingView.getAmount()));
             holder.serviceDescText.setText(pricingView.getPricingTerms());
@@ -72,7 +73,7 @@ public class CustomerPricingAdapter extends RecyclerView.Adapter<CustomerPricing
         private List<PricingView> pricingViewList;
         private RadioButton radioButton;
         private CheckBox checkBox;
-        private TextView  priceText, desText, serviceDescText;
+        private TextView  priceText, desText, serviceDescText, catagoryName;
 
 
         public OrderItemViewHolder(View view, Context mCtx, List<PricingView> pricingViewList) {
@@ -86,6 +87,7 @@ public class CustomerPricingAdapter extends RecyclerView.Adapter<CustomerPricing
             checkBox = view.findViewById(R.id.checkSelectRepairs);
             priceText = view.findViewById(R.id.price);
             desText = view.findViewById(R.id.description);
+            catagoryName = view.findViewById(R.id.catagoryName);
             serviceDescText = view.findViewById(R.id.ServiceDesc);
 
         }
