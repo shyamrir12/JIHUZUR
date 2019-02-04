@@ -31,6 +31,7 @@ import com.example.awizom.jihuzur.Fragment.CatalogFragment;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
 import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
+import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -315,9 +316,14 @@ public class AdminHomePage extends AppCompatActivity
             intent = new Intent(AdminHomePage.this, AdminDiscountActivity.class);
             startActivity(intent);
         }
-        else if (id == R.id.nav_logout) {
 
-        } else if (id == R.id.nav_share) {
+else if (id == R.id.nav_logout) {
+                SharedPrefManager.getInstance(this).logout();
+                Intent login = new Intent(getApplicationContext(), RegistrationActivity.class);
+                startActivity(login);
+                finish();
+            }
+        else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 

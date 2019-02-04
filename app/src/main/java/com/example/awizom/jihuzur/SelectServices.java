@@ -15,8 +15,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -26,6 +28,7 @@ import com.example.awizom.jihuzur.Adapter.CatalogGridViewAdapter;
 import com.example.awizom.jihuzur.Adapter.CategoryListAdapter;
 import com.example.awizom.jihuzur.Adapter.ServiceListAdapter;
 import com.example.awizom.jihuzur.Config.AppConfig;
+import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.Service;
@@ -39,6 +42,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.FormBody;
@@ -55,6 +59,7 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
     TextView categoryname;
     FloatingActionButton addService;
     AutoCompleteTextView editServicename, editDescription;
+    Spinner displayType;
 
 
     @Override
@@ -99,7 +104,22 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
 
         try {
 //            mSwipeRefreshLayout.setRefreshing(true);
-            new SelectServices.GETServiceList().execute(catalogID);
+
+            result=new AdminHelper.GETServiceList().execute(catalogID).get();
+            if (result.isEmpty()) {
+                Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
+            } else {
+
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<Service>>() {
+                }.getType();
+                serviceList = new Gson().fromJson(result, listType);
+                serviceListAdapter = new ServiceListAdapter(SelectServices.this, serviceList);
+
+                recyclerView.setAdapter(serviceListAdapter);
+
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
@@ -127,7 +147,15 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
         editServicename = (AutoCompleteTextView) dialogView.findViewById(R.id.editServiceName);
 
         editDescription = (AutoCompleteTextView) dialogView.findViewById(R.id.description);
+        displayType=(Spinner)dialogView.findViewById(R.id.displayType);
+        List<String> list = new ArrayList<String>();
+        list.add("Radio");
+        list.add("Checkbox");
+        list.add("Range");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
 
+        displayType.setAdapter(dataAdapter);
 
         final Button buttonAddCatalog = (Button) dialogView.findViewById(R.id.buttonAddService);
         final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
@@ -144,10 +172,22 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
 
                 String service = editServicename.getText().toString().trim();
                 String descriptions = editDescription.getText().toString().trim();
+                String displaytype = displayType.getSelectedItem().toString();
+                String serviceid = "0";
+
+                if (displaytype=="Range")
+                {
+                    displaytype="";
+
+                }
 
                 try {
 
-                    new SelectServices.POSTService().execute(catalogID, service, descriptions);
+                result= new AdminHelper.POSTService().execute(serviceid,catalogID, service, descriptions,displaytype).get();
+                    Gson gson = new Gson();
+                    final Result jsonbodyres = gson.fromJson(result, Result.class);
+                    Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+
                 } catch (Exception e) {
                     e.printStackTrace();
 
@@ -174,122 +214,6 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
         });
     }
 
-    private class POSTService extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-
-            //     InputStream inputStream
-            String catalogid = params[0];
-            String service = params[1];
-            String description = params[2];
-
-            String json = "";
-            try {
-
-                OkHttpClient client = new OkHttpClient();
-                Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Admin + "CreateService");
-                builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
-                builder.addHeader("Accept", "application/json");
-                //builder.addHeader("Authorization", "Bearer " + accesstoken);
-
-                FormBody.Builder parameters = new FormBody.Builder();
-                parameters.add("CatalogID", catalogid);
-
-
-                parameters.add("ServiceName", service);
-                parameters.add("Description", description);
-
-                builder.post(parameters.build());
-
-
-                okhttp3.Response response = client.newCall(builder.build()).execute();
-
-                if (response.isSuccessful()) {
-                    json = response.body().string();
-
-
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-
-                // System.out.println("Error: " + e);
-                Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
-            }
-            return json;
-        }
-
-        protected void onPostExecute(String result) {
-
-            if (result.isEmpty()) {
-
-                Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
-            } else {
-                //System.out.println("CONTENIDO:  " + result);
-                Gson gson = new Gson();
-                final Result jsonbodyres = gson.fromJson(result, Result.class);
-                Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-
-            }
-
-
-        }
-
-    }
-
-
-    private class GETServiceList extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-
-
-            String catalogid = params[0];
-            String json = "";
-
-            try {
-                OkHttpClient client = new OkHttpClient();
-                Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Admin + "GetCatalogService/" + catalogid);
-
-
-                okhttp3.Response response = client.newCall(builder.build()).execute();
-                if (response.isSuccessful()) {
-                    json = response.body().string();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-//                mSwipeRefreshLayout.setRefreshing(false);
-                // System.out.println("Error: " + e);
-//                Toast.makeText(getContext(),"Error: " + e,Toast.LENGTH_SHORT).show();
-            }
-            return json;
-        }
-
-        protected void onPostExecute(String result) {
-
-            try {
-                if (result.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
-                } else {
-
-                    Gson gson = new Gson();
-                    Type listType = new TypeToken<List<Service>>() {
-                    }.getType();
-                    serviceList = new Gson().fromJson(result, listType);
-                    serviceListAdapter = new ServiceListAdapter(getBaseContext(), serviceList);
-
-                    recyclerView.setAdapter(serviceListAdapter);
-
-
-                }
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
 }
 
 

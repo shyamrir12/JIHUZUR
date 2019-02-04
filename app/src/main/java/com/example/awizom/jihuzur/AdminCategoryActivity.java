@@ -34,6 +34,7 @@ import com.example.awizom.jihuzur.Adapter.CatalogListAdapter;
 import com.example.awizom.jihuzur.Adapter.CategoryGridViewAdapter;
 import com.example.awizom.jihuzur.Adapter.CategoryListAdapter;
 import com.example.awizom.jihuzur.Config.AppConfig;
+import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.Result;
 import com.google.gson.Gson;
@@ -58,7 +59,8 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
     AutoCompleteTextView categoryNames;
     List<Catalog> categorylist;
     CategoryListAdapter adapterCategoryList;
-    private String[]categoryList;
+    private String[] categoryList;
+    String result = "";
 
 
     RecyclerView recyclerView;
@@ -66,11 +68,11 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
 
     private static final int SELECT_PHOTO = 100;
     int[] gridViewImageId = {
-            R.drawable.home_cleaning,   R.drawable.home_cleaning,   R.drawable.home_cleaning,
-            R.drawable.home_cleaning,   R.drawable.home_cleaning,   R.drawable.home_cleaning,
-            R.drawable.home_cleaning,   R.drawable.home_cleaning,   R.drawable.home_cleaning,
-            R.drawable.home_cleaning,   R.drawable.home_cleaning,   R.drawable.home_cleaning,
-            R.drawable.home_cleaning,   R.drawable.home_cleaning,   R.drawable.home_cleaning,
+            R.drawable.home_cleaning, R.drawable.home_cleaning, R.drawable.home_cleaning,
+            R.drawable.home_cleaning, R.drawable.home_cleaning, R.drawable.home_cleaning,
+            R.drawable.home_cleaning, R.drawable.home_cleaning, R.drawable.home_cleaning,
+            R.drawable.home_cleaning, R.drawable.home_cleaning, R.drawable.home_cleaning,
+            R.drawable.home_cleaning, R.drawable.home_cleaning, R.drawable.home_cleaning,
 
     };
 
@@ -78,39 +80,56 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_category);
-        addCategory=(FloatingActionButton)findViewById(R.id.addCategory);
-        recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        catalogName = getIntent().getStringExtra("CatalogName");
+        toolbar.setTitle(catalogName + "'s" + " Category");
+
+        toolbar.setTitleTextColor(0xFFFFFFFF);
+        setSupportActionBar(toolbar);
+
+
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        addCategory = (FloatingActionButton) findViewById(R.id.addCategory);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         addCategory.setOnClickListener(this);
-        catalogName=getIntent().getStringExtra("CatalogName");
-        gridView=(GridView) findViewById(R.id.gridview);
-        getSupportActionBar().setTitle(catalogName+"'s" + " Category");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+        gridView = (GridView) findViewById(R.id.gridview);
         getCategoryList();
 
     }
 
     private void getCategoryList() {
 
-
         try {
-//            mSwipeRefreshLayout.setRefreshing(true);
-            new AdminCategoryActivity.GETCategoryList().execute(catalogName.toString());
-        } catch (Exception e) {
+
+
+            result = new AdminHelper.GETCategoryList().execute(catalogName.toString()).get();
+
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<Catalog>>() {
+            }.getType();
+            categorylist = new Gson().fromJson(result, listType);
+            adapterCategoryList = new CategoryListAdapter(AdminCategoryActivity.this, categorylist);
+            recyclerView.setAdapter(adapterCategoryList);
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
-//            mSwipeRefreshLayout.setRefreshing(false);
-            // System.out.println("Error: " + e);
         }
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId()==addCategory.getId())
-        {
+        if (v.getId() == addCategory.getId()) {
             showAddCategoryDialog();
         }
     }
@@ -121,16 +140,16 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.add_category_layout, null);
         dialogBuilder.setView(dialogView);
-         categoryNames=(AutoCompleteTextView) dialogView.findViewById(R.id.editCategory);
-         imageView=(ImageView) dialogView.findViewById(R.id.imageView);
-        Button chooseImage=(Button) dialogView.findViewById(R.id.addImage);
-       chooseImage.setOnClickListener(new View.OnClickListener() {
+        categoryNames = (AutoCompleteTextView) dialogView.findViewById(R.id.editCategory);
+        imageView = (ImageView) dialogView.findViewById(R.id.imageView);
+        Button chooseImage = (Button) dialogView.findViewById(R.id.addImage);
+        chooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
-    public void onClick(View v) {
-        openGallery();
+            public void onClick(View v) {
+                openGallery();
 
-    }
-});
+            }
+        });
 
         final Button buttonAddCategory = (Button) dialogView.findViewById(R.id.buttonAddCategory);
         final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
@@ -138,9 +157,6 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
         dialogBuilder.setTitle("Add Category");
         final AlertDialog b = dialogBuilder.create();
         b.show();
-
-
-
 
 
         buttonAddCategory.setOnClickListener(new View.OnClickListener() {
@@ -152,26 +168,22 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
                 imageView.buildDrawingCache();
                 Bitmap bitmap = imageView.getDrawingCache();
 
-                ByteArrayOutputStream stream=new ByteArrayOutputStream();
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
-                byte[] image=stream.toByteArray();
-                System.out.println("byte array:"+image);
+                byte[] image = stream.toByteArray();
+                System.out.println("byte array:" + image);
 
                 String img_str = Base64.encodeToString(image, 0);
-
-
-
+                String catalogID="0";
 
                 try {
-                    //String res="";
-//                    progressDialog.setMessage("loading...");
-//                    progressDialog.show();
-                    new AdminCategoryActivity.POSTCategory().execute(catalogName, categoryName, img_str);
+                    result = new AdminHelper.POSTCategory().execute(catalogName,catalogID, categoryName, img_str).get();
+                    Gson gson = new Gson();
+                    final Result jsonbodyres = gson.fromJson(result, Result.class);
+                 Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+////                progressDialog.dismiss();
                 } catch (Exception e) {
-                    e.printStackTrace();
-//                    progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
-                    // System.out.println("Error: " + e);
+
                 }
 
                 b.dismiss();
@@ -194,11 +206,12 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
         });
     }
 
-    private void openGallery(){
+    private void openGallery() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, SELECT_PHOTO);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
@@ -212,137 +225,5 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    private class GETCategoryList extends AsyncTask<String, Void, String> implements View.OnClickListener {
-        @Override
-        protected String doInBackground(String... params) {
 
-            String json = "";
-            String catalogNameOne = params[0];
-
-
-            try {
-                OkHttpClient client = new OkHttpClient();
-                Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Admin + "GetCategoryName");
-
-                builder.addHeader("Content-Type", "Application/json");
-                builder.addHeader("Accept", "application/json");
-
-
-                FormBody.Builder parameters = new FormBody.Builder();
-                parameters.add("CatalogName", catalogNameOne);
-                builder.post(parameters.build());
-
-
-                okhttp3.Response response = client.newCall(builder.build()).execute();
-                if (response.isSuccessful()) {
-                    json = response.body().string();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-//                mSwipeRefreshLayout.setRefreshing(false);
-                // System.out.println("Error: " + e);
-//                Toast.makeText(getContext(),"Error: " + e,Toast.LENGTH_SHORT).show();
-            }
-            return json;
-        }
-
-        protected void onPostExecute(String result) {
-
-            try {
-                if (result.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
-                } else {
-
-
-
-                    Gson gson = new Gson();
-                    Type listType = new TypeToken<List<Catalog>>() {
-                    }.getType();
-                    categorylist = new Gson().fromJson(result, listType);
-                    adapterCategoryList = new CategoryListAdapter(getBaseContext(),categorylist);
-
-                    recyclerView.setAdapter(adapterCategoryList);
-
-
-
-
-                }
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        @Override
-        public void onClick(View v) {
-
-        }
-    }
-
-    public class POSTCategory extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-
-            //     InputStream inputStream
-            String catalogname = params[0];
-            String category = params[1];
-            String image = params[2];
-
-
-            String json = "";
-            try {
-
-                OkHttpClient client = new OkHttpClient();
-                Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Admin + "CreateCatalog");
-                builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
-                builder.addHeader("Accept", "application/json");
-                //builder.addHeader("Authorization", "Bearer " + accesstoken);
-
-                FormBody.Builder parameters = new FormBody.Builder();
-                parameters.add("CatalogID", "0");
-                parameters.add("CatalogName", catalogname);
-                parameters.add("Category", category);
-                parameters.add("Image", image);
-
-
-                builder.post(parameters.build());
-
-
-                okhttp3.Response response = client.newCall(builder.build()).execute();
-
-                if (response.isSuccessful()) {
-                    json = response.body().string();
-
-
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-//                progressDialog.dismiss();
-                // System.out.println("Error: " + e);
-                Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
-            }
-            return json;
-        }
-
-        protected void onPostExecute(String result) {
-
-            if (result.isEmpty()) {
-//                progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
-            } else {
-                //System.out.println("CONTENIDO:  " + result);
-                Gson gson = new Gson();
-                final Result jsonbodyres = gson.fromJson(result, Result.class);
-                Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-//                progressDialog.dismiss();
-            }
-
-
-        }
-
-    }
 }
