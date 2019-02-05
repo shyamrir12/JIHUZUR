@@ -32,6 +32,7 @@ import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.Service;
+import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -96,6 +97,14 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         getServiceList();
+
+        if(SharedPrefManager.getInstance(SelectServices.this).getUser().getRole().equals("Employee") ){
+            addService.setVisibility(View.GONE);
+        }else if(SharedPrefManager.getInstance(SelectServices.this).getUser().getRole().equals("Customer")){
+            addService.setVisibility(View.GONE);
+        }else {
+            addService.setVisibility(View.VISIBLE);
+        }
 
     }
 

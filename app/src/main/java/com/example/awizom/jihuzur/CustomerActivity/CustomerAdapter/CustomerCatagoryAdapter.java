@@ -39,8 +39,9 @@ public class CustomerCatagoryAdapter extends RecyclerView.Adapter<CustomerCatago
     @Override
     public void onBindViewHolder(@NonNull final CustomerCatagoryAdapter.catalogListItemViewHolder holder, int position) {
         c = categorylist.get(position);
-        holder.catalogName.setText(String.valueOf(c.getCategory()));
+        holder.catagory.setText(String.valueOf(c.getCategory()));
         holder.catalogid.setText(String.valueOf(c.getCatalogID()));
+        holder.catalogoryName.setText(String.valueOf(c.getCatalogName()));
         holder.itemView.setOnClickListener(new View.OnClickListener()
 
         {
@@ -48,9 +49,9 @@ public class CustomerCatagoryAdapter extends RecyclerView.Adapter<CustomerCatago
             public void onClick(View v) {
 
                 intent = new Intent(mCtx, SelectServices.class);
-                intent.putExtra("CategoryName",(String.valueOf(c.getCategory())));
+                intent.putExtra("CategoryName",holder.catalogoryName.getText().toString());
                 intent.putExtra("CatalogID", holder.catalogid.getText().toString());
-                intent.putExtra("CatalogName", holder.catalogName.getText().toString());
+                intent.putExtra("CatalogName", holder.catagory.getText().toString());
                 mCtx.startActivity(intent);
             }
         });
@@ -66,7 +67,7 @@ public class CustomerCatagoryAdapter extends RecyclerView.Adapter<CustomerCatago
     class catalogListItemViewHolder extends RecyclerView.ViewHolder {
 
         private Context mCtx;
-        private TextView catalogName,catalogid;
+        private TextView catagory,catalogid,catalogoryName;
         private List<Catalog> catalogList;
 
         public catalogListItemViewHolder(View view, Context mCtx, List<Catalog> catalogList) {
@@ -74,7 +75,8 @@ public class CustomerCatagoryAdapter extends RecyclerView.Adapter<CustomerCatago
             this.mCtx = mCtx;
             this.catalogList = catalogList;
 
-            catalogName =  view.findViewById(R.id.categoryName);
+            catagory =  view.findViewById(R.id.categoryName);
+            catalogoryName =  view.findViewById(R.id.catalogoryName);
             catalogid = view.findViewById(R.id.catalogId);
 
 

@@ -50,10 +50,13 @@ public class CustomerPricingAdapter extends RecyclerView.Adapter<CustomerPricing
             holder.serviceDescText.setText(pricingView.getPricingTerms());
 
 
-            if (displytype.equals("Redio")) {
+            if (displytype.equals("Radio")) {
                 holder.checkBox.setVisibility(View.GONE);
             } else if (displytype.equals("Checkbox")) {
                 holder.radioButton.setVisibility(View.GONE);
+            }else if (displytype.equals(null)) {
+                holder.radioButton.setVisibility(View.GONE);
+                holder.checkBox.setVisibility(View.GONE);
             }
 
 
