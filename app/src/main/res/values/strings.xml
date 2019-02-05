@@ -254,4 +254,5 @@
     <string name="title_activity_admin_discount">AdminDiscountActivity</string>
     <string name="title_activity_admin_category">AdminCategoryActivity</string>
     <string name="title_activity_admin_services">AdminServicesActivity</string>
+    <string name="title_activity_customer_complaint">CustomerComplaint</string>
 </resources>

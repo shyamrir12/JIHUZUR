@@ -251,7 +251,7 @@ public class CustomerHomePage extends AppCompatActivity
             intent=new Intent(CustomerHomePage.this,MyBokingsActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_complaint) {
-            intent=new Intent(CustomerHomePage.this,ComplaintActivity.class);
+            intent=new Intent(CustomerHomePage.this,CustomerComplaintActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_order) {
 

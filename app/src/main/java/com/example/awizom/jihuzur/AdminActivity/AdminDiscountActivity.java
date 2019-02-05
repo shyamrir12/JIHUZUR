@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
+
 import com.example.awizom.jihuzur.Adapter.DiscountListAdapter;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
@@ -21,8 +22,10 @@ import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.util.List;
+
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -30,12 +33,13 @@ import okhttp3.Request;
 public class AdminDiscountActivity extends AppCompatActivity {
 
     FloatingActionButton addDiscount;
-    AutoCompleteTextView editDiscountName, editDiscountType,editDiscountAmount;
+    AutoCompleteTextView editDiscountName, editDiscountType, editDiscountAmount;
     ProgressDialog progressDialog;
     RecyclerView recyclerView;
-    String result="";
+    String result = "";
     List<DiscountView> discountlist;
     DiscountListAdapter discountListAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,9 +59,9 @@ public class AdminDiscountActivity extends AppCompatActivity {
             }
         });
 
-        addDiscount=(FloatingActionButton)findViewById(R.id.adddiscount);
+        addDiscount = (FloatingActionButton) findViewById(R.id.adddiscount);
         progressDialog = new ProgressDialog(this);
-        recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -65,7 +69,7 @@ public class AdminDiscountActivity extends AppCompatActivity {
         addDiscount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               showAddDiscount();
+                showAddDiscount();
             }
         });
 
@@ -106,13 +110,6 @@ public class AdminDiscountActivity extends AppCompatActivity {
         editDiscountName = (AutoCompleteTextView) dialogView.findViewById(R.id.editDiscountName);
         editDiscountType = (AutoCompleteTextView) dialogView.findViewById(R.id.editDiscountType);
         editDiscountAmount = (AutoCompleteTextView) dialogView.findViewById(R.id.editDiscountAmount);
-//
-//        editCatalogName.setAdapter(adapter);
-//
-//        addCategory = (AutoCompleteTextView) dialogView.findViewById(R.id.addCategory);
-
-
-
 
 
         final Button buttonAddDiscount = (Button) dialogView.findViewById(R.id.buttonAddDiscount);
@@ -121,9 +118,6 @@ public class AdminDiscountActivity extends AppCompatActivity {
         dialogBuilder.setTitle("Add Discount");
         final AlertDialog b = dialogBuilder.create();
         b.show();
-
-
-
 
 
         buttonAddDiscount.setOnClickListener(new View.OnClickListener() {

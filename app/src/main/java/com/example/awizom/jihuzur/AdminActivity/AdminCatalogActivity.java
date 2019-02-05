@@ -27,19 +27,21 @@ import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.util.List;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-public class AdminCatalogActivity extends AppCompatActivity  {
+
+public class AdminCatalogActivity extends AppCompatActivity {
 
     FloatingActionButton addCatalog;
     AutoCompleteTextView editCatalogName, addCategory;
     ProgressDialog progressDialog;
     GridView gridview;
-    private String[]catalogNameList, categoryNameList;
+    private String[] catalogNameList, categoryNameList;
     List<Catalog> catalogList;
     String catalogname;
     ArrayAdapter<String> adapter;
@@ -47,34 +49,31 @@ public class AdminCatalogActivity extends AppCompatActivity  {
     ArrayAdapter<String> adaptercategory;
     Intent intent;
     int[] gridViewImageId = {
-            R.drawable.home_cleaning,   R.drawable.home_cleaning,   R.drawable.home_cleaning,
-                };
+            R.drawable.home_cleaning, R.drawable.home_cleaning, R.drawable.home_cleaning,
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_catalog);
         addCatalog = (FloatingActionButton) findViewById(R.id.addCatalog);
-        gridview=(GridView) findViewById(R.id.gridview);
+        gridview = (GridView) findViewById(R.id.gridview);
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-           @Override
-           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
-
-               if(position>=0)
-               {
-                   Toast.makeText(getApplicationContext(),((TextView)view.findViewById(R.id.catalogName)).getText(), Toast.LENGTH_SHORT).show();
-                   intent=new Intent(AdminCatalogActivity.this,AdminCategoryActivity.class);
-                   intent.putExtra("Catalogname",((TextView) view.findViewById(R.id.catalogName)).getText());
-                   startActivity(intent);
+                if (position >= 0) {
+                    Toast.makeText(getApplicationContext(), ((TextView) view.findViewById(R.id.catalogName)).getText(), Toast.LENGTH_SHORT).show();
+                    intent = new Intent(AdminCatalogActivity.this, AdminCategoryActivity.class);
+                    intent.putExtra("Catalogname", ((TextView) view.findViewById(R.id.catalogName)).getText());
+                    startActivity(intent);
 
 
+                }
 
-               }
-
-           }
-       });
+            }
+        });
         progressDialog = new ProgressDialog(this);
         getCatalogName();
 //        getCatalogList();
@@ -243,7 +242,7 @@ public class AdminCatalogActivity extends AppCompatActivity  {
                     Type listType = new TypeToken<String[]>() {
                     }.getType();
                     catalogNameList = new Gson().fromJson(result, listType);
-                    CatalogGridViewAdapter  adaptercatalog = new CatalogGridViewAdapter(AdminCatalogActivity.this, catalogNameList, gridViewImageId);
+                    CatalogGridViewAdapter adaptercatalog = new CatalogGridViewAdapter(AdminCatalogActivity.this, catalogNameList, gridViewImageId);
 
                     gridview.setAdapter(adaptercatalog);
 

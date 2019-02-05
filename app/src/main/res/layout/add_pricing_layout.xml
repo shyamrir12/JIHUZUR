@@ -9,6 +9,50 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_addpricingterms"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:hint="Pricing Terms">
+            <AutoCompleteTextView
+                android:id="@+id/addPricingTerms"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="                              "
+                android:textSize="15sp"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_amount"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:hint="Amount">
+            <AutoCompleteTextView
+                android:id="@+id/editAmount"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="                              "
+                android:textSize="15sp"
+                android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
+
+
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
 
 
         <android.support.design.widget.TextInputLayout
@@ -30,45 +74,6 @@
 
 
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_addpricingterms"
-            android:layout_width="120dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:hint="Pricing Terms">
-            <AutoCompleteTextView
-                android:id="@+id/addPricingTerms"
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="                              "
-                android:textSize="15sp"
-                android:inputType="text" />
-        </android.support.design.widget.TextInputLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_layout_amount"
-            android:layout_width="120dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:hint="Amount">
-            <AutoCompleteTextView
-                android:id="@+id/editAmount"
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="                              "
-                android:textSize="15sp"
-                android:inputType="text" />
-        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
 
@@ -126,90 +131,8 @@
                 android:textSize="15sp"
                 android:inputType="text" />
         </android.support.design.widget.TextInputLayout>
-        <!--<android.support.design.widget.TextInputLayout-->
-            <!--android:id="@+id/pricingStrt"-->
-            <!--android:layout_width="120dp"-->
-            <!--android:layout_height="60dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:hint="Pricing Start">-->
-            <!--<AutoCompleteTextView-->
-                <!--android:id="@+id/pricingStart"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-
-
-                <!--android:hint="                              "-->
-                <!--android:textSize="15sp"-->
-                <!--android:inputType="text" />-->
-        <!--</android.support.design.widget.TextInputLayout>-->
-        <!--<android.support.design.widget.TextInputLayout-->
-            <!--android:id="@+id/input_layout_pricingEnd"-->
-            <!--android:layout_width="120dp"-->
-            <!--android:layout_height="60dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:hint="Pricing End">-->
-            <!--<AutoCompleteTextView-->
-                <!--android:id="@+id/pricingEnd"-->
-
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:hint="                              "-->
-                <!--android:textSize="15sp"-->
-                <!--android:inputType="text" />-->
-        <!--</android.support.design.widget.TextInputLayout>-->
 
     </LinearLayout>
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal">-->
-
-
-        <!--<android.support.design.widget.TextInputLayout-->
-            <!--android:id="@+id/pricingendSlot"-->
-            <!--android:layout_width="120dp"-->
-            <!--android:layout_height="60dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:hint="Pricing End Slot">-->
-            <!--<AutoCompleteTextView-->
-                <!--android:id="@+id/pricingEndslot"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-
-
-                <!--android:hint="                              "-->
-                <!--android:textSize="15sp"-->
-                <!--android:inputType="text" />-->
-        <!--</android.support.design.widget.TextInputLayout>-->
-
-
-
-        <!--<android.support.design.widget.TextInputLayout-->
-            <!--android:id="@+id/input_layout_startAmount"-->
-            <!--android:layout_width="120dp"-->
-            <!--android:layout_height="60dp"-->
-            <!--android:layout_weight="1"-->
-            <!--android:hint="Start Amount">-->
-            <!--<AutoCompleteTextView-->
-                <!--android:id="@+id/startAmount"-->
-
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:hint="                              "-->
-                <!--android:textSize="15sp"-->
-                <!--android:inputType="text" />-->
-        <!--</android.support.design.widget.TextInputLayout>-->
-
-
-
-
-
-
-    <!--</LinearLayout>-->
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -42,107 +42,93 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
             <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".LoginRegistrationActivity.LoginActivity"
             android:label="@string/title_activity_login" />
-
         <activity
             android:name=".AdminActivity.AdminCategoryActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
-        <activity
-            android:name=".AdminActivity.AdminCatalogActivity" />
-
-
-
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AdminActivity.AdminCatalogActivity" />
         <activity
             android:name=".AdminActivity.AdminPricingActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AdminActivity.AdminDiscountActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CustomerActivity.CustomerHomePage"
             android:label="@string/title_activity_customer_home_page"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".DrawingActivity" />
-
         <activity
             android:name=".EmployeeActivity.EmployeeHomePage"
             android:label="@string/title_activity_employee_home_page"
             android:theme="@style/AppTheme.NoActionBar">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
-
         <activity android:name=".EmployeeActivity.EmployeeDrawingActivity" />
-
         <activity
             android:name=".MenuActivity"
-            android:parentActivityName=".CustomerActivity.CustomerHomePage" >
-
-        </activity>
-
+            android:parentActivityName=".CustomerActivity.CustomerHomePage"></activity>
         <activity android:name=".UpdateProfile" />
-
-        <activity android:name=".LocationActivity"
+        <activity
+            android:name=".LocationActivity"
             android:parentActivityName=".CustomerActivity.CustomerpricingActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
 
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
         <activity
             android:name=".SplashActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".AdminActivity.AdminHomePage"
             android:label="@string/title_activity_admin_home_page"
-            android:theme="@style/AppTheme.NoActionBar" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
 
         </activity>
         <activity
             android:name=".LoginRegistrationActivity.RegistrationActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".SelectServices"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".SelectServices"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"></activity>
         <activity
             android:name=".MyBokingsActivity"
-            android:parentActivityName=".CustomerActivity.CustomerHomePage">
-
-        </activity>
-        <activity android:name=".CustomerActivity.CustomerpricingActivity"
-            android:parentActivityName=".SelectServices">
-
-        </activity>
-        <activity android:name=".AddAddressActivity">
-
-        </activity>
-        <activity android:name=".LoginRegistrationActivity.VerifyPhoneActivity"></activity>
-
-        <activity android:name=".EmployeeActivity.EmployeeBookingsActivity"
-            android:parentActivityName=".EmployeeActivity.EmployeeHomePage"></activity>
-        <activity android:name=".ComplaintActivity"></activity>
+            android:parentActivityName=".CustomerActivity.CustomerHomePage"></activity>
+        <activity
+            android:name=".CustomerActivity.CustomerpricingActivity"
+            android:parentActivityName=".SelectServices"></activity>
+        <activity android:name=".AddAddressActivity"></activity>
+        <activity android:name=".LoginRegistrationActivity.VerifyPhoneActivity" />
+        <activity
+            android:name=".EmployeeActivity.EmployeeBookingsActivity"
+            android:parentActivityName=".EmployeeActivity.EmployeeHomePage" />
+        <activity android:name=".ComplaintActivity" />
+        <activity
+            android:name=".CustomerActivity.CustomerComplaintActivity"
+            android:label="@string/title_activity_customer_complaint"></activity>
     </application>
 
 </manifest>
