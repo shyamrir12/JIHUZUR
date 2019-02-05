@@ -114,7 +114,7 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
         try {
 //            mSwipeRefreshLayout.setRefreshing(true);
 
-            result=new AdminHelper.GETServiceList().execute(catalogID).get();
+              result=new AdminHelper.GETServiceList().execute(catalogID).get();
             if (result.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
             } else {

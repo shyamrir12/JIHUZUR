@@ -102,6 +102,7 @@ holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     intent.putExtra("serviceName", holder.serviceName.getText());
                     intent.putExtra("description", holder.description.getText());
                     intent.putExtra("serviceID", holder.serviceID.getText());
+                    intent.putExtra("displayType",holder.dType.getText());
                     mCtx.startActivity(intent);
 
                     Toast.makeText(mCtx, "" + position, Toast.LENGTH_SHORT).show();

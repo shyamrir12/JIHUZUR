@@ -225,7 +225,7 @@ public class AdminHelper extends AppCompatActivity{
 
                 parameters.add("PricingEndSlot", pricingendslot);
 
-                parameters.add("PricingType", pricingtype);
+
 
 
 //                parameters.add("CatalogID", catalogID.split("-")[0]);

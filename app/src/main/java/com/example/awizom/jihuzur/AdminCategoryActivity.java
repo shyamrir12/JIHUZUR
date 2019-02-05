@@ -1,54 +1,32 @@
 package com.example.awizom.jihuzur;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Activity;
-import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.example.awizom.jihuzur.Adapter.CatalogGridViewAdapter;
-import com.example.awizom.jihuzur.Adapter.CatalogListAdapter;
 import com.example.awizom.jihuzur.Adapter.CategoryGridViewAdapter;
 import com.example.awizom.jihuzur.Adapter.CategoryListAdapter;
-import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.Result;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 
 public class AdminCategoryActivity extends AppCompatActivity implements View.OnClickListener {
 

@@ -90,6 +90,7 @@ public class AdminPricingActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         serviceID = getIntent().getStringExtra("serviceID");
         displayType = getIntent().getStringExtra("displayType");
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         addPricing = (FloatingActionButton) findViewById(R.id.addPricing);
         progressDialog = new ProgressDialog(this);
@@ -171,6 +172,8 @@ public class AdminPricingActivity extends AppCompatActivity {
         final AutoCompleteTextView noOfItems = (AutoCompleteTextView) dialogView.findViewById(R.id.numberItems);
         final AutoCompleteTextView pricingEndSlot = (AutoCompleteTextView) dialogView.findViewById(R.id.prizingEndSlot);
         pricingEndSlot.setVisibility(View.GONE);
+
+
         noOfItems.setVisibility(View.GONE);
         final Spinner pricingslot = (Spinner) dialogView.findViewById(R.id.pricingslot);
         pricingslot.setVisibility(View.GONE);
@@ -252,7 +255,7 @@ public class AdminPricingActivity extends AppCompatActivity {
         }
 
 
-        if (displayType.equals("null")) {
+        if (displayType.equals("")) {
 
             pricingType = "Range";
             noOfItems.setVisibility(View.GONE);
@@ -279,10 +282,10 @@ public class AdminPricingActivity extends AppCompatActivity {
                 String description = editdescription.getText().toString().trim();
                 String pricing = addpricingterms.getText().toString().trim();
                 String amount = editamount.getText().toString().trim();
-                if (displayType!="null") {
+                pricingendSlot=pricingEndSlot.getText().toString();
 
-                    pricingendSlot = pricingEndSlot.getText().toString();
-                }
+
+
 
                 try {
                     //String res="";
