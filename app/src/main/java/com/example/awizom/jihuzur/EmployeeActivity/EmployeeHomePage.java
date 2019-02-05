@@ -21,7 +21,7 @@ import com.bumptech.glide.Glide;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
 import com.example.awizom.jihuzur.R;
-import com.example.awizom.jihuzur.RegistrationActivity;
+import com.example.awizom.jihuzur.LoginRegistrationActivity.RegistrationActivity;
 import com.example.awizom.jihuzur.SettingsActivity;
 import com.example.awizom.jihuzur.UpdateProfile;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;

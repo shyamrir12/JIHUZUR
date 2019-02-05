@@ -8,6 +8,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.example.awizom.jihuzur.LoginRegistrationActivity.LoginActivity;
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;

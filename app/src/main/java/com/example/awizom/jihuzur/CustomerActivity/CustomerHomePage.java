@@ -29,7 +29,7 @@ import com.example.awizom.jihuzur.Fragment.SearchFragment;
 import com.example.awizom.jihuzur.MenuActivity;
 import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
-import com.example.awizom.jihuzur.RegistrationActivity;
+import com.example.awizom.jihuzur.LoginRegistrationActivity.RegistrationActivity;
 import com.example.awizom.jihuzur.SettingsActivity;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.firebase.auth.FirebaseAuth;

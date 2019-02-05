@@ -1,4 +1,4 @@
-package com.example.awizom.jihuzur;
+package com.example.awizom.jihuzur.LoginRegistrationActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,11 +8,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.awizom.jihuzur.AdminActivity.AdminHomePage;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
 import com.example.awizom.jihuzur.Helper.LoginHelper;
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.UserLogin;
+import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.gson.Gson;
 import java.util.concurrent.ExecutionException;

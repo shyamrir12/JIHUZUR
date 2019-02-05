@@ -1,50 +1,35 @@
-package com.example.awizom.jihuzur;
+package com.example.awizom.jihuzur.AdminActivity;
 
 import android.app.ProgressDialog;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.awizom.jihuzur.Adapter.CatalogListAdapter;
 import com.example.awizom.jihuzur.Adapter.PricingListAdapter;
-import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
-import com.example.awizom.jihuzur.Model.Catalog;
-import com.example.awizom.jihuzur.Model.Pricing;
 import com.example.awizom.jihuzur.Model.PricingView;
 import com.example.awizom.jihuzur.Model.Result;
+import com.example.awizom.jihuzur.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 
 public class AdminPricingActivity extends AppCompatActivity {
 

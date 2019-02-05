@@ -1,4 +1,4 @@
-package com.example.awizom.jihuzur;
+package com.example.awizom.jihuzur.AdminActivity;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -27,10 +27,15 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
+import com.example.awizom.jihuzur.DrawingActivity;
 import com.example.awizom.jihuzur.Fragment.CatalogFragment;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
 import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
+import com.example.awizom.jihuzur.LoginRegistrationActivity.RegistrationActivity;
+import com.example.awizom.jihuzur.R;
+import com.example.awizom.jihuzur.SettingsActivity;
+import com.example.awizom.jihuzur.UpdateProfile;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;

@@ -14,7 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.awizom.jihuzur.AdminPricingActivity;
+import com.example.awizom.jihuzur.AdminActivity.AdminPricingActivity;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.Service;

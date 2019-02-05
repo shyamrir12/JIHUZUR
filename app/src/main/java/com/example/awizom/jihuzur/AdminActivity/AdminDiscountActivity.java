@@ -1,4 +1,4 @@
-package com.example.awizom.jihuzur;
+package com.example.awizom.jihuzur.AdminActivity;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -18,6 +18,7 @@ import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Model.DiscountView;
 import com.example.awizom.jihuzur.Model.Result;
+import com.example.awizom.jihuzur.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;

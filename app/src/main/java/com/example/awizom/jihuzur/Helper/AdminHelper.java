@@ -1,29 +1,10 @@
 package com.example.awizom.jihuzur.Helper;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.awizom.jihuzur.Adapter.CategoryListAdapter;
-import com.example.awizom.jihuzur.Adapter.PricingListAdapter;
-import com.example.awizom.jihuzur.Adapter.ServiceListAdapter;
-import com.example.awizom.jihuzur.AdminCategoryActivity;
-import com.example.awizom.jihuzur.AdminPricingActivity;
 import com.example.awizom.jihuzur.Config.AppConfig;
-import com.example.awizom.jihuzur.Model.Catalog;
-import com.example.awizom.jihuzur.Model.PricingView;
-import com.example.awizom.jihuzur.Model.Result;
-import com.example.awizom.jihuzur.Model.Service;
-import com.example.awizom.jihuzur.SelectServices;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.List;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;

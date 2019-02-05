@@ -1,4 +1,4 @@
-package com.example.awizom.jihuzur;
+package com.example.awizom.jihuzur.AdminActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,6 +22,7 @@ import com.example.awizom.jihuzur.Adapter.CategoryListAdapter;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.Result;
+import com.example.awizom.jihuzur.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.ByteArrayOutputStream;

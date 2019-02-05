@@ -1,4 +1,4 @@
-package com.example.awizom.jihuzur;
+package com.example.awizom.jihuzur.LoginRegistrationActivity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
+import com.example.awizom.jihuzur.R;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 

@@ -50,23 +50,23 @@
         </activity>
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".LoginRegistrationActivity.LoginActivity"
             android:label="@string/title_activity_login" />
 
         <activity
-            android:name=".AdminCategoryActivity"
+            android:name=".AdminActivity.AdminCategoryActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
-            android:name=".AdminCatalogActivity" />
+            android:name=".AdminActivity.AdminCatalogActivity" />
 
 
 
         <activity
-            android:name=".AdminPricingActivity"
+            android:name=".AdminActivity.AdminPricingActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".AdminDiscountActivity"
+            android:name=".AdminActivity.AdminDiscountActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
@@ -107,7 +107,7 @@
             android:name=".SplashActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".AdminHomePage"
+            android:name=".AdminActivity.AdminHomePage"
             android:label="@string/title_activity_admin_home_page"
             android:theme="@style/AppTheme.NoActionBar" >
             <!--<intent-filter>-->
@@ -117,7 +117,7 @@
 
         </activity>
         <activity
-            android:name=".RegistrationActivity"
+            android:name=".LoginRegistrationActivity.RegistrationActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".SelectServices"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
@@ -138,7 +138,7 @@
         <activity android:name=".AddAddressActivity">
 
         </activity>
-        <activity android:name="VerifyPhoneActivity"></activity>
+        <activity android:name=".LoginRegistrationActivity.VerifyPhoneActivity"></activity>
 
         <activity android:name=".EmployeeActivity.EmployeeBookingsActivity"
             android:parentActivityName=".EmployeeActivity.EmployeeHomePage"></activity>
