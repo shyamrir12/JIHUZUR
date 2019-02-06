@@ -161,6 +161,7 @@ public class CustomerOrderHelper extends AppCompatActivity {
             String serviceId = params[0];
 
             String json = "";
+            String s;
             try {
 
                 OkHttpClient client = new OkHttpClient();
