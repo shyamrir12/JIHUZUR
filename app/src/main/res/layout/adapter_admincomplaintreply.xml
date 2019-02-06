@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+       <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal">
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="ComplaintID"
+               android:textColor="@color/colorBlack"/>
+           <TextView
+               android:layout_marginLeft="20dp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/complaintID"
+               android:textColor="@color/colorBlack"
+               android:text="complainId"/>
+
+
+           <TextView
+               android:layout_marginLeft="20dp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textColor="@color/colorBlack"
+               android:visibility="gone"
+               android:text="Status"/>
+           <TextView
+               android:layout_marginLeft="20dp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/status"
+               android:visibility="gone"
+               android:textColor="@color/colorBlack"
+               android:text="status"/>
+
+
+       </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/complaint"
+                android:text="Complaint"
+                android:textColor="@color/colorBlack"
+                />
+
+
+
+
+
+
+        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:visibility="gone"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorBlack"
+                        android:text="Active"/>
+
+                <ToggleButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/activeToggle"/>
+
+
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/addComplaintReply"
+                    android:layout_width="50dp"
+                   android:layout_marginLeft="200dp"
+                    android:layout_height="50dp"
+                    app:srcCompat="@drawable/ic_reply_black_24dp"
+      />
+
+            </LinearLayout>
+
+
+
+
+
+</LinearLayout>
+
+
+        </android.support.v7.widget.CardView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+</LinearLayout>
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/customerid"
+        android:text="CustomerID"
+        android:textColor="@color/colorBlack"
+        android:visibility="gone"
+        />
+</android.support.constraint.ConstraintLayout>
+

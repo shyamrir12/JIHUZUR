@@ -20,6 +20,12 @@
             android:id="@+id/nav_catalogpricing"
             android:icon="@drawable/ic_monetization_on_black_24dp"
             android:title="@string/catalogPricing" />
+
+        <item
+            android:id="@+id/nav_complaintReply"
+            android:icon="@drawable/ic_reply_black_24dp"
+            android:title="Complaint reply" />
+
         <item
             android:id="@+id/nav_discount"
             android:icon="@drawable/ic_local_offer_black_24dp"
