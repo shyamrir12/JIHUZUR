@@ -21,10 +21,9 @@ public class CatalogListAdapter extends
     private Context mCtx;
 
 
-
     /**
      * View holder class
-     * */
+     */
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView catalogId;
         public TextView catalogName;
@@ -45,7 +44,7 @@ public class CatalogListAdapter extends
 
     public CatalogListAdapter(Context baseContext, List<Catalog> catalogList) {
         this.catalogList = catalogList;
-        this.mCtx=baseContext;
+        this.mCtx = baseContext;
 
 
     }
@@ -69,7 +68,7 @@ public class CatalogListAdapter extends
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.adapter_cataloglist,parent, false);
+                .inflate(R.layout.adapter_cataloglist, parent, false);
         return new MyViewHolder(v);
     }
 }

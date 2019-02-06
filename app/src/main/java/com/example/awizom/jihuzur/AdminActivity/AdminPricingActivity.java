@@ -39,7 +39,7 @@ public class AdminPricingActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     List<PricingView> pricingList;
     PricingListAdapter adapterPricingList;
-    String [] pricinglistString;
+    String[] pricinglistString;
     String serviceID, serviceName, displayType;
     TextView servicename;
     String pricingSlots, pricingType, pricingendSlot, DisplayType;
@@ -47,7 +47,7 @@ public class AdminPricingActivity extends AppCompatActivity {
     LinearLayout layout;
     LinearLayout.LayoutParams lparams;
     TextView tv;
-    String result= "";
+    String result = "";
     android.support.v7.widget.Toolbar toolbar;
 
 
@@ -56,10 +56,11 @@ public class AdminPricingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_pricing);
         toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-
-
+        String servicenameForToolbar = getIntent().getStringExtra("serviceName");
+        toolbar.setTitle(servicenameForToolbar + " Pricing");
         toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
+
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,8 +68,8 @@ public class AdminPricingActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-         layout = (LinearLayout) findViewById(R.id.ll1);
-         lparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        layout = (LinearLayout) findViewById(R.id.ll1);
+        lparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         servicename = (TextView) findViewById(R.id.servicePricing);
@@ -91,54 +92,52 @@ public class AdminPricingActivity extends AppCompatActivity {
     private void getPricing() {
 
 
-
 //            mSwipeRefreshLayout.setRefreshing(true);
 
 
+        try {
+            result = new AdminHelper.GETPricingList().execute(String.valueOf(serviceID)).get();
+            if (result.isEmpty()) {
+                Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
+            } else {
 
-            try {
-                result = new AdminHelper.GETPricingList().execute(String.valueOf(serviceID)).get();
-                if (result.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
-                } else {
+                //System.out.println(result);
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<PricingView>>() {
+                }.getType();
+                pricingList = new Gson().fromJson(result, listType);
 
-                    //System.out.println(result);
-                    Gson gson = new Gson();
-                    Type listType = new TypeToken<List<PricingView>>() {
-                    }.getType();
-                    pricingList = new Gson().fromJson(result, listType);
+                pricinglistString = new String[pricingList.size()];
+                for (int i = 0; i < pricingList.size(); i++) {
+                    pricinglistString[i] = String.valueOf(pricingList.get(i).getPricingEnd());
+                    tv = new TextView(AdminPricingActivity.this);
 
-                    pricinglistString = new String[pricingList.size()];
-                    for (int i = 0; i < pricingList.size(); i++) {
-                        pricinglistString[i] = String.valueOf(pricingList.get(i).getPricingEnd());
-                        tv = new TextView(AdminPricingActivity.this);
-
-                        tv.setLayoutParams(lparams);
-                        tv.setTextColor(Color.parseColor("#000000"));
-                        tv.setTextSize(20);
-                        tv.setText(pricinglistString[i] + "->");
-
-
-                        layout.addView(tv);
+                    tv.setLayoutParams(lparams);
+                    tv.setTextColor(Color.parseColor("#000000"));
+                    tv.setTextSize(20);
+                    tv.setText(pricinglistString[i] + "->");
 
 
-                    }
+                    layout.addView(tv);
 
-
-                    adapterPricingList = new PricingListAdapter(getBaseContext(), pricingList);
-                    recyclerView.setAdapter(adapterPricingList);
-                    pricingList.get(0).getServiceName();
-                    serviceName = pricingList.get(0).getServiceName();
-                    servicename.setText(serviceName + " Pricing");
-                    toolbar.setTitle(serviceName + " Pricing");
-                    checkValue = pricingList.size();
 
                 }
 
 
-            } catch (Exception e) {
-                e.printStackTrace();
+                adapterPricingList = new PricingListAdapter(AdminPricingActivity.this, pricingList, displayType);
+                recyclerView.setAdapter(adapterPricingList);
+                pricingList.get(0).getServiceName();
+                serviceName = pricingList.get(0).getServiceName();
+                servicename.setText(serviceName + " Pricing");
+//                    toolbar.setTitle(serviceName + " Pricing");
+                checkValue = pricingList.size();
+
             }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -250,7 +249,7 @@ public class AdminPricingActivity extends AppCompatActivity {
             pricingEndSlot.setVisibility(View.GONE);
             noOfItems.setVisibility(View.VISIBLE);
             pricingType = "Fix";
-            pricingendSlot="0.0";
+            pricingendSlot = "0.0";
         }
 
         final Button buttonAddCatalog = (Button) dialogView.findViewById(R.id.buttonAddCatalog);
@@ -267,16 +266,18 @@ public class AdminPricingActivity extends AppCompatActivity {
                 String description = editdescription.getText().toString().trim();
                 String pricing = addpricingterms.getText().toString().trim();
                 String amount = editamount.getText().toString().trim();
-                pricingendSlot=pricingEndSlot.getText().toString();
+                pricingendSlot = pricingEndSlot.getText().toString();
+                String pricingid = "0";
+                if (pricingType == "Fix") {
+                    pricingSlots = noOfItems.getText().toString();
 
-
-
+                }
 
                 try {
                     //String res="";
                     progressDialog.setMessage("loading...");
                     progressDialog.show();
-                    result=new AdminHelper.POSTPricing().execute(description, pricing, amount, serviceID, pricingSlots, pricingType, pricingendSlot).get();
+                    result = new AdminHelper.POSTPricing().execute(description, pricing, amount, serviceID, pricingSlots, pricingType, pricingendSlot, pricingid).get();
 
                     if (result.isEmpty()) {
                         progressDialog.dismiss();
@@ -315,9 +316,6 @@ public class AdminPricingActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
 
 
 }

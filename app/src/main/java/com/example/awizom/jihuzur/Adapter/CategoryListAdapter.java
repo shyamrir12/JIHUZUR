@@ -36,7 +36,7 @@ import java.util.List;
 
 
 public class CategoryListAdapter extends
-        RecyclerView.Adapter<CategoryListAdapter.MyViewHolder>  {
+        RecyclerView.Adapter<CategoryListAdapter.MyViewHolder> {
 
     private List<Catalog> categorylist;
     private Context mCtx;
@@ -48,7 +48,7 @@ public class CategoryListAdapter extends
     String catalogName;
     AutoCompleteTextView categoryNames;
     ImageView imageView;
-    String result="";
+    String result = "";
     public static final int SELECT_PHOTO = 100;
     int[] gridViewImageId = new int[]{
             R.drawable.home_cleaning
@@ -56,10 +56,9 @@ public class CategoryListAdapter extends
     };
 
 
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView category,catalogid,catalogname;
+        public TextView category, catalogid, catalogname;
         public ImageView categoryImage;
         private List<Catalog> catalogList;
 
@@ -67,9 +66,9 @@ public class CategoryListAdapter extends
             super(view);
 
             category = (TextView) view.findViewById(R.id.categoryName);
-            categoryImage=(ImageView)view.findViewById(R.id.imageView);
-            catalogname=(TextView)view.findViewById(R.id.catalogname);
-            catalogid=(TextView)view.findViewById(R.id.catalogId);
+            categoryImage = (ImageView) view.findViewById(R.id.imageView);
+            catalogname = (TextView) view.findViewById(R.id.catalogname);
+            catalogid = (TextView) view.findViewById(R.id.catalogId);
 
         }
 
@@ -78,63 +77,61 @@ public class CategoryListAdapter extends
 
     public CategoryListAdapter(Context baseContext, List<Catalog> categorylist) {
         this.categorylist = categorylist;
-        this.mCtx=baseContext;
+        this.mCtx = baseContext;
 
 
     }
 
     @Override
-    public void onBindViewHolder  (final MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         Catalog c = categorylist.get(position);
-         holder.category.setText(c.getCategory());
-         holder.catalogid.setText(String.valueOf(c.getCatalogID()));
-         imagestr= AppConfig.BASE_URL+c.getImage();
-         holder.catalogname.setText(c.getCatalogName());
+        holder.category.setText(c.getCategory());
+        holder.catalogid.setText(String.valueOf(c.getCatalogID()));
+        imagestr = AppConfig.BASE_URL + c.getImage();
+        holder.catalogname.setText(c.getCatalogName());
 //
-try {
-    if (c.getImage() == null)
+        try {
+            if (c.getImage() == null)
 
-    {
-        Glide.with(mCtx).load("http://192.168.1.202:7096//Images/Category/1.png").into(holder.categoryImage);
-    } else {
-        Glide.with(mCtx).load(imagestr).into(holder.categoryImage);
-    }
-}
-catch (Exception e)
-{
-e.printStackTrace();
+            {
+                Glide.with(mCtx).load("http://192.168.1.202:7096//Images/Category/1.png").into(holder.categoryImage);
+            } else {
+                Glide.with(mCtx).load(imagestr).into(holder.categoryImage);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
 
-}
-final String categorynem=holder.category.getText().toString();
-final String cetlogId =holder.catalogid.getText().toString();
-final String cetlogName =holder.catalogname.getText().toString();
+        }
+        final String categorynem = holder.category.getText().toString();
+        final String cetlogId = holder.catalogid.getText().toString();
+        final String cetlogName = holder.catalogname.getText().toString();
 // Glide.with(mCtx).load("http://192.168.1.202:7096//Images/Category/1.png").into(holder.categoryImage);
         //http://192.168.1.202:7096//Images/Category/1.png
 
-  holder.itemView.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        intent = new Intent(mCtx, SelectServices.class);
-        intent.putExtra("CategoryName", holder.category.getText());
-        intent.putExtra("CatalogID", holder.catalogid.getText());
-        intent.putExtra("CatalogName", catalogName);
-        mCtx.startActivity(intent);
-
-
-    }
-});
-
-holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-    @Override
-    public boolean onLongClick(View v) {
+                intent = new Intent(mCtx, SelectServices.class);
+                intent.putExtra("CategoryName", holder.category.getText());
+                intent.putExtra("CatalogID", holder.catalogid.getText());
+                intent.putExtra("CatalogName", catalogName);
+                mCtx.startActivity(intent);
 
 
-        showEditCategoryDialog(categorynem,cetlogId,cetlogName);
+            }
+        });
 
-        return true;
-    }
-});
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+
+                showEditCategoryDialog(categorynem, cetlogId, cetlogName);
+
+                return true;
+            }
+        });
 
     }
 
@@ -183,7 +180,7 @@ holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
 
 
                 try {
-                    result = new AdminHelper.POSTCategory().execute(catalogName,catalogID.trim(), categoryName, img_str).get();
+                    result = new AdminHelper.POSTCategory().execute(catalogName, catalogID.trim(), categoryName, img_str).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
@@ -215,7 +212,7 @@ holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
     private void openGallery() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
-       mCtx.startActivity(photoPickerIntent);
+        mCtx.startActivity(photoPickerIntent);
     }
 
     @Override
@@ -226,7 +223,7 @@ holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.adapter_categorylist,parent, false);
+                .inflate(R.layout.adapter_categorylist, parent, false);
 
         return new MyViewHolder(v);
     }

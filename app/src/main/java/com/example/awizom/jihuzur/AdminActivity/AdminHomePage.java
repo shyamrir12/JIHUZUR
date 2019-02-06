@@ -62,7 +62,7 @@ public class AdminHomePage extends AppCompatActivity
     Boolean active = false;
     View header;
     ImageView profileImage;
-    CardView homecleaning,appliance;
+    CardView homecleaning, appliance;
     TextView userName, identityNo, identityType;
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -121,10 +121,10 @@ public class AdminHomePage extends AppCompatActivity
 
         setContentView(R.layout.activity_admin_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-         homecleaning=(CardView)findViewById(R.id.homeCleancardViewOne);
-        appliance=(CardView)findViewById(R.id.appliancecardview);
+        homecleaning = (CardView) findViewById(R.id.homeCleancardViewOne);
+        appliance = (CardView) findViewById(R.id.appliancecardview);
         appliance.setOnClickListener(this);
-         homecleaning.setOnClickListener(this);
+        homecleaning.setOnClickListener(this);
 
         setSupportActionBar(toolbar);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -304,31 +304,24 @@ public class AdminHomePage extends AppCompatActivity
         } else if (id == R.id.nav_master) {
 
 
-
-
         } else if (id == R.id.nav_catalogName) {
 
             intent = new Intent(AdminHomePage.this, AdminCatalogActivity.class);
-                   startActivity(intent);
+            startActivity(intent);
 
 
         } else if (id == R.id.nav_catalogpricing) {
             intent = new Intent(AdminHomePage.this, AdminPricingActivity.class);
             startActivity(intent);
-        }
-
-        else if (id == R.id.nav_discount) {
+        } else if (id == R.id.nav_discount) {
             intent = new Intent(AdminHomePage.this, AdminDiscountActivity.class);
             startActivity(intent);
-        }
-
-else if (id == R.id.nav_logout) {
-                SharedPrefManager.getInstance(this).logout();
-                Intent login = new Intent(getApplicationContext(), RegistrationActivity.class);
-                startActivity(login);
-                finish();
-            }
-        else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_logout) {
+            SharedPrefManager.getInstance(this).logout();
+            Intent login = new Intent(getApplicationContext(), RegistrationActivity.class);
+            startActivity(login);
+            finish();
+        } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
@@ -434,18 +427,16 @@ else if (id == R.id.nav_logout) {
 
         }
 
-        if (v.getId() == homecleaning.getId())
-        {
+        if (v.getId() == homecleaning.getId()) {
             Intent intent = new Intent(AdminHomePage.this, AdminCategoryActivity.class);
-            intent.putExtra("CatalogName","Home Cleaning & Repairs");
+            intent.putExtra("CatalogName", "Home Cleaning & Repairs");
             startActivity(intent);
 
 
         }
-        if (v.getId() == appliance.getId())
-        {
+        if (v.getId() == appliance.getId()) {
             Intent intent = new Intent(AdminHomePage.this, AdminCategoryActivity.class);
-            intent.putExtra("CatalogName","Appliance & Repairs");
+            intent.putExtra("CatalogName", "Appliance & Repairs");
             startActivity(intent);
 
 

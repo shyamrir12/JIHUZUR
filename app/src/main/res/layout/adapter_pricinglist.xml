@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-            <LinearLayout
+<LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
     >
     <LinearLayout
-
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -52,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-
+android:text="description"
             android:layout_weight="1"
             android:hint="Description"
             android:textColor="@color/colorBlack"
@@ -80,6 +77,28 @@
 
                 android:layout_weight="1"
 
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold" />
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="pricing id"
+                android:visibility="gone"
+                android:layout_weight="1"
+                android:id="@+id/pricingID"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold" />
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="catalog id"
+                android:visibility="gone"
+                android:layout_weight="1"
+                android:id="@+id/catalogID"
                 android:textColor="@color/colorBlack"
                 android:textStyle="bold" />
 

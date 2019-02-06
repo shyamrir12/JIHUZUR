@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import com.example.awizom.jihuzur.Adapter.CategoryGridViewAdapter;
 import com.example.awizom.jihuzur.Adapter.CategoryListAdapter;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
@@ -25,6 +26,7 @@ import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -99,9 +101,7 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
             categorylist = new Gson().fromJson(result, listType);
             adapterCategoryList = new CategoryListAdapter(AdminCategoryActivity.this, categorylist);
             recyclerView.setAdapter(adapterCategoryList);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -153,13 +153,13 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
                 System.out.println("byte array:" + image);
 
                 String img_str = Base64.encodeToString(image, 0);
-                String catalogID="0";
+                String catalogID = "0";
 
                 try {
-                    result = new AdminHelper.POSTCategory().execute(catalogName,catalogID, categoryName, img_str).get();
+                    result = new AdminHelper.POSTCategory().execute(catalogName, catalogID, categoryName, img_str).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
-                 Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
 ////                progressDialog.dismiss();
                 } catch (Exception e) {
 

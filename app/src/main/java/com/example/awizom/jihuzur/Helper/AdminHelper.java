@@ -176,6 +176,7 @@ public class AdminHelper extends AppCompatActivity{
         protected String doInBackground(String... params) {
 
             //     InputStream inputStream
+
             String description = params[0];
             String pricing = params[1];
             String amount = params[2];
@@ -183,6 +184,7 @@ public class AdminHelper extends AppCompatActivity{
             String pricingslots = params[4];
             String pricingtype = params[5];
             String pricingendslot = params[6];
+            String pricingid = params[7];
 
 
             String json = "";
@@ -196,10 +198,10 @@ public class AdminHelper extends AppCompatActivity{
                 //builder.addHeader("Authorization", "Bearer " + accesstoken);
 
                 FormBody.Builder parameters = new FormBody.Builder();
-                parameters.add("PricingID", "0");
+                parameters.add("PricingID", pricingid);
                 parameters.add("Description", description);
                 parameters.add("PricingTerms", pricing);
-                parameters.add("Amount", amount);
+                parameters.add("Amount", amount.split(" ")[1]);
                 parameters.add("CatalogID", catalogID);
                 parameters.add("PricingSlot", pricingslots);
                 parameters.add("PricingType", pricingtype);

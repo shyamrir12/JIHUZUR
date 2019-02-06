@@ -36,9 +36,9 @@ public class ServiceListAdapter extends
     Intent intent;
     int catalogID;
     String catalogName;
-    AutoCompleteTextView editServicename,editDescription;
+    AutoCompleteTextView editServicename, editDescription;
     Spinner displayType;
-    String result="";
+    String result = "";
 
 
     /**
@@ -46,17 +46,17 @@ public class ServiceListAdapter extends
      */
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView serviceName, description, serviceID,dType,catalogID;
+        public TextView serviceName, description, serviceID, dType, catalogID;
 
 
         public MyViewHolder(View view) {
             super(view);
 
-            serviceName =  view.findViewById(R.id.serviceName);
-            description =  view.findViewById(R.id.description);
-            serviceID =  view.findViewById(R.id.serviceID);
+            serviceName = view.findViewById(R.id.serviceName);
+            description = view.findViewById(R.id.description);
+            serviceID = view.findViewById(R.id.serviceID);
             dType = view.findViewById(R.id.displayTypes);
-            catalogID=view.findViewById(R.id.catalogID);
+            catalogID = view.findViewById(R.id.catalogID);
 
 
         }
@@ -78,20 +78,20 @@ public class ServiceListAdapter extends
         holder.dType.setText(c.getDisplayType());
         holder.catalogID.setText(String.valueOf(c.getCatalogID()));
 
-        final String servicename=holder.serviceName.getText().toString();
-        final String description=holder.description.getText().toString();
-        final String displaytype= String.valueOf(holder.dType.getText());
-        final String serviceID= String.valueOf(holder.serviceID.getText());
-        final String catalogiD= String.valueOf(holder.serviceID.getText());
+        final String servicename = holder.serviceName.getText().toString();
+        final String description = holder.description.getText().toString();
+        final String displaytype = String.valueOf(holder.dType.getText());
+        final String serviceID = String.valueOf(holder.serviceID.getText());
+        final String catalogiD = String.valueOf(holder.serviceID.getText());
 
-holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-    @Override
-    public boolean onLongClick(View v) {
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
 
-        showEditServiceDialogue(servicename,description,serviceID,catalogiD,displaytype);
-        return true;
-    }
-});
+                showEditServiceDialogue(servicename, description, serviceID, catalogiD, displaytype);
+                return true;
+            }
+        });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,7 +102,7 @@ holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     intent.putExtra("serviceName", holder.serviceName.getText());
                     intent.putExtra("description", holder.description.getText());
                     intent.putExtra("serviceID", holder.serviceID.getText());
-                    intent.putExtra("displayType",holder.dType.getText());
+                    intent.putExtra("displayType", holder.dType.getText());
                     mCtx.startActivity(intent);
 
                     Toast.makeText(mCtx, "" + position, Toast.LENGTH_SHORT).show();
@@ -138,7 +138,7 @@ holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
 
     }
 
-    private void showEditServiceDialogue(final  String servicename,final String description,final String serviceid, final String catalogId,String displaytype) {
+    private void showEditServiceDialogue(final String servicename, final String description, final String serviceid, final String catalogId, String displaytype) {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mCtx);
         LayoutInflater inflater = LayoutInflater.from(mCtx);
@@ -151,9 +151,8 @@ holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
 
         editDescription = (AutoCompleteTextView) dialogView.findViewById(R.id.description);
         editDescription.setText(description);
-        displayType=(Spinner)dialogView.findViewById(R.id.displayType);
-        if(displaytype.equals("Radio"))
-        {
+        displayType = (Spinner) dialogView.findViewById(R.id.displayType);
+        if (displaytype.equals("Radio")) {
             List<String> list = new ArrayList<String>();
             list.add("Radio");
 
@@ -161,22 +160,17 @@ holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
 
             displayType.setAdapter(dataAdapter);
 
-        }
-
-      else if (displaytype.equals("Checkbox")) {
+        } else if (displaytype.equals("Checkbox")) {
             List<String> list = new ArrayList<String>();
             list.add("Checkbox");
 
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(mCtx, android.R.layout.simple_spinner_item, list);
 
             displayType.setAdapter(dataAdapter);
-        }
-        else
-        {
+        } else {
             List<String> list = new ArrayList<String>();
 
-            list.add("Radio");
-            list.add("Checkbox");
+            ;
             list.add("Range");
 
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(mCtx, android.R.layout.simple_spinner_item, list);
@@ -199,15 +193,14 @@ holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 String service = editServicename.getText().toString().trim();
                 String descriptions = editDescription.getText().toString().trim();
                 String displaytype = displayType.getSelectedItem().toString();
-                if (displaytype=="Range")
-                {
-                    displaytype="";
+                if (displaytype == "Range") {
+                    displaytype = "";
 
                 }
 
                 try {
 
-                    result= new AdminHelper.POSTService().execute(serviceid,catalogId, service, descriptions,displaytype).get();
+                    result = new AdminHelper.POSTService().execute(serviceid, catalogId, service, descriptions, displaytype).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();

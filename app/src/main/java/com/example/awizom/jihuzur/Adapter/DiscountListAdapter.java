@@ -36,14 +36,11 @@ public class DiscountListAdapter extends
 
     /**
      * View holder class
-     * */
+     */
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView discountName;
         public TextView discountType;
         public TextView discountAmount;
-
-
-
 
 
         public MyViewHolder(View view) {
@@ -57,7 +54,7 @@ public class DiscountListAdapter extends
 
     public DiscountListAdapter(Context baseContext, List<DiscountView> discountlist) {
         this.discountlist = discountlist;
-        this.mCtx=baseContext;
+        this.mCtx = baseContext;
 
 
     }
@@ -71,8 +68,6 @@ public class DiscountListAdapter extends
         holder.discountName.setTextAppearance(mCtx, R.style.fontForNotificationLandingPage);
 
 
-
-
     }
 
     @Override
@@ -83,7 +78,7 @@ public class DiscountListAdapter extends
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.adapter_discountlist,parent, false);
+                .inflate(R.layout.adapter_discountlist, parent, false);
         return new MyViewHolder(v);
     }
 }
