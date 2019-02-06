@@ -313,7 +313,14 @@ public class AdminHomePage extends AppCompatActivity
         } else if (id == R.id.nav_catalogpricing) {
             intent = new Intent(AdminHomePage.this, AdminPricingActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_discount) {
+        }
+        else if (id == R.id.nav_complaintReply) {
+            intent = new Intent(AdminHomePage.this, AdminComplaintReply.class);
+            startActivity(intent);
+        }
+
+
+        else if (id == R.id.nav_discount) {
             intent = new Intent(AdminHomePage.this, AdminDiscountActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {

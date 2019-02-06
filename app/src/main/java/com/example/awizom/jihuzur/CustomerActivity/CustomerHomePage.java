@@ -1,5 +1,6 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -252,7 +255,9 @@ public class CustomerHomePage extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_complaint) {
             intent=new Intent(CustomerHomePage.this,CustomerComplaintActivity.class);
-            startActivity(intent);
+                ActivityOptions startAnimation = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.fui_slide_out_left,R.anim.fui_slide_in_right);
+
+            startActivity(intent,startAnimation.toBundle());
         } else if (id == R.id.nav_order) {
 
         } else if (id == R.id.nav_logout) {
