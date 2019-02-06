@@ -383,9 +383,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header_customer_home_page"
         app:itemIconTint="#8c000000"
         app:itemTextColor="#e6000000"
+        app:headerLayout="@layout/nav_header_customer_home_page"
         app:menu="@menu/activity_customer_home_page_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

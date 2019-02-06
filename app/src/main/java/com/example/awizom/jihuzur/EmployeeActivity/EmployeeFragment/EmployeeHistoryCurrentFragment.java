@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeHistoryAdapter;
-import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
+import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Model.Order;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
@@ -48,12 +48,18 @@ public class EmployeeHistoryCurrentFragment extends Fragment {
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        getHistoryList();
+        try {
+            getHistoryList();
+        }catch (Exception e){
+            e.printStackTrace();
+            relativeLayout.setVisibility(View.VISIBLE);
+        }
+
     }
 
     private void getHistoryList() {
         try {
-            result   = new CustomerOrderHelper.GetMyCompleteOrderGet().execute(userId).get();
+            result   = new EmployeeOrderHelper.GetMyCompleteOrderGet().execute(userId).get();
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Order>>() {
             }.getType();

@@ -55,6 +55,7 @@ public class CustomerHistoryAdapter extends RecyclerView.Adapter<CustomerHistory
             if(!order.getPricingTerms().equals(null)){
                 holder.prcingtrm.setVisibility(View.VISIBLE);
             }
+            holder.prcingtrm.setVisibility(View.VISIBLE);
 
 
         } catch (Exception E) {

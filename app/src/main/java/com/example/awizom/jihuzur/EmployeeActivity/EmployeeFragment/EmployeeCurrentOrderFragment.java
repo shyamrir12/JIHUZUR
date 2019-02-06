@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeCurrentOrderAdapter;
@@ -21,13 +22,14 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class EmployeeCurrentOrderFragment extends Fragment {
+public class EmployeeCurrentOrderFragment extends Fragment implements View.OnClickListener {
     private View view;
     private String result="",empId;
     List<Order> orderList;
     EmployeeCurrentOrderAdapter employeeCurrentOrderAdapter;
     RecyclerView recyclerView;
     RelativeLayout relativeLayout;
+    private ImageView reloadBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,11 +45,20 @@ public class EmployeeCurrentOrderFragment extends Fragment {
         empId= SharedPrefManager.getInstance(getContext()).getUser().getID();
         relativeLayout = view.findViewById(R.id.textRelate);
         recyclerView = view.findViewById(R.id.recyclerView);
+       // reloadBtn = view.findViewById(R.id.reload);
 
-
+       // reloadBtn.setOnClickListener(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        getMyOrderRunning();
+
+
+
+        try {
+            getMyOrderRunning();
+        }catch (Exception e){
+            e.printStackTrace();
+            relativeLayout.setVisibility(View.VISIBLE);
+        }
     }
     private void getMyOrderRunning() {
         try {
@@ -66,6 +77,13 @@ public class EmployeeCurrentOrderFragment extends Fragment {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+
         }
     }
 }

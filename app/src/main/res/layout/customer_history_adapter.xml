@@ -192,7 +192,8 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/v3"
                         android:layout_margin="10dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <Button
                             android:id="@+id/deleteBtn"

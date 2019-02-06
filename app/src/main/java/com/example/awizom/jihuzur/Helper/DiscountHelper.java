@@ -12,25 +12,25 @@ import okhttp3.Request;
 
 public class DiscountHelper extends AppCompatActivity {
 
-    public static final class GETDiscountList extends AsyncTask<String, Void, String> {
+    public static final class EditPricingPost extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
 
             String json = "";
-            String catalogNameOne = params[0];
+            String orderId = params[0];
+            String priceID = params[1];
 
 
             try {
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Admin + "GetCategoryName");
+                builder.url(AppConfig.BASE_URL_API_Employee + "OrderEditPricingPost/" + orderId + "/" + priceID);
 
                 builder.addHeader("Content-Type", "Application/json");
                 builder.addHeader("Accept", "application/json");
 
 
                 FormBody.Builder parameters = new FormBody.Builder();
-                parameters.add("CatalogName", catalogNameOne);
                 builder.post(parameters.build());
 
 
@@ -58,15 +58,15 @@ public class DiscountHelper extends AppCompatActivity {
 
     }
 
-    public static final class PostDiscount extends AsyncTask<String, Void, String> {
+    public static final class EditPostDiscount extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
 
             //     InputStream inputStream
-            String discountname = params[0];
-            String discounttype = params[1];
-            String discountamount = params[2];
+            String orderId = params[0];
+            String discountname = params[1];
+
 
 
             String json = "";
@@ -74,16 +74,10 @@ public class DiscountHelper extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Admin + "AddDiscount");
+                builder.url(AppConfig.BASE_URL_API_Employee + "OrderEditDiscountPost/" + orderId + "/" + discountname);
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
-                //builder.addHeader("Authorization", "Bearer " + accesstoken);
-
                 FormBody.Builder parameters = new FormBody.Builder();
-                parameters.add("DiscountID", "0");
-                parameters.add("DiscountName", discountname);
-                parameters.add("DiscountType", discounttype);
-                parameters.add("Discount1", discountamount);
 
                 builder.post(parameters.build());
 

@@ -30,15 +30,14 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class EmployeeHistoryAdapter extends RecyclerView.Adapter<EmployeeHistoryAdapter.OrderItemViewHolder>  {
+public class EmployeeHistoryAdapter extends RecyclerView.Adapter<EmployeeHistoryAdapter.OrderItemViewHolder> {
+    int curposition;
+    List<Service> serviceList;
     private Context mCtx;
     private List<Order> orderitemList;
     private Order order;
-    private String orderId = "", otpCode = "", result = "",displayType="";
-
-    int curposition;
-    private Intent intent;  List<Service> serviceList;
-
+    private String orderId = "", otpCode = "", result = "", displayType = "";
+    private Intent intent;
 
 
     public EmployeeHistoryAdapter(Context context, List<Order> orderList) {
@@ -79,7 +78,7 @@ public class EmployeeHistoryAdapter extends RecyclerView.Adapter<EmployeeHistory
             holder.serviceID.setText(String.valueOf(order.getServiceID()));
 
 
-            if(order.getPricingTerms().equals("NULL")){
+            if (order.getPricingTerms().equals("NULL")) {
                 holder.pricingterms.setVisibility(View.GONE);
 
             }
@@ -88,44 +87,8 @@ public class EmployeeHistoryAdapter extends RecyclerView.Adapter<EmployeeHistory
                 holder.disctName.setVisibility(View.VISIBLE);
             }
             getServiceList(holder.catlgId.getText().toString());
-            holder.pricingterms.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //  displayDailouge(v);
-                    intent = new Intent(mCtx, CustomerpricingActivity.class);
-                    intent.putExtra("serviceName", holder.servicName.getText());
-                    intent.putExtra("description", order.getServiceDesc());
-                    intent.putExtra("serviceID", holder.serviceID.getText());
-                    intent.putExtra("DisplayType", displayType.toString());
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mCtx.startActivity(intent);
-                }
-            });
 
-            holder.disctName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(v.getRootView().getContext());
-                    LayoutInflater inflater = LayoutInflater.from(v.getRootView().getContext());
-                    final View dialogView = inflater.inflate(R.layout.discount_layout_alert, null);
-                    dialogBuilder.setView(dialogView);
 
-                    final Spinner spinner = dialogView.findViewById(R.id.distName);
-                    Button submitButn = dialogView.findViewById(R.id.submitBtn);
-
-                    dialogBuilder.setTitle("Edit Discount");
-                    final android.support.v7.app.AlertDialog b = dialogBuilder.create();
-                    b.show();
-
-                    submitButn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                        }
-                    });
-
-                }
-            });
 
 
         } catch (Exception E) {
@@ -135,37 +98,36 @@ public class EmployeeHistoryAdapter extends RecyclerView.Adapter<EmployeeHistory
     }
 
 
-
     private void getServiceList(String s) {
 
 
         try {
 
-          result = new ServicesHelper.GETServiceList().execute(s).get();
+            result = new ServicesHelper.GETServiceList().execute(s).get();
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Service>>() {
             }.getType();
             serviceList = new Gson().fromJson(result, listType);
 
             for (int i = 0; i < serviceList.size(); i++) {
-            displayType = serviceList.get(i).getDisplayType();
+                displayType = serviceList.get(i).getDisplayType();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     @Override
     public int getItemCount() {
         return orderitemList.size();
     }
 
 
-
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context mCtx;
-        private TextView startTime, endtime, empName, timercount, empContAct,disctName,
-                catlgId,catagryName,catlgName,servicName,pricingterms,serviceID;
+        private TextView startTime, endtime, empName, timercount, empContAct, disctName,
+                catlgId, catagryName, catlgName, servicName, pricingterms, serviceID;
         private LinearLayout linearLayout;
         private Button deleteBtn;
         private List<Order> orderitemList;
@@ -186,11 +148,14 @@ public class EmployeeHistoryAdapter extends RecyclerView.Adapter<EmployeeHistory
             pricingterms = itemView.findViewById(R.id.pricingterm);
             serviceID = itemView.findViewById(R.id.serviceID);
             catlgName = itemView.findViewById(R.id.catalogName);
-           catlgId = itemView.findViewById(R.id.catalogID);
+            catlgId = itemView.findViewById(R.id.catalogID);
             disctName = itemView.findViewById(R.id.discountName);
             linearLayout = itemView.findViewById(R.id.l5);
+
             deleteBtn = itemView.findViewById(R.id.deleteBtn);
             deleteBtn.setOnClickListener(this);
+
+
 
 
         }

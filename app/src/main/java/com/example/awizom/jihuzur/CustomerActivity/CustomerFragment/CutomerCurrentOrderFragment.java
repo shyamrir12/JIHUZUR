@@ -46,7 +46,14 @@ public class CutomerCurrentOrderFragment extends Fragment {
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        getMyOrderRunning();
+
+        try {
+            getMyOrderRunning();
+        }catch (Exception e){
+            e.printStackTrace();
+            relativeLayout.setVisibility(View.VISIBLE);
+        }
+
         relativeLayout.setVisibility(View.GONE);
     }
     private void getMyOrderRunning() {

@@ -1,10 +1,7 @@
 package com.example.awizom.jihuzur.Fragment;
 
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,17 +10,9 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.awizom.jihuzur.Adapter.PageAdapter;
-import com.example.awizom.jihuzur.MenuActivity;
 import com.example.awizom.jihuzur.R;
 
 public class SearchFragment extends Fragment {
@@ -35,6 +24,7 @@ public class SearchFragment extends Fragment {
     TabItem appliance;
     TabItem massage;
     TabItem homecleaning;
+    private String catagoryName="";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
      View view= inflater.inflate(R.layout.activity_menu,container,false);
@@ -43,12 +33,14 @@ public class SearchFragment extends Fragment {
     }
     private void initView(View view)
     {
+
         tabLayout = view.findViewById(R.id.tablayout);
         appliance = view.findViewById(R.id.applianceRepair);
         massage =view.findViewById(R.id.massageFitness);
         homecleaning =view.findViewById(R.id.homeCleaning);
         viewPager =view.findViewById(R.id.viewPager);
-        pageAdapter = new PageAdapter(getFragmentManager(), tabLayout.getTabCount());
+
+        pageAdapter = new PageAdapter(getFragmentManager(), tabLayout.getTabCount(), catagoryName);
         viewPager.setAdapter(pageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

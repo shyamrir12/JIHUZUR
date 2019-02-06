@@ -43,9 +43,7 @@ public class CustomerHomePage extends AppCompatActivity
     private Fragment searchFragment,myBookingFragment,helpCenterFragment,catalogFragment;
 
     DatabaseReference datauser, datauserpro;
-    String dUser;
-    String name;
-    String role;
+    String dUser,name,role;
     String Url;
     Boolean active = false;
     View header;
@@ -54,8 +52,8 @@ public class CustomerHomePage extends AppCompatActivity
     private TextView homeCleaningTextView;
     DatabaseReference datauserprofile;
     private Intent intent;
-    ImageView profileImage;
     TextView userName, identityNo, identityType;
+
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -73,9 +71,7 @@ public class CustomerHomePage extends AppCompatActivity
                     break;
 
                 case R.id.navigation_booking:
-//                    getSupportActionBar().setTitle("My Booking");
-//                    fragment = myBookingFragment;
-//                    framentClass = MyBookingFragment.class;
+
                     intent=new Intent(CustomerHomePage.this,MyBokingsActivity.class);
                     startActivity(intent);
 
@@ -122,14 +118,6 @@ public class CustomerHomePage extends AppCompatActivity
         appliancecardView = findViewById(R.id.appliancesCardViewOne1);
         appliancecardView.setOnClickListener(this);
 
-//        homeCleaningCardView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
-//                intent.putExtra("CategoryName","Home Cleaning & Repairs");
-//                startActivity(intent);
-//            }
-//        });
         homecleaning = findViewById(R.id.homecleaning);
 
 
@@ -149,43 +137,11 @@ public class CustomerHomePage extends AppCompatActivity
 
 
         View headerview = navigationView.getHeaderView(0);
-        profileImage = headerview.findViewById(R.id.profileImage);
-        userName = headerview.findViewById(R.id.profileName);
-        identityNo = headerview.findViewById(R.id.identityNo);
-        identityType = headerview.findViewById(R.id.identityType);
 
-
-        identityNo.setOnClickListener(this);
-        identityType.setOnClickListener(this);
-        userName.setOnClickListener(this);
-
-
-
-        Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/blank-profile.png?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
-        Glide.with(CustomerHomePage.this).load(Url).into(profileImage);
-
-        String identNo = "identity no";
-        String name = "welcome user";
-
-        String identType = "identity type";
-        identityType.setText(identType);
-        identityNo.setText(identNo);
-        userName.setText(name);
-
-
-        profileImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), DrawingActivity.class);
-                startActivity(intent);
-            }
-        });
 
 
     }
 
-
-    //fumctionalities for side navigation drawer
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -303,29 +259,11 @@ public class CustomerHomePage extends AppCompatActivity
                 break;
             case R.id.appliancesCardViewOne1:
                 intent=new Intent(CustomerHomePage.this,MenuActivity.class);
-                intent.putExtra("CategoryName","Home Cleaning & Repairs");
+                intent.putExtra("CategoryName","Appliance & Repairs");
                 startActivity(intent);
                 break;
         }
-//        if (v.getId() == identityNo.getId()) {
-//            Intent intent = new Intent(CustomerHomePage.this, UpdateProfile.class);
-//            String uname = userName.getText().toString();
-//            String idenNo = identityNo.getText().toString();
-//            String idenType = identityType.getText().toString();
-////Create the bundle
-//            Bundle bundle = new Bundle();
-//
-////Add your data to bundle
-//            bundle.putString("uname", uname);
-//            bundle.putString("idenNo", idenNo);
-//            bundle.putString("idenType", idenType);
-//
-////Add the bundle to the intent
-//            intent.putExtras(bundle);
-//            startActivity(intent);
-//
-//
-//        }
+
     }
 }
 

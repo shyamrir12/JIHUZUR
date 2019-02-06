@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.example.awizom.jihuzur.Model.DataProfile;
+import com.example.awizom.jihuzur.Model.PricingView;
 
 public class SharedPrefManager {
 
@@ -17,6 +18,8 @@ public class SharedPrefManager {
     private static final String KEY_USER_ID = "userID";
     private static final String KEY_USER_Name = "userName";
     private static final boolean KEY_USER_ACTIVE = false;
+    private static final String KEY_PRICING_ID= "PricingID";
+
 
     private SharedPrefManager(Context context) {
         mCtx = context;
@@ -40,7 +43,6 @@ public class SharedPrefManager {
         editor.apply();
         return true;
     }
-
 
     public DataProfile getUser() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -66,6 +68,20 @@ public class SharedPrefManager {
         editor.clear();
         editor.apply();
         return true;
+    }
+
+    public boolean checked(PricingView pricingView){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(KEY_PRICING_ID, pricingView.getPricingID());
+        editor.apply();
+        return true;
+    }
+    public PricingView getPricingID(){
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        PricingView pricingView =new PricingView();
+        pricingView.PricingID   =  sharedPreferences.getInt(KEY_PRICING_ID, 0);
+        return pricingView;
     }
 
 }
