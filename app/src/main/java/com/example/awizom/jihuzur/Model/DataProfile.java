@@ -8,9 +8,9 @@ public class DataProfile {
 
     public String ID;
     public String Name;
-    public Object Lat;
-    public Object Long;
-  public boolean Active;
+    public String Lat;
+    public String Long;
+   public boolean Active;
     public String Role;
     public String MobileNo;
     public String Image;
@@ -38,7 +38,7 @@ public class DataProfile {
         return Lat;
     }
 
-    public void setLat(Object lat) {
+    public void setLat(String lat) {
         Lat = lat;
     }
 
@@ -46,7 +46,7 @@ public class DataProfile {
         return Long;
     }
 
-    public void setLong(Object aLong) {
+    public void setLong(String aLong) {
         Long = aLong;
     }
 

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/even_container"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/receiverImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="5dip"
+        android:src="@mipmap/profile" />
+
+    <TextView
+        android:id="@+id/recverTextMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="8dip"
+        android:layout_marginRight="120dip"
+        android:layout_marginTop="10dip"
+        android:text="Hii, How are you ?"
+        android:textColor="@color/colorBlack"
+        android:textSize="20dip" />
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/senderImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="80dip"
+        android:src="@mipmap/profile" />
+
+    <TextView
+        android:id="@+id/senderTextMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="120dip"
+        android:layout_marginRight="8dip"
+        android:layout_marginTop="80dip"
+        android:text="Hii, How are you ?"
+        android:textColor="@color/colorBlack"
+        android:textSize="20dip" />
+
+
+</RelativeLayout>

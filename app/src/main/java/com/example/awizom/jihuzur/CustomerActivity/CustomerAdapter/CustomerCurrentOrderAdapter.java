@@ -13,13 +13,17 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.awizom.jihuzur.CustomerActivity.CustomerCommentActivity;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
+import com.example.awizom.jihuzur.CustomerActivity.TrackActivity;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Model.Order;
 import com.example.awizom.jihuzur.Model.ResultModel;
 import com.example.awizom.jihuzur.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -30,6 +34,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     private List<Order> orderitemList;
     private Order order;
     private String orderId = "", otpCode = "", result = "";
+    private Intent intent;
 
     public CustomerCurrentOrderAdapter(Context currentOrderActivity, List<Order> orderList) {
         this.mCtx = currentOrderActivity;
@@ -65,7 +70,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             holder.dctName.setText(order.getDiscountName());
 
 
-            if(!order.getPricingTerms().equals(null)){
+            if (!order.getPricingTerms().equals(null)) {
                 holder.pricingterm.setVisibility(View.VISIBLE);
                 holder.dctName.setVisibility(View.VISIBLE);
                 holder.linearLayout.setVisibility(View.VISIBLE);
@@ -76,10 +81,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                 holder.canclBtn.setVisibility(View.GONE);
                 holder.acceptBtn.setVisibility(View.GONE);
             }
-
-
-
-
 
 
         } catch (Exception E) {
@@ -96,8 +97,8 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context mCtx;
-        private TextView startTime, endtime, empName, timercount, empContAct,catagryName,servicName,pricingterm,dctName;
-        private Button acceptBtn, trackinBtn, canclBtn;
+        private TextView startTime, endtime, empName, timercount, empContAct, catagryName, servicName, pricingterm, dctName;
+        private Button acceptBtn, trackinBtn, canclBtn, commentBtn;
         private List<Order> orderitemList;
         private LinearLayout linearLayout;
 
@@ -122,6 +123,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             servicName = itemView.findViewById(R.id.serviceName);
             pricingterm = itemView.findViewById(R.id.pricingterm);
             dctName = itemView.findViewById(R.id.discountName);
+            commentBtn = itemView.findViewById(R.id.commentBtn);
             linearLayout = itemView.findViewById(R.id.l4);
 
 
@@ -129,6 +131,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             trackinBtn.setOnClickListener(this);
             canclBtn.setOnClickListener(this);
             timercount.setOnClickListener(this);
+            commentBtn.setOnClickListener(this);
         }
 
 
@@ -155,38 +158,39 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                         enterOtp.requestFocus();
 
                     }
-                        verify.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                try {
-                                    result = new CustomerOrderHelper.AcceptOtp().execute(orderId, enterOtp.getText().toString()).get();
-                                    Gson gson = new Gson();
-                                    Type getType = new TypeToken<ResultModel>() {
-                                    }.getType();
-                                    ResultModel resultModel = new Gson().fromJson(result, getType);
-                                    if (resultModel.getMessage().contains("Order Started")) {
-                                        canclBtn.setVisibility(View.GONE);
-                                    }
-
-                                    Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(mCtx, CustomerHomePage.class);
-                                    mCtx.startActivity(intent);
-
-                                } catch (ExecutionException e) {
-                                    e.printStackTrace();
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
+                    verify.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                result = new CustomerOrderHelper.AcceptOtp().execute(orderId, enterOtp.getText().toString()).get();
+                                Gson gson = new Gson();
+                                Type getType = new TypeToken<ResultModel>() {
+                                }.getType();
+                                ResultModel resultModel = new Gson().fromJson(result, getType);
+                                if (resultModel.getMessage().contains("Order Started")) {
+                                    canclBtn.setVisibility(View.GONE);
                                 }
+
+                                Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(mCtx, CustomerHomePage.class);
+                                mCtx.startActivity(intent);
+
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
                             }
-                        });
-
-
-
+                        }
+                    });
 
 
                     break;
                 case R.id.trackBtn:
-
+                        intent = new Intent(mCtx, TrackActivity.class);
+                        intent.putExtra("CustomerID",order.getCustomerID());
+                        intent.putExtra("EmployeeID",order.getEmployeeID());
+                        mCtx.startActivity(intent
+                        );
 
                     break;
                 case R.id.cancelBtn:
@@ -204,6 +208,10 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
 
                 case R.id.timeCount:
 
+                    break;
+                case R.id.commentBtn:
+                    intent = new Intent(mCtx, CustomerCommentActivity.class);
+                    mCtx.startActivity(intent);
                     break;
             }
         }

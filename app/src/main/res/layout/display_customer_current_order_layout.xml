@@ -249,7 +249,22 @@
                             android:textColor="@color/white"
                             android:textSize="14sp"
                             android:visibility="visible" />
-
+                        <view
+                            class="android.support.v7.app.AlertController$RecycleListView"
+                            android:layout_width="3dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/white" />
+                        <Button
+                            android:id="@+id/commentBtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_btn_item"
+                            android:text="Comment"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:visibility="visible" />
 
                     </LinearLayout>
                 </RelativeLayout>

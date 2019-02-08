@@ -1,6 +1,5 @@
 package com.example.awizom.jihuzur;
 
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Model.EmployeeProfileModel;
@@ -27,9 +25,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
-import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,11 +52,13 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     private ArrayList<String> empName = new ArrayList<>();
 
     List<EmployeeProfileModel> employeeProfileModelList;
+    private EmployeeProfileModel employeeProfileModel;
     private String[] empNameList, empLat, empLong;
     Double latitude, latitude1;
     Double longitude, longitude1;
     Intent intent;
-    private String priceID="";
+    private String priceID="",empId="",priceIDs="",selectedEmpId;
+    private String priceIds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +69,8 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     public void InitView() {
-        priceID = String.valueOf(getIntent().getIntExtra("PricingID",0));
+        priceID = getIntent().getStringExtra("PricingID");
+        priceIDs = String.valueOf(getIntent().getIntExtra("PricingIDS",0));
         getMapvalue();
         //latlngs.add(new LatLng(latitude, longitude));
         // latlngs.add(new LatLng(latitude1, longitude1));
@@ -151,6 +150,10 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
 
             }
+
+            selectedEmpId = employeeProfileModelList.get(i).getID();
+
+
         }
 
 //        googleMap.setOnMarkerClickListener(this);
@@ -205,12 +208,16 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         String date = new SimpleDateFormat("MM/dd/yy", Locale.getDefault()).format(new Date());
 
         String customerid = SharedPrefManager.getInstance(getApplicationContext()).getUser().getID();
-        String empId = "c5e2f335-2258-4f41-98d9-c26f25495745";
+        String empId = selectedEmpId;
         String orderDate = String.valueOf(date);
         String catalogId = String.valueOf(2);
-        String priceId = priceID;
+        if(priceID.equals(null)) {
+           priceIds = priceIDs;
+        }else {
+             priceIds = priceID;
+        }
         try {
-            result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId,priceId).get();
+            result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId,priceIds).get();
             if (!result.isEmpty()) {
                 intent = new Intent(this, MyBokingsActivity.class);
                 startActivity(intent);

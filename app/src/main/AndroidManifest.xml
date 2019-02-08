@@ -123,8 +123,7 @@
             android:name=".MyBokingsActivity"
             android:parentActivityName=".CustomerActivity.CustomerHomePage" />
         <activity
-            android:name=".CustomerActivity.CustomerpricingActivity"
-            android:parentActivityName=".SelectServices" />
+            android:name=".CustomerActivity.CustomerpricingActivity" />
         <activity android:name=".AddAddressActivity" />
         <activity android:name=".LoginRegistrationActivity.VerifyPhoneActivity" />
         <activity
@@ -139,6 +138,12 @@
             android:name=".AdminActivity.AdminComplaintReply"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_admin_complaint_reply"></activity>
+
+
+        <activity android:name=".CustomerActivity.CustomerCommentActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity android:name=".CustomerActivity.TrackActivity"/>
     </application>
 
 </manifest>

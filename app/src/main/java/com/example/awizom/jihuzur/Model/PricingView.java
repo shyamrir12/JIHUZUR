@@ -16,6 +16,7 @@ public class PricingView {
     public double PricingEndSlot;
     public double StartAmount ;
     public String DisplayType;
+    private boolean isSelected;
 
     public int getCatalogID() {
         return CatalogID;
@@ -127,5 +128,13 @@ public class PricingView {
 
     public void setDisplayType(String displayType) {
         DisplayType = displayType;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

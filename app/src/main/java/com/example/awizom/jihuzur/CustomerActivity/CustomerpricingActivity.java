@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerPricingAdapter;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Helper.DiscountHelper;
@@ -19,19 +20,22 @@ import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class CustomerpricingActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button nextButton; private Button postPricingBtn;
-    private Intent intent;
     List<PricingView> pricingViewsList;
     CustomerPricingAdapter repairAndServiceAdapter;
     RecyclerView recyclerView;
     RelativeLayout relativeLayout;
-    private String result="",serviceID="",description="",serviceName="",displayType="",btn="",orderID="",priceID="";
+    private Button nextButton;
+    private Button postPricingBtn;
+    private Intent intent;
+    private String result = "", serviceID = "", description = "", serviceName = "",
+            displayType = "", btn = "", orderID = "", priceID = "",data="",pricingId="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +46,14 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 
     private void initView() {
         getSupportActionBar().setTitle("Customer Pricing");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        serviceID=getIntent().getStringExtra("serviceID");
-        description=getIntent().getStringExtra("description");
-        serviceName=getIntent().getStringExtra("serviceName");
-        displayType=getIntent().getStringExtra("DisplayType");
+        serviceID = getIntent().getStringExtra("serviceID");
+        description = getIntent().getStringExtra("description");
+        serviceName = getIntent().getStringExtra("serviceName");
+        displayType = getIntent().getStringExtra("DisplayType");
         btn = getIntent().getStringExtra("button");
-        orderID=getIntent().getStringExtra("orderId");
-        priceID=getIntent().getStringExtra("priceId");
+        orderID = getIntent().getStringExtra("orderId");
+        priceID = getIntent().getStringExtra("priceId");
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -61,16 +64,16 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         postPricingBtn.setOnClickListener(this);
 
 
-        if(btn.equals("empBtn")){
+        if (btn.equals("empBtn")) {
             nextButton.setVisibility(View.GONE);
-        }else if(btn.equals("serBtn")){
+        } else if (btn.equals("serBtn")) {
             nextButton.setVisibility(View.VISIBLE);
         }
 
 
-        if(btn.equals("empBtn")){
+        if (btn.equals("empBtn")) {
             postPricingBtn.setVisibility(View.VISIBLE);
-        }else if(btn.equals("serBtn")){
+        } else if (btn.equals("serBtn")) {
             postPricingBtn.setVisibility(View.GONE);
         }
 
@@ -80,13 +83,13 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 
     private void getMyOrderRunning() {
         try {
-            result   = new CustomerOrderHelper.GetCustomerPricing().execute(serviceID.toString()).get();
+            result = new CustomerOrderHelper.GetCustomerPricing().execute(serviceID.toString()).get();
             Gson gson = new Gson();
             Type listType = new TypeToken<List<PricingView>>() {
             }.getType();
             pricingViewsList = new Gson().fromJson(result, listType);
             repairAndServiceAdapter = new CustomerPricingAdapter(CustomerpricingActivity.this,
-                    pricingViewsList,displayType,orderID,priceID,btn);
+                    pricingViewsList, displayType, orderID, priceID, btn);
             recyclerView.setAdapter(repairAndServiceAdapter);
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -97,16 +100,13 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.buttonNext:
-            int i = SharedPrefManager.getInstance(CustomerpricingActivity.this).getPricingID().PricingID;
-                intent = new Intent(this,LocationActivity.class);
-                intent.putExtra("PricingID",i);
-                startActivity(intent);
-
-                break;
+                method();
+              break;
 
             case R.id.postOrderPriceBtn:
+
                 int j = SharedPrefManager.getInstance(CustomerpricingActivity.this).getPricingID().PricingID;
                 try {
                     result = new DiscountHelper.EditPricingPost().execute(orderID, String.valueOf(j)).get();
@@ -119,6 +119,48 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                 }
                 break;
 
+
         }
     }
+
+    private void method() {
+        data = "";
+        List<PricingView> stList = ((CustomerPricingAdapter) repairAndServiceAdapter).getPricinglist();
+        for (int p = 0; p < stList.size(); p++) {
+            PricingView pricingView = stList.get(p);
+            if (pricingView.isSelected() == true) {
+
+                data = data  + pricingView.getPricingID()+ ",";
+                /*
+                 * Toast.makeText( CardViewActivity.this, " " +
+                 * singleStudent.getName() + " " +
+                 * singleStudent.getEmailId() + " " +
+                 * singleStudent.isSelected(),
+                 * Toast.LENGTH_SHORT).show();
+                 */
+            }
+
+        }
+
+        Toast.makeText(CustomerpricingActivity.this,
+                data, Toast.LENGTH_LONG)
+                .show();
+
+
+
+
+
+         if(data != null){
+             intent = new Intent(this, LocationActivity.class);
+             intent.putExtra("PricingID", data);
+             startActivity(intent);
+         }else {
+             int i = SharedPrefManager.getInstance(CustomerpricingActivity.this).getPricingID().PricingID;
+             intent = new Intent(this, LocationActivity.class);
+             intent.putExtra("PricingIDS", i);
+             startActivity(intent);
+         }
+
+    }
 }
+
