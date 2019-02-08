@@ -1,5 +1,7 @@
 package com.example.awizom.jihuzur.Adapter;
 
+
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.awizom.jihuzur.AdminActivity.AdminCategoryActivity;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Model.Catalog;
@@ -33,6 +36,8 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class CategoryListAdapter extends
@@ -66,7 +71,7 @@ public class CategoryListAdapter extends
             super(view);
 
             category = (TextView) view.findViewById(R.id.categoryName);
-            categoryImage = (ImageView) view.findViewById(R.id.imageView);
+            categoryImage = (ImageView) view.findViewById(R.id.categoryImage);
             catalogname = (TextView) view.findViewById(R.id.catalogname);
             catalogid = (TextView) view.findViewById(R.id.catalogId);
 
@@ -94,9 +99,13 @@ public class CategoryListAdapter extends
             if (c.getImage() == null)
 
             {
-                Glide.with(mCtx).load("http://192.168.1.202:7096//Images/Category/1.png").into(holder.categoryImage);
+
+           holder.categoryImage.setImageResource(R.drawable.jihuzurblanklogo);
+           //     Glide.with(mCtx).load("http://192.168.1.105:7096/Images/Category/1.png").into(holder.categoryImage);
             } else {
-                Glide.with(mCtx).load(imagestr).into(holder.categoryImage);
+
+
+                Glide.with(mCtx).load( imagestr ).into(holder.categoryImage);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -127,7 +136,9 @@ public class CategoryListAdapter extends
             public boolean onLongClick(View v) {
 
 
-                showEditCategoryDialog(categorynem, cetlogId, cetlogName);
+                ((AdminCategoryActivity)mCtx).showAddCategoryDialog(categorynem ,cetlogId,cetlogName);
+
+//                showEditCategoryDialog(categorynem, cetlogId, cetlogName);
 
                 return true;
             }
@@ -149,7 +160,11 @@ public class CategoryListAdapter extends
         chooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openGallery();
+
+
+
+//               openGallery();
+
 
             }
         });
@@ -209,11 +224,15 @@ public class CategoryListAdapter extends
         });
     }
 
-    private void openGallery() {
+    public void openGallery() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
-        mCtx.startActivity(photoPickerIntent);
+        ((Activity)mCtx).startActivityForResult(photoPickerIntent,SELECT_PHOTO);
+
     }
+
+
+
 
     @Override
     public int getItemCount() {
@@ -227,4 +246,5 @@ public class CategoryListAdapter extends
 
         return new MyViewHolder(v);
     }
+
 }

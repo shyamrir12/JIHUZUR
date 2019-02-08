@@ -9,6 +9,10 @@
             android:icon="@drawable/ic_history_black_24dp"
             android:title="@string/My_Booking" />
         <item
+            android:id="@+id/nav_review"
+            android:icon="@drawable/ic_stars_black_24dp"
+            android:title="Review" />
+        <item
             android:id="@+id/nav_complaint"
             android:icon="@drawable/ic_comment_black_24dp"
             android:title="@string/complaint" />

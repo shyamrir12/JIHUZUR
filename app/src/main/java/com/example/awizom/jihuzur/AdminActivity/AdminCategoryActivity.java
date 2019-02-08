@@ -48,14 +48,7 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
     ImageView imageView;
 
     private static final int SELECT_PHOTO = 100;
-    int[] gridViewImageId = {
-            R.drawable.home_cleaning, R.drawable.home_cleaning, R.drawable.home_cleaning,
-            R.drawable.home_cleaning, R.drawable.home_cleaning, R.drawable.home_cleaning,
-            R.drawable.home_cleaning, R.drawable.home_cleaning, R.drawable.home_cleaning,
-            R.drawable.home_cleaning, R.drawable.home_cleaning, R.drawable.home_cleaning,
-            R.drawable.home_cleaning, R.drawable.home_cleaning, R.drawable.home_cleaning,
 
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,17 +102,22 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
         if (v.getId() == addCategory.getId()) {
-            showAddCategoryDialog();
+
+            String categorynem = null,cetlogId=null,cetlogName=null;
+            showAddCategoryDialog(categorynem,cetlogId,cetlogName);
         }
     }
 
-    public void showAddCategoryDialog() {
+    public void showAddCategoryDialog(String categorynem, final String cetlogId, String cetlogName) {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.add_category_layout, null);
         dialogBuilder.setView(dialogView);
         categoryNames = (AutoCompleteTextView) dialogView.findViewById(R.id.editCategory);
+        if (categorynem!=null)
+        { categoryNames.setText(String.valueOf(categorynem));}
+
         imageView = (ImageView) dialogView.findViewById(R.id.imageView);
         Button chooseImage = (Button) dialogView.findViewById(R.id.addImage);
         chooseImage.setOnClickListener(new View.OnClickListener() {
@@ -153,7 +151,13 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
                 System.out.println("byte array:" + image);
 
                 String img_str = Base64.encodeToString(image, 0);
-                String catalogID = "0";
+                String catalogID;
+                if(cetlogId!=null)
+                {
+                     catalogID = cetlogId;
+                }
+                else
+                {  catalogID = "0";}
 
                 try {
                     result = new AdminHelper.POSTCategory().execute(catalogName, catalogID, categoryName, img_str).get();
@@ -185,11 +189,12 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
         });
     }
 
-    private void openGallery() {
+    public void openGallery() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+         startActivityForResult(photoPickerIntent, SELECT_PHOTO);
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -198,7 +203,11 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = data.getData();
                     if (selectedImage != null) {
+
+
+
                         imageView.setImageURI(selectedImage);
+
                     }
                 }
         }

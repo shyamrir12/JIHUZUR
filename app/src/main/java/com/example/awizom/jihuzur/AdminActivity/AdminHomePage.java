@@ -26,13 +26,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.awizom.jihuzur.Adapter.DiscountListAdapter;
+import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.DrawingActivity;
 import com.example.awizom.jihuzur.Fragment.CatalogFragment;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
 import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
+import com.example.awizom.jihuzur.Helper.AdminHelper;
+import com.example.awizom.jihuzur.Helper.AdminProfileHelper;
+import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.LoginRegistrationActivity.RegistrationActivity;
+import com.example.awizom.jihuzur.Model.DataProfile;
+import com.example.awizom.jihuzur.Model.DiscountView;
+import com.example.awizom.jihuzur.Model.EmployeeProfileModel;
+import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.SettingsActivity;
 import com.example.awizom.jihuzur.UpdateProfile;
@@ -43,6 +52,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 public class AdminHomePage extends AppCompatActivity
 
@@ -55,7 +69,8 @@ public class AdminHomePage extends AppCompatActivity
     DatabaseReference datauser, datauserpro;
     private static int SPLASH_TIME_OUT = 2000;
     String dUser;
-    String name;
+    String img_str;
+    String name,result="";
     String role;
     String Url;
     Intent intent;
@@ -64,6 +79,7 @@ public class AdminHomePage extends AppCompatActivity
     ImageView profileImage;
     CardView homecleaning, appliance;
     TextView userName, identityNo, identityType;
+    List<DataProfile>listtype;
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -130,29 +146,19 @@ public class AdminHomePage extends AppCompatActivity
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
+        initView();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
         View headerview = navigationView.getHeaderView(0);
         profileImage = headerview.findViewById(R.id.profileImage);
+
         userName = headerview.findViewById(R.id.profileName);
         identityNo = headerview.findViewById(R.id.identityNo);
         identityType = headerview.findViewById(R.id.identityType);
@@ -161,85 +167,83 @@ public class AdminHomePage extends AppCompatActivity
         identityNo.setOnClickListener(this);
         identityType.setOnClickListener(this);
         userName.setOnClickListener(this);
-        initView();
 
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            getUser();
-        } else {
+        userName.setText(SharedPrefManager.getInstance(this).getUser().getName());
+        img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();
+        {
 
-            Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/blank-profile.png?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
-            Glide.with(AdminHomePage.this).load(Url).into(profileImage);
+            try {
+                if (SharedPrefManager.getInstance(this).getUser().getImage() == null)
 
-            String identNo = "identity no";
-            String name = "welcome user";
+                {
 
-            String identType = "identity type";
-            identityType.setText(identType);
-            identityNo.setText(identNo);
-            userName.setText(name);
+                    profileImage.setImageResource(R.drawable.jihuzurblanklogo);
+                    //     Glide.with(mCtx).load("http://192.168.1.105:7096/Images/Category/1.png").into(holder.categoryImage);
+                } else {
 
+
+                    Glide.with(this).load(img_str).into(profileImage);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
         }
-
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), DrawingActivity.class);
                 startActivity(intent);
+
+
             }
         });
 
 
     }
 
-    public static boolean isConnectingToInternet(Context context) {
-        ConnectivityManager connectivity =
-                (ConnectivityManager) context.getSystemService(
-                        Context.CONNECTIVITY_SERVICE);
-        if (connectivity != null) {
-            NetworkInfo[] info = connectivity.getAllNetworkInfo();
-            if (info != null)
-                for (int i = 0; i < info.length; i++)
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
-                        return true;
-                    }
-        }
-        return false;
-    }
+  
 
     private void initView() {
 
+             getProfile();
+             
+    }
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+    private void getProfile() {
 
-                if (isConnectingToInternet(AdminHomePage.this)) {
+        String id = SharedPrefManager.getInstance(this).getUser().getID();
+
+        try {
 
 
-                } else {
-                    AlertDialog.Builder alertbox = new AlertDialog.Builder(AdminHomePage.this);
-                    alertbox.setIcon(R.drawable.ic_warning_black_24dp);
-                    alertbox.setTitle("Internet Connection Is Not Available");
-                    alertbox.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface arg0, int arg1) {
-                            finishAffinity();
-                            System.exit(0);
+            result = new AdminProfileHelper.GetProfileForShow().execute(id).get();
+            if (result.isEmpty()) {
+                Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
+            } else {
 
-                        }
-                    });
+                Gson gson = new Gson();
+                Type listType = new TypeToken<DataProfile>() {
+                }.getType();
+                DataProfile dataProfile = new Gson().fromJson(result, listType);
+                if(dataProfile != null){
+                         DataProfile dataProfile1 = new DataProfile();
+                       dataProfile.ID = dataProfile.ID;
+                       dataProfile.Active = dataProfile.Active;
+                       dataProfile.Role = dataProfile.Role;
+                        dataProfile1.Image = dataProfile.Image;
+                        dataProfile1.Name=dataProfile.Name;
 
-                    alertbox.show();
+                        SharedPrefManager.getInstance(this).userLogin(dataProfile1);
 
 
                 }
 
-
             }
-        }, SPLASH_TIME_OUT);
-
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-
 
     //fumctionalities for side navigation drawer
     @Override
@@ -318,7 +322,10 @@ public class AdminHomePage extends AppCompatActivity
             intent = new Intent(AdminHomePage.this, AdminComplaintReply.class);
             startActivity(intent);
         }
-
+        else if (id == R.id.nav_ReviewReply) {
+            intent = new Intent(AdminHomePage.this, AdminReviewReply.class);
+            startActivity(intent);
+        }
 
         else if (id == R.id.nav_discount) {
             intent = new Intent(AdminHomePage.this, AdminDiscountActivity.class);
@@ -343,71 +350,7 @@ public class AdminHomePage extends AppCompatActivity
         return true;
     }
 
-    private void getUser() {
-        try {
-
-            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("profile").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
-
-            ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot datas : dataSnapshot.getChildren()) {
-                        dUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/" + dUser + "image.jpg?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
-                        if (Url != null) {
-                            Glide.with(AdminHomePage.this).load(Url).into(profileImage);
-
-                        } else {
-                            String Urlnew = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/blank-profile.png?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
-                            Glide.with(AdminHomePage.this).load(Urlnew).into(profileImage);
-
-                        }
-                        String identNo = dataSnapshot.child("identityNo").getValue().toString();
-                        String name = dataSnapshot.child("name").getValue().toString();
-
-                        String identType = dataSnapshot.child("identityType").getValue().toString();
-
-
-                        if (identType.isEmpty()) {
-                            identityType.setText("Id Type");
-                        } else {
-                            identityType.setText(identType);
-                        }
-
-
-                        if (identNo.isEmpty()) {
-                            identityNo.setText("Id No");
-                        } else {
-                            identityNo.setText(identNo);
-                        }
-                        if (name.isEmpty()) {
-                            userName.setText("Welcome User");
-                        } else {
-                            userName.setText(name);
-                        }
-
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-
-
-            });
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
-            // System.out.println("Error: " + e);
-        }
-    }
+  
 
 
     @Override

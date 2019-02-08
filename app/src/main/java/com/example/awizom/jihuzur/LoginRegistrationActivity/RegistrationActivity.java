@@ -2,6 +2,7 @@ package com.example.awizom.jihuzur.LoginRegistrationActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -119,6 +120,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                             dataProfile.ID = jsonbody.dataProfile.ID;
                             dataProfile.Active = jsonbody.dataProfile.Active;
                             dataProfile.Role = jsonbody.dataProfile.Role;
+                            dataProfile.Image =  jsonbody.dataProfile.Image;
+                            dataProfile.Name = jsonbody.dataProfile.Name;
                             SharedPrefManager.getInstance( getApplicationContext() ).userLogin( dataProfile );
 
                             if (jsonbody.dataProfile.Role.equals( "Employee" )) {

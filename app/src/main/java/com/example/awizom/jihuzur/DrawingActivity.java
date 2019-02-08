@@ -20,20 +20,30 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
+import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
+import com.example.awizom.jihuzur.Helper.AdminHelper;
+import com.example.awizom.jihuzur.Helper.AdminProfileHelper;
+import com.example.awizom.jihuzur.Model.Result;
+import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +61,9 @@ public class DrawingActivity extends AppCompatActivity {
     Uri filePath;
     String datauser;
     ProgressDialog pd;
+    ImageView imageView;
+    EditText yourname;
+    String result="",img_str;
 
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
@@ -68,6 +81,28 @@ public class DrawingActivity extends AppCompatActivity {
         upload=findViewById(R.id.upload);
         pd = new ProgressDialog(this);
         pd.setMessage("Uploading....");
+        yourname=(EditText)findViewById(R.id.name);
+        yourname.setText(SharedPrefManager.getInstance(this).getUser().getName());
+        imageView = findViewById(R.id.imageView);
+        img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();
+
+
+            try {
+                if (SharedPrefManager.getInstance(this).getUser().getImage() == null)
+
+                {
+
+                    imageView.setImageResource(R.drawable.jihuzurblanklogo);
+                    //     Glide.with(mCtx).load("http://192.168.1.105:7096/Images/Category/1.png").into(holder.categoryImage);
+                } else {
+
+
+                    Glide.with(this).load(img_str).into(imageView);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -82,40 +117,40 @@ public class DrawingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (FirebaseAuth.getInstance().getCurrentUser()==null)
-                {
-                    Toast.makeText(getApplicationContext(),"First you have to login for upload profile picture",Toast.LENGTH_SHORT).show();
+                imageView.buildDrawingCache();
+                Bitmap bitmap = imageView.getDrawingCache();
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
+                byte[] image = stream.toByteArray();
+                System.out.println("byte array:" + image);
+
+                String img_str = Base64.encodeToString(image, 0);
+                String name = yourname.getText().toString();
+                String id="6f80f0ae-9d5f-4110-b3bb-f6f93a97c60f";
+
+                try {
+                    result = new AdminProfileHelper.POSTProfile().execute(id,name,img_str).get();
+                    Gson gson = new Gson();
+                    final Result jsonbodyres = gson.fromJson(result, Result.class);
+                    Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+////                progressDialog.dismiss();
+                } catch (Exception e) {
+
                 }
-                else {
-                    if (outputFileUri != null) {
-                        pd.show();
-                        datauser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        StorageReference childRef = storageRef.child(datauser + "image.jpg");
 
-                        //uploading the image
-                        UploadTask uploadTask = childRef.putFile(outputFileUri);
 
-                        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                pd.dismiss();
-                                Toast.makeText(DrawingActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(DrawingActivity.this, CustomerHomePage.class);
-                                startActivity(intent);
 
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                pd.dismiss();
-                                Toast.makeText(DrawingActivity.this, "Upload Failed -> " + e, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    } else {
-                        Toast.makeText(DrawingActivity.this, "Select an image", Toast.LENGTH_SHORT).show();
+//                    if (outputFileUri != null) {
+//
+//
+//
+//                        pd.show();
+//
+//                            }
+
                     }
-                }
-            }
+
         });
 
 
@@ -197,7 +232,7 @@ public class DrawingActivity extends AppCompatActivity {
 
         if (resultCode == Activity.RESULT_OK) {
 
-            ImageView imageView = findViewById(R.id.imageView);
+
 
             if (requestCode == IMAGE_RESULT) {
 

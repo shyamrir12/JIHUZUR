@@ -272,6 +272,7 @@ public class AdminPricingActivity extends AppCompatActivity {
                     pricingSlots = noOfItems.getText().toString();
 
                 }
+                else {}
 
                 try {
                     //String res="";

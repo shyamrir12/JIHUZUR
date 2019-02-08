@@ -100,6 +100,13 @@
 
 
 
+
+        </activity>
+
+        <activity
+            android:name=".AdminActivity.AdminReviewReply"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/title_activity_admin_complaint_reply">
         </activity>
         <activity
             android:name=".LoginRegistrationActivity.RegistrationActivity"

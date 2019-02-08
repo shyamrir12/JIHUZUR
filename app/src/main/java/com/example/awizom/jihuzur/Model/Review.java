@@ -1,15 +1,11 @@
 package com.example.awizom.jihuzur.Model;
 
+import java.text.DateFormat;
 import java.util.Date;
 
 public class Review {
-private int ReviewID;
-private String CustomerID;
-private String Review;
-private int OrderID;
-private  boolean Active;
-private Date ReviewDate;
-
+    public int ReviewID ;
+    public String Review;
 
     public int getReviewID() {
         return ReviewID;
@@ -17,14 +13,6 @@ private Date ReviewDate;
 
     public void setReviewID(int reviewID) {
         ReviewID = reviewID;
-    }
-
-    public String getCustomerID() {
-        return CustomerID;
-    }
-
-    public void setCustomerID(String customerID) {
-        CustomerID = customerID;
     }
 
     public String getReview() {
@@ -51,11 +39,34 @@ private Date ReviewDate;
         Active = active;
     }
 
-    public Date getReviewDate() {
+    public String getReviewDate() {
         return ReviewDate;
     }
 
-    public void setReviewDate(Date reviewDate) {
+    public void setReviewDate(String reviewDate) {
         ReviewDate = reviewDate;
     }
+
+    public int getRate() {
+        return Rate;
+    }
+
+    public void setRate(int rate) {
+        Rate = rate;
+    }
+
+    public int getTotalReply() {
+        return TotalReply;
+    }
+
+    public void setTotalReply(int totalReply) {
+        TotalReply = totalReply;
+    }
+
+    public int OrderID ;
+    public boolean Active;
+    public String ReviewDate;
+    public int Rate;
+    public int TotalReply;
+
 }

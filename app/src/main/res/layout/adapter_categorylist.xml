@@ -18,10 +18,10 @@
 
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:id="@+id/categoryImage"
-                    android:src="@drawable/home_cleaning" />
+                    />
 
 
 

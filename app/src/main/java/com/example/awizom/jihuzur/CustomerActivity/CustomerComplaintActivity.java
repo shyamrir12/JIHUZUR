@@ -34,7 +34,7 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
     List<Complaint> complaintlist;
     RecyclerView recyclerView;
     CustomerComplaintListAdapter customerComplainAdapetr;
-    String[] SPINNERLIST = {"Create Complaint", "Active Complaint", "Solved Complaint"};
+    String[] SPINNERLIST = { "Active Complaint","Create Complaint", "Solved Complaint"};
 
 
     @Override
@@ -89,13 +89,15 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
                 if(activeComplaint.equals("Active Complaint"))
                 {
                     Toast.makeText(getApplicationContext(), ""+activeComplaint, Toast.LENGTH_SHORT).show();
-                    getComplaintList();
+                    String status = "False";
+                    getComplaintList(status);
                 }
                 String solvedComplaint = parent.getItemAtPosition(position).toString();
                 if(solvedComplaint.equals("Solved Complaint"))
                 {
                     Toast.makeText(getApplicationContext(), ""+solvedComplaint, Toast.LENGTH_SHORT).show();
-                    showCreateComplaintDialog();
+                    String status = "True";
+                    getComplaintList(status);
                 }
             }
 
@@ -106,7 +108,7 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
         });
     }
 
-    private void getComplaintList() {
+    private void getComplaintList(String status) {
         String customerId=SharedPrefManager.getInstance(CustomerComplaintActivity.this).getUser().getID();
 
         try {

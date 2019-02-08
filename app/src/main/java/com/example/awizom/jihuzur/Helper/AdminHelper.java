@@ -201,7 +201,7 @@ public class AdminHelper extends AppCompatActivity{
                 parameters.add("PricingID", pricingid);
                 parameters.add("Description", description);
                 parameters.add("PricingTerms", pricing);
-                parameters.add("Amount", amount.split(" ")[1]);
+                parameters.add("Amount", amount);
                 parameters.add("CatalogID", catalogID);
                 parameters.add("PricingSlot", pricingslots);
                 parameters.add("PricingType", pricingtype);
@@ -563,6 +563,112 @@ public class AdminHelper extends AppCompatActivity{
             }
         }
 
+
+    }
+    public static final class GETReviewListByORderID extends AsyncTask<String, Void, String>{
+        @Override
+        protected String doInBackground(String... params) {
+
+            String json = "";
+
+
+
+            try {
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                builder.url(AppConfig.BASE_URL_API_Customer + "GetReviewByOrder/53");
+
+                builder.addHeader("Content-Type", "Application/json");
+                builder.addHeader("Accept", "application/json");
+
+                okhttp3.Response response = client.newCall(builder.build()).execute();
+                if (response.isSuccessful()) {
+                    json = response.body().string();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+            return json;
+        }
+
+        protected void onPostExecute(String result) {
+
+            try {
+                if (result.isEmpty()) {
+
+                } else {
+                    super.onPostExecute(result);
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+
+    public static final class POSTReviewReply extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+
+            //     InputStream inputStream
+            String reviewreply=params[0];
+            String reviewid = params[1];
+
+            String json = "";
+            try {
+
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                builder.url(AppConfig.BASE_URL_API_Customer + "SubmitReviewReply");
+                builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
+                builder.addHeader("Accept", "application/json");
+                //builder.addHeader("Authorization", "Bearer " + accesstoken);
+
+                FormBody.Builder parameters = new FormBody.Builder();
+                parameters.add("ReplyID","0");
+                parameters.add("Reply1", reviewreply);
+                parameters.add("ReviewID", reviewid);
+
+                parameters.add("Active", "True");
+
+
+
+
+                builder.post(parameters.build());
+
+
+                okhttp3.Response response = client.newCall(builder.build()).execute();
+
+                if (response.isSuccessful()) {
+                    json = response.body().string();
+
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                // System.out.println("Error: " + e);
+
+            }
+            return json;
+        }
+
+
+        protected void onPostExecute(String result) {
+
+            if (result.isEmpty()) {
+
+            } else {
+                super.onPostExecute(result);
+//
+            }
+
+
+        }
 
     }
 

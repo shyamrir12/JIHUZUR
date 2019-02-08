@@ -215,17 +215,13 @@ public class EmployeeOrderHelper extends AppCompatActivity {
                 builder.addHeader("Content-Type", "application/json");
                 builder.addHeader("Accept", "application/json");
                 okhttp3.Response response = client.newCall(builder.build()).execute();
-
                 if (response.isSuccessful()) {
                     json = response.body().string();
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Error: " + e);
-
             }
-
             return json;
         }
 

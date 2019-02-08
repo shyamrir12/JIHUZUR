@@ -17,6 +17,7 @@ public class SharedPrefManager {
     private static final String KEY_USER_ID = "userID";
     private static final String KEY_USER_Name = "userName";
     private static final boolean KEY_USER_ACTIVE = false;
+    private static final String KEY_USER_ProfileImage = "Image";
 
     private SharedPrefManager(Context context) {
         mCtx = context;
@@ -37,9 +38,11 @@ public class SharedPrefManager {
         editor.putString(KEY_USER_Role, user.Role);
         editor.putString(KEY_USER_Name, String.valueOf(user.Name));
         editor.putBoolean( String.valueOf( KEY_USER_ACTIVE ), user.Active);
+        editor.putString(KEY_USER_ProfileImage,user.Image);
         editor.apply();
         return true;
     }
+
 
 
     public DataProfile getUser() {
@@ -50,6 +53,7 @@ public class SharedPrefManager {
         token.ID   =  sharedPreferences.getString(KEY_USER_ID, null);
         token.Name   =  sharedPreferences.getString(KEY_USER_Name, null);
         token.Active   =  sharedPreferences.getBoolean( String.valueOf( KEY_USER_ACTIVE ), false);
+        token.Image   =  sharedPreferences.getString(KEY_USER_ProfileImage, null);
         return  token;
     }
 

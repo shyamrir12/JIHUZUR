@@ -24,7 +24,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
 
     private EditText otpEditText;
     private Button verifyOtpBtn;
-    private String result,userId="",otp="",role="";
+    private String result,userId="",otp="",role="",image="";
     boolean active=false;
     private Intent intent;
 
@@ -89,6 +89,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
                        dataProfile.ID = userId;
                        dataProfile.Active = Boolean.valueOf( active );
                        dataProfile.Role = role;
+                       dataProfile.Image = image;
                        SharedPrefManager.getInstance( getApplicationContext() ).userLogin( dataProfile );
 
                        role = SharedPrefManager.getInstance( VerifyPhoneActivity.this ).getUser().Role;

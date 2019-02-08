@@ -246,14 +246,22 @@ public class CustomerHomePage extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(MenuItem item)
+    {
         // Handle navigation view item clicks here.
+        Class framentClass = null;
         int id = item.getItemId();
 
         if (id == R.id.nav_booking) {
             intent=new Intent(CustomerHomePage.this,MyBokingsActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_complaint) {
+        }
+        else if (id == R.id.nav_review) {
+                   getSupportActionBar().setTitle("My Review");
+                    fragment = myBookingFragment;
+                    framentClass = CustomerReviewFragment.class;
+
+          } else if (id == R.id.nav_complaint) {
             intent=new Intent(CustomerHomePage.this,CustomerComplaintActivity.class);
                 ActivityOptions startAnimation = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.fui_slide_out_left,R.anim.fui_slide_in_right);
 
@@ -287,7 +295,14 @@ public class CustomerHomePage extends AppCompatActivity
             Intent imageView = new Intent(CustomerHomePage.this, DrawingActivity.class);
             startActivity(imageView);
         }
-
+        try {
+            fragment = (Fragment) framentClass.newInstance();
+            android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.home_container, fragment).commit();
+            setTitle("");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

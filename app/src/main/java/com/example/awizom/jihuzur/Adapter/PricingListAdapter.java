@@ -154,7 +154,7 @@ public class PricingListAdapter extends
 
                 String description = editdescription.getText().toString().trim();
                 String pricing = addpricingterms.getText().toString().trim();
-                String amount = editamount.getText().toString().trim();
+                String amount = editamount.getText().toString().split(" ")[1];
 
                 pricingendSlot = pricingEndSlot.getText().toString();
 
