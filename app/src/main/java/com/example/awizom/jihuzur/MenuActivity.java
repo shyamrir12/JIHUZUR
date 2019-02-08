@@ -17,14 +17,14 @@ public class MenuActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;
     PageAdapter pageAdapter;
-    TabItem appliance;
-    TabItem massage;
-    TabItem homecleaning;
+    TabItem appliance,massage,homecleaning,painting,tutors,movingHome;
+//    TabItem massage;
+//    TabItem homecleaning;
+//    TabItem painting;
+//    TabItem tutors;
+//    TabItem movingHome;
 
-    TabItem painting;
-    TabItem tutors;
-    TabItem movingHome;
-
+    private String catagoryName="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +42,7 @@ public class MenuActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        catagoryName = getIntent().getStringExtra("CategoryName");
         tabLayout = findViewById(R.id.tablayout);
         appliance = findViewById(R.id.applianceRepair);
         massage = findViewById(R.id.massageFitness);
@@ -53,7 +54,7 @@ public class MenuActivity extends AppCompatActivity {
 
         viewPager = findViewById(R.id.viewPager);
 
-        pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount(),catagoryName);
         viewPager.setAdapter(pageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 

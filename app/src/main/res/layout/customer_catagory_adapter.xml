@@ -26,12 +26,12 @@
 
 
             <TextView
-                android:layout_marginLeft="60dp"
                 android:id="@+id/categoryName"
                 android:layout_width="match_parent"
-                android:gravity="center_horizontal|center_vertical"
                 android:layout_height="wrap_content"
+                android:gravity="left"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="80dp"
                 android:textColor="@color/colorBlack"
                 android:textSize="20sp" />
 

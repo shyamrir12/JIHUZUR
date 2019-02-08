@@ -32,5 +32,23 @@
         android:padding="16dp"
         android:text="Next ->"
         android:textColor="#FFFFFF"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="visible"/>
+
+
+    <Button
+        android:id="@+id/postOrderPriceBtn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="10dp"
+        android:background="#000000"
+        android:padding="16dp"
+        android:text="Edit ->"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:visibility="visible"/>
 </RelativeLayout>

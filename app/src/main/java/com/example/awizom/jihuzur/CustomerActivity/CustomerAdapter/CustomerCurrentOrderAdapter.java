@@ -62,22 +62,22 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             holder.catagryName.setText(order.getCategory());
             holder.servicName.setText(order.getServiceName());
             holder.pricingterm.setText(order.getPricingTerms());
+            holder.dctName.setText(order.getDiscountName());
+
 
             if(!order.getPricingTerms().equals(null)){
                 holder.pricingterm.setVisibility(View.VISIBLE);
+                holder.dctName.setVisibility(View.VISIBLE);
                 holder.linearLayout.setVisibility(View.VISIBLE);
             }
             if (order.getOrderStartTime().equals("NULL")) {
                 holder.canclBtn.setVisibility(View.VISIBLE);
             } else {
                 holder.canclBtn.setVisibility(View.GONE);
-            }
-
-            if (!order.getOrderStartTime().equals("NULL")) {
-                holder.acceptBtn.setVisibility(View.VISIBLE);
-            } else {
                 holder.acceptBtn.setVisibility(View.GONE);
             }
+
+
 
 
 
@@ -96,7 +96,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context mCtx;
-        private TextView startTime, endtime, empName, timercount, empContAct,catagryName,servicName,pricingterm;
+        private TextView startTime, endtime, empName, timercount, empContAct,catagryName,servicName,pricingterm,dctName;
         private Button acceptBtn, trackinBtn, canclBtn;
         private List<Order> orderitemList;
         private LinearLayout linearLayout;
@@ -121,6 +121,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             catagryName = itemView.findViewById(R.id.catagoryName);
             servicName = itemView.findViewById(R.id.serviceName);
             pricingterm = itemView.findViewById(R.id.pricingterm);
+            dctName = itemView.findViewById(R.id.discountName);
             linearLayout = itemView.findViewById(R.id.l4);
 
 
@@ -148,31 +149,39 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                     dialogBuilder.setTitle("Accept Otp");
                     final android.support.v7.app.AlertDialog b = dialogBuilder.create();
                     b.show();
+                    if (enterOtp.getText().toString().isEmpty()) {
 
-                    verify.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            try {
-                                result = new CustomerOrderHelper.AcceptOtp().execute(orderId, enterOtp.getText().toString()).get();
-                                Gson gson = new Gson();
-                                Type getType = new TypeToken<ResultModel>() {
-                                }.getType();
-                                ResultModel resultModel = new Gson().fromJson(result, getType);
-                                if (resultModel.getMessage().contains("Order Started")) {
-                                    canclBtn.setVisibility(View.GONE);
+                        enterOtp.setError("Enter a valid value");
+                        enterOtp.requestFocus();
+
+                    }
+                        verify.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    result = new CustomerOrderHelper.AcceptOtp().execute(orderId, enterOtp.getText().toString()).get();
+                                    Gson gson = new Gson();
+                                    Type getType = new TypeToken<ResultModel>() {
+                                    }.getType();
+                                    ResultModel resultModel = new Gson().fromJson(result, getType);
+                                    if (resultModel.getMessage().contains("Order Started")) {
+                                        canclBtn.setVisibility(View.GONE);
+                                    }
+
+                                    Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(mCtx, CustomerHomePage.class);
+                                    mCtx.startActivity(intent);
+
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
                                 }
-
-                                Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(mCtx, CustomerHomePage.class);
-                                mCtx.startActivity(intent);
-
-                            } catch (ExecutionException e) {
-                                e.printStackTrace();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
                             }
-                        }
-                    });
+                        });
+
+
+
 
 
                     break;

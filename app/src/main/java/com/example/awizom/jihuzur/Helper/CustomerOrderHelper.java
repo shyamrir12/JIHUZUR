@@ -117,7 +117,7 @@ public class CustomerOrderHelper extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Customer + "OrderCancelPost/" + orderId );
+                builder.url(AppConfig.BASE_URL_API_Customer + "OrderCancelPost/" + orderId  + "/" + "CancelReason");
                 builder.addHeader("Content-Type", "application/json");
                 builder.addHeader("Accept", "application/json");
                 FormBody.Builder parameters = new FormBody.Builder();
@@ -161,6 +161,7 @@ public class CustomerOrderHelper extends AppCompatActivity {
             String serviceId = params[0];
 
             String json = "";
+            String s;
             try {
 
                 OkHttpClient client = new OkHttpClient();
@@ -305,6 +306,7 @@ public class CustomerOrderHelper extends AppCompatActivity {
             String empId = params[1];
             String orderDate = params[2];
             String catalogId = params[3];
+            String priceId = params[4];
 
             String json = "";
             try {
@@ -320,6 +322,7 @@ public class CustomerOrderHelper extends AppCompatActivity {
                 parameters.add("EmployeeID", empId);
                 parameters.add("OrderDate", orderDate);
                 parameters.add("CatalogID", catalogId);
+                parameters.add("PricingID", priceId);
                 builder.post(parameters.build());
 
                 okhttp3.Response response = client.newCall(builder.build()).execute();

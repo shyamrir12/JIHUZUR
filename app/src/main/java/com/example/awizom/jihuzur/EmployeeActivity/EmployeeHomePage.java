@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,8 +19,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
+import com.example.awizom.jihuzur.MenuActivity;
+import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.LoginRegistrationActivity.RegistrationActivity;
 import com.example.awizom.jihuzur.SettingsActivity;
@@ -35,17 +39,15 @@ public class EmployeeHomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     String TAG;
     private Fragment fragment = null;
-    private Fragment searchFragment,helpCenterFragment;
+    private Fragment helpCenterFragment;
     private Intent intent;
-    DatabaseReference datauser, datauserpro;
-    String dUser;
-    String name;
-    String role;
-    String Url;
+    String dUser,name,role,Url;
     Boolean active = false;
     View header;
-    ImageView profileImage;
     TextView userName, identityNo, identityType;
+    private CardView homeCleaningCardView,appliancecardView;
+
+
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -57,18 +59,15 @@ public class EmployeeHomePage extends AppCompatActivity
             Class framentClass = null;
             switch (item.getItemId()) {
                 case R.id.navigation_search:
-                    getSupportActionBar().setTitle("Search");
-                    fragment = searchFragment;
-                    framentClass = SearchFragment.class;
+                    getSupportActionBar().setTitle("Employee Home");
+                    intent=new Intent(EmployeeHomePage.this,CustomerHomePage.class);
+                    startActivity(intent);
 
                     break;
                 case R.id.navigation_booking:
-//                    getSupportActionBar().setTitle("My Booking");
-//                    fragment = myBookingFragment;
-//                    framentClass = MyBookingFragment.class;
+
                     intent=new Intent(EmployeeHomePage.this,EmployeeBookingsActivity.class);
                     startActivity(intent);
-
                     break;
 
                 case R.id.navigation_helpCenter:
@@ -96,61 +95,40 @@ public class EmployeeHomePage extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        searchFragment = new SearchFragment();
+
+        initView();
+    }
+
+    private void initView() {
+
+       // searchFragment = new SearchFragment();
 
         setContentView(R.layout.activity_employee_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        homeCleaningCardView = findViewById(R.id.homeCleancardViewOne);
+        homeCleaningCardView.setOnClickListener(this);
+        appliancecardView = findViewById(R.id.appliancesCardViewOne1);
+        appliancecardView.setOnClickListener(this);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 
+
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
         View headerview = navigationView.getHeaderView(0);
-        profileImage = headerview.findViewById(R.id.profileImage);
         userName = headerview.findViewById(R.id.profileName);
         identityNo = headerview.findViewById(R.id.identityNo);
         identityType = headerview.findViewById(R.id.identityType);
-
-
-        identityNo.setOnClickListener(this);
-        identityType.setOnClickListener(this);
-        userName.setOnClickListener(this);
-
-            Url = "https://firebasestorage.googleapis.com/v0/b/jihuzurdb.appspot.com/o/blank-profile.png?alt=media&token=72065919-9ed9-44ee-916e-e41fc97996da";
-            Glide.with(EmployeeHomePage.this).load(Url).into(profileImage);
-
-            String identNo = "identity no";
-            String name = "welcome user";
-
-            String identType = "identity type";
-            identityType.setText(identType);
-            identityNo.setText(identNo);
-            userName.setText(name);
-
-
-
-        profileImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), EmployeeDrawingActivity.class);
-                startActivity(intent);
-            }
-        });
-
 
     }
 
@@ -175,17 +153,13 @@ public class EmployeeHomePage extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action b
-        // ar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_signout) {
             FirebaseAuth fAuth = FirebaseAuth.getInstance();
             fAuth.signOut();
-
             return true;
         }
         if (id == R.id.action_customerHome) {
@@ -247,13 +221,8 @@ public class EmployeeHomePage extends AppCompatActivity
             startActivity(intent);
 
         }
-// else if (id == R.id.profileImage) {
-//            Intent imageView = new Intent(EmployeeHomePage.this, DrawingActivity.class);
-//            startActivity(imageView);
-//        }
 
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -262,24 +231,17 @@ public class EmployeeHomePage extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == identityNo.getId()) {
-            Intent intent = new Intent(EmployeeHomePage.this, UpdateProfile.class);
-
-
-            String uname = userName.getText().toString();
-            String idenNo = identityNo.getText().toString();
-            String idenType = identityType.getText().toString();
-            //Create the bundle
-            Bundle bundle = new Bundle();
-            //Add your data to bundle
-            bundle.putString("uname", uname);
-            bundle.putString("idenNo", idenNo);
-            bundle.putString("idenType", idenType);
-            //Add the bundle to the intent
-            intent.putExtras(bundle);
-            startActivity(intent);
-
-
+        switch (v.getId()){
+            case R.id.homeCleancardViewOne:
+                intent=new Intent(EmployeeHomePage.this,MenuActivity.class);
+                intent.putExtra("CategoryName","Home Cleaning & Repairs");
+                startActivity(intent);
+                break;
+            case R.id.appliancesCardViewOne1:
+                intent=new Intent(EmployeeHomePage.this,MenuActivity.class);
+                intent.putExtra("CategoryName","Home Cleaning & Repairs");
+                startActivity(intent);
+                break;
         }
     }
 }

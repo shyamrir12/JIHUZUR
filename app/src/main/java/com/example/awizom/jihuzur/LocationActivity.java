@@ -60,6 +60,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     Double latitude, latitude1;
     Double longitude, longitude1;
     Intent intent;
+    private String priceID="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     public void InitView() {
+        priceID = String.valueOf(getIntent().getIntExtra("PricingID",0));
         getMapvalue();
         //latlngs.add(new LatLng(latitude, longitude));
         // latlngs.add(new LatLng(latitude1, longitude1));
@@ -206,8 +208,9 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         String empId = "c5e2f335-2258-4f41-98d9-c26f25495745";
         String orderDate = String.valueOf(date);
         String catalogId = String.valueOf(2);
+        String priceId = priceID;
         try {
-            result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId).get();
+            result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId,priceId).get();
             if (!result.isEmpty()) {
                 intent = new Intent(this, MyBokingsActivity.class);
                 startActivity(intent);

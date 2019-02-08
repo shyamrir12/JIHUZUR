@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="210dp">
+    android:layout_height="200dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,6 +27,7 @@
                     android:layout_height="50dp"
                     android:hint="Otp"
                     android:padding="10dp"
+                    android:inputType="number"
                     android:background="@drawable/background_border_edittext" />
             </android.support.design.widget.TextInputLayout>
 

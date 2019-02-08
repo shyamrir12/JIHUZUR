@@ -114,6 +114,7 @@ public class ServiceListAdapter extends
                     intent.putExtra("description", holder.description.getText());
                     intent.putExtra("serviceID", holder.serviceID.getText());
                     intent.putExtra("DisplayType", holder.dType.getText());
+                    intent.putExtra("button","serBtn");
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mCtx.startActivity(intent);
 
@@ -125,6 +126,7 @@ public class ServiceListAdapter extends
                     intent.putExtra("description", holder.description.getText());
                     intent.putExtra("serviceID", holder.serviceID.getText());
                     intent.putExtra("DisplayType", holder.dType.getText());
+                    intent.putExtra("button","serBtn");
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mCtx.startActivity(intent);
                 }

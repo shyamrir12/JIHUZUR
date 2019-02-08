@@ -164,7 +164,17 @@
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"
                             android:visibility="gone"/>
-
+                        <TextView
+                            android:id="@+id/discountName"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:text="Discount Name"
+                            android:padding="10dp"
+                            android:textColor="@color/colorBlack"
+                            android:textStyle="bold"
+                            android:visibility="gone"/>
                         <!--<TextView-->
                         <!---->
                         <!--android:layout_width="match_parent"-->
