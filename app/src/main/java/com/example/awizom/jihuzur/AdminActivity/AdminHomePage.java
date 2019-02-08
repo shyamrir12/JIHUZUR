@@ -160,15 +160,10 @@ public class AdminHomePage extends AppCompatActivity
         profileImage = headerview.findViewById(R.id.profileImage);
 
         userName = headerview.findViewById(R.id.profileName);
-        identityNo = headerview.findViewById(R.id.identityNo);
-        identityType = headerview.findViewById(R.id.identityType);
-
-
-        identityNo.setOnClickListener(this);
-        identityType.setOnClickListener(this);
+        userName.setText(SharedPrefManager.getInstance(this).getUser().getName());
         userName.setOnClickListener(this);
 
-        userName.setText(SharedPrefManager.getInstance(this).getUser().getName());
+
         img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();
         {
 
@@ -228,13 +223,11 @@ public class AdminHomePage extends AppCompatActivity
                 DataProfile dataProfile = new Gson().fromJson(result, listType);
                 if(dataProfile != null){
                          DataProfile dataProfile1 = new DataProfile();
-                       dataProfile.ID = dataProfile.ID;
-                       dataProfile.Active = dataProfile.Active;
-                       dataProfile.Role = dataProfile.Role;
+
                         dataProfile1.Image = dataProfile.Image;
                         dataProfile1.Name=dataProfile.Name;
 
-                        SharedPrefManager.getInstance(this).userLogin(dataProfile1);
+//                        SharedPrefManager.getInstance(this).userLogin(dataProfile1);
 
 
                 }
@@ -355,27 +348,7 @@ public class AdminHomePage extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == identityNo.getId()) {
-            Intent intent = new Intent(AdminHomePage.this, UpdateProfile.class);
 
-
-            String uname = userName.getText().toString();
-            String idenNo = identityNo.getText().toString();
-            String idenType = identityType.getText().toString();
-//Create the bundle
-            Bundle bundle = new Bundle();
-
-//Add your data to bundle
-            bundle.putString("uname", uname);
-            bundle.putString("idenNo", idenNo);
-            bundle.putString("idenType", idenType);
-
-//Add the bundle to the intent
-            intent.putExtras(bundle);
-            startActivity(intent);
-
-
-        }
 
         if (v.getId() == homecleaning.getId()) {
             Intent intent = new Intent(AdminHomePage.this, AdminCategoryActivity.class);

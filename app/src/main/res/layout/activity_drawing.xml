@@ -4,7 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey"
     android:fitsSystemWindows="true">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        ></android.support.v7.widget.Toolbar>
+
 
 
     <RelativeLayout
@@ -16,35 +26,71 @@
         android:padding="16dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <Button
+
+
+<android.support.v7.widget.CardView
+    android:layout_width="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentEnd="true"
+    android:layout_marginBottom="18dp"
+    android:layout_marginEnd="11dp"
+    android:layout_height="wrap_content">
+    <Button
             android:id="@+id/upload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="18dp"
-            android:layout_marginEnd="11dp"
+
             android:text="upload" />
+</android.support.v7.widget.CardView>
 
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageView"
-            android:layout_width="230dp"
-            android:layout_height="203dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+
             android:layout_alignParentEnd="true"
-
             android:layout_alignParentTop="true"
-            android:layout_marginEnd="56dp"
-            android:layout_marginTop="52dp" />
+            android:layout_marginEnd="78dp"
+            android:layout_marginTop="54dp" />
 
-        <EditText
-            android:id="@+id/name"
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="162dp"
-            android:hint="Name" />
+            android:layout_marginBottom="226dp">
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:drawableRight="@drawable/ic_create_black_24dp"
+                android:hint="Name" />
+        </android.support.v7.widget.CardView>
+
+        <ImageView
+            android:id="@+id/identityImage"
+            android:layout_width="200dp"
+            android:visibility="gone"
+            android:layout_height="102dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="115dp"
+            android:layout_marginStart="49dp" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab3"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/identityImage"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="142dp"
+            app:srcCompat="@drawable/ic_insert_drive_file_black_24dp" />
 
 
     </RelativeLayout>
@@ -57,8 +103,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_gravity="bottom|end"
-        android:layout_marginEnd="81dp"
-        android:layout_marginTop="218dp"
+        android:layout_marginEnd="105dp"
+        android:layout_marginTop="210dp"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
 

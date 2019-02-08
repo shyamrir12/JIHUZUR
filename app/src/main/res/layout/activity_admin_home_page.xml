@@ -385,7 +385,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header_customer_home_page"
+        app:headerLayout="@layout/nav_header_admin_home_page"
         app:itemIconTint="#8c000000"
         app:itemTextColor="#e6000000"
         app:menu="@menu/activity_admin_home_page_drawer" />

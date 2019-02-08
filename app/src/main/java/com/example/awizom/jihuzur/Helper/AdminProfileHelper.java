@@ -17,6 +17,7 @@ public class AdminProfileHelper extends AppCompatActivity {
             String id = params[0];
             String name = params[1];
             String image = params[2];
+            String identityimage=params[3];
 
 
 
@@ -34,6 +35,7 @@ public class AdminProfileHelper extends AppCompatActivity {
                 parameters.add("ID", id);
                 parameters.add("Name", name);
                 parameters.add("Image", image);
+                parameters.add("IdentityImage", identityimage);
 
 
                 builder.post(parameters.build());

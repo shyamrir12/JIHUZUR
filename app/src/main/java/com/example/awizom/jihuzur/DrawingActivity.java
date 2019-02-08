@@ -63,14 +63,15 @@ public class DrawingActivity extends AppCompatActivity {
     ProgressDialog pd;
     ImageView imageView;
     EditText yourname;
-    String result="",img_str;
-
+    String result="",img_str,identimage_str;
+    ImageView identityImage;
+    FloatingActionButton fabidentityImage;
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
     private ArrayList<String> permissions = new ArrayList<>();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReferenceFromUrl("gs://jihuzurdb.appspot.com");    //change the url according to your firebase app
-
+    String Check;
     private final static int ALL_PERMISSIONS_RESULT = 107;
     private final static int IMAGE_RESULT = 200;
 
@@ -79,17 +80,79 @@ public class DrawingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawing);
         upload=findViewById(R.id.upload);
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+
+        toolbar.setTitle("Update Profile");
+
+        toolbar.setTitleTextColor(0xFFFFFFFF);
+        setSupportActionBar(toolbar);
+
+
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         pd = new ProgressDialog(this);
         pd.setMessage("Uploading....");
         yourname=(EditText)findViewById(R.id.name);
         yourname.setText(SharedPrefManager.getInstance(this).getUser().getName());
         imageView = findViewById(R.id.imageView);
+        identityImage=findViewById(R.id.identityImage);
+        identityImage.setVisibility(View.GONE);
+        fabidentityImage =(FloatingActionButton)findViewById(R.id.fab3);
+        fabidentityImage.setVisibility(View.GONE);
+        if(SharedPrefManager.getInstance(DrawingActivity.this).getUser().getRole().equals("Employee"))
+        {
+            identityImage.setVisibility(View.VISIBLE);
+            fabidentityImage.setVisibility(View.VISIBLE);
+
+        }
+
+            fabidentityImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Check="IdentityImage";
+                    startActivityForResult(getPickImageChooserIntent(), IMAGE_RESULT);
+                }
+            });
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Check="Image";
+                startActivityForResult(getPickImageChooserIntent(), IMAGE_RESULT);
+            }
+        });
+
+
+        identimage_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getIdentityImage();
+        try {
+            if (SharedPrefManager.getInstance(this).getUser().getIdentityImage() == null)
+            {
+
+                identityImage.setImageResource(R.drawable.jihuzurblanklogo);
+                //     Glide.with(mCtx).load("http://192.168.1.105:7096/Images/Category/1.png").into(holder.categoryImage);
+            } else {
+
+
+                Glide.with(this).load(identimage_str).into(identityImage);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+
+
+
         img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();
-
-
             try {
                 if (SharedPrefManager.getInstance(this).getUser().getImage() == null)
-
                 {
 
                     imageView.setImageResource(R.drawable.jihuzurblanklogo);
@@ -104,13 +167,6 @@ public class DrawingActivity extends AppCompatActivity {
 
             }
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivityForResult(getPickImageChooserIntent(), IMAGE_RESULT);
-            }
-        });
 
 
         upload.setOnClickListener(new View.OnClickListener() {
@@ -120,17 +176,33 @@ public class DrawingActivity extends AppCompatActivity {
                 imageView.buildDrawingCache();
                 Bitmap bitmap = imageView.getDrawingCache();
 
+
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
                 byte[] image = stream.toByteArray();
                 System.out.println("byte array:" + image);
 
                 String img_str = Base64.encodeToString(image, 0);
+
+
                 String name = yourname.getText().toString();
-                String id="6f80f0ae-9d5f-4110-b3bb-f6f93a97c60f";
+                String identityimage;
+
+                if(SharedPrefManager.getInstance(DrawingActivity.this).getUser().getRole().equals("Employee"))
+                {
+                    identityImage.buildDrawingCache();
+                    Bitmap bitmap1 = identityImage.getDrawingCache();
+                    ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
+                    bitmap1.compress(Bitmap.CompressFormat.PNG, 90, stream1);
+                    byte[] image1 = stream1.toByteArray();
+                     identityimage = Base64.encodeToString(image1, 0);
+                }
+                else{identityimage=null;}
+
+                String id=SharedPrefManager.getInstance(DrawingActivity.this).getUser().getID();
 
                 try {
-                    result = new AdminProfileHelper.POSTProfile().execute(id,name,img_str).get();
+                    result = new AdminProfileHelper.POSTProfile().execute(id,name,img_str,identityimage).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
@@ -239,7 +311,15 @@ public class DrawingActivity extends AppCompatActivity {
                 String  filePath = getImageFilePath(data);
                 if (filePath != null) {
                     Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
-                    imageView.setImageBitmap(selectedImage);
+                    if(Check=="Image") {
+                        imageView.setImageBitmap(selectedImage);
+                    }
+                  else
+                    {
+                     identityImage.setImageBitmap(selectedImage);
+                    }
+
+
                 }
             }
 

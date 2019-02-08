@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
+import com.example.awizom.jihuzur.DrawingActivity;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
 import com.example.awizom.jihuzur.MenuActivity;
@@ -39,6 +40,7 @@ public class EmployeeHomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     String TAG;
     private Fragment fragment = null;
+    ImageView imageView;
     private Fragment helpCenterFragment;
     private Intent intent;
     String dUser,name,role,Url;
@@ -126,10 +128,19 @@ public class EmployeeHomePage extends AppCompatActivity
 
 
         View headerview = navigationView.getHeaderView(0);
+        imageView=headerview.findViewById(R.id.imageView);
         userName = headerview.findViewById(R.id.profileName);
         identityNo = headerview.findViewById(R.id.identityNo);
         identityType = headerview.findViewById(R.id.identityType);
 
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent=new Intent(EmployeeHomePage.this, DrawingActivity.class);
+                startActivity(intent);
+
+            }
+        });
     }
 
 
