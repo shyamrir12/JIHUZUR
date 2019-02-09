@@ -144,6 +144,7 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity android:name=".CustomerActivity.TrackActivity"/>
+        <service android:name=".Service.GPS_Service"></service>
     </application>
 
 </manifest>
