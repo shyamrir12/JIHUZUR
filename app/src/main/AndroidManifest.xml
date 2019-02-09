@@ -6,7 +6,9 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -35,17 +37,11 @@
         android:roundIcon="@mipmap/jihuzurapplogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+
 
         <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".LoginRegistrationActivity.LoginActivity"
@@ -92,7 +88,9 @@
         </activity>
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+</activity>
         <activity
             android:name=".AdminActivity.AdminHomePage"
             android:label="@string/title_activity_admin_home_page"
@@ -103,6 +101,12 @@
 
 
         </activity>
+
+        <activity android:name=".Fragment.UserLocationActivity"
+            >  <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter></activity>
 
         <activity
             android:name=".AdminActivity.AdminReviewReply"
@@ -145,6 +149,20 @@
 
         <activity android:name=".CustomerActivity.TrackActivity"/>
         <service android:name=".Service.GPS_Service"></service>
+
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_api_key"/>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
     </application>
 
 </manifest>
