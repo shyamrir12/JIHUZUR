@@ -1,4 +1,5 @@
 <resources xmlns:android="http://schemas.android.com/tools">
+    <string name="google_maps_api_key">AIzaSyDAwI4USARL4jGrusCUKLtIeF01K-74Mgc</string>
     <string name="app_name">JiHuzur</string>
     <string name="title_home">Home</string>
     <string name="Search">Search</string>
