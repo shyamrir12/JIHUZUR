@@ -70,7 +70,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
             nextButton.setVisibility(View.VISIBLE);
         }
 
-
         if (btn.equals("empBtn")) {
             postPricingBtn.setVisibility(View.VISIBLE);
         } else if (btn.equals("serBtn")) {

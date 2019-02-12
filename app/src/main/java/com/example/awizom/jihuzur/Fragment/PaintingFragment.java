@@ -18,5 +18,6 @@ public class PaintingFragment extends Fragment {
     }
 
     private void initView(View view) {
+
     }
 }

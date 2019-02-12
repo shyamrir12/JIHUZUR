@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class EmployeeHistoryAdapter extends RecyclerView.Adapter<EmployeeHistoryAdapter.OrderItemViewHolder> {
+
     int curposition;
     List<Service> serviceList;
     private Context mCtx;
@@ -38,7 +39,6 @@ public class EmployeeHistoryAdapter extends RecyclerView.Adapter<EmployeeHistory
     private Order order;
     private String orderId = "", otpCode = "", result = "", displayType = "";
     private Intent intent;
-
 
     public EmployeeHistoryAdapter(Context context, List<Order> orderList) {
         this.mCtx = context;
@@ -56,7 +56,6 @@ public class EmployeeHistoryAdapter extends RecyclerView.Adapter<EmployeeHistory
     @Override
     public void onBindViewHolder(@NonNull final EmployeeHistoryAdapter.OrderItemViewHolder holder, int position) {
         order = orderitemList.get(position);
-
         try {
             order = orderitemList.get(position);
             orderId = String.valueOf(order.getOrderID());
@@ -77,19 +76,14 @@ public class EmployeeHistoryAdapter extends RecyclerView.Adapter<EmployeeHistory
             holder.pricingterms.setText(order.getPricingTerms());
             holder.serviceID.setText(String.valueOf(order.getServiceID()));
 
-
             if (order.getPricingTerms().equals("NULL")) {
                 holder.pricingterms.setVisibility(View.GONE);
-
             }
             if (!order.getDiscountName().equals(null)) {
                 holder.linearLayout.setVisibility(View.VISIBLE);
                 holder.disctName.setVisibility(View.VISIBLE);
             }
             getServiceList(holder.catlgId.getText().toString());
-
-
-
 
         } catch (Exception E) {
             E.printStackTrace();
@@ -99,10 +93,7 @@ public class EmployeeHistoryAdapter extends RecyclerView.Adapter<EmployeeHistory
 
 
     private void getServiceList(String s) {
-
-
         try {
-
             result = new ServicesHelper.GETServiceList().execute(s).get();
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Service>>() {
@@ -154,9 +145,6 @@ public class EmployeeHistoryAdapter extends RecyclerView.Adapter<EmployeeHistory
 
             deleteBtn = itemView.findViewById(R.id.deleteBtn);
             deleteBtn.setOnClickListener(this);
-
-
-
 
         }
 

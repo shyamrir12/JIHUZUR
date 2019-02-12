@@ -59,6 +59,11 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             order = orderitemList.get(position);
             orderId = String.valueOf(order.getOrderID());
 
+//            holder.servicesName.setText(order.getServiceName());
+//           holder.bookingAccepted.setText(order.getEmpMob());
+//            holder.description.setText(order.getCatalogName());
+//            holder.timing.setText(order.getOrderStartTime());
+
             holder.empName.setText(order.getEmpName());
             holder.empContAct.setText(order.getEmpMob());
             holder.timercount.setText(order.getTotalTime());
@@ -68,7 +73,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             holder.servicName.setText(order.getServiceName());
             holder.pricingterm.setText(order.getPricingTerms());
             holder.dctName.setText(order.getDiscountName());
-
 
             if (!order.getPricingTerms().equals(null)) {
                 holder.pricingterm.setVisibility(View.VISIBLE);
@@ -97,10 +101,13 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context mCtx;
-        private TextView startTime, endtime, empName, timercount, empContAct, catagryName, servicName, pricingterm, dctName;
-        private Button acceptBtn, trackinBtn, canclBtn, commentBtn;
+       private TextView startTime, endtime, empName, timercount, empContAct, catagryName, servicName, pricingterm, dctName;
+       private Button acceptBtn, trackinBtn, canclBtn, commentBtn;
         private List<Order> orderitemList;
         private LinearLayout linearLayout;
+
+//        private TextView servicesName,bookingAccepted,description,timing;
+//        private Button viewBtn;
 
 
         public OrderItemViewHolder(View view, Context mCtx, List<Order> orderitemList) {
@@ -108,6 +115,11 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             this.mCtx = mCtx;
             this.orderitemList = orderitemList;
             itemView.setOnClickListener(this);
+
+//            servicesName = itemView.findViewById(R.id.servicesName);
+//            bookingAccepted = itemView.findViewById(R.id.bookingAccepted);
+//            description = itemView.findViewById(R.id.description);
+//            timing = itemView.findViewById(R.id.timing);
 
             empName = itemView.findViewById(R.id.cusName);
             startTime = itemView.findViewById(R.id.starttime);
@@ -168,7 +180,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                                 }.getType();
                                 ResultModel resultModel = new Gson().fromJson(result, getType);
                                 if (resultModel.getMessage().contains("Order Started")) {
-                                    canclBtn.setVisibility(View.GONE);
+                                   canclBtn.setVisibility(View.GONE);
                                 }
 
                                 Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
@@ -211,6 +223,15 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                     break;
                 case R.id.commentBtn:
                     intent = new Intent(mCtx, CustomerCommentActivity.class);
+                    intent.putExtra("OrderID",order.getOrderID());
+                    intent.putExtra("CustomerID",order.getCustomerID());
+                    intent.putExtra("EmployeeID",order.getEmployeeID());
+                    intent.putExtra("OrderEndTime",order.getOrderEndTime());
+                    intent.putExtra("CategoryName",order.getCatalogName());
+                    intent.putExtra("ServiceName",order.getServiceName());
+                    intent.putExtra("PricingTerms",order.getPricingTerms());
+                    intent.putExtra("EmployeeName",order.getEmpName());
+                    intent.putExtra("EmployeeContact",order.getEmpMob());
                     mCtx.startActivity(intent);
                     break;
             }

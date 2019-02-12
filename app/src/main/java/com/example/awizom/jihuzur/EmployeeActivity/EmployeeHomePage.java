@@ -47,7 +47,7 @@ public class EmployeeHomePage extends AppCompatActivity
     Boolean active = false;
     View header;
     TextView userName, identityNo, identityType;
-    private CardView homeCleaningCardView,appliancecardView;
+    private CardView homeCleaningCardView,appliancecardView,truckLoadercardView,hometutorialcardView,washingMachinecardView,cardViewgold;
 
 
     //bottom navigation drawer started
@@ -113,6 +113,15 @@ public class EmployeeHomePage extends AppCompatActivity
         homeCleaningCardView.setOnClickListener(this);
         appliancecardView = findViewById(R.id.appliancesCardViewOne1);
         appliancecardView.setOnClickListener(this);
+        truckLoadercardView = findViewById(R.id.cardViewTwo);
+        truckLoadercardView.setOnClickListener(this);
+        hometutorialcardView = findViewById(R.id.cardViewThree);
+        hometutorialcardView.setOnClickListener(this);
+        washingMachinecardView = findViewById(R.id.cardViewThree1);
+        washingMachinecardView.setOnClickListener(this);
+        cardViewgold = findViewById(R.id.cardViewTwo1);
+        cardViewgold.setOnClickListener(this);
+
 
 
 
@@ -249,6 +258,26 @@ public class EmployeeHomePage extends AppCompatActivity
                 startActivity(intent);
                 break;
             case R.id.appliancesCardViewOne1:
+                intent=new Intent(EmployeeHomePage.this,MenuActivity.class);
+                intent.putExtra("CategoryName","Home Cleaning & Repairs");
+                startActivity(intent);
+                break;
+            case R.id.cardViewTwo:
+                intent=new Intent(EmployeeHomePage.this,MenuActivity.class);
+                intent.putExtra("CategoryName","Home Cleaning & Repairs");
+                startActivity(intent);
+                break;
+            case R.id.cardViewThree:
+                intent=new Intent(EmployeeHomePage.this,MenuActivity.class);
+                intent.putExtra("CategoryName","Home Cleaning & Repairs");
+                startActivity(intent);
+                break;
+            case R.id.cardViewThree1:
+                intent=new Intent(EmployeeHomePage.this,MenuActivity.class);
+                intent.putExtra("CategoryName","Home Cleaning & Repairs");
+                startActivity(intent);
+                break;
+            case R.id.cardViewTwo1:
                 intent=new Intent(EmployeeHomePage.this,MenuActivity.class);
                 intent.putExtra("CategoryName","Home Cleaning & Repairs");
                 startActivity(intent);

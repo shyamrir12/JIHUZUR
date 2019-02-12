@@ -72,8 +72,6 @@ public class ServicesHelper extends AppCompatActivity {
         }
 
     }
-
-
     public static final class GETServiceList extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
@@ -126,4 +124,5 @@ public class ServicesHelper extends AppCompatActivity {
         }
 
     }
+
 }

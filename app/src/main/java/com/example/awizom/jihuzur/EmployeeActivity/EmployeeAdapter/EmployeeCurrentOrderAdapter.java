@@ -39,7 +39,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
     private String orderId = "", otpCode = "", result = "", empId = "", displayType = "",priceid="";
     private Intent intent;
 
-
     public EmployeeCurrentOrderAdapter(Context employeeCurrentOrderFragment, List<Order> orderList) {
 
         this.mCtx = employeeCurrentOrderFragment;

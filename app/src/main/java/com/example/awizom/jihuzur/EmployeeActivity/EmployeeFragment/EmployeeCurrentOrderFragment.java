@@ -37,7 +37,6 @@ public class EmployeeCurrentOrderFragment extends Fragment implements View.OnCli
         View view = inflater.inflate(R.layout.employee_current_list, container, false);
         initView(view);
         return view;
-
     }
 
     private void initView(View view) {
@@ -46,12 +45,9 @@ public class EmployeeCurrentOrderFragment extends Fragment implements View.OnCli
         relativeLayout = view.findViewById(R.id.textRelate);
         recyclerView = view.findViewById(R.id.recyclerView);
        // reloadBtn = view.findViewById(R.id.reload);
-
        // reloadBtn.setOnClickListener(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
 
         try {
             getMyOrderRunning();
@@ -83,7 +79,6 @@ public class EmployeeCurrentOrderFragment extends Fragment implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-
         }
     }
 }
