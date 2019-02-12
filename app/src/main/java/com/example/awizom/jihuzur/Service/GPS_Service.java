@@ -31,6 +31,15 @@ public class GPS_Service extends Service {
     }
 
     @Override
+    public void onTaskRemoved(Intent rootIntent) {
+
+        Log.d("myTag", "app_removed");
+        //Intent i = new Intent("app_removed");
+        //sendBroadcast(i);
+        super.onTaskRemoved( rootIntent );
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 //        player = MediaPlayer.create(this, Settings.System.DEFAULT_RINGTONE_URI);
 //        //setting loop play to true
@@ -49,6 +58,8 @@ public class GPS_Service extends Service {
                 // Intent i = new Intent( "location_update" );
                 //i.putExtra( "coordinates", location.getLongitude() + " " + location.getLatitude() );
                // sendBroadcast( i );
+
+
                 Log.d("myTag", "\n" +location.getLongitude() + " " + location.getLatitude());
 
 

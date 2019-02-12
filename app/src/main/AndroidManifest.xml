@@ -143,7 +143,7 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity android:name=".CustomerActivity.TrackActivity"/>
-        <service android:name=".Service.GPS_Service"></service>
+        <service android:name=".Service.GPS_Service" android:enabled="true"></service>
 
 
         <meta-data

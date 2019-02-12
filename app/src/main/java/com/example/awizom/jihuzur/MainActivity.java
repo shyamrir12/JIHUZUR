@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -30,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_start, btn_stop;
     private TextView textView;
     private BroadcastReceiver broadcastReceiver;
+    static final int PICK_CONTACT_REQUEST = 0;
 
-//ghj
     @Override
     protected void onResume() {
         super.onResume();
@@ -53,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         if(broadcastReceiver != null){
             unregisterReceiver(broadcastReceiver);
+
+
         }
     }
 
