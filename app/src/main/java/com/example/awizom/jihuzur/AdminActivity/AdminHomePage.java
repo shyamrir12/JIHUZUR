@@ -315,10 +315,10 @@ public class AdminHomePage extends AppCompatActivity
             intent = new Intent(AdminHomePage.this, AdminComplaintReply.class);
             startActivity(intent);
         }
-        else if (id == R.id.nav_ReviewReply) {
-            intent = new Intent(AdminHomePage.this, AdminReviewReply.class);
-            startActivity(intent);
-        }
+//        else if (id == R.id.nav_ReviewReply) {
+//            intent = new Intent(AdminHomePage.this, AdminReviewReply.class);
+//            startActivity(intent);
+//        }
 
         else if (id == R.id.nav_discount) {
             intent = new Intent(AdminHomePage.this, AdminDiscountActivity.class);

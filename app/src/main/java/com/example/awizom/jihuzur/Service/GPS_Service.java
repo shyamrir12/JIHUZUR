@@ -32,13 +32,13 @@ public class GPS_Service extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        player = MediaPlayer.create(this, Settings.System.DEFAULT_RINGTONE_URI);
-        //setting loop play to true
-        //this will make the ringtone continuously playing
-        player.setLooping(true);
-
-        //staring the player
-        player.start();
+//        player = MediaPlayer.create(this, Settings.System.DEFAULT_RINGTONE_URI);
+//        //setting loop play to true
+//        //this will make the ringtone continuously playing
+//        player.setLooping(true);
+//
+//        //staring the player
+//        player.start();
 
         listener = new LocationListener() {
             @Override

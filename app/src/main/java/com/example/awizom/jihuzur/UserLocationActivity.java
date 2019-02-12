@@ -1,47 +1,46 @@
-package com.example.awizom.jihuzur.Fragment;
-
+package com.example.awizom.jihuzur;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
-import android.support.v4.app.FragmentActivity;
-import android.util.Base64;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
-import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
+import com.example.awizom.jihuzur.Locationhelper.FetchURL;
+import com.example.awizom.jihuzur.Locationhelper.TaskLoadedCallback;
 import com.example.awizom.jihuzur.Model.ClusterMarker;
 import com.example.awizom.jihuzur.Model.EmployeeProfileModel;
 import com.example.awizom.jihuzur.Model.UserLogin;
-import com.example.awizom.jihuzur.MyBokingsActivity;
-import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.MyClusterManagerRendrer;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -51,7 +50,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.maps.android.clustering.ClusterManager;
-
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,19 +60,19 @@ import java.util.concurrent.ExecutionException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class UserLocationActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class UserLocationActivity extends AppCompatActivity implements OnMapReadyCallback,TaskLoadedCallback, GoogleMap.OnMarkerClickListener {
 
+
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private MapView mapView;
     private GoogleMap mGoogleMap;
     Polyline line;
     PolylineOptions polylineOptions;
     ArrayList markerPoints = new ArrayList();
-
     String lat = "", longitud = "", result = "", empNames = "";
     private static final String TAG = "LocationActivity";
     private GoogleMap googleMap;
     private MarkerOptions options = new MarkerOptions();
-
     private ArrayList<LatLng> latlngs = new ArrayList<>();
     private ArrayList<String> empID = new ArrayList<>();
     private ArrayList<String> empMobile = new ArrayList<>();
@@ -83,18 +81,17 @@ public class UserLocationActivity extends FragmentActivity implements OnMapReady
     private ArrayList<ClusterMarker> mClusterMarkers = new ArrayList<>();
     private MyClusterManagerRendrer mClusterManagerRenderer;
     List<EmployeeProfileModel> employeeProfileModelList;
-
-
     private EmployeeProfileModel employeeProfileModel;
     private String[] empNameList, empLat, empLong;
     LatLng latLng;
-
     Double latitude, latitude1;
     Double longitude, longitude1;
     Intent intent;
     private String priceID="",empId="",priceIDs="",selectedEmpId;
     private String priceIds;
-
+    private MarkerOptions place1, place2;
+    Button getDirection;
+    private Polyline currentPolyline;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,13 +103,24 @@ public class UserLocationActivity extends FragmentActivity implements OnMapReady
     public void InitView() {
         priceID = getIntent().getStringExtra("PricingID");
         priceIDs = String.valueOf(getIntent().getIntExtra("PricingIDS",0));
-        getMapvalue();
+//        getMapvalue();
         //latlngs.add(new LatLng(latitude, longitude));
         // latlngs.add(new LatLng(latitude1, longitude1));
 
         employeeProfileGet();
 
-
+        getDirection = findViewById(R.id.btnGetDirection);
+        getDirection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new FetchURL(UserLocationActivity.this).execute(getUrl(place1.getPosition(), place2.getPosition(), "driving"), "driving");
+            }
+        });
+        place1 = new MarkerOptions().position(new LatLng(21.32, 81.48)).title("Location 1");
+        place2 = new MarkerOptions().position(new LatLng(21.33, 81.18)).title("Location 2");
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.mapNearBy);
+        mapFragment.getMapAsync(this);
     }
 
 
@@ -145,7 +153,7 @@ public class UserLocationActivity extends FragmentActivity implements OnMapReady
 
             }
 
-            getMapvalue();
+//            getMapvalue();
 
 
         } catch (ExecutionException e) {
@@ -156,17 +164,19 @@ public class UserLocationActivity extends FragmentActivity implements OnMapReady
     }
 
 
-    private void getMapvalue() {
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-    }
+//    private void getMapvalue() {
+//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+//                .findFragmentById(R.id.map);
+//        mapFragment.getMapAsync(this);
+//    }
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
         mGoogleMap = googleMap;
+
+        Log.d("mylog", "Added Markers");
         PolylineOptions polylineOptions = new PolylineOptions();
         polylineOptions.addAll(latlngs);
         polylineOptions
@@ -176,7 +186,7 @@ public class UserLocationActivity extends FragmentActivity implements OnMapReady
         Marker[] allMarkers = new Marker[employeeProfileModelList.size()];
 
         for (int i = 0; i < employeeProfileModelList.size(); i++) {
-             latLng = new LatLng(Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLat())),
+            latLng = new LatLng(Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLat())),
                     Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLong())));
             if (googleMap != null) {
                 googleMap.setOnMarkerClickListener(this);
@@ -187,40 +197,13 @@ public class UserLocationActivity extends FragmentActivity implements OnMapReady
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13.0f));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
 
-               //*Remove google red marker
+                //*Remove google red marker
                 googleMap.clear();
 
-//              googleMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.massage)).anchor(0.5f, 1));
-
-//              String snippet = "This is you";
-//                int avatar = R.drawable.massage;
-//
-//                ClusterMarker newClusterMarker = new ClusterMarker(new LatLng(Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLat())),
-//                        Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLong()))),
-//                        employeeProfileModelList.get(i).getName(),
-//                        snippet, avatar);
-//
-//                mClusterManager.addItem(newClusterMarker);
-//                mClusterMarkers.add(newClusterMarker);
                 selectedEmpId = employeeProfileModelList.get(i).getID();
 
 
             }
-
-
-//        googleMap.setOnMarkerClickListener(this);
-//        for (LatLng point : latlngs) {
-//
-//            mMap.addMarker(new MarkerOptions().position(point)
-//                    .title(String.valueOf(empID))
-//                    .snippet(String.valueOf(empMobile))
-//                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-//            mMap.addPolyline(polylineOptions);
-//            mMap.moveCamera(CameraUpdateFactory.newLatLng(point));
-//            mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
-
-//        }
-
 
         }
 
@@ -229,38 +212,26 @@ public class UserLocationActivity extends FragmentActivity implements OnMapReady
             @Override
             public void onMapLoaded() {
 
-           for(int i=0; i<employeeProfileModelList.size();i++)
-           {
+                for(int i=0; i<employeeProfileModelList.size();i++)
+                {
 
-                     latLng=new LatLng(Double.parseDouble(employeeProfileModelList.get(i).getLat()),Double.parseDouble(employeeProfileModelList.get(i).getLong()));
-                     String name=employeeProfileModelList.get(i).getName();
-                     String img_str=employeeProfileModelList.get(i).getImage();
+                    latLng=new LatLng(Double.parseDouble(employeeProfileModelList.get(i).getLat()),Double.parseDouble(employeeProfileModelList.get(i).getLong()));
+                    String name=employeeProfileModelList.get(i).getName();
+                    String img_str=employeeProfileModelList.get(i).getImage();
 
-                     //                    LatLng customMarkerLocationOne = new LatLng(28.583911, 77.319116);
-//                    LatLng customMarkerLocationTwo = new LatLng(28.583078, 77.313744);
-//                    LatLng customMarkerLocationThree = new LatLng(28.580903, 77.317408);
-//                    LatLng customMarkerLocationFour = new LatLng(28.580108, 77.315271);
-
+                    //                    LatLng customMarkerLocationOne = new LatLng(28.583911, 77.319116);
 
                     mGoogleMap.addMarker(new MarkerOptions().position(latLng).
                             icon(BitmapDescriptorFactory.fromBitmap(
                                     createCustomMarker(UserLocationActivity.this,R.drawable.appliance_repair, name)))).setTitle(name);
-//                    mGoogleMap.addMarker(new MarkerOptions().position(customMarkerLocationTwo).
-//                            icon(BitmapDescriptorFactory.fromBitmap(
-//                                    createCustomMarker(UserLocationActivity.this, R.drawable.appliance_repair, "Narender")))).setTitle("Hotel Nirulas Noida");
-//
-//                    mGoogleMap.addMarker(new MarkerOptions().position(customMarkerLocationThree).
-//                            icon(BitmapDescriptorFactory.fromBitmap(
-//                                    createCustomMarker(UserLocationActivity.this, R.drawable.massage, "Neha")))).setTitle("Acha Khao Acha Khilao");
-//                    mGoogleMap.addMarker(new MarkerOptions().position(customMarkerLocationFour).
-//                            icon(BitmapDescriptorFactory.fromBitmap(
-//                                    createCustomMarker(UserLocationActivity.this, R.drawable.appliance_repair, "Nupur")))).setTitle("Subway Sector 16 Noida");
-               }
+                }
                 //LatLngBound will cover all your marker on Google Maps
                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
                 builder.include(latLng); //Taking Point A (First LatLng)
 //                builder.include(customMarkerLocationThree); //Taking Point B (Second LatLng)
                 LatLngBounds bounds = builder.build();
+                mGoogleMap.addMarker(place1);
+                mGoogleMap.addMarker(place2);
                 CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
                 mGoogleMap.moveCamera(cu);
                 mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
@@ -268,7 +239,103 @@ public class UserLocationActivity extends FragmentActivity implements OnMapReady
         });
 
 
+
+        mGoogleMap.setOnMyLocationButtonClickListener(onMyLocationButtonClickListener);
+        mGoogleMap.setOnMyLocationClickListener(onMyLocationClickListener);
+        enableMyLocationIfPermitted();
+
+        mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
+        mGoogleMap.setMinZoomPreference(11);
+
+
     }
+
+
+    private String getUrl(LatLng origin, LatLng dest, String directionMode) {
+        // Origin of route
+        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
+        // Destination of route
+        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
+        // Mode
+        String mode = "mode=" + directionMode;
+        // Building the parameters to the web service
+        String parameters = str_origin + "&" + str_dest + "&" + mode;
+        // Output format
+        String output = "json";
+        // Building the url to the web service
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + getString(R.string.google_maps_api_key);
+        return url;
+
+
+    }
+
+
+
+    private void enableMyLocationIfPermitted() {
+        if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION,
+                            android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        } else if (mGoogleMap != null) {
+            mGoogleMap.setMyLocationEnabled(true);
+        }
+    }
+
+
+    private void showDefaultLocation() {
+        Toast.makeText(this, "Location permission not granted, " +
+                        "showing default location",
+                Toast.LENGTH_SHORT).show();
+        LatLng redmond = new LatLng(21.33, 81.50);
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(redmond));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case LOCATION_PERMISSION_REQUEST_CODE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    enableMyLocationIfPermitted();
+                } else {
+                    showDefaultLocation();
+                }
+                return;
+            }
+
+        }
+    }
+
+    private GoogleMap.OnMyLocationButtonClickListener onMyLocationButtonClickListener =
+            new GoogleMap.OnMyLocationButtonClickListener() {
+                @Override
+                public boolean onMyLocationButtonClick() {
+                    mGoogleMap.setMinZoomPreference(15);
+                    return false;
+                }
+            };
+
+    private GoogleMap.OnMyLocationClickListener onMyLocationClickListener =
+            new GoogleMap.OnMyLocationClickListener() {
+                @Override
+                public void onMyLocationClick(@NonNull Location location) {
+
+                    mGoogleMap.setMinZoomPreference(12);
+
+                    CircleOptions circleOptions = new CircleOptions();
+                    circleOptions.center(new LatLng(location.getLatitude(),
+                            location.getLongitude()));
+
+                    circleOptions.radius(200);
+                    circleOptions.fillColor(Color.RED);
+                    circleOptions.strokeWidth(6);
+
+                    mGoogleMap.addCircle(circleOptions);
+                }
+            };
 
 
     public static Bitmap createCustomMarker(Context context, @DrawableRes int resource, String _name) {
@@ -292,6 +359,7 @@ public class UserLocationActivity extends FragmentActivity implements OnMapReady
 
         return bitmap;
     }
+
     @Override
     public boolean onMarkerClick(Marker marker) {
 
@@ -356,5 +424,12 @@ public class UserLocationActivity extends FragmentActivity implements OnMapReady
         }
 
 
+    }
+
+    @Override
+    public void onTaskDone(Object... values) {
+        if (currentPolyline != null)
+            currentPolyline.remove();
+        currentPolyline = mGoogleMap.addPolyline((PolylineOptions) values[0]);
     }
 }
