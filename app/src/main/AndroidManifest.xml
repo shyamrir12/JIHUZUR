@@ -71,10 +71,6 @@
             android:label="@string/title_activity_employee_home_page"
             android:theme="@style/AppTheme.NoActionBar">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".EmployeeActivity.EmployeeDrawingActivity" />
         <activity
