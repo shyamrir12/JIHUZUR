@@ -25,10 +25,10 @@
             android:id="@+id/nav_complaintReply"
             android:icon="@drawable/ic_reply_black_24dp"
             android:title="Complaint reply" />
-        <item
-            android:id="@+id/nav_ReviewReply"
-            android:icon="@drawable/ic_reply_black_24dp"
-            android:title="Review reply" />
+        <!--<item-->
+            <!--android:id="@+id/nav_ReviewReply"-->
+            <!--android:icon="@drawable/ic_reply_black_24dp"-->
+            <!--android:title="Review reply" />-->
 
         <item
             android:id="@+id/nav_discount"

@@ -1,12 +1,19 @@
 package com.example.awizom.jihuzur.EmployeeActivity;
 
+import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
@@ -27,6 +35,7 @@ import com.example.awizom.jihuzur.MenuActivity;
 import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.LoginRegistrationActivity.RegistrationActivity;
+import com.example.awizom.jihuzur.Service.GPS_Service;
 import com.example.awizom.jihuzur.SettingsActivity;
 import com.example.awizom.jihuzur.UpdateProfile;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
@@ -48,6 +57,33 @@ public class EmployeeHomePage extends AppCompatActivity
     View header;
     TextView userName, identityNo, identityType;
     private CardView homeCleaningCardView,appliancecardView;
+    private Button btn_start, btn_stop;
+    private TextView textView;
+    private BroadcastReceiver broadcastReceiver;
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(broadcastReceiver == null){
+            broadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+
+                    textView.append("\n" +intent.getExtras().get("coordinates"));
+                    //Log.d("myTag", "\n" +intent.getExtras().get("coordinates"));
+                }
+            };
+        }
+        registerReceiver(broadcastReceiver,new IntentFilter("location_update"));
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(broadcastReceiver != null){
+            unregisterReceiver(broadcastReceiver);
+        }
+    }
 
 
     //bottom navigation drawer started
@@ -62,7 +98,7 @@ public class EmployeeHomePage extends AppCompatActivity
             switch (item.getItemId()) {
                 case R.id.navigation_search:
                     getSupportActionBar().setTitle("Employee Home");
-                    intent=new Intent(EmployeeHomePage.this,CustomerHomePage.class);
+                    intent=new Intent(EmployeeHomePage.this,EmployeeHomePage.class);
                     startActivity(intent);
 
                     break;
@@ -108,13 +144,12 @@ public class EmployeeHomePage extends AppCompatActivity
         setContentView(R.layout.activity_employee_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        btn_start = (Button) findViewById(R.id.button);
+        btn_stop = (Button) findViewById(R.id.button2);
+        textView = (TextView) findViewById(R.id.textView);
 
-        homeCleaningCardView = findViewById(R.id.homeCleancardViewOne);
-        homeCleaningCardView.setOnClickListener(this);
-        appliancecardView = findViewById(R.id.appliancesCardViewOne1);
-        appliancecardView.setOnClickListener(this);
-
-
+        if(!runtime_permissions())
+            enable_buttons();
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -141,6 +176,51 @@ public class EmployeeHomePage extends AppCompatActivity
 
             }
         });
+    }
+
+    private void enable_buttons() {
+
+        btn_start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i =new Intent(getApplicationContext(),GPS_Service.class);
+                startService(i);
+            }
+        });
+
+        btn_stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(getApplicationContext(),GPS_Service.class);
+                stopService(i);
+
+            }
+        });
+
+    }
+
+    private boolean runtime_permissions() {
+        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},100);
+
+            return true;
+        }
+        return false;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 100){
+            if( grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
+                enable_buttons();
+            }else {
+                runtime_permissions();
+            }
+        }
     }
 
 
@@ -243,16 +323,7 @@ public class EmployeeHomePage extends AppCompatActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.homeCleancardViewOne:
-                intent=new Intent(EmployeeHomePage.this,MenuActivity.class);
-                intent.putExtra("CategoryName","Home Cleaning & Repairs");
-                startActivity(intent);
-                break;
-            case R.id.appliancesCardViewOne1:
-                intent=new Intent(EmployeeHomePage.this,MenuActivity.class);
-                intent.putExtra("CategoryName","Home Cleaning & Repairs");
-                startActivity(intent);
-                break;
+
         }
     }
 }
