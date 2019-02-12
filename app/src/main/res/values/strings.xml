@@ -17,6 +17,7 @@
     <string name="title_activity_login">Sign in</string>
 
 
+
     <string-array name="Appliance">
         <item android:icon="@drawable/appliance_repair" android:showAsAction="always">AC Service and Repair</item>
         <item>RO or water Purifier Repair</item>
