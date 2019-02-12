@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView;
     private BroadcastReceiver broadcastReceiver;
 
-
+//ghj
     @Override
     protected void onResume() {
         super.onResume();
