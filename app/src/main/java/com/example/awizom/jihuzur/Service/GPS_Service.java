@@ -48,28 +48,10 @@ public class GPS_Service extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-//        player = MediaPlayer.create(this, Settings.System.DEFAULT_RINGTONE_URI);
-//        //setting loop play to true
-//        //this will make the ringtone continuously playing
-//        player.setLooping(true);
-//
-//        //staring the player
-//        player.start();
 
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-
-
-
-                // Intent i = new Intent( "location_update" );
-                //i.putExtra( "coordinates", location.getLongitude() + " " + location.getLatitude() );
-               // sendBroadcast( i );
-
-
-
-
-
 
                 try {
                     result = new AdminProfileHelper.POSTProfileLatLong().execute( SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(),String.valueOf(location.getLongitude()).toString(),String.valueOf(location.getLatitude()).toString()).get();
@@ -77,7 +59,7 @@ public class GPS_Service extends Service {
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     //Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.d("myTag", "\n" + jsonbodyres.getMessage()+" "+location.getLongitude() + " " + location.getLatitude());
-////                progressDialog.dismiss();
+
                 } catch (Exception e) {
 
                 }
