@@ -36,6 +36,7 @@ import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.LoginRegistrationActivity.RegistrationActivity;
 import com.example.awizom.jihuzur.Service.GPS_Service;
+import com.example.awizom.jihuzur.Service.LocationMonitoringNotificationService;
 import com.example.awizom.jihuzur.SettingsActivity;
 import com.example.awizom.jihuzur.UpdateProfile;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
@@ -77,6 +78,8 @@ public class EmployeeHomePage extends AppCompatActivity
         }
         registerReceiver(broadcastReceiver,new IntentFilter("location_update"));
     }
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -181,15 +184,21 @@ public class EmployeeHomePage extends AppCompatActivity
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent serviceIntent = new Intent(EmployeeHomePage.this, LocationMonitoringNotificationService.class);
+                serviceIntent.putExtra("inputExtra", "my msg");
+                ContextCompat.startForegroundService(EmployeeHomePage.this, serviceIntent);
+
                 Intent i =new Intent(getApplicationContext(),GPS_Service.class);
                 startService(i);
+
             }
         });
 
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent serviceIntent = new Intent(EmployeeHomePage.this, LocationMonitoringNotificationService.class);
+                stopService(serviceIntent);
                 Intent i = new Intent(getApplicationContext(),GPS_Service.class);
                 stopService(i);
 

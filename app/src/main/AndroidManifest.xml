@@ -41,7 +41,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"> </activity>
         <activity
             android:name=".LoginRegistrationActivity.LoginActivity"
             android:label="@string/title_activity_login" />
@@ -150,6 +150,8 @@
             android:name=".Service.LocationMonitoringService"
             android:enabled="true"
             android:exported="true"></service>
+
+        <service android:name=".Service.LocationMonitoringNotificationService" />
     </application>
 
 </manifest>

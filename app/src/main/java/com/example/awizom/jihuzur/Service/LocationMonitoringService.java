@@ -111,7 +111,7 @@ public void onLocationChanged(Location location) {
 
 private void sendMessageToUI(String lat, String lng) {
 
-        Log.d(TAG, "Sending info...");
+        Log.d(TAG, "Sending info..."+lat+lng);
 
         Intent intent = new Intent(ACTION_LOCATION_BROADCAST);
         intent.putExtra(EXTRA_LATITUDE, lat);
