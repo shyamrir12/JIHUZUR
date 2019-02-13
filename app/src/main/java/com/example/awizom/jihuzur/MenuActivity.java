@@ -58,77 +58,77 @@ public class MenuActivity extends AppCompatActivity {
         viewPager.setAdapter(pageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-                if (tab.getPosition() == 1) {
-//                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
-//                            R.color.colorAccent));
-                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
-                            R.color.colorPrimary));
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
-                                R.color.colorPrimary));
-                    }
-                } else if (tab.getPosition() == 2) {
-//                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
-//                            android.R.color.darker_gray));
-                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
-                            android.R.color.black));
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
-                                android.R.color.black));
-                    }
-                }else if (tab.getPosition() == 3) {
-//                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
-//                            R.color.colorAccent));
-                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
-                            R.color.colorPrimary));
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
-                                R.color.colorPrimary));
-                    }
-                } else if (tab.getPosition() == 4) {
-//                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
-//                            android.R.color.darker_gray));
-                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
-                            android.R.color.black));
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
-                                android.R.color.black));
-                    }
-                }else if (tab.getPosition() == 5) {
-//                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
-//                            android.R.color.darker_gray));
-                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
-                            android.R.color.black));
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
-                                android.R.color.black));
-                    }
-                } else {
-//                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
+//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                viewPager.setCurrentItem(tab.getPosition());
+//                if (tab.getPosition() == 1) {
+////                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
+////                            R.color.colorAccent));
+//                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
 //                            R.color.colorPrimary));
-                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
-                            R.color.colorPrimary));
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
-                                R.color.colorPrimaryDark));
-                    }
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
+//                                R.color.colorPrimary));
+//                    }
+//                } else if (tab.getPosition() == 2) {
+////                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
+////                            android.R.color.darker_gray));
+//                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
+//                            android.R.color.black));
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
+//                                android.R.color.black));
+//                    }
+//                }else if (tab.getPosition() == 3) {
+////                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
+////                            R.color.colorAccent));
+//                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
+//                            R.color.colorPrimary));
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
+//                                R.color.colorPrimary));
+//                    }
+//                } else if (tab.getPosition() == 4) {
+////                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
+////                            android.R.color.darker_gray));
+//                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
+//                            android.R.color.black));
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
+//                                android.R.color.black));
+//                    }
+//                }else if (tab.getPosition() == 5) {
+////                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
+////                            android.R.color.darker_gray));
+//                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
+//                            android.R.color.black));
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
+//                                android.R.color.black));
+//                    }
+//                } else {
+////                    toolbar.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
+////                            R.color.colorPrimary));
+//                    tabLayout.setBackgroundColor(ContextCompat.getColor(MenuActivity.this,
+//                            R.color.colorPrimary));
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                        getWindow().setStatusBarColor(ContextCompat.getColor(MenuActivity.this,
+//                                R.color.colorPrimaryDark));
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//
+//            }
+//        });
 
     }
 }
