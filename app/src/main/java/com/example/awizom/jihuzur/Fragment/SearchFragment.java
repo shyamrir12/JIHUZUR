@@ -23,7 +23,7 @@ public class SearchFragment extends Fragment {
     PageAdapter pageAdapter;
     TabItem appliance;
     TabItem massage;
-    TabItem homecleaning;
+    TabItem homecleaning,painting,tutors,movingHome;;
     private String catagoryName="";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,12 +35,22 @@ public class SearchFragment extends Fragment {
     {
 
         tabLayout = view.findViewById(R.id.tablayout);
-        appliance = view.findViewById(R.id.applianceRepair);
-        massage =view.findViewById(R.id.massageFitness);
-        homecleaning =view.findViewById(R.id.homeCleaning);
+
+
+
+        appliance = view.findViewById(R.id.HomeServices);
+        massage = view.findViewById(R.id.Appliance);
+        homecleaning = view.findViewById(R.id.HomeCleaning);
+
+        painting  = view.findViewById(R.id.Painting);
+        tutors  = view.findViewById(R.id.Tutor);
+        movingHome  = view.findViewById(R.id.Moving);
+
+
+
         viewPager =view.findViewById(R.id.viewPager);
 
-        pageAdapter = new PageAdapter(getFragmentManager(), tabLayout.getTabCount(), catagoryName);
+        pageAdapter = new PageAdapter(getFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

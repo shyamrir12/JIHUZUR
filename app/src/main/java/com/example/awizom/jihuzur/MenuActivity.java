@@ -42,21 +42,57 @@ public class MenuActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        catagoryName = getIntent().getStringExtra("CategoryName");
+        catagoryName = String.valueOf(getIntent().getIntExtra("CategoryName",0));
         tabLayout = findViewById(R.id.tablayout);
-        appliance = findViewById(R.id.applianceRepair);
-        massage = findViewById(R.id.massageFitness);
-        homecleaning = findViewById(R.id.homeCleaning);
+        appliance = findViewById(R.id.HomeServices);
+        massage = findViewById(R.id.Appliance);
+        homecleaning = findViewById(R.id.HomeCleaning);
 
-         painting  = findViewById(R.id.painting);
+         painting  = findViewById(R.id.Painting);
          tutors  = findViewById(R.id.Tutor);
-         movingHome  = findViewById(R.id.movingHome);
+         movingHome  = findViewById(R.id.Moving);
 
         viewPager = findViewById(R.id.viewPager);
-
-        pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount(),catagoryName);
+        pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        if(catagoryName.contains("4")){
+            TabLayout.Tab tab = tabLayout.getTabAt(4);
+            tab.select();
+            tabLayout.setupWithViewPager(viewPager);
+            viewPager.setCurrentItem(tab.getPosition());
+        }else if(catagoryName.equals("5")){
+            TabLayout.Tab tab = tabLayout.getTabAt(5);
+            tab.select();
+            tabLayout.setupWithViewPager(viewPager);
+            viewPager.setCurrentItem(tab.getPosition());
+        } else if(catagoryName.equals("3")){
+            TabLayout.Tab tab = tabLayout.getTabAt(3);
+            tab.select();
+            tabLayout.setupWithViewPager(viewPager);
+            viewPager.setCurrentItem(tab.getPosition());
+        } else if(catagoryName.equals("2")){
+            TabLayout.Tab tab = tabLayout.getTabAt(2);
+            tab.select();
+            tabLayout.setupWithViewPager(viewPager);
+            viewPager.setCurrentItem(tab.getPosition());
+        } else if(catagoryName.equals("1")){
+            TabLayout.Tab tab = tabLayout.getTabAt(1);
+            tab.select();
+            tabLayout.setupWithViewPager(viewPager);
+            viewPager.setCurrentItem(tab.getPosition());
+        } else if(catagoryName.equals("0")){
+            TabLayout.Tab tab = tabLayout.getTabAt(0);
+            tab.select();
+            tabLayout.setupWithViewPager(viewPager);
+            viewPager.setCurrentItem(tab.getPosition());
+        } else {
+            TabLayout.Tab tab = tabLayout.getTabAt(0);
+            tab.select();
+            tabLayout.setupWithViewPager(viewPager);
+            viewPager.setCurrentItem(tab.getPosition());
+        }
 
 //        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 //            @Override

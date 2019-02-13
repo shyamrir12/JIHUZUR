@@ -55,7 +55,7 @@
                     android:layout_below="@+id/l0">
 
                     <android.support.v7.widget.CardView
-                        android:id="@+id/homeCleancardViewOne"
+                        android:id="@+id/homecleaningCardViewOne"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         card_view:contentPadding="16dp"
@@ -127,7 +127,7 @@
                     android:layout_marginTop="20dp">
 
                     <android.support.v7.widget.CardView
-                        android:id="@+id/cardViewTwo"
+                        android:id="@+id/movingTruckLoaderCardViewTwo"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         card_view:contentPadding="16dp"
@@ -160,7 +160,7 @@
                         android:layout_weight="1.5" />
 
                     <android.support.v7.widget.CardView
-                        android:id="@+id/cardViewTwo1"
+                        android:id="@+id/ringCardViewTwo1"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         card_view:contentPadding="16dp"
@@ -197,7 +197,7 @@
                     android:layout_marginTop="20dp">
 
                     <android.support.v7.widget.CardView
-                        android:id="@+id/cardViewThree"
+                        android:id="@+id/tutorCardViewThree"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         card_view:contentPadding="16dp"
@@ -230,7 +230,7 @@
                         android:layout_weight="1.5" />
 
                     <android.support.v7.widget.CardView
-                        android:id="@+id/cardViewThree1"
+                        android:id="@+id/washingMachineCardViewThree1"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         card_view:contentPadding="16dp"
@@ -339,10 +339,10 @@
                         </LinearLayout>
                     </android.support.v7.widget.CardView>
                 </LinearLayout>
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="90dp"
-    android:layout_below="@+id/l4"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:layout_below="@+id/l4"/>
 
             </RelativeLayout>
 

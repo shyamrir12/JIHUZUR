@@ -11,21 +11,17 @@ import com.example.awizom.jihuzur.Fragment.PaintingFragment;
 public class PageAdapter extends FragmentPagerAdapter {
 
     private int numOfTabs;
-    private String catagoryNames="";
+    private static int count = 2;
 
-    public PageAdapter(FragmentManager fm, int numOfTabs, String catagoryName) {
+    public PageAdapter(FragmentManager fm, int numOfTabs) {
         super(fm);
         this.numOfTabs = numOfTabs;
-        this.catagoryNames = catagoryName;
+
     }
 
     @Override
     public Fragment getItem(int position) {
-//        if(catagoryNames.equals("Home Cleaning & Repairs")){
-//            return new CustomerHomeServiceFragment();
-//        }else if(catagoryNames.equals("Appliance & Repairs")) {
-//            return new ApplianceFragment();
-//        }
+
         switch (position) {
 
             case 0:
@@ -48,5 +44,29 @@ public class PageAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return numOfTabs;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+
+        switch (position)
+        {
+
+            case 0:
+                return "HomeServices";
+            case 1:
+                return "Appliance";
+            case 2:
+                return "HomeCleaning";
+            case 3:
+                return "Painting";
+            case 4:
+                return "Moving";
+            case 5:
+                return "Tutor";
+            default:
+
+        }
+        return null;
     }
 }

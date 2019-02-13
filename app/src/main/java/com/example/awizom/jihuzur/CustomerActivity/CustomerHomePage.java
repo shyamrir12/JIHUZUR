@@ -50,7 +50,8 @@ public class CustomerHomePage extends AppCompatActivity
     String Url;
     Boolean active = false;
     View header;
-    private CardView homeCleaningCardView,appliancecardView;
+    private CardView homeCleaningCardView,appliancecardView,movingTruckCardViewTwo,
+            washingCardViewThree1,tutorcardViewThree,ringcardViewTwo;
     private ImageView homecleaning;
     private TextView homeCleaningTextView;
     DatabaseReference datauserprofile;
@@ -116,10 +117,19 @@ public class CustomerHomePage extends AppCompatActivity
 
         setContentView(R.layout.activity_customer_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        homeCleaningCardView = findViewById(R.id.homeCleancardViewOne);
+        homeCleaningCardView = findViewById(R.id.homecleaningCardViewOne);
         homeCleaningCardView.setOnClickListener(this);
         appliancecardView = findViewById(R.id.appliancesCardViewOne1);
         appliancecardView.setOnClickListener(this);
+
+        movingTruckCardViewTwo = findViewById(R.id.movingTruckLoaderCardViewTwo);
+        movingTruckCardViewTwo.setOnClickListener(this);
+        washingCardViewThree1 = findViewById(R.id.washingMachineCardViewThree1);
+        washingCardViewThree1.setOnClickListener(this);
+        tutorcardViewThree = findViewById(R.id.tutorCardViewThree);
+        tutorcardViewThree.setOnClickListener(this);
+        ringcardViewTwo = findViewById(R.id.ringCardViewTwo1);
+        ringcardViewTwo.setOnClickListener(this);
 
         homecleaning = findViewById(R.id.homecleaning);
 
@@ -272,14 +282,34 @@ public class CustomerHomePage extends AppCompatActivity
     public void onClick(View v) {
 
         switch (v.getId()){
-            case R.id.homeCleancardViewOne:
+            case R.id.homecleaningCardViewOne:
                 intent=new Intent(CustomerHomePage.this,MenuActivity.class);
-                intent.putExtra("CategoryName","Home Cleaning & Repairs");
+                intent.putExtra("CategoryName",5);
                 startActivity(intent);
                 break;
             case R.id.appliancesCardViewOne1:
                 intent=new Intent(CustomerHomePage.this,MenuActivity.class);
-                intent.putExtra("CategoryName","Appliance & Repairs");
+                intent.putExtra("CategoryName",4);
+                startActivity(intent);
+                break;
+            case R.id.movingTruckLoaderCardViewTwo:
+                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
+                intent.putExtra("CategoryName",1);
+                startActivity(intent);
+                break;
+            case R.id.ringCardViewTwo1:
+                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
+                intent.putExtra("CategoryName",3);
+                startActivity(intent);
+                break;
+            case R.id.tutorCardViewThree:
+                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
+                intent.putExtra("CategoryName",0);
+                startActivity(intent);
+                break;
+            case R.id.washingMachineCardViewThree1:
+                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
+                intent.putExtra("CategoryName",2);
                 startActivity(intent);
                 break;
         }
