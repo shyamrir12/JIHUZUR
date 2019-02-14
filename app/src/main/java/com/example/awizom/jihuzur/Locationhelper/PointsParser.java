@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.awizom.jihuzur.AdminActivity.AdminsEmployeeListActivity;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -38,6 +39,7 @@ public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<S
             jObject = new JSONObject(jsonData[0]);
             Log.d("mylog", jsonData[0].toString());
             DataParser parser = new DataParser();
+
             Log.d("mylog", parser.toString());
 
             // Starts parsing data

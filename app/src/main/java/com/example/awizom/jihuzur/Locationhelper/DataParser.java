@@ -1,5 +1,10 @@
 package com.example.awizom.jihuzur.Locationhelper;
 
+import android.content.Context;
+
+import com.example.awizom.jihuzur.AdminActivity.AdminsEmployeeListActivity;
+import com.example.awizom.jihuzur.App;
+import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.google.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -10,8 +15,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DataParser {
-
+public class DataParser extends App {
+    private Context mCtx;
+    private String distn="";
     /** Receives a JSONObject and returns a list of lists containing latitude and longitude */
     public List<List<HashMap<String,String>>> parse(JSONObject jObject){
 
@@ -19,6 +25,8 @@ public class DataParser {
         JSONArray jRoutes;
         JSONArray jLegs;
         JSONArray jSteps;
+        JSONObject jDistance = null;
+        JSONObject jDuration = null;
 
         try {
 
@@ -27,11 +35,22 @@ public class DataParser {
             /** Traversing all routes */
             for(int i=0;i<jRoutes.length();i++){
                 jLegs = ( (JSONObject)jRoutes.get(i)).getJSONArray("legs");
+
                 List path = new ArrayList<>();
 
                 /** Traversing all legs */
                 for(int j=0;j<jLegs.length();j++){
                     jSteps = ( (JSONObject)jLegs.get(j)).getJSONArray("steps");
+
+                    jDistance = ((JSONObject) jLegs.get(j)).getJSONObject("distance");
+                    HashMap<String, String> hmDistance = new HashMap<String, String>();
+                    hmDistance.put("distance", jDistance.getString("text"));
+
+                        distn=jDistance.getString("text");
+
+
+
+
 
                     /** Traversing all steps */
                     for(int k=0;k<jSteps.length();k++){
@@ -61,9 +80,50 @@ public class DataParser {
     }
 
 
+
+    public List<List<HashMap<String,String>>> jDistance(JSONObject jObject){
+
+        List<List<HashMap<String, String>>> distance = new ArrayList<>() ;
+        JSONArray jRoutes;
+        JSONArray jLegs;
+        JSONArray jSteps;
+        JSONObject jDistance = null;
+        JSONObject jDuration = null;
+
+        try {
+
+            jRoutes = jObject.getJSONArray("routes");
+
+            /** Traversing all routes */
+            for(int i=0;i<jRoutes.length();i++){
+                jLegs = ( (JSONObject)jRoutes.get(i)).getJSONArray("legs");
+
+                List path = new ArrayList<>();
+
+                /** Traversing all legs */
+                for(int j=0;j<jLegs.length();j++){
+                    jSteps = ( (JSONObject)jLegs.get(j)).getJSONArray("steps");
+
+                    jDistance = ((JSONObject) jLegs.get(j)).getJSONObject("distance");
+                    HashMap<String, String> hmDistance = new HashMap<String, String>();
+                    hmDistance.put("distance", jDistance.getString("text"));
+                    String distn=jDistance.getString("text");
+                    ((AdminsEmployeeListActivity)this.mCtx).PutDistance(distn);
+                    distance.add((List<HashMap<String, String>>) hmDistance);
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }catch (Exception e){
+        }
+
+
+        return distance;
+    }
     /**
      * Method to decode polyline points
-     * Courtesy : https://jeffreysambells.com/2010/05/27/decoding-polylines-from-google-maps-direction-api-with-java
+     *
      * */
     private List<LatLng> decodePoly(String encoded) {
 
@@ -98,4 +158,7 @@ public class DataParser {
 
         return poly;
     }
+
+
+
 }
