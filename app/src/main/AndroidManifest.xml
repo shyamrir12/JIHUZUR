@@ -130,6 +130,8 @@
             android:name=".CustomerActivity.CustomerCommentActivity" />
         <activity android:name=".CustomerActivity.TrackActivity" />
 
+        <activity android:name=".CustomerActivity.CustomerReplyActivity"/>
+
         <service
             android:name=".Service.GPS_Service"
             android:enabled="true" />

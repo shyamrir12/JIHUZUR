@@ -51,7 +51,6 @@
         android:id="@+id/l4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/l3"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:orientation="vertical"
@@ -109,9 +108,35 @@
                         android:text="Hii, How are you ?"
                         android:textColor="@color/greydark"
                         android:textSize="14dip" />
+                    <TextView
+                        android:id="@+id/reviewId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="2"
+                        android:textColor="@color/blue"
+                        android:textSize="14dp"
+                        android:visibility="gone"/>
 
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/l3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@+id/l2">
                     <TextView
                         android:id="@+id/reviewRate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="11"
+                        android:text="4"
+                        android:textColor="@color/blue"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:id="@+id/replyBtn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -119,8 +144,83 @@
                         android:textColor="@color/blue"
                         android:textSize="14dp" />
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/rateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/l3"
+                    android:orientation="horizontal">
+                    <RatingBar
+                        android:id="@+id/ratingSet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center"
+                        android:layout_weight="1"
+                        style="?android:attr/ratingBarStyle"
+                        android:numStars="5"
+                        android:rating="3.0"
+                        android:stepSize="1.0"
+                        android:scaleX=".5"
+                        android:scaleY=".5"
+                        android:transformPivotX="0dp"
+                        android:transformPivotY="0dp"
+                        android:isIndicator="true"
+                        android:max="5" />
+                    <RatingBar
+                        android:id="@+id/ratingSets"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal|center"
+                        android:layout_weight="1"
+                        style="?android:attr/ratingBarStyle"
+                        android:numStars="5"
+                        android:rating="3.0"
+                        android:stepSize="1.0"
+                        android:scaleX=".5"
+                        android:scaleY=".5"
+                        android:transformPivotX="0dp"
+                        android:transformPivotY="0dp"
+                        android:isIndicator="true"
+                        android:max="5"
+                        android:visibility="gone"/>
 
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/l0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/rateLayout"
+                    android:visibility="gone">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/profile"/>
+                    <EditText
+                        android:id="@+id/txtReply"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        android:hint="Write a reply..." />
+                    <TextView
+                        android:id="@+id/sendBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        android:text="send"
+                        android:textAllCaps="false"
+                        android:textColor="@color/blue"
+                        android:textSize="14sp"/>
+                </LinearLayout>
 
+                <view
+                    android:id="@+id/v1"
+                    class="android.support.v7.app.AlertController$RecycleListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/l0"
+                    android:background="@color/grey"
+                    android:layout_marginTop="10dp"/>
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 

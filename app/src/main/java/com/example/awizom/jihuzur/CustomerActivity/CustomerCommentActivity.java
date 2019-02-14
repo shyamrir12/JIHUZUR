@@ -18,12 +18,14 @@ import com.example.awizom.jihuzur.Adapter.CategoryListAdapter;
 import com.example.awizom.jihuzur.AdminActivity.AdminCategoryActivity;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerCommentAdapter;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerCurrentOrderAdapter;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerReplyAdapter;
 import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Helper.CustomerRatingHelper;
 import com.example.awizom.jihuzur.MenuActivity;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.PricingView;
+import com.example.awizom.jihuzur.Model.Reply;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.Review;
 import com.example.awizom.jihuzur.MyBokingsActivity;
@@ -49,6 +51,8 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
     RecyclerView recyclerView;
     private Button commentButtonn,buttonAddCategory,buttonCancel;
     RatingBar ratingBar;
+    private Reply reply;
+    private List<Reply> replyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,4 +192,6 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
             e.printStackTrace();
         }
     }
+
+
 }

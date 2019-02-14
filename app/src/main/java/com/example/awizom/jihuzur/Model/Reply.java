@@ -7,7 +7,7 @@ public class Reply {
     private String Reply;
     private int ReviewID;
     private boolean Active;
-    private Date ReplyDate;
+    private String ReplyDate;
 
 
     public int getReplyID() {
@@ -42,11 +42,11 @@ public class Reply {
         Active = active;
     }
 
-    public Date getReplyDate() {
+    public String getReplyDate() {
         return ReplyDate;
     }
 
-    public void setReplyDate(Date replyDate) {
+    public void setReplyDate(String replyDate) {
         ReplyDate = replyDate;
     }
 }
