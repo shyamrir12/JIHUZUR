@@ -53,6 +53,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
     RatingBar ratingBar;
     private Reply reply;
     private List<Reply> replyList;
+    private String s="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,11 +126,6 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
 
         getreviewByOrder();
 
-
-//        if (messages.isEmpty()) {
-//            messageCommentText.requestFocus();
-//            return;
-//        }
 
     }
 
