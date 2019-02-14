@@ -18,6 +18,7 @@ public class CustomerRatingHelper extends AppCompatActivity {
             //     InputStream inputStream
             String review=params[0];
             String rate = params[1];
+            String orderId = params[2];
 
             String json = "";
             try {
@@ -36,7 +37,7 @@ public class CustomerRatingHelper extends AppCompatActivity {
 
 
                 parameters.add("Active", "True");
-                parameters.add("OrderId", "53");
+                parameters.add("OrderId", orderId);
 
 
 

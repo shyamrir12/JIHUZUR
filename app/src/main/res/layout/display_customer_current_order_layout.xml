@@ -44,6 +44,12 @@
                             android:text="Employee Name"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold" />
+                        <view
+
+                            class="android.support.v7.app.AlertController$RecycleListView"
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/grey" />
                         <TextView
                             android:id="@+id/empMobile"
                             android:layout_width="match_parent"
@@ -64,7 +70,8 @@
                             android:padding="10dp"
                             android:text="00:00"
                             android:textColor="@color/colorBlack"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:visibility="gone"/>
 
                     </LinearLayout>
 
@@ -81,7 +88,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/v1"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/starttime"
@@ -120,7 +128,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/v2"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/catagoryName"
@@ -248,7 +257,7 @@
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textSize="14sp"
-                            android:visibility="visible" />
+                            android:visibility="gone" />
                         <view
                             class="android.support.v7.app.AlertController$RecycleListView"
                             android:layout_width="3dp"

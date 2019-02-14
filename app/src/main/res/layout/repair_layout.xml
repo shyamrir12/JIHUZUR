@@ -25,7 +25,8 @@
                     android:id="@+id/l0"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
                 <TextView
                     android:id="@+id/catagoryName"
                     android:layout_width="match_parent"
@@ -37,19 +38,12 @@
                     android:layout_centerHorizontal="true"
                     android:padding="10dp" />
                 </LinearLayout>
-                <view
-                    android:id="@+id/v2"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/grey"
-                    android:layout_below="@+id/l0"
-                    class="android.support.v7.app.AlertController$RecycleListView"/>
                 <LinearLayout
                     android:id="@+id/l1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_below="@+id/v2"
+                    android:layout_below="@+id/l0"
                     android:layout_marginLeft="10dp">
                     <!--<RadioGroup-->
                         <!--android:id="@+id/radio"-->
@@ -117,12 +111,19 @@
 
                 </LinearLayout>
 
+                <view
+                    android:id="@+id/v2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey"
+                    android:layout_below="@+id/l1"
+                    class="android.support.v7.app.AlertController$RecycleListView"/>
 
 
                 <LinearLayout
                     android:id="@+id/l3"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_below="@+id/l1"
                     android:orientation="vertical"
                     android:layout_marginLeft="10dp">

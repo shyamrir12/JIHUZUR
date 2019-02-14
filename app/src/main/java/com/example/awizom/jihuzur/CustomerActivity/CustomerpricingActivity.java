@@ -45,7 +45,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     }
 
     private void initView() {
-        getSupportActionBar().setTitle("Customer Pricing");
+
 
         serviceID = getIntent().getStringExtra("serviceID");
         description = getIntent().getStringExtra("description");
@@ -55,6 +55,8 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         orderID = getIntent().getStringExtra("orderId");
         priceID = getIntent().getStringExtra("priceId");
 
+
+        getSupportActionBar().setTitle(serviceName);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));

@@ -64,8 +64,8 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
 //            holder.description.setText(order.getCatalogName());
 //            holder.timing.setText(order.getOrderStartTime());
 
-            holder.empName.setText(order.getEmpName());
-            holder.empContAct.setText(order.getEmpMob());
+            holder.empName.setText(order.getServiceName());
+            holder.empContAct.setText(order.getCatalogName());
             holder.timercount.setText(order.getTotalTime());
             holder.startTime.setText(order.getOrderStartTime());
             holder.endtime.setText(order.getOrderEndTime());
@@ -74,17 +74,17 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             holder.pricingterm.setText(order.getPricingTerms());
             holder.dctName.setText(order.getDiscountName());
 
-            if (!order.getPricingTerms().equals(null)) {
-                holder.pricingterm.setVisibility(View.VISIBLE);
-                holder.dctName.setVisibility(View.VISIBLE);
-                holder.linearLayout.setVisibility(View.VISIBLE);
-            }
-            if (order.getOrderStartTime().equals("NULL")) {
-                holder.canclBtn.setVisibility(View.VISIBLE);
-            } else {
-                holder.canclBtn.setVisibility(View.GONE);
-                holder.acceptBtn.setVisibility(View.GONE);
-            }
+//            if (!order.getPricingTerms().equals(null)) {
+//                holder.pricingterm.setVisibility(View.VISIBLE);
+//                holder.dctName.setVisibility(View.VISIBLE);
+//                holder.linearLayout.setVisibility(View.VISIBLE);
+//            }
+//            if (order.getOrderStartTime().equals("NULL")) {
+//                holder.canclBtn.setVisibility(View.VISIBLE);
+//            } else {
+//                holder.canclBtn.setVisibility(View.GONE);
+//                holder.acceptBtn.setVisibility(View.GONE);
+//            }
 
 
         } catch (Exception E) {
@@ -180,7 +180,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                                 }.getType();
                                 ResultModel resultModel = new Gson().fromJson(result, getType);
                                 if (resultModel.getMessage().contains("Order Started")) {
-                                   canclBtn.setVisibility(View.GONE);
+                                //   canclBtn.setVisibility(View.GONE);
                                 }
 
                                 Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();

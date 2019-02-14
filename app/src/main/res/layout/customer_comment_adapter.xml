@@ -1,50 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/even_container"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content">
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/receiverImg"
-        android:layout_width="wrap_content"
+    <!--<de.hdodenhof.circleimageview.CircleImageView-->
+    <!--android:id="@+id/receiverImg"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:layout_margin="5dip"-->
+    <!--android:src="@mipmap/profile" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/recverTextMessage"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:layout_marginLeft="8dip"-->
+    <!--android:layout_marginRight="120dip"-->
+    <!--android:layout_marginTop="10dip"-->
+    <!--android:text="Hii, How are you ?"-->
+    <!--android:textColor="@color/colorBlack"-->
+    <!--android:textSize="20dip" />-->
+
+
+    <!--<de.hdodenhof.circleimageview.CircleImageView-->
+    <!--android:id="@+id/senderImg"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_marginTop="80dip"-->
+    <!--android:src="@mipmap/profile" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/senderTextMessage"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_marginLeft="120dip"-->
+    <!--android:layout_marginRight="8dip"-->
+    <!--android:layout_marginTop="80dip"-->
+    <!--android:text="Hii, How are you ?"-->
+    <!--android:textColor="@color/colorBlack"-->
+    <!--android:textSize="20dip" />-->
+
+    <LinearLayout
+        android:id="@+id/l4"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_margin="5dip"
-        android:src="@mipmap/profile" />
+        android:layout_below="@+id/l3"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp">
 
-    <TextView
-        android:id="@+id/recverTextMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="8dip"
-        android:layout_marginRight="120dip"
-        android:layout_marginTop="10dip"
-        android:text="Hii, How are you ?"
-        android:textColor="@color/colorBlack"
-        android:textSize="20dip" />
+        <android.support.v7.widget.CardView
+            android:id="@+id/c1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="2dp"
+            >
 
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/senderImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="80dip"
-        android:src="@mipmap/profile" />
-
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+<LinearLayout
+    android:id="@+id/l1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
     <TextView
         android:id="@+id/senderTextMessage"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="120dip"
-        android:layout_marginRight="8dip"
-        android:layout_marginTop="80dip"
+        android:layout_weight="1"
         android:text="Hii, How are you ?"
         android:textColor="@color/colorBlack"
-        android:textSize="20dip" />
+        android:textSize="16dip" />
+
+    <TextView
+        android:id="@+id/reply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/reply"
+        android:textColor="@color/blue"
+        android:textSize="19dp"
+        android:visibility="gone"/>
+</LinearLayout>
+                <LinearLayout
+                    android:id="@+id/l2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/l1">
+                    <TextView
+                        android:id="@+id/reviewDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Hii, How are you ?"
+                        android:textColor="@color/greydark"
+                        android:textSize="14dip" />
+
+                    <TextView
+                        android:id="@+id/reviewRate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/reply"
+                        android:textColor="@color/blue"
+                        android:textSize="14dp" />
+                </LinearLayout>
 
 
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
 </RelativeLayout>
