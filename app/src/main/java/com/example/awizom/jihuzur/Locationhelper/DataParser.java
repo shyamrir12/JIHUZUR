@@ -18,6 +18,7 @@ import java.util.List;
 public class DataParser extends App {
     private Context mCtx;
     private String distn="";
+    private String dura="";
     /** Receives a JSONObject and returns a list of lists containing latitude and longitude */
     public List<List<HashMap<String,String>>> parse(JSONObject jObject){
 
@@ -43,11 +44,12 @@ public class DataParser extends App {
                     jSteps = ( (JSONObject)jLegs.get(j)).getJSONArray("steps");
 
                     jDistance = ((JSONObject) jLegs.get(j)).getJSONObject("distance");
+                    jDuration = ((JSONObject) jLegs.get(j)).getJSONObject("duration");
                     HashMap<String, String> hmDistance = new HashMap<String, String>();
                     hmDistance.put("distance", jDistance.getString("text"));
 
                         distn=jDistance.getString("text");
-
+                        dura=jDuration.getString("text");
 
 
 
@@ -63,6 +65,8 @@ public class DataParser extends App {
                             HashMap<String, String> hm = new HashMap<>();
                             hm.put("lat", Double.toString((list.get(l)).lat) );
                             hm.put("lng", Double.toString((list.get(l)).lng) );
+                            hm.put("distance",distn);
+                            hm.put("duration",dura);
                             path.add(hm);
                         }
                     }

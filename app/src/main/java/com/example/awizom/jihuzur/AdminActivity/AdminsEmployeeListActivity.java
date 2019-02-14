@@ -471,28 +471,28 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
 
 
         Log.i(TAG, "marker arg0 = " + marker);
-        if (!marker.equals(null)) {
-            AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
-            alertbox.setMessage("Do you want to place this order");
-            alertbox.setTitle("Order");
-            alertbox.setIcon(R.drawable.ic_dashboard_black_24dp);
-
-            alertbox.setNeutralButton("Yes",
-                    new DialogInterface.OnClickListener() {
-                        Class fragmentClass = null;
-
-                        public void onClick(DialogInterface arg0,
-                                            int arg1) {
-
-                            postOderCreate();
-                        }
-
-
-                    });
-            alertbox.setPositiveButton("No", null);
-
-            alertbox.show();
-        }
+//        if (!marker.equals(null)) {
+//            AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
+//            alertbox.setMessage("Do you want to place this order");
+//            alertbox.setTitle("Order");
+//            alertbox.setIcon(R.drawable.ic_dashboard_black_24dp);
+//
+//            alertbox.setNeutralButton("Yes",
+//                    new DialogInterface.OnClickListener() {
+//                        Class fragmentClass = null;
+//
+//                        public void onClick(DialogInterface arg0,
+//                                            int arg1) {
+//
+//                            postOderCreate();
+//                        }
+//
+//
+//                    });
+//            alertbox.setPositiveButton("No", null);
+//
+//            alertbox.show();
+//        }
         return false;
     }
 
@@ -538,6 +538,11 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
         if (currentPolyline != null)
             currentPolyline.remove();
         currentPolyline = mGoogleMap.addPolyline((PolylineOptions) values[0]);
+        String distances=values[1].toString();
+        String duration=values[2].toString();
+        distancefor.setText(distances+","+duration);
+
+
 
 
 

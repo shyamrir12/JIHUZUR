@@ -17,6 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        android:visibility="gone"
         android:textColor="#000"
         android:text="@string/msg_location_service_not_started"
         />
@@ -25,7 +26,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:textColor="#000"
+        android:textColor="#00f"
+        style="@style/Base.TextAppearance.AppCompat.Headline"
 
         />
 
