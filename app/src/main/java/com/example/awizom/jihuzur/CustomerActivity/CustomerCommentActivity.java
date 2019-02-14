@@ -14,17 +14,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.awizom.jihuzur.Adapter.CategoryListAdapter;
-import com.example.awizom.jihuzur.AdminActivity.AdminCategoryActivity;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerCommentAdapter;
-import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerCurrentOrderAdapter;
-import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerReplyAdapter;
-import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Helper.CustomerRatingHelper;
-import com.example.awizom.jihuzur.MenuActivity;
-import com.example.awizom.jihuzur.Model.Catalog;
-import com.example.awizom.jihuzur.Model.PricingView;
 import com.example.awizom.jihuzur.Model.Reply;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.Review;
@@ -58,7 +50,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fak);
+        setContentView(R.layout.activity_customer_comment_list);
         initView();
     }
 
