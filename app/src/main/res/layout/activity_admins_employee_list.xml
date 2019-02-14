@@ -9,8 +9,27 @@
         android:name="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-
+        android:layout_below="@+id/rvToolbar"
         android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/msgView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:visibility="gone"
+        android:textColor="#000"
+        android:text="@string/msg_location_service_not_started"
+        />
+    <TextView
+        android:id="@+id/distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="#00f"
+        style="@style/Base.TextAppearance.AppCompat.Headline"
+
+        />
 
     <Button
         android:id="@+id/btnGetDirection"
