@@ -15,6 +15,11 @@
     <color name="greydark">#464545</color>
     <color name="yellow">#d48138</color>
     <color name="darkyellow">#f5e447</color>
+    <color name="lightred">#e4aea6</color>
+    <color name="lightrede">#e28c8c</color>
+    <color name="lightreder">#eca2a1</color>
+    <color name="lightreders">#e78b8b</color>
+    <color name="lightrederes">#ec7f7f</color>
 <color name="greyhint">#1877a3</color>
     <color name="halfwhite">#f3f6f7</color>
 </resources>

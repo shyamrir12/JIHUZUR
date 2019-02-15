@@ -130,7 +130,7 @@
                         android:id="@+id/reviewRate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="11"
+                        android:layout_weight="1.4"
                         android:text="4"
                         android:textColor="@color/blue"
                         android:textSize="14dp" />
@@ -143,6 +143,15 @@
                         android:text="@string/reply"
                         android:textColor="@color/blue"
                         android:textSize="14dp" />
+                    <TextView
+                        android:id="@+id/totalreplyBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/blue"
+                        android:textSize="14dp"
+                        android:visibility="visible"/>
+
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/rateLayout"

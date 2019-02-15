@@ -1,7 +1,6 @@
 package com.example.awizom.jihuzur;
 
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -19,16 +18,17 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.Adapter.CatalogGridViewAdapter;
 import com.example.awizom.jihuzur.Adapter.CategoryListAdapter;
 import com.example.awizom.jihuzur.Adapter.ServiceListAdapter;
-import com.example.awizom.jihuzur.AdminActivity.AdminCategoryActivity;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Model.Catalog;
@@ -54,7 +54,7 @@ import okhttp3.Request;
 
 public class SelectServices extends AppCompatActivity implements View.OnClickListener {
 
-    String categoryName, catalogID;
+    String categoryName, catalogID,imageLink;
     RecyclerView recyclerView;
     List<Service> serviceList;
     ServiceListAdapter serviceListAdapter;
@@ -63,7 +63,8 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
     FloatingActionButton addService;
     AutoCompleteTextView editServicename, editDescription;
     Spinner displayType;
-    ProgressDialog progressDialog;
+    private ImageView imageView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,7 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
 
         categoryName = getIntent().getStringExtra("CategoryName");
         catalogID = getIntent().getStringExtra("CatalogID");
+        imageLink = getIntent().getStringExtra("Image");
 
 
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
@@ -93,7 +95,9 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
 
         addService = (FloatingActionButton) findViewById(R.id.addService);
         addService.setOnClickListener(this);
-        categoryname = (TextView) findViewById(R.id.categoryName);
+        categoryname = findViewById(R.id.categoryName);
+        imageView = findViewById(R.id.backdrop);
+
         categoryname.setText(categoryName);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -108,9 +112,20 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
             addService.setVisibility(View.VISIBLE);
         }
 
+
+        if(imageLink != null) {
+
+            Glide.with(getApplicationContext())
+                    .load(imageLink)
+                    .placeholder(R.drawable.home_cleaning).dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(imageView);
+        }
+
+
     }
 
-    public void getServiceList() {
+    private void getServiceList() {
 
 
         try {
@@ -179,12 +194,6 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
         buttonAddCatalog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog = new ProgressDialog(SelectServices.this);
-                progressDialog.setMessage("Loading..."); // Setting Message
-                progressDialog.setTitle("ProgressDialog"); // Setting Title
-                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
-                progressDialog.show(); // Display Progress Dialog
-                progressDialog.setCancelable(false);
 
 
                 String service = editServicename.getText().toString().trim();
@@ -204,11 +213,10 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-                    getServiceList();
-                    progressDialog.dismiss();
+
                 } catch (Exception e) {
                     e.printStackTrace();
-                    progressDialog.dismiss();
+
                     Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
                     // System.out.println("Error: " + e);
                 }
