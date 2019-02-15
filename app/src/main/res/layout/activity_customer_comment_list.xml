@@ -23,6 +23,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+
+
                 <LinearLayout
                     android:id="@+id/l0"
                     android:layout_width="match_parent"
@@ -62,11 +64,26 @@
                     android:layout_height="1dp"
                     android:background="@color/grey"
                     android:layout_below="@+id/l0"/>
+
+
+                <LinearLayout
+                    android:id="@+id/l"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:orientation="vertical"
+                    android:layout_below="@+id/v">
+                        <fragment
+                             android:id="@+id/map"
+                             android:layout_width="match_parent"
+                             android:layout_height="match_parent"
+                             android:name="com.google.android.gms.maps.SupportMapFragment"
+                             tools:context=".CustomerActivity.CustomerCommentActivity" />
+                </LinearLayout>
                 <LinearLayout
                     android:id="@+id/l1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/v"
+                    android:layout_below="@+id/l"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="40dp"

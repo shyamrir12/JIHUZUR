@@ -228,7 +228,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         }
         try {
             result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId,priceIds).get();
-            if (!result.isEmpty()) {
+            if (!result.equals(null)) {
                 intent = new Intent(this, MyBokingsActivity.class);
                 startActivity(intent);
             }
@@ -237,14 +237,20 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Gson gson = new Gson();
-        UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
-        Toast.makeText(this, jsonbody.Message, Toast.LENGTH_SHORT).show();
+        try {
+            Gson gson = new Gson();
+            UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
+            Toast.makeText(this, jsonbody.Message, Toast.LENGTH_SHORT).show();
 
-        if (!result.equals(null)) {
+            if (!result.equals(null)) {
 
-
+                intent = new Intent(this, MyBokingsActivity.class);
+                startActivity(intent);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
 
     }
     private void employeeProfileGet() {

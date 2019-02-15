@@ -136,7 +136,8 @@
             android:label="@string/title_activity_admin_complaint_reply"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".CustomerActivity.CustomerCommentActivity" />
+            android:name=".CustomerActivity.CustomerCommentActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".CustomerActivity.TrackActivity" />
 
         <activity android:name=".CustomerActivity.CustomerReplyActivity"/>
