@@ -120,9 +120,9 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.location_activity);
+        setContentView(R.layout.activity_admins_employee_list);
         mMsgView = (TextView) findViewById(R.id.msgView);
-      //  distancefor=(TextView)findViewById(R.id.distance);
+        distancefor=(TextView)findViewById(R.id.distance);
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 new BroadcastReceiver() {
                     @Override

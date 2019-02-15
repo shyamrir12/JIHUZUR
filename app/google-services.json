@@ -31,6 +31,14 @@
           }
         },
         {
+          "client_id": "99461196015-9i7jio4scju6ghuii51aov2lc4b9oaqn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.awizom.jihuzur",
+            "certificate_hash": "b01d040b3dd669c1929c25c3f8f9deb94f7f784a"
+          }
+        },
+        {
           "client_id": "99461196015-eh8b6mplm5nbn08kvqh4rnufo3divosm.apps.googleusercontent.com",
           "client_type": 3
         }
