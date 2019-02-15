@@ -4,129 +4,151 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
             android:orientation="vertical">
-
-       <LinearLayout
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:orientation="horizontal">
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="ComplaintID"
-               android:textColor="@color/colorBlack"/>
-           <TextView
-               android:layout_marginLeft="20dp"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:id="@+id/complaintID"
-               android:textColor="@color/colorBlack"
-               android:text="complainId"/>
-
-
-           <TextView
-               android:layout_marginLeft="20dp"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:textColor="@color/colorBlack"
-               android:visibility="gone"
-               android:text="Status"/>
-           <TextView
-               android:layout_marginLeft="20dp"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:id="@+id/status"
-               android:visibility="gone"
-               android:textColor="@color/colorBlack"
-               android:text="status"/>
-
-
-       </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-            <TextView
+            >
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/complaint"
-                android:text="Complaint"
-                android:textColor="@color/colorBlack"
-                />
-
-
-
-
-
-
-        </LinearLayout>
+                android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp">
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/jihuzurblanklogo" />
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:visibility="gone"
                         android:layout_height="wrap_content"
+                        android:text="ComplaintID"
                         android:textColor="@color/colorBlack"
-                        android:text="Active"/>
+                        android:visibility="gone" />
 
-                <ToggleButton
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/complaintID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="complainId"
+                        android:textColor="@color/colorBlack"
+                        android:visibility="gone" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="Status"
+                        android:textColor="@color/colorBlack"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="status"
+                        android:textColor="@color/colorBlack"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/cname"
+                        android:layout_width="178dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Customername"
+                        android:textColor="@color/colorBlack"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cdate"
+                        android:layout_width="178dp"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="10dp"
+                        android:text="ComplaintDate"
+                        android:textColor="@color/colorBlack"
+
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/activeToggle"/>
+                    android:layout_marginTop="15dp">
+
+                    <TextView
+                        android:id="@+id/complaint"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Complaint"
+                        android:textColor="@color/greydark" />
 
 
-                <android.support.v7.widget.AppCompatImageButton
-                    android:id="@+id/addComplaintReply"
-                    android:layout_width="50dp"
-                   android:layout_marginLeft="200dp"
-                    android:layout_height="50dp"
-                    app:srcCompat="@drawable/ic_reply_black_24dp"
-      />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Active"
+                        android:textColor="@color/colorBlack"
+                        android:visibility="gone" />
+
+                    <ToggleButton
+                        android:id="@+id/activeToggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
+            </android.support.v7.widget.CardView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-
-
-</LinearLayout>
-
-
-        </android.support.v7.widget.CardView>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            </LinearLayout>
 
         </LinearLayout>
-</LinearLayout>
+
     </RelativeLayout>
+
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

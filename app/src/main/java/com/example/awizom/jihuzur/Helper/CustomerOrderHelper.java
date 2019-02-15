@@ -455,7 +455,7 @@ public class CustomerOrderHelper extends AppCompatActivity {
                 Request.Builder builder = new Request.Builder();
                 builder.url(AppConfig.BASE_URL_API_Customer + "SubmitReviewReply");
                 builder.addHeader("Content-Type", "Application/json");
-                builder.addHeader("Accept", "application/json");
+                    builder.addHeader("Accept", "application/json");
                 FormBody.Builder parameters = new FormBody.Builder();
                 parameters.add("ReplyID", replyid);
                 parameters.add("Reply1", reply);

@@ -31,7 +31,8 @@ import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class AdminComplaintReply extends AppCompatActivity {
+public class
+AdminComplaintReply extends AppCompatActivity {
 FloatingActionButton addComplaintreply;
 AutoCompleteTextView editComplaintreply,editCompalaintID;
 List<Complaint> complaintlist;

@@ -172,7 +172,7 @@ public class PricingListAdapter extends
                         Gson gson = new Gson();
                         final Result jsonbodyres = gson.fromJson(result, Result.class);
                         Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-
+                        ((AdminPricingActivity)mCtx).getPricing();
                     }
 
 

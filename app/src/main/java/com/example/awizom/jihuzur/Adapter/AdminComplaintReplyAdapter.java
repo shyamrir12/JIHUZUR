@@ -41,11 +41,10 @@ public class AdminComplaintReplyAdapter extends
      * View holder class
      */
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView complaintid,customerID;
-        public TextView Complaint;
+        public TextView complaintid,customerID,customername;
+        public TextView Complaint,ComplaintDate;
         public ToggleButton activeToggle;
         public TextView Status;
-        public ImageButton addComplaintReply;
 
 
 
@@ -53,11 +52,12 @@ public class AdminComplaintReplyAdapter extends
         public MyViewHolder(View view) {
             super(view);
             complaintid = (TextView) view.findViewById(R.id.complaintID);
+            customername=(TextView) view.findViewById(R.id.cname);
+            ComplaintDate=(TextView) view.findViewById(R.id.cdate);
             Complaint = (TextView) view.findViewById(R.id.complaint);
             activeToggle=(ToggleButton)view.findViewById(R.id.activeToggle);
             Status = (TextView) view.findViewById(R.id.status);
             customerID=(TextView)view.findViewById(R.id.customerid);
-            addComplaintReply=(ImageButton)view.findViewById(R.id.addComplaintReply);
 
 
 
@@ -76,6 +76,8 @@ public class AdminComplaintReplyAdapter extends
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Complaint c = complaintList.get(position);
         holder.complaintid.setText(Integer.toString(c.getComplaintID()));
+        holder.customername.setText(String.valueOf(c.getName()));
+        holder.ComplaintDate.setText(String.valueOf(c.getComplaintDate().split("T")[0]) );
         holder.Complaint.setText(String.valueOf(c.getComplaint()));
         holder.customerID.setText(String.valueOf(c.getCustomerID()));
         if (c.isActive()==true)
@@ -86,7 +88,7 @@ public class AdminComplaintReplyAdapter extends
         else {
             holder.activeToggle.setChecked(false);
         }
-        holder.Status.setText(c.getStatus());
+//        holder.Status.setText(c.getStatus());
         holder.Status.setVisibility(View.GONE);
         holder.activeToggle.setVisibility(View.GONE);
 
@@ -107,12 +109,14 @@ public class AdminComplaintReplyAdapter extends
 
         }
 
-        holder.addComplaintReply.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View v) {
                 showaddReplyDialog(complaintId,customerId,complaint);
+                return true;
             }
         });
+
 
 
 

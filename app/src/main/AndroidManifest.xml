@@ -41,7 +41,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"> </activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".LoginRegistrationActivity.LoginActivity"
             android:label="@string/title_activity_login" />
@@ -65,7 +65,7 @@
         <activity
             android:name=".EmployeeActivity.EmployeeHomePage"
             android:label="@string/title_activity_employee_home_page"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".EmployeeActivity.EmployeeDrawingActivity" />
         <activity
             android:name=".MenuActivity"
@@ -73,40 +73,31 @@
         <activity android:name=".UpdateProfile" />
         <activity
             android:name=".LocationActivity"
-            android:parentActivityName=".CustomerActivity.CustomerpricingActivity">
-
-
-        </activity>
+            android:parentActivityName=".CustomerActivity.CustomerpricingActivity" />
         <activity
             android:name=".SplashActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="com.package.name.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity
             android:name=".AdminActivity.AdminHomePage"
             android:label="@string/title_activity_admin_home_page"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AdminActivity.AdminsEmployeeListActivity"
             android:label="@string/title_activity_admin_home_page"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
-
-        <activity android:name=".UserLocationActivity">
-
-
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".UserLocationActivity" />
         <activity
             android:name=".AdminActivity.AdminReviewReply"
             android:label="@string/title_activity_admin_complaint_reply"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoginRegistrationActivity.RegistrationActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
@@ -135,11 +126,9 @@
             android:name=".AdminActivity.AdminComplaintReply"
             android:label="@string/title_activity_admin_complaint_reply"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".CustomerActivity.CustomerCommentActivity" />
+        <activity android:name=".CustomerActivity.CustomerCommentActivity" />
         <activity android:name=".CustomerActivity.TrackActivity" />
-
-        <activity android:name=".CustomerActivity.CustomerReplyActivity"/>
+        <activity android:name=".CustomerActivity.CustomerReplyActivity" />
 
         <service
             android:name=".Service.GPS_Service"
@@ -159,9 +148,15 @@
         <service
             android:name=".Service.LocationMonitoringService"
             android:enabled="true"
-            android:exported="true"></service>
-
+            android:exported="true" />
         <service android:name=".Service.LocationMonitoringNotificationService" />
+
+        <activity
+            android:name=".EmployeeActivity.EmployeeSkillActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+           >
+
+        </activity>
     </application>
 
 </manifest>

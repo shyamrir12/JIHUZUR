@@ -20,6 +20,7 @@ import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.Service;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerpricingActivity;
+import com.example.awizom.jihuzur.SelectServices;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.gson.Gson;
 
@@ -204,6 +205,7 @@ public class ServiceListAdapter extends
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                    ((SelectServices)mCtx).getServiceList();
 
                 } catch (Exception e) {
                     e.printStackTrace();

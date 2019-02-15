@@ -89,7 +89,7 @@ public class AdminPricingActivity extends AppCompatActivity {
         getPricing();
     }
 
-    private void getPricing() {
+    public void getPricing() {
 
 
 //            mSwipeRefreshLayout.setRefreshing(true);
@@ -281,6 +281,7 @@ public class AdminPricingActivity extends AppCompatActivity {
                     result = new AdminHelper.POSTPricing().execute(description, pricing, amount, serviceID, pricingSlots, pricingType, pricingendSlot, pricingid).get();
 
                     if (result.isEmpty()) {
+
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
                     } else {
@@ -288,6 +289,7 @@ public class AdminPricingActivity extends AppCompatActivity {
                         Gson gson = new Gson();
                         final Result jsonbodyres = gson.fromJson(result, Result.class);
                         Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                        getPricing();
                         progressDialog.dismiss();
                     }
 

@@ -32,6 +32,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.example.awizom.jihuzur.BuildConfig;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
@@ -63,6 +64,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -77,6 +79,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AdminsEmployeeListActivity extends AppCompatActivity implements OnMapReadyCallback, TaskLoadedCallback, GoogleMap.OnMarkerClickListener {
@@ -85,8 +88,8 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     private GoogleMap mGoogleMap;
-    private  DataParser dataParser ;
-    private String data="",distance="";
+    private DataParser dataParser;
+    private String data = "", distance = "";
 
     /**
      * Code used in requesting runtime permissions.
@@ -95,7 +98,7 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
 
 
     private boolean mAlreadyStartedService = false;
-    private TextView mMsgView,distancefor;
+    private TextView mMsgView, distancefor;
     String result = "";
     private static final String TAG = "LocationActivity";
 
@@ -122,7 +125,7 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admins_employee_list);
         mMsgView = (TextView) findViewById(R.id.msgView);
-        distancefor=(TextView)findViewById(R.id.distance);
+        distancefor = (TextView) findViewById(R.id.distance);
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 new BroadcastReceiver() {
                     @Override
@@ -143,15 +146,13 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
     }
 
 
-    public void PutDistance(String distance)
-    {
+    public void PutDistance(String distance) {
 
         distancefor.setText(distance);
 
     }
 
     public void InitView() {
-
 
 
         priceID = getIntent().getStringExtra("PricingID");
@@ -234,11 +235,11 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
         mGoogleMap = googleMap;
 
         Log.d("mylog", "Added Markers");
-        PolylineOptions polylineOptions = new PolylineOptions();
-        polylineOptions.addAll(latlngs);
-        polylineOptions
-                .width(4)
-                .color(Color.BLACK);
+//        PolylineOptions polylineOptions = new PolylineOptions();
+//        polylineOptions.addAll(latlngs);
+//        polylineOptions
+//                .width(4)
+//                .color(Color.BLACK);
 
         Marker[] allMarkers = new Marker[employeeProfileModelList.size()];
 
@@ -250,7 +251,7 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
 //                allMarkers[i] = googleMap.addMarker(new MarkerOptions().position(latLng)
 //                        .title(employeeProfileModelList.get(i).getName() + " " + "+91" + employeeProfileModelList.get(i).getMobileNo())
 //                        .snippet(employeeProfileModelList.get(i).getID()));
-                googleMap.addPolyline(polylineOptions);
+//                googleMap.addPolyline(polylineOptions);
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13.0f));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
 
@@ -422,7 +423,6 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
             };
 
 
-
     public static Bitmap createCustomMarker(Context context, String resource, String _name) {
 
         View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
@@ -460,8 +460,6 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-
-
 
 
         String latl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[0];
@@ -538,13 +536,9 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
         if (currentPolyline != null)
             currentPolyline.remove();
         currentPolyline = mGoogleMap.addPolyline((PolylineOptions) values[0]);
-        String distances=values[1].toString();
-        String duration=values[2].toString();
-        distancefor.setText(distances+","+duration);
-
-
-
-
+        String distances = values[1].toString();
+        String duration = values[2].toString();
+        distancefor.setText(distances + "," + duration);
 
 
     }

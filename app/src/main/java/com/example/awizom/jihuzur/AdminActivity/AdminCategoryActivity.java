@@ -1,5 +1,6 @@
 package com.example.awizom.jihuzur.AdminActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -42,6 +43,7 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
     CategoryListAdapter adapterCategoryList;
     private String[] categoryList;
     String result = "";
+    ProgressDialog progressDialog;
 
 
     RecyclerView recyclerView;
@@ -82,6 +84,8 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
     }
 
     private void getCategoryList() {
+
+
 
         try {
 
@@ -140,6 +144,14 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onClick(View view) {
 
+
+                progressDialog = new ProgressDialog(AdminCategoryActivity.this);
+                progressDialog.setMessage("Loading..."); // Setting Message
+                progressDialog.setTitle("ProgressDialog"); // Setting Title
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
+                progressDialog.show(); // Display Progress Dialog
+                progressDialog.setCancelable(false);
+
                 String categoryName = categoryNames.getText().toString().trim();
 
                 imageView.buildDrawingCache();
@@ -164,7 +176,8 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-////                progressDialog.dismiss();
+                    getCategoryList();
+                    progressDialog.dismiss();
                 } catch (Exception e) {
 
                 }

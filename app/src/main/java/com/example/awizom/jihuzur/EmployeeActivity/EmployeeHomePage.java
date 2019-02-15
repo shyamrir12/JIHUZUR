@@ -294,6 +294,8 @@ public class EmployeeHomePage extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_skill) {
+            intent=new Intent(EmployeeHomePage.this,EmployeeSkillActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_logout) {
 

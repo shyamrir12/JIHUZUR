@@ -3,7 +3,9 @@ package com.example.awizom.jihuzur.Model;
 import java.util.Date;
 
 public class Complaint {
-    public int ComplaintID ;
+    public int ComplaintID;
+    public String CustomerID;
+    public String Complaint;
 
     public int getComplaintID() {
         return ComplaintID;
@@ -37,19 +39,19 @@ public class Complaint {
         Active = active;
     }
 
-    public String getStatus() {
+    public boolean isStatus() {
         return Status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         Status = status;
     }
 
-    public Object getComplaintDate() {
+    public String getComplaintDate() {
         return ComplaintDate;
     }
 
-    public void setComplaintDate(Object complaintDate) {
+    public void setComplaintDate(String complaintDate) {
         ComplaintDate = complaintDate;
     }
 
@@ -61,10 +63,17 @@ public class Complaint {
         TotalReply = totalReply;
     }
 
-    public String CustomerID ;
-    public String Complaint ;
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
     public boolean Active;
-    public String Status ;
-    public Object ComplaintDate;
+    public boolean Status;
+    public String ComplaintDate;
     public int TotalReply;
+    public String Name;
 }
