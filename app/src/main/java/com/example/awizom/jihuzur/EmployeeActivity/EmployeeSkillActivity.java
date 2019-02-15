@@ -115,7 +115,6 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
                 }
             else {
                     categoryspin.setVisibility(View.GONE);
-
                 }
 
             }
