@@ -66,7 +66,6 @@ public class CustomerCommentAdapter extends  RecyclerView.Adapter<CustomerCommen
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         reviews = reviewList.get(position);
-
         try {
             holder.sendMsz.setText(reviews.getReview().toString());
             holder.reviewDate.setText(reviews.getReviewDate());
