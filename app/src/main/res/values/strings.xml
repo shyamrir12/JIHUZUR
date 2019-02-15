@@ -268,5 +268,5 @@
     <string name="title_activity_customer_complaint">CustomerComplaint</string>
     <string name="title_activity_admin_complaint_reply">AdminComplaintReply</string>
     <string name="title_activity_admins_employee_list">Map</string>
-    <string name="reply">reply</string>
+    <string name="reply">View all reply</string>
 </resources>

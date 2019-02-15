@@ -17,10 +17,10 @@
 
 
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/categoryImage"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:id="@+id/categoryImage"
                 android:src="@drawable/home_cleaning" />
 
 

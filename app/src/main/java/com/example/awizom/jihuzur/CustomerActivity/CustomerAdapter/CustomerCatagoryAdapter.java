@@ -7,7 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.SelectServices;
@@ -21,6 +26,7 @@ public class CustomerCatagoryAdapter extends RecyclerView.Adapter<CustomerCatago
     private Catalog categorys;
     private Intent intent;
     Catalog c;
+    String imagelink="";
 
     public CustomerCatagoryAdapter(Context applianceFragment, List<Catalog> categorylist) {
 
@@ -42,6 +48,16 @@ public class CustomerCatagoryAdapter extends RecyclerView.Adapter<CustomerCatago
         holder.catagory.setText(String.valueOf(c.getCategory()));
         holder.catalogid.setText(String.valueOf(c.getCatalogID()));
         holder.catalogoryName.setText(String.valueOf(c.getCatalogName()));
+
+        if(c.getImage() != null) {
+            imagelink = AppConfig.BASE_URL + c.getImage().toString();
+            Glide.with(mCtx)
+                    .load(AppConfig.BASE_URL + c.getImage().toString())
+                    .placeholder(R.drawable.home_cleaning).dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(holder.imageViewList);
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener()
 
         {
@@ -52,9 +68,11 @@ public class CustomerCatagoryAdapter extends RecyclerView.Adapter<CustomerCatago
                 intent.putExtra("CategoryName",holder.catalogoryName.getText().toString());
                 intent.putExtra("CatalogID", holder.catalogid.getText().toString());
                 intent.putExtra("CatalogName", holder.catagory.getText().toString());
+                intent.putExtra("Image",imagelink);
                 mCtx.startActivity(intent);
             }
         });
+
 
 
     }
@@ -68,6 +86,7 @@ public class CustomerCatagoryAdapter extends RecyclerView.Adapter<CustomerCatago
 
         private Context mCtx;
         private TextView catagory,catalogid,catalogoryName;
+        private ImageView imageViewList;
         private List<Catalog> catalogList;
 
         public catalogListItemViewHolder(View view, Context mCtx, List<Catalog> catalogList) {
@@ -78,6 +97,7 @@ public class CustomerCatagoryAdapter extends RecyclerView.Adapter<CustomerCatago
             catagory =  view.findViewById(R.id.categoryName);
             catalogoryName =  view.findViewById(R.id.catalogoryName);
             catalogid = view.findViewById(R.id.catalogId);
+            imageViewList = view.findViewById(R.id.categoryImage);
 
 
         }

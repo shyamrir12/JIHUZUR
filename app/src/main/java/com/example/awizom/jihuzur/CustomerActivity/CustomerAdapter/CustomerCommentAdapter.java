@@ -34,7 +34,7 @@ public class CustomerCommentAdapter extends  RecyclerView.Adapter<CustomerCommen
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView sendMsz, reviewDate,reviewRateText,reviewDateText,replyBtn,reviewID,sendButton;
+        private TextView sendMsz, reviewDate,reviewRateText,reviewDateText,replyBtn,reviewID,sendButton,totalReply;
         private EditText edittxtViewReply;
         private LinearLayout linearLayout;
         RatingBar setRatingBar;
@@ -47,6 +47,7 @@ public class CustomerCommentAdapter extends  RecyclerView.Adapter<CustomerCommen
             reviewDateText = itemView.findViewById(R.id.reviewDate);
             replyBtn = itemView.findViewById(R.id.replyBtn);
             reviewID = itemView.findViewById(R.id.reviewId);
+            totalReply = itemView.findViewById(R.id.totalreplyBtn);
 
             linearLayout = itemView.findViewById(R.id.l0);
             sendButton = itemView.findViewById(R.id.sendBtn);
@@ -73,6 +74,25 @@ public class CustomerCommentAdapter extends  RecyclerView.Adapter<CustomerCommen
             holder.reviewDateText.setText(reviews.getReviewDate());
             holder.reviewID.setText(String.valueOf(reviews.getReviewID()));
             holder.setRatingBar.setRating(Float.parseFloat(String.valueOf(reviews.getRate())));
+
+            if(String.valueOf(reviews.getTotalReply()) != null){
+                holder.totalReply.setVisibility(View.VISIBLE);
+                holder.totalReply.setText("Total reply" + String.valueOf(reviews.getTotalReply()));
+
+                holder.totalReply.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //holder.linearLayout.setVisibility(View.VISIBLE);
+                        intent = new Intent(mCtx, CustomerReplyActivity.class);
+                        intent.putExtra("ReviewID",holder.reviewID.getText().toString());
+                        intent.putExtra("ReView",holder.sendMsz.getText().toString());
+                        intent.putExtra("Reviewdate",holder.reviewDateText.getText().toString());
+                        mCtx.startActivity(intent);
+                    }
+                });
+            }
+
+
             holder.replyBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -102,6 +122,7 @@ public class CustomerCommentAdapter extends  RecyclerView.Adapter<CustomerCommen
                     }
                 }
             });
+
         }catch (Exception e){
             e.printStackTrace();
         }

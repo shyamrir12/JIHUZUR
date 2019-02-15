@@ -18,12 +18,14 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.Adapter.CatalogGridViewAdapter;
 import com.example.awizom.jihuzur.Adapter.CategoryListAdapter;
 import com.example.awizom.jihuzur.Adapter.ServiceListAdapter;
@@ -52,7 +54,7 @@ import okhttp3.Request;
 
 public class SelectServices extends AppCompatActivity implements View.OnClickListener {
 
-    String categoryName, catalogID;
+    String categoryName, catalogID,imageLink;
     RecyclerView recyclerView;
     List<Service> serviceList;
     ServiceListAdapter serviceListAdapter;
@@ -61,6 +63,7 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
     FloatingActionButton addService;
     AutoCompleteTextView editServicename, editDescription;
     Spinner displayType;
+    private ImageView imageView;
 
 
     @Override
@@ -75,6 +78,7 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
 
         categoryName = getIntent().getStringExtra("CategoryName");
         catalogID = getIntent().getStringExtra("CatalogID");
+        imageLink = getIntent().getStringExtra("Image");
 
 
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
@@ -91,7 +95,9 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
 
         addService = (FloatingActionButton) findViewById(R.id.addService);
         addService.setOnClickListener(this);
-        categoryname = (TextView) findViewById(R.id.categoryName);
+        categoryname = findViewById(R.id.categoryName);
+        imageView = findViewById(R.id.backdrop);
+
         categoryname.setText(categoryName);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -105,6 +111,17 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
         }else {
             addService.setVisibility(View.VISIBLE);
         }
+
+
+        if(imageLink != null) {
+
+            Glide.with(getApplicationContext())
+                    .load(imageLink)
+                    .placeholder(R.drawable.home_cleaning).dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(imageView);
+        }
+
 
     }
 
