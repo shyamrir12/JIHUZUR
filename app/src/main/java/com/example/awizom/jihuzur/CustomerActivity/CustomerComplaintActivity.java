@@ -15,7 +15,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
-import com.example.awizom.jihuzur.Adapter.CategoryListAdapter;
 import com.example.awizom.jihuzur.Adapter.CustomerComplaintListAdapter;
 import com.example.awizom.jihuzur.Helper.CustomerComplaintHelper;
 import com.example.awizom.jihuzur.Model.Complaint;
@@ -45,31 +44,26 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
     }
 
     private void initView() {
-        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
 
         toolbar.setTitle("Customer's Complaint");
-
         toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
-
-
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 ActivityOptions options =
                         ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.fui_slide_out_left, R.anim.fui_slide_in_right);
                onBackPressed();
             }
         });
-        addComplaint = (FloatingActionButton) findViewById(R.id.addComplaint);
-        editcomplaint = (AutoCompleteTextView) findViewById(R.id.complaint);
-        recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
+        addComplaint =  findViewById(R.id.addComplaint);
+        editcomplaint =  findViewById(R.id.complaint);
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        Spinner  spinner=(Spinner)findViewById(R.id.spinner2);
+        Spinner  spinner = findViewById(R.id.spinner2);
         addComplaint.setOnClickListener(this);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, SPINNERLIST);
 

@@ -125,7 +125,7 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private void getServiceList() {
+    public void getServiceList() {
 
 
         try {
