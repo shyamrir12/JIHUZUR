@@ -33,7 +33,9 @@ import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.AdminProfileHelper;
+import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.Result;
+import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -69,8 +71,8 @@ public class DrawingActivity extends AppCompatActivity {
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
     private ArrayList<String> permissions = new ArrayList<>();
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-    StorageReference storageRef = storage.getReferenceFromUrl("gs://jihuzurdb.appspot.com");    //change the url according to your firebase app
+//    FirebaseStorage storage = FirebaseStorage.getInstance();
+//    StorageReference storageRef = storage.getReferenceFromUrl("gs://jihuzurdb.appspot.com");    //change the url according to your firebase app
     String Check;
     private final static int ALL_PERMISSIONS_RESULT = 107;
     private final static int IMAGE_RESULT = 200;
@@ -197,30 +199,22 @@ public class DrawingActivity extends AppCompatActivity {
                     byte[] image1 = stream1.toByteArray();
                      identityimage = Base64.encodeToString(image1, 0);
                 }
-                else{identityimage=null;}
+                else{identityimage="";}
 
                 String id=SharedPrefManager.getInstance(DrawingActivity.this).getUser().getID();
+                String lat="";
+                String longs="";
 
                 try {
-                    result = new AdminProfileHelper.POSTProfile().execute(id,name,img_str,identityimage).get();
+                    result = new AdminProfileHelper.POSTProfile().execute(id,name,img_str,identityimage,lat,longs).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-////                progressDialog.dismiss();
+
+
                 } catch (Exception e) {
 
                 }
-
-
-
-//                    if (outputFileUri != null) {
-//
-//
-//
-//                        pd.show();
-//
-//                            }
-
                     }
 
         });

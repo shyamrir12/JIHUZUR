@@ -94,28 +94,21 @@ public class CategoryListAdapter extends
         holder.catalogid.setText(String.valueOf(c.getCatalogID()));
         imagestr = AppConfig.BASE_URL + c.getImage();
         holder.catalogname.setText(c.getCatalogName());
-//
+
         try {
             if (c.getImage() == null)
-
             {
-
            holder.categoryImage.setImageResource(R.drawable.jihuzurblanklogo);
-           //     Glide.with(mCtx).load("http://192.168.1.105:7096/Images/Category/1.png").into(holder.categoryImage);
             } else {
-
 
                 Glide.with(mCtx).load( imagestr ).into(holder.categoryImage);
             }
         } catch (Exception e) {
             e.printStackTrace();
-
         }
         final String categorynem = holder.category.getText().toString();
         final String cetlogId = holder.catalogid.getText().toString();
         final String cetlogName = holder.catalogname.getText().toString();
-// Glide.with(mCtx).load("http://192.168.1.202:7096//Images/Category/1.png").into(holder.categoryImage);
-        //http://192.168.1.202:7096//Images/Category/1.png
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +147,6 @@ public class CategoryListAdapter extends
         dialogBuilder.setView(dialogView);
         categoryNames = (AutoCompleteTextView) dialogView.findViewById(R.id.editCategory);
         categoryNames.setText(String.valueOf(categoryname));
-
         imageView = (ImageView) dialogView.findViewById(R.id.imageView);
         Button chooseImage = (Button) dialogView.findViewById(R.id.addImage);
         chooseImage.setOnClickListener(new View.OnClickListener() {

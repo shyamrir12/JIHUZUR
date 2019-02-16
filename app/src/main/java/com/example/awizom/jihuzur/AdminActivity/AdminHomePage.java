@@ -58,6 +58,8 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class AdminHomePage extends AppCompatActivity
 
         //side navigation drawer start
@@ -76,7 +78,7 @@ public class AdminHomePage extends AppCompatActivity
     Intent intent;
     Boolean active = false;
     View header;
-    ImageView profileImage;
+    de.hdodenhof.circleimageview.CircleImageView profileImages;
     CardView homecleaning, appliance;
     TextView userName, identityNo, identityType;
     List<DataProfile>listtype;
@@ -157,7 +159,7 @@ public class AdminHomePage extends AppCompatActivity
 
 
         View headerview = navigationView.getHeaderView(0);
-        profileImage = headerview.findViewById(R.id.profileImage);
+        profileImages = headerview.findViewById(R.id.profileImage);
 
         userName = headerview.findViewById(R.id.profileName);
         userName.setText(SharedPrefManager.getInstance(this).getUser().getName());
@@ -172,22 +174,22 @@ public class AdminHomePage extends AppCompatActivity
 
                 {
 
-                    profileImage.setImageResource(R.drawable.jihuzurblanklogo);
+                    profileImages.setImageResource(R.drawable.jihuzurblanklogo);
                     //     Glide.with(mCtx).load("http://192.168.1.105:7096/Images/Category/1.png").into(holder.categoryImage);
                 } else {
 
 
-                    Glide.with(this).load(img_str).into(profileImage);
+                    Glide.with(this).load(img_str).into(profileImages);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
 
             }
         }
-        profileImage.setOnClickListener(new View.OnClickListener() {
+        profileImages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), DrawingActivity.class);
+                Intent intent = new Intent(AdminHomePage.this, DrawingActivity.class);
                 startActivity(intent);
 
 
@@ -265,8 +267,8 @@ public class AdminHomePage extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_signout) {
-            FirebaseAuth fAuth = FirebaseAuth.getInstance();
-            fAuth.signOut();
+//            FirebaseAuth fAuth = FirebaseAuth.getInstance();
+//            fAuth.signOut();
 
             return true;
         }
@@ -298,6 +300,12 @@ public class AdminHomePage extends AppCompatActivity
 
         if (id == R.id.nav_employee) {
             // Handle the camera action
+
+            intent = new Intent(AdminHomePage.this, AdminsEmployeeListActivity.class);
+            startActivity(intent);
+
+
+
         } else if (id == R.id.nav_master) {
 
 
@@ -332,9 +340,6 @@ public class AdminHomePage extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        } else if (id == R.id.profileImage) {
-            Intent imageView = new Intent(this, DrawingActivity.class);
-            startActivity(imageView);
         }
 
 

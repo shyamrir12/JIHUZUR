@@ -7,6 +7,8 @@ import android.app.Activity;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.awizom.jihuzur.Adapter.CategoryListAdapter;
+import com.example.awizom.jihuzur.Adapter.EmployeeSkillServiceAdapter;
 import com.example.awizom.jihuzur.AdminActivity.AdminCategoryActivity;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeSkillHelper;
@@ -42,9 +45,9 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
     String[] catalogname = {"--Select Catalog--","Home Cleaning & Repairs", "Appliance & Repairs"};
     String catalogs, catalogid,serviceid;
     List<Catalog> categorylist;
-    List<Service> serviceList;
-    List cstaha;
-
+    List<Service> serviceList,serviceListforshow;
+    RecyclerView recyclerView;
+    EmployeeSkillServiceAdapter employeeSkillServiceAdapter;
     private String[] category, service;
     Spinner categoryspin, servicesspin;
 
@@ -55,7 +58,8 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
 
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
 
-        toolbar.setTitle("Employee's Skill");
+        String employeeNmae=SharedPrefManager.getInstance(EmployeeSkillActivity.this).getUser().getName();
+        toolbar.setTitle(employeeNmae+"'s Skill");
 
         toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
@@ -72,10 +76,35 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
     }
 
     private void intitView() {
+
+        recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+        getEmployeeSkill();
         addSkill = (FloatingActionButton) findViewById(R.id.addSkill);
         addSkill.setOnClickListener(this);
 
 
+    }
+
+    private void getEmployeeSkill() {
+
+
+        String employeeid=SharedPrefManager.getInstance(EmployeeSkillActivity.this).getUser().getID();
+        try {
+            result = new EmployeeSkillHelper.GetEmployeeSkill().execute(employeeid.toString()).get();
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<Service>>() {
+            }.getType();
+            serviceListforshow = new Gson().fromJson(result, listType);
+            employeeSkillServiceAdapter = new EmployeeSkillServiceAdapter(EmployeeSkillActivity.this, serviceListforshow);
+            recyclerView.setAdapter(employeeSkillServiceAdapter);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -93,8 +122,6 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.add_skill_layout, null);
         dialogBuilder.setView(dialogView);
-
-
         final Spinner catalogspin = (Spinner) dialogView.findViewById(R.id.catalog);
         categoryspin = (Spinner) dialogView.findViewById(R.id.category);
         categoryspin.setVisibility(View.GONE);
@@ -111,86 +138,59 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
                     categoryspin.setVisibility(View.VISIBLE);
                     servicesspin.setVisibility(View.VISIBLE);
                     getCategoryList();
-
                 }
             else {
                     categoryspin.setVisibility(View.GONE);
                 }
-
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-
-
         });
 
         ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_spinner_item, catalogname);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //Setting the ArrayAdapter data on the Spinner
         catalogspin.setAdapter(aa);
-
-
-
         categoryspin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
                 catalogid = category[position].split(" ")[0];
-
-
-
                 getServiceList(catalogid);
-
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
-
         servicesspin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
                 serviceid = service[position].split(" ")[0];
-
-
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
-
         final Button buttonAddSkill = (Button) dialogView.findViewById(R.id.buttonAddSkill);
         final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
-
         dialogBuilder.setTitle("Add Employee Skill");
         final AlertDialog b = dialogBuilder.create();
         b.show();
 
-
         buttonAddSkill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
              String employeeid=   SharedPrefManager.getInstance(getApplicationContext()).getUser().getID();
 
                 try {
                     result = new EmployeeSkillHelper.POSTSkill().execute(employeeid,serviceid).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
+                    getEmployeeSkill();
                     Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
 
-
                 } catch (Exception e) {
-
                 }
 
                 b.dismiss();
@@ -199,8 +199,6 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
 
 
         });
-
-
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -240,7 +238,6 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
             e.printStackTrace();
         }
     }
-
 
     private void getCategoryList() {
         try {

@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.DrawingActivity;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
@@ -56,6 +57,7 @@ public class EmployeeHomePage extends AppCompatActivity
     String dUser,name,role,Url;
     Boolean active = false;
     View header;
+    String img_str;
     TextView userName, identityNo, identityType;
     private CardView homeCleaningCardView,appliancecardView;
     private Button btn_start, btn_stop;
@@ -116,7 +118,6 @@ public class EmployeeHomePage extends AppCompatActivity
                     fragment = helpCenterFragment;
                     framentClass = HelpCenterFragment.class;
                     break;
-
             }
             try {
                 fragment = (Fragment) framentClass.newInstance();
@@ -126,7 +127,6 @@ public class EmployeeHomePage extends AppCompatActivity
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
 
             return false;
         }
@@ -153,7 +153,6 @@ public class EmployeeHomePage extends AppCompatActivity
 
         if(!runtime_permissions())
             enable_buttons();
-
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         DrawerLayout drawer =  findViewById(R.id.drawer_layout);
@@ -165,7 +164,32 @@ public class EmployeeHomePage extends AppCompatActivity
 
         View headerview = navigationView.getHeaderView(0);
         imageView=headerview.findViewById(R.id.imageView);
+
+        img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();
+        {
+
+            try {
+                if (SharedPrefManager.getInstance(this).getUser().getImage() == null)
+
+                {
+
+                    imageView.setImageResource(R.drawable.jihuzurblanklogo);
+                    //     Glide.with(mCtx).load("http://192.168.1.105:7096/Images/Category/1.png").into(holder.categoryImage);
+                } else {
+
+
+                    Glide.with(this).load(img_str).into(imageView);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+        }
+
         userName = headerview.findViewById(R.id.profileName);
+        String uname=SharedPrefManager.getInstance(EmployeeHomePage.this).getUser().getName().toString();
+        userName.setText(uname);
+//
         identityNo = headerview.findViewById(R.id.identityNo);
         identityType = headerview.findViewById(R.id.identityType);
 
@@ -187,7 +211,6 @@ public class EmployeeHomePage extends AppCompatActivity
                 Intent serviceIntent = new Intent(EmployeeHomePage.this, LocationMonitoringNotificationService.class);
                 serviceIntent.putExtra("inputExtra", "my msg");
                 ContextCompat.startForegroundService(EmployeeHomePage.this, serviceIntent);
-
                 Intent i =new Intent(getApplicationContext(),GPS_Service.class);
                 startService(i);
 

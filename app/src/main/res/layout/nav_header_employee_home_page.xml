@@ -29,6 +29,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/profileName"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="Employee Name"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />

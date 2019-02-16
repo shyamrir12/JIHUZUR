@@ -84,8 +84,10 @@ Distance=new String();
                 lineOptions.width(10);
                 lineOptions.color(Color.MAGENTA);
             } else {
-                lineOptions.width(20);
+                lineOptions.width(10);
                 lineOptions.color(Color.BLUE);
+                lineOptions.getStartCap();
+
             }
             Log.d("mylog", "onPostExecute lineoptions decoded");
         }

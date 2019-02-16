@@ -1,14 +1,25 @@
 package com.example.awizom.jihuzur.LoginRegistrationActivity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.Image;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +32,7 @@ import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
+import com.example.awizom.jihuzur.settings.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.gson.Gson;
@@ -39,38 +51,65 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     Intent intent;
     private Spinner role;
     private LoginHelper loginHelper;
+    boolean connected = false;
+    LinearLayout coordinatorLayout;
+    Snackbar snackbar;
 
     /*For layout binding */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_sign_up );
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sign_up);
+
         initView();
     }
 
     /*For Initialization */
     private void initView() {
+        coordinatorLayout = (LinearLayout) findViewById(R.id.coordinator);
+        snackbar = Snackbar
+                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
+                .setAction("RETRY", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                       initView();
+                    }
+                });
+        snackbar.setActionTextColor(Color.RED);
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
 
-        editTextMobile = findViewById( R.id.editTextMobile );
-        butonContinue = findViewById( R.id.buttonContinue );
-        skiplogin = findViewById( R.id.skiplogin );
-        butonContinue.setOnClickListener( this );
-        skiplogin.setOnClickListener( this );
+        textView.setTextColor(Color.YELLOW);
+        checkInternet();
+        editTextMobile = findViewById(R.id.editTextMobile);
+        butonContinue = findViewById(R.id.buttonContinue);
+        skiplogin = findViewById(R.id.skiplogin);
+        butonContinue.setOnClickListener(this);
+        skiplogin.setOnClickListener(this);
         loginHelper = new LoginHelper();
-
-
-        role = findViewById( R.id.roleSpiner );
-
-
+        role = findViewById(R.id.roleSpiner);
         String userrole[] = {"Admin", "Customer", "Employee"};
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>( this, android.R.layout.simple_spinner_item, userrole );
-        spinnerArrayAdapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item ); // The drop down view
-        role.setAdapter( spinnerArrayAdapter );
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, userrole);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+        role.setAdapter(spinnerArrayAdapter);
+        progressDialog = new ProgressDialog(this);
+    }
+    private void checkInternet() {
 
-        progressDialog = new ProgressDialog( this );
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            connected = true;
+        //    Toast.makeText(getApplicationContext(), "Internet is On", Toast.LENGTH_SHORT).show();
+        } else {
+            connected = false;
+           snackbar.show();
+
+
+        }
 
     }
-
     /*For Event Listeners*/
     @Override
     public void onClick(View v) {
@@ -79,8 +118,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             createuser();
         }
         if (v.getId() == skiplogin.getId()) {
-            intent = new Intent( RegistrationActivity.this, CustomerHomePage.class );
-            startActivity( intent );
+            intent = new Intent(RegistrationActivity.this, CustomerHomePage.class);
+            startActivity(intent);
         }
 
     }
@@ -90,7 +129,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         if (editTextMobile.getText().toString().isEmpty() || editTextMobile.getText().toString().length() < 10) {
 
-            editTextMobile.setError( "Enter a valid mobile" );
+            editTextMobile.setError("Enter a valid mobile");
             editTextMobile.requestFocus();
 
             return false;
@@ -106,41 +145,41 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             if (role != null)
                 ur = role.getSelectedItem().toString().trim();
             try {
-                result = new LoginHelper.GetLogin().execute( editTextMobile.getText().toString().trim(), "Jihuzur@123", "Jihuzur@123", ur ).get();
+                result = new LoginHelper.GetLogin().execute(editTextMobile.getText().toString().trim(), "Jihuzur@123", "Jihuzur@123", ur).get();
                 Gson gson = new Gson();
 
-                UserLogin.RootObject jsonbody = gson.fromJson( result, UserLogin.RootObject.class );
+                UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
                 try {
                     if (jsonbody.isStatus()) {
-                        Toast.makeText( getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT ).show();
+                        Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
 
-                        if (jsonbody.OtpCode.equals( "mobile already verified" )) {
+                        if (jsonbody.OtpCode.equals("mobile already verified")) {
 
                             DataProfile dataProfile = new DataProfile();
                             dataProfile.ID = jsonbody.dataProfile.ID;
                             dataProfile.Active = jsonbody.dataProfile.Active;
                             dataProfile.Role = jsonbody.dataProfile.Role;
-                            dataProfile.Image =  jsonbody.dataProfile.Image;
+                            dataProfile.Image = jsonbody.dataProfile.Image;
                             dataProfile.Name = jsonbody.dataProfile.Name;
-                            SharedPrefManager.getInstance( getApplicationContext() ).userLogin( dataProfile );
+                            SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
 
-                            if (jsonbody.dataProfile.Role.equals( "Employee" )) {
-                                intent = new Intent( RegistrationActivity.this, EmployeeHomePage.class );
-                                startActivity( intent );
-                            } else if (jsonbody.dataProfile.Role.equals( "Customer" )) {
-                                intent = new Intent( RegistrationActivity.this, CustomerHomePage.class );
-                                startActivity( intent );
-                            } else if (jsonbody.dataProfile.Role.equals( "Admin" )) {
-                                intent = new Intent( RegistrationActivity.this, AdminHomePage.class );
-                                startActivity( intent );
+                            if (jsonbody.dataProfile.Role.equals("Employee")) {
+                                intent = new Intent(RegistrationActivity.this, EmployeeHomePage.class);
+                                startActivity(intent);
+                            } else if (jsonbody.dataProfile.Role.equals("Customer")) {
+                                intent = new Intent(RegistrationActivity.this, CustomerHomePage.class);
+                                startActivity(intent);
+                            } else if (jsonbody.dataProfile.Role.equals("Admin")) {
+                                intent = new Intent(RegistrationActivity.this, AdminHomePage.class);
+                                startActivity(intent);
                             }
                         } else {
-                            intent = new Intent( RegistrationActivity.this, VerifyPhoneActivity.class );
-                            intent.putExtra( "OTP", jsonbody.OtpCode );
-                            intent.putExtra( "Uid", jsonbody.dataProfile.ID );
-                            intent.putExtra( "Role", jsonbody.dataProfile.Role );
-                            intent.putExtra( "Active", jsonbody.dataProfile.Active );
-                            startActivity( intent );
+                            intent = new Intent(RegistrationActivity.this, VerifyPhoneActivity.class);
+                            intent.putExtra("OTP", jsonbody.OtpCode);
+                            intent.putExtra("Uid", jsonbody.dataProfile.ID);
+                            intent.putExtra("Role", jsonbody.dataProfile.Role);
+                            intent.putExtra("Active", jsonbody.dataProfile.Active);
+                            startActivity(intent);
                         }
 
                     }
@@ -155,7 +194,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 e.printStackTrace();
             }
         } else {
-            Toast.makeText( getApplicationContext(), "Mobile No is not Valid", Toast.LENGTH_SHORT ).show();
+            Toast.makeText(getApplicationContext(), "Mobile No is not Valid", Toast.LENGTH_SHORT).show();
 
         }
 
