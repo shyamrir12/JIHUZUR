@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -117,8 +118,7 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
     private MarkerOptions place2;
     Button getDirection;
     private Polyline currentPolyline;
-    TextView tvDistanceDuration;
-    ArrayList<LatLng> markerPoints;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,8 +134,12 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
                         String longitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LONGITUDE);
 
                         if (latitude != null && longitude != null) {
-
-                            mylocation = new MarkerOptions().position(new LatLng(Double.valueOf(latitude), Double.valueOf(longitude))).title("Location 1");
+                            int height = 100;
+                            int width = 100;
+                            BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.greenmappin);
+                            Bitmap b=bitmapdraw.getBitmap();
+                            Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                            mylocation = new MarkerOptions().position(new LatLng(Double.valueOf(latitude), Double.valueOf(longitude))).title("Location 1").icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
                             mMsgView.setText(getString(R.string.msg_location_service_started) + "\n Latitude : " + latitude + "\n Longitude: " + longitude);
                         }
                     }
@@ -190,7 +194,6 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
         }
     };
 
-// add marker to Map
 
     private void employeeProfileGet() {
 
@@ -219,7 +222,6 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
 
             }
 
-//            getMapvalue();
 
 
         } catch (ExecutionException e) {
@@ -290,6 +292,7 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
                 LatLngBounds bounds = builder.build();
                 mGoogleMap.addMarker(place1);
                 mGoogleMap.addMarker(place1);
+                mGoogleMap.addMarker(mylocation);
                 CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
                 mGoogleMap.moveCamera(cu);
                 mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
@@ -398,7 +401,8 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
             new GoogleMap.OnMyLocationButtonClickListener() {
                 @Override
                 public boolean onMyLocationButtonClick() {
-                    mGoogleMap.setMinZoomPreference(15);
+                    mGoogleMap.setMinZoomPreference(11);
+                    mGoogleMap.setMaxZoomPreference(2000);
                     return false;
                 }
             };
@@ -467,6 +471,14 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
 
         place2 = new MarkerOptions().position(new LatLng(Double.valueOf(latl), Double.valueOf(longl))).title("Location 1");
 
+        int height = 100;
+        int width = 100;
+        BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.redpin);
+        Bitmap b=bitmapdraw.getBitmap();
+        Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+
+
+        mGoogleMap.addMarker( new MarkerOptions().position(new LatLng(Double.valueOf(latl), Double.valueOf(longl))).title("Location 1").icon(BitmapDescriptorFactory.fromBitmap(smallMarker)) );
 
         Log.i(TAG, "marker arg0 = " + marker);
 //        if (!marker.equals(null)) {
@@ -542,9 +554,6 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
 
 
     }
-
-    ///Get Location Automatically
-
 
     @Override
     public void onResume() {

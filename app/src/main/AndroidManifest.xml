@@ -48,6 +48,11 @@
         <activity
             android:name=".AdminActivity.AdminCategoryActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".EmployeeActivity.EmployeeSkillActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity android:name=".AdminActivity.AdminCatalogActivity" />
         <activity
             android:name=".AdminActivity.AdminPricingActivity"
@@ -127,6 +132,7 @@
             android:name=".EmployeeActivity.EmployeeBookingsActivity"
             android:parentActivityName=".EmployeeActivity.EmployeeHomePage" />
         <activity android:name=".ComplaintActivity" />
+
         <activity
             android:name=".CustomerActivity.CustomerComplaintActivity"
             android:label="@string/title_activity_customer_complaint"

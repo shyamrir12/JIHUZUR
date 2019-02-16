@@ -213,7 +213,7 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-
+                    getServiceList();
                 } catch (Exception e) {
                     e.printStackTrace();
 

@@ -44,8 +44,6 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
     private String[] categoryList;
     String result = "";
     ProgressDialog progressDialog;
-
-
     RecyclerView recyclerView;
     ImageView imageView;
 
