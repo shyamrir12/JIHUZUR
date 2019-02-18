@@ -271,7 +271,7 @@
                             android:layout_height="30dp"
                             android:layout_weight="1"
                             android:background="@drawable/adapter_btn_background"
-                            android:text="Comment"
+                            android:text="View Detail"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textSize="14sp"
