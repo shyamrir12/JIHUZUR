@@ -517,7 +517,7 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
             dialogBuilder.setTitle(txt_name.getText().toString());
             final android.support.v7.app.AlertDialog b = dialogBuilder.create();
             b.show();
-
+//change
 
             buttonAddCategory.setOnClickListener(new View.OnClickListener() {
                 @Override
