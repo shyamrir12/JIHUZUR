@@ -78,7 +78,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         snackbar.setActionTextColor(Color.RED);
         View sbView = snackbar.getView();
         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
-
         textView.setTextColor(Color.YELLOW);
         checkInternet();
         editTextMobile = findViewById(R.id.editTextMobile);
@@ -104,7 +103,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         //    Toast.makeText(getApplicationContext(), "Internet is On", Toast.LENGTH_SHORT).show();
         } else {
             connected = false;
-           snackbar.show();
+            snackbar.show();
 
 
         }

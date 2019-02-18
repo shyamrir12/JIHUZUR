@@ -25,23 +25,29 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.awizom.jihuzur.BuildConfig;
+import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Locationhelper.DataParser;
 import com.example.awizom.jihuzur.Locationhelper.FetchURL;
 import com.example.awizom.jihuzur.Locationhelper.TaskLoadedCallback;
 import com.example.awizom.jihuzur.Model.EmployeeProfileModel;
+import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
@@ -67,6 +73,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -109,7 +116,7 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
     private ArrayList<String> empMobile = new ArrayList<>();
     private ArrayList<String> empName = new ArrayList<>();
     List<EmployeeProfileModel> employeeProfileModelList;
-    private String[] empNameList, empLat, empLong;
+    private String[] empNameList, empLat, empLong,employeeid;
     LatLng latLng;
     Intent intent;
     private String priceID = "", priceIDs = "", selectedEmpId;
@@ -117,7 +124,13 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
     private MarkerOptions place1, mylocation, targetlocation;
     private MarkerOptions place2;
     Button getDirection;
+    String empid,name,mobno,img_str;
     private Polyline currentPolyline;
+
+    private      String names ,  mobnos , img_strs ,empids;
+
+
+
 
 
     @Override
@@ -208,6 +221,7 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
             empNameList = new String[employeeProfileModelList.size()];
             empLat = new String[employeeProfileModelList.size()];
             empLong = new String[employeeProfileModelList.size()];
+            employeeid=new String[employeeProfileModelList.size()];
             for (int i = 0; i < employeeProfileModelList.size(); i++) {
                 empNameList[i] = String.valueOf(employeeProfileModelList.get(i).getName());
                 empLat[i] = String.valueOf(employeeProfileModelList.get(i).getLat());
@@ -215,7 +229,7 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
                 latlngs.add(new LatLng(Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLat())),
                         Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLong()))));
 
-                empID.add(employeeProfileModelList.get(i).getID());
+                employeeid[i]=String.valueOf(employeeProfileModelList.get(i).getID());
                 empMobile.add(employeeProfileModelList.get(i).getMobileNo());
                 empName.add(employeeProfileModelList.get(i).getName());
 
@@ -248,8 +262,13 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
         for (int i = 0; i < employeeProfileModelList.size(); i++) {
             latLng = new LatLng(Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLat())),
                     Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLong())));
+             String ids=employeeProfileModelList.get(i).getID();
+
             if (googleMap != null) {
-                googleMap.setOnMarkerClickListener(this);
+
+
+
+
 //                allMarkers[i] = googleMap.addMarker(new MarkerOptions().position(latLng)
 //                        .title(employeeProfileModelList.get(i).getName() + " " + "+91" + employeeProfileModelList.get(i).getMobileNo())
 //                        .snippet(employeeProfileModelList.get(i).getID()));
@@ -260,10 +279,12 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
                 //*Remove google red marker
 
 
-                selectedEmpId = employeeProfileModelList.get(i).getID();
+
 
 
             }
+
+            selectedEmpId = employeeProfileModelList.get(i).getID();
 
         }
 
@@ -275,29 +296,36 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
                 for (int i = 0; i < employeeProfileModelList.size(); i++) {
 
                     latLng = new LatLng(Double.parseDouble(employeeProfileModelList.get(i).getLat()), Double.parseDouble(employeeProfileModelList.get(i).getLong()));
-                    String name = employeeProfileModelList.get(i).getName();
-                    String img_str = employeeProfileModelList.get(i).getImage();
+                    name = employeeProfileModelList.get(i).getName();
+                    mobno = employeeProfileModelList.get(i).getMobileNo();
+                    img_str = employeeProfileModelList.get(i).getImage();
+                    empid = employeeProfileModelList.get(i).getID();
 
                     //                    LatLng customMarkerLocationOne = new LatLng(28.583911, 77.319116);
 
 
                     mGoogleMap.addMarker(new MarkerOptions().position(latLng).
                             icon(BitmapDescriptorFactory.fromBitmap(
-                                    createCustomMarker(AdminsEmployeeListActivity.this, img_str, name)))).setTitle(name);
+                                    createCustomMarker(AdminsEmployeeListActivity.this, img_str, name, mobno, empid,mGoogleMap)))).setTitle(name);
+
+
+                    //LatLngBound will cover all your marker on Google Maps
+                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                    builder.include(latLng);
+                    LatLngBounds bounds = builder.build();
+
+
+                    mGoogleMap.addMarker(place1);
+                    mGoogleMap.addMarker(place1);
+                    mGoogleMap.addMarker(mylocation);
+                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
+                    mGoogleMap.moveCamera(cu);
+                    mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
                 }
-                //LatLngBound will cover all your marker on Google Maps
-                LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                builder.include(latLng); //Taking Point A (First LatLng)
-//                builder.include(customMarkerLocationThree); //Taking Point B (Second LatLng)
-                LatLngBounds bounds = builder.build();
-                mGoogleMap.addMarker(place1);
-                mGoogleMap.addMarker(place1);
-                mGoogleMap.addMarker(mylocation);
-                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
-                mGoogleMap.moveCamera(cu);
-                mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
+
+
             }
-        });
+            });
 
 
         mGoogleMap.setOnMyLocationButtonClickListener(onMyLocationButtonClickListener);
@@ -427,11 +455,11 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
             };
 
 
-    public static Bitmap createCustomMarker(Context context, String resource, String _name) {
+    public static Bitmap createCustomMarker(final Context context, String resource, final String _name, String mobno,String id,GoogleMap googleMap) {
 
         View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
-
         CircleImageView markerImage = (CircleImageView) marker.findViewById(R.id.user_dp);
+        RelativeLayout relativeLayout=(RelativeLayout)marker.findViewById(R.id.custom_marker_view);
 
 
 //        markerImage.setImageResource(resource);
@@ -439,15 +467,27 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
 
         {
 
-            markerImage.setImageResource(R.drawable.jihuzurblanklogo);
-            //     Glide.with(mCtx).load("http://192.168.1.105:7096/Images/Category/1.png").into(holder.categoryImage);
-        } else {
-
-
+        markerImage.setImageResource(R.drawable.jihuzurblanklogo);
+//                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
+        }
+        else
+            {
             Glide.with(context).load(resource).into(markerImage);
         }
-        TextView txt_name = (TextView) marker.findViewById(R.id.name);
+        markerImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, ""+ _name , Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        final TextView txt_name = (TextView) marker.findViewById(R.id.name);
+        TextView text_mob = (TextView) marker.findViewById(R.id.mobno);
+        TextView txt_id = (TextView) marker.findViewById(R.id.empid);
+        text_mob.setText(mobno);
         txt_name.setText(_name);
+        txt_id.setText(id);
+
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -459,12 +499,72 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
         Canvas canvas = new Canvas(bitmap);
         marker.draw(canvas);
 
-        return bitmap;
+
+
+
+    googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+        @Override
+        public boolean onMarkerClick(Marker marker) {
+
+            android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(context);
+            LayoutInflater inflater = LayoutInflater.from(context);
+            final View dialogView = inflater.inflate(R.layout.dialog_reviewemployee, null);
+            dialogBuilder.setView(dialogView);
+
+            final Button buttonAddCategory = (Button) dialogView.findViewById(R.id.buttonAddCategory);
+            final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
+
+            dialogBuilder.setTitle(txt_name.getText().toString());
+            final android.support.v7.app.AlertDialog b = dialogBuilder.create();
+            b.show();
+
+
+            buttonAddCategory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+                    byte[] image = stream.toByteArray();
+                    System.out.println("byte array:" + image);
+
+                    String img_str = Base64.encodeToString(image, 0);
+
+
+                    b.dismiss();
+
+                }
+
+
+            });
+
+
+            buttonCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    b.dismiss();
+                    /*
+                     * we will code this method to delete the artist
+                     * */
+
+                }
+            });
+            return true;
+        }
+    });
+
+
+
+
+
+                return bitmap;
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
 
+        String emp=empid;
 
         String latl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[0];
         String longl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[1].split(Pattern.quote(")"))[0];
@@ -478,7 +578,8 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
         Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
 
 
-        mGoogleMap.addMarker( new MarkerOptions().position(new LatLng(Double.valueOf(latl), Double.valueOf(longl))).title("Location 1").icon(BitmapDescriptorFactory.fromBitmap(smallMarker)) );
+        mGoogleMap.addMarker( new MarkerOptions().position(new LatLng(Double.valueOf(latl),
+                Double.valueOf(longl))).title("Location 1").icon(BitmapDescriptorFactory.fromBitmap(smallMarker)) );
 
         Log.i(TAG, "marker arg0 = " + marker);
 //        if (!marker.equals(null)) {
