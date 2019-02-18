@@ -10,6 +10,7 @@ import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -29,12 +30,21 @@ import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
 import com.example.awizom.jihuzur.Helper.LoginHelper;
 import com.example.awizom.jihuzur.Model.DataProfile;
+import com.example.awizom.jihuzur.Model.ProfileFirebase;
 import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.example.awizom.jihuzur.settings.Constants;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
 import java.util.concurrent.ExecutionException;
@@ -54,7 +64,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     boolean connected = false;
     LinearLayout coordinatorLayout;
     Snackbar snackbar;
-
+    private FirebaseFirestore db;
+boolean check=false;
     /*For layout binding */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +77,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     /*For Initialization */
     private void initView() {
+        db=FirebaseFirestore.getInstance();
         coordinatorLayout = (LinearLayout) findViewById(R.id.coordinator);
         snackbar = Snackbar
                 .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
@@ -162,15 +174,48 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                             dataProfile.Name = jsonbody.dataProfile.Name;
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
 
+
+
+                          if(jsonbody.dataProfile.Role.equals( "Employee" )&& !jsonbody.dataProfile.ID.isEmpty() )
+                         { CollectionReference dbprofile=db.collection( "profile" );
+                             dbprofile.whereEqualTo( "id",jsonbody.dataProfile.ID ).get().addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
+                                 @Override
+                                 public void onSuccess(QuerySnapshot documentSnapshots) {
+                                     if(documentSnapshots.isEmpty()){
+                                         check=true;
+                                     }
+
+                                 }
+                             } );
+
+                             if(check==true){
+                                 ProfileFirebase pf=new ProfileFirebase(jsonbody.dataProfile.ID,0,0,false);
+                                 dbprofile.add( pf ).addOnSuccessListener( new OnSuccessListener<DocumentReference>() {
+                                     @Override
+                                     public void onSuccess(DocumentReference documentReference) {
+
+                                     }
+                                 } ).addOnFailureListener( new OnFailureListener() {
+                                     @Override
+                                     public void onFailure(@NonNull Exception e) {
+
+                                     }
+                                 } );
+                             }
+                         }
+
                             if (jsonbody.dataProfile.Role.equals("Employee")) {
                                 intent = new Intent(RegistrationActivity.this, EmployeeHomePage.class);
                                 startActivity(intent);
+                                finish();
                             } else if (jsonbody.dataProfile.Role.equals("Customer")) {
                                 intent = new Intent(RegistrationActivity.this, CustomerHomePage.class);
                                 startActivity(intent);
+                                finish();
                             } else if (jsonbody.dataProfile.Role.equals("Admin")) {
                                 intent = new Intent(RegistrationActivity.this, AdminHomePage.class);
                                 startActivity(intent);
+                                finish();
                             }
                         } else {
                             intent = new Intent(RegistrationActivity.this, VerifyPhoneActivity.class);

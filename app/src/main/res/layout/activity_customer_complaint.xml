@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CustomerActivity.CustomerComplaintActivity"
-    android:background="@color/white">
+    tools:context=".CustomerActivity.CustomerComplaintActivity">
 
     <LinearLayout
         android:id="@+id/ll1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/white">
 
@@ -41,26 +40,31 @@
             android:layout_below="@+id/l0"
             android:background="@color/grey"
             android:layout_marginTop="10dp"/>
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/spinner2"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_below="@+id/ll1"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:animationCache="true"
-            android:gravity="center|center_horizontal">
+            android:background="@drawable/background_border_edittext"
+           android:layout_margin="20dp">
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/spinner2"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/ll1"
+                android:animationCache="true"
+                android:gravity="center|center_horizontal">
+            </android.support.v7.widget.AppCompatSpinner>
+        </LinearLayout>
 
-        </android.support.v7.widget.AppCompatSpinner>
+
 
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginTop="7dp">
 
         </android.support.v7.widget.RecyclerView>
 

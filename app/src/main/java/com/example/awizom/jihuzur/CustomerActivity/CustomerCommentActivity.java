@@ -147,6 +147,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
 
         getCustomerProfileGet();
         getEmployeeProfileGet();
+
     }
 
     @Override
@@ -302,7 +303,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
                 .snippet(dataProfileCustomer.MobileNo));
         mMap.setTrafficEnabled(true);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(cusLatLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(8));
 
 
         //This is Employee Location
@@ -311,7 +312,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
                 .snippet(dataProfileEmployee.MobileNo));
         mMap.setTrafficEnabled(true);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(empLatLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(8));
 
     }
 
