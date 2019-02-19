@@ -6,6 +6,11 @@ import java.util.Date;
 public class Review {
     public int ReviewID ;
     public String Review;
+    public int OrderID ;
+    public boolean Active;
+    public String ReviewDate;
+    public int Rate;
+    public int TotalReply;
 
     public int getReviewID() {
         return ReviewID;
@@ -63,10 +68,6 @@ public class Review {
         TotalReply = totalReply;
     }
 
-    public int OrderID ;
-    public boolean Active;
-    public String ReviewDate;
-    public int Rate;
-    public int TotalReply;
+
 
 }

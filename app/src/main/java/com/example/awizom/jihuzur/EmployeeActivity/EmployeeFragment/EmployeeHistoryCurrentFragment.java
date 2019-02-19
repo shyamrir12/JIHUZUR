@@ -53,25 +53,24 @@ public class EmployeeHistoryCurrentFragment extends Fragment {
             e.printStackTrace();
             relativeLayout.setVisibility(View.VISIBLE);
         }
-
     }
 
     private void getHistoryList() {
-        try {
-            result = new EmployeeOrderHelper.GetMyCompleteOrderGet().execute(userId).get();
-            Gson gson = new Gson();
-            Type listType = new TypeToken<List<Order>>() {
-            }.getType();
-            orderList = new Gson().fromJson(result, listType);
-            if (orderList.equals(null)) {
-                relativeLayout.setVisibility(View.VISIBLE);
-            }
-            employeeHistoryAdapter = new EmployeeHistoryAdapter(getContext(), orderList);
-            recyclerView.setAdapter(employeeHistoryAdapter);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    try {
+        result = new EmployeeOrderHelper.GetMyCompleteOrderGet().execute(userId).get();
+        Gson gson = new Gson();
+        Type listType = new TypeToken<List<Order>>() {
+        }.getType();
+        orderList = new Gson().fromJson(result, listType);
+        if (orderList.equals(null)) {
+            relativeLayout.setVisibility(View.VISIBLE);
         }
+        employeeHistoryAdapter = new EmployeeHistoryAdapter(getContext(), orderList);
+        recyclerView.setAdapter(employeeHistoryAdapter);
+    } catch (ExecutionException e) {
+        e.printStackTrace();
+    } catch (InterruptedException e) {
+        e.printStackTrace();
     }
+}
 }

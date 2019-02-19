@@ -25,6 +25,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -34,13 +36,19 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.BuildConfig;
 import com.example.awizom.jihuzur.Config.AppConfig;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeCurrentOrderAdapter;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeHistoryAdapter;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
@@ -48,7 +56,9 @@ import com.example.awizom.jihuzur.Locationhelper.DataParser;
 import com.example.awizom.jihuzur.Locationhelper.FetchURL;
 import com.example.awizom.jihuzur.Locationhelper.TaskLoadedCallback;
 import com.example.awizom.jihuzur.Model.EmployeeProfileModel;
+import com.example.awizom.jihuzur.Model.Order;
 import com.example.awizom.jihuzur.Model.Result;
+import com.example.awizom.jihuzur.Model.Review;
 import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
@@ -78,6 +88,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -113,21 +124,76 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
     Button getDirection;
     String empid, name, mobno, img_str;
     private GoogleMap mGoogleMap;
-    private DataParser dataParser;
-    private String data = "", distance = "";
     private boolean mAlreadyStartedService = false;
     private TextView mMsgView, distancefor;
     private ArrayList<LatLng> latlngs = new ArrayList<>();
-    private ArrayList<String> empID = new ArrayList<>();
     private ArrayList<String> empMobile = new ArrayList<>();
     private ArrayList<String> empName = new ArrayList<>();
     private String[] empNameList, empLat, empLong, employeeid;
     private String priceID = "", priceIDs = "", selectedEmpId;
     private String priceIds;
-    private MarkerOptions place1, mylocation, targetlocation;
+    private MarkerOptions place1, mylocation;
     private MarkerOptions place2;
     private Polyline currentPolyline;
-    private String names, mobnos, img_strs, empids;
+
+     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_admins_employee_list);
+        mMsgView = (TextView) findViewById(R.id.msgView);
+        distancefor = (TextView) findViewById(R.id.distance);
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        String latitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LATITUDE);
+                        String longitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LONGITUDE);
+
+                        if (latitude != null && longitude != null) {
+                            int height = 100;
+                            int width = 100;
+                            BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.greenmappin);
+                            Bitmap b = bitmapdraw.getBitmap();
+                            Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                            mylocation = new MarkerOptions().position(new LatLng(Double.valueOf(latitude), Double.valueOf(longitude))).title("Location 1").icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                            mMsgView.setText(getString(R.string.msg_location_service_started) + "\n Latitude : " + latitude + "\n Longitude: " + longitude);
+                        }
+                    }
+                }, new IntentFilter(LocationMonitoringService.ACTION_LOCATION_BROADCAST)
+        );
+
+        InitView();
+    }
+
+    public void InitView() {
+
+
+        priceID = getIntent().getStringExtra("PricingID");
+        priceIDs = String.valueOf(getIntent().getIntExtra("PricingIDS", 0));
+
+//        getMapvalue();
+        //latlngs.add(new LatLng(latitude, longitude));
+        // latlngs.add(new LatLng(latitude1, longitude1));
+
+        employeeProfileGet();
+
+        getDirection = findViewById(R.id.btnGetDirection);
+        getDirection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new FetchURL(AdminsEmployeeListActivity.this).execute(getUrl(mylocation.getPosition(), place2.getPosition(), "driving"), "driving");
+
+            }
+
+
+        });
+
+        place1 = new MarkerOptions().position(new LatLng(21.2379468, 81.6336833)).title("Location 1");
+        place2 = new MarkerOptions().position(new LatLng(21.2120677, 81.3732849)).title("Location 2");
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.mapNearBy);
+        mapFragment.getMapAsync(this);
+    }
     private GoogleMap.OnMyLocationButtonClickListener onMyLocationButtonClickListener =
             new GoogleMap.OnMyLocationButtonClickListener() {
                 @Override
@@ -143,15 +209,12 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
                 public void onMyLocationClick(@NonNull Location location) {
 
                     mGoogleMap.setMinZoomPreference(12);
-
                     CircleOptions circleOptions = new CircleOptions();
                     circleOptions.center(new LatLng(location.getLatitude(),
                             location.getLongitude()));
-
                     circleOptions.radius(200);
                     circleOptions.fillColor(Color.BLUE);
                     circleOptions.strokeWidth(6);
-
                     mGoogleMap.addCircle(circleOptions);
                 }
             };
@@ -159,19 +222,23 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
     public static Bitmap createCustomMarker(final Context context, String resource, final String _name, String mobno, String id, GoogleMap googleMap) {
 
         View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
-        de.hdodenhof.circleimageview.CircleImageView markerImage = (de.hdodenhof.circleimageview.CircleImageView) marker.findViewById(R.id.user_dp);
+        final de.hdodenhof.circleimageview.CircleImageView markerImage = (de.hdodenhof.circleimageview.CircleImageView) marker.findViewById(R.id.user_dp);
         RelativeLayout relativeLayout = (RelativeLayout) marker.findViewById(R.id.custom_marker_view);
 
-        String img_strs=AppConfig.BASE_URL+resource;
+        String img_strs = AppConfig.BASE_URL + resource;
 //        markerImage.setImageResource(resource);
         if (resource == null)
 
+
         {
+
 
             markerImage.setImageResource(R.drawable.jihuzurblanklogo);
 //                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
         } else {
-            Glide.with(context).load( img_strs).into(markerImage);
+
+
+          Glide.with(marker.getContext()).load(img_strs).into(markerImage);
         }
         markerImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,11 +274,35 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
                 LayoutInflater inflater = LayoutInflater.from(context);
                 final View dialogView = inflater.inflate(R.layout.dialog_reviewemployee, null);
                 dialogBuilder.setView(dialogView);
-                String ide= marker.getTitle().split(",")[1];
+                final String ide = marker.getTitle().split(",")[1];
                 String name = marker.getTitle().split(",")[0];
-                String img_str= marker.getTitle().split(",")[2];
+                String img_str = marker.getTitle().split(",")[2];
+                RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.rating);
+                final RecyclerView orderNew = (RecyclerView) dialogView.findViewById(R.id.orderNew);
+                orderNew.setHasFixedSize(true);
+                orderNew.setLayoutManager(new LinearLayoutManager(context));
+                Button oderrun = (Button) dialogView.findViewById(R.id.orderRun);
+                Button orderHist = (Button) dialogView.findViewById(R.id.orderHist);
+                oderrun.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                de.hdodenhof.circleimageview.CircleImageView profileimage=(de.hdodenhof.circleimageview.CircleImageView)dialogView.findViewById(R.id.profileImage);
+                        getMyOrderRunning(orderNew, ide, context);
+                    }
+                });
+                orderHist.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        orderNew.invalidate();
+                        getHistoryList(orderNew, ide, context);
+                    }
+                });
+
+                getRatingForEmployee(ide, ratingBar);
+                /*  getMyOrderRunning(orderNew,ide,context);*/
+
+                de.hdodenhof.circleimageview.CircleImageView profileimage = (de.hdodenhof.circleimageview.CircleImageView) dialogView.findViewById(R.id.profileImage);
                 if (img_str.equals("null"))
 
                 {
@@ -219,83 +310,111 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
                     profileimage.setImageResource(R.drawable.jihuzurblanklogo);
 //                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
                 } else {
+
+
+
                     Glide.with(context).load(AppConfig.BASE_URL + img_str).into(profileimage);
                 }
 
-                final Button buttonAddCategory = (Button) dialogView.findViewById(R.id.buttonAddCategory);
-                final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
 
                 dialogBuilder.setTitle(name.toString());
+                dialogBuilder.setNegativeButton("Close",
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                                dialog.cancel();
+                            }
+                        });
+
                 final android.support.v7.app.AlertDialog b = dialogBuilder.create();
                 b.show();
-//change
-
-                buttonAddCategory.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
-                        byte[] image = stream.toByteArray();
-                        System.out.println("byte array:" + image);
-
-                        String img_str = Base64.encodeToString(image, 0);
-
-
-                        b.dismiss();
-
-                    }
-
-
-                });
-
-
-                buttonCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        b.dismiss();
-                        /*
-                         * we will code this method to delete the artist
-                         * */
-
-                    }
-                });
                 return true;
             }
         });
 
-
         return bitmap;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admins_employee_list);
-        mMsgView = (TextView) findViewById(R.id.msgView);
-        distancefor = (TextView) findViewById(R.id.distance);
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-                new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        String latitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LATITUDE);
-                        String longitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LONGITUDE);
+    private static void getHistoryList(RecyclerView orderNew, String ide, Context context) {
 
-                        if (latitude != null && longitude != null) {
-                            int height = 100;
-                            int width = 100;
-                            BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.greenmappin);
-                            Bitmap b = bitmapdraw.getBitmap();
-                            Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
-                            mylocation = new MarkerOptions().position(new LatLng(Double.valueOf(latitude), Double.valueOf(longitude))).title("Location 1").icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
-                            mMsgView.setText(getString(R.string.msg_location_service_started) + "\n Latitude : " + latitude + "\n Longitude: " + longitude);
-                        }
-                    }
-                }, new IntentFilter(LocationMonitoringService.ACTION_LOCATION_BROADCAST)
-        );
 
-        InitView();
+        String result = "";
+        EmployeeHistoryAdapter employeeHistoryAdapter;
+        List<Order> orderList;
+        try {
+            result = new EmployeeOrderHelper.GetMyCompleteOrderGet().execute(ide).get();
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<Order>>() {
+            }.getType();
+            orderList = new Gson().fromJson(result, listType);
+
+            employeeHistoryAdapter = new EmployeeHistoryAdapter(context, orderList);
+            orderNew.setAdapter(employeeHistoryAdapter);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void getMyOrderRunning(RecyclerView orderNew, String empid, Context context) {
+        List<Order> orderList;
+        String result = "";
+        EmployeeCurrentOrderAdapter employeeCurrentOrderAdapter;
+
+        try {
+            result = new EmployeeOrderHelper.EmployeeGetMyCurrentOrder().execute(empid).get();
+            if (result.isEmpty()) {
+
+            } else {
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<Order>>() {
+                }.getType();
+                orderList = new Gson().fromJson(result, listType);
+                employeeCurrentOrderAdapter = new EmployeeCurrentOrderAdapter(context, orderList);
+                orderNew.setAdapter(employeeCurrentOrderAdapter);
+            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void getRatingForEmployee(String ide, RatingBar ratingBar) {
+        List<Review> employeeReviewList;
+        String result = "";
+        int[] raTe;
+        try {
+
+            result = new EmployeeOrderHelper.GetReviewByEmployee().execute(ide).get();
+
+            Type listType = new TypeToken<List<Review>>() {
+            }.getType();
+            employeeReviewList = new Gson().fromJson(result.toString(), listType);
+            raTe = new int[employeeReviewList.size()];
+            int sum = 0;
+            Integer average = null;
+            for (int i = 0; i < employeeReviewList.size(); i++)
+
+            {
+
+                raTe[i] = Integer.valueOf(employeeReviewList.get(i).getRate());
+                sum += raTe[i];
+                average = sum / employeeReviewList.size();
+
+            }
+            Integer avg = Integer.valueOf(average);
+            ratingBar.setRating(avg);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void PutDistance(String distance) {
@@ -304,35 +423,7 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
 
     }
 
-    public void InitView() {
 
-
-        priceID = getIntent().getStringExtra("PricingID");
-        priceIDs = String.valueOf(getIntent().getIntExtra("PricingIDS", 0));
-
-//        getMapvalue();
-        //latlngs.add(new LatLng(latitude, longitude));
-        // latlngs.add(new LatLng(latitude1, longitude1));
-
-        employeeProfileGet();
-
-        getDirection = findViewById(R.id.btnGetDirection);
-        getDirection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new FetchURL(AdminsEmployeeListActivity.this).execute(getUrl(mylocation.getPosition(), place2.getPosition(), "driving"), "driving");
-
-            }
-
-
-        });
-
-        place1 = new MarkerOptions().position(new LatLng(21.2379468, 81.6336833)).title("Location 1");
-        place2 = new MarkerOptions().position(new LatLng(21.2120677, 81.3732849)).title("Location 2");
-        MapFragment mapFragment = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.mapNearBy);
-        mapFragment.getMapAsync(this);
-    }
 
     private void employeeProfileGet() {
 
@@ -428,7 +519,7 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
 
                     mGoogleMap.addMarker(new MarkerOptions().position(latLng).
                             icon(BitmapDescriptorFactory.fromBitmap(
-                                    createCustomMarker(AdminsEmployeeListActivity.this, img_str, name, mobno, empid, mGoogleMap)))).setTitle(name+ ","+ empid + "," + img_str);
+                                    createCustomMarker(AdminsEmployeeListActivity.this, img_str, name, mobno, empid, mGoogleMap)))).setTitle(name + "," + empid + "," + img_str);
 
 
                     //LatLngBound will cover all your marker on Google Maps
@@ -478,43 +569,7 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
 
     }
 
-    private String downloadUrl(String strUrl) throws IOException {
-        String data = "";
-        InputStream iStream = null;
-        HttpURLConnection urlConnection = null;
-        try {
-            URL url = new URL(strUrl);
 
-            // Creating an http connection to communicate with url
-            urlConnection = (HttpURLConnection) url.openConnection();
-
-            // Connecting to url
-            urlConnection.connect();
-
-            // Reading data from url
-            iStream = urlConnection.getInputStream();
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
-
-            StringBuffer sb = new StringBuffer();
-
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-
-            data = sb.toString();
-
-            br.close();
-
-        } catch (Exception e) {
-            Log.d("Exception download url", e.toString());
-        } finally {
-            iStream.close();
-            urlConnection.disconnect();
-        }
-        return data;
-    }
 
     /**
      * A class to parse the Google Places in JSON format
@@ -531,14 +586,6 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
         } else if (mGoogleMap != null) {
             mGoogleMap.setMyLocationEnabled(true);
         }
-    }
-
-    private void showDefaultLocation() {
-        Toast.makeText(this, "Location permission not granted, " +
-                        "showing default location",
-                Toast.LENGTH_SHORT).show();
-        LatLng redmond = new LatLng(21.33, 81.50);
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(redmond));
     }
 
     @Override
@@ -585,43 +632,6 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
 //            alertbox.show();
 //        }
         return false;
-    }
-
-    private void postOderCreate() {
-
-//            Date date = new Date();
-        String date = new SimpleDateFormat("MM/dd/yy", Locale.getDefault()).format(new Date());
-
-        String customerid = SharedPrefManager.getInstance(getApplicationContext()).getUser().getID();
-        String empId = selectedEmpId;
-        String orderDate = String.valueOf(date);
-        String catalogId = String.valueOf(2);
-        if (priceID.equals(null)) {
-            priceIds = priceIDs;
-        } else {
-            priceIds = priceID;
-        }
-        try {
-            result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId, priceIds).get();
-            if (!result.isEmpty()) {
-                intent = new Intent(this, MyBokingsActivity.class);
-                startActivity(intent);
-            }
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Gson gson = new Gson();
-        UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
-        Toast.makeText(this, jsonbody.Message, Toast.LENGTH_SHORT).show();
-
-        if (!result.equals(null)) {
-
-
-        }
-
-
     }
 
     @Override
