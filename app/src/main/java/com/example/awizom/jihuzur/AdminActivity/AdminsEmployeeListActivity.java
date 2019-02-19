@@ -40,6 +40,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.awizom.jihuzur.BuildConfig;
+import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
@@ -158,10 +159,10 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
     public static Bitmap createCustomMarker(final Context context, String resource, final String _name, String mobno, String id, GoogleMap googleMap) {
 
         View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
-        CircleImageView markerImage = (CircleImageView) marker.findViewById(R.id.user_dp);
+        de.hdodenhof.circleimageview.CircleImageView markerImage = (de.hdodenhof.circleimageview.CircleImageView) marker.findViewById(R.id.user_dp);
         RelativeLayout relativeLayout = (RelativeLayout) marker.findViewById(R.id.custom_marker_view);
 
-
+        String img_strs=AppConfig.BASE_URL+resource;
 //        markerImage.setImageResource(resource);
         if (resource == null)
 
@@ -170,7 +171,7 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
             markerImage.setImageResource(R.drawable.jihuzurblanklogo);
 //                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
         } else {
-            Glide.with(context).load(resource).into(markerImage);
+            Glide.with(context).load( img_strs).into(markerImage);
         }
         markerImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,11 +207,25 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
                 LayoutInflater inflater = LayoutInflater.from(context);
                 final View dialogView = inflater.inflate(R.layout.dialog_reviewemployee, null);
                 dialogBuilder.setView(dialogView);
+                String ide= marker.getTitle().split(",")[1];
+                String name = marker.getTitle().split(",")[0];
+                String img_str= marker.getTitle().split(",")[2];
+
+                de.hdodenhof.circleimageview.CircleImageView profileimage=(de.hdodenhof.circleimageview.CircleImageView)dialogView.findViewById(R.id.profileImage);
+                if (img_str.equals("null"))
+
+                {
+
+                    profileimage.setImageResource(R.drawable.jihuzurblanklogo);
+//                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
+                } else {
+                    Glide.with(context).load(AppConfig.BASE_URL + img_str).into(profileimage);
+                }
 
                 final Button buttonAddCategory = (Button) dialogView.findViewById(R.id.buttonAddCategory);
                 final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
 
-                dialogBuilder.setTitle(txt_name.getText().toString());
+                dialogBuilder.setTitle(name.toString());
                 final android.support.v7.app.AlertDialog b = dialogBuilder.create();
                 b.show();
 //change
@@ -413,7 +428,7 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
 
                     mGoogleMap.addMarker(new MarkerOptions().position(latLng).
                             icon(BitmapDescriptorFactory.fromBitmap(
-                                    createCustomMarker(AdminsEmployeeListActivity.this, img_str, name, mobno, empid, mGoogleMap)))).setTitle(name);
+                                    createCustomMarker(AdminsEmployeeListActivity.this, img_str, name, mobno, empid, mGoogleMap)))).setTitle(name+ ","+ empid + "," + img_str);
 
 
                     //LatLngBound will cover all your marker on Google Maps

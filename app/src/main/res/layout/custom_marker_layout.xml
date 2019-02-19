@@ -11,12 +11,10 @@
         android:id="@+id/user_dp"
         android:layout_width="42dp"
         android:layout_height="46dp"
-        app:civ_border_color="#fff"
-        android:layout_alignParentTop="true"
-        android:layout_gravity="center_horizontal"
+
+
         android:layout_marginLeft="4dp"
-        android:contentDescription="@null"
-        android:src="@drawable/circle" />
+   />
     <RelativeLayout android:layout_width="50dp"
         android:layout_height="59dp"
         android:backgroundTint="@color/colorPrimary"
@@ -44,6 +42,7 @@
             android:gravity="center"
             android:layout_below="@+id/name"
             android:textSize="7sp"
+            android:textStyle="bold"
             android:layout_marginLeft="10dp"
             android:textColor="#000"
             android:alpha="0.8"
