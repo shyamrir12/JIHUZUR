@@ -36,12 +36,6 @@ import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
