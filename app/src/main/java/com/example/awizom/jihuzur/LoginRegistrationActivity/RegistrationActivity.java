@@ -77,7 +77,7 @@ boolean check=false;
 
     /*For Initialization */
     private void initView() {
-        db=FirebaseFirestore.getInstance();
+//        db=FirebaseFirestore.getInstance();
         coordinatorLayout = (LinearLayout) findViewById(R.id.coordinator);
         snackbar = Snackbar
                 .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
@@ -208,15 +208,15 @@ boolean check=false;
                             if (jsonbody.dataProfile.Role.equals("Employee")) {
                                 intent = new Intent(RegistrationActivity.this, EmployeeHomePage.class);
                                 startActivity(intent);
-                                finish();
+
                             } else if (jsonbody.dataProfile.Role.equals("Customer")) {
                                 intent = new Intent(RegistrationActivity.this, CustomerHomePage.class);
                                 startActivity(intent);
-                                finish();
+
                             } else if (jsonbody.dataProfile.Role.equals("Admin")) {
                                 intent = new Intent(RegistrationActivity.this, AdminHomePage.class);
                                 startActivity(intent);
-                                finish();
+
                             }
                         } else {
                             intent = new Intent(RegistrationActivity.this, VerifyPhoneActivity.class);

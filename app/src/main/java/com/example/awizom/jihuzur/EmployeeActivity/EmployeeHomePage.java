@@ -70,7 +70,7 @@ public class EmployeeHomePage extends AppCompatActivity
     private Fragment helpCenterFragment;
     private Intent intent;
     private CardView homeCleaningCardView, appliancecardView;
-    private Button btn_start, btn_stop;
+    private TextView btn_start, btn_stop;
     private TextView textView;
     private BroadcastReceiver broadcastReceiver;
     //bottom navigation drawer started
@@ -153,8 +153,8 @@ public class EmployeeHomePage extends AppCompatActivity
         setContentView(R.layout.activity_employee_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        btn_start = (Button) findViewById(R.id.button);
-        btn_stop = (Button) findViewById(R.id.button2);
+        btn_start = findViewById(R.id.button);
+        btn_stop = findViewById(R.id.button2);
         textView = (TextView) findViewById(R.id.textView);
 
         tabLayout = findViewById(R.id.tablayout);

@@ -20,7 +20,7 @@
     <LinearLayout
         android:id="@+id/layout_order_tabitem"
         android:layout_width="match_parent"
-        android:layout_height="470dp"
+        android:layout_height="510dp"
         android:orientation="vertical">
 
         <android.support.design.widget.TabLayout
@@ -60,29 +60,43 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@+id/layout_order_tabitem">
+        <view
+            class="android.support.v7.app.AlertController$RecycleListView"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/grey" />
         <LinearLayout
+            android:id="@+id/l1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
             android:orientation="horizontal">
 
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_weight="1"
                 android:text="Start Service"
                 android:layout_marginTop="10dp"
-                android:id="@+id/button"
-                android:background="@drawable/adapter_btn_background"/>
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"
+                android:gravity="center"
+                android:id="@+id/button" />
+            <view
+                class="android.support.v7.app.AlertController$RecycleListView"
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@color/grey" />
 
-            <Button
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:text="Stop Service"
                 android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:textColor="@color/colorBlack"
                 android:layout_weight="1"
-                android:id="@+id/button2"
-                android:background="@drawable/adapter_btn_background"/>
+                android:gravity="center"
+                android:id="@+id/button2" />
         </LinearLayout>
         <ScrollView
             android:layout_width="match_parent"
@@ -97,8 +111,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Coordinates: "
                 android:id="@+id/textView" />
