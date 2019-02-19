@@ -3,14 +3,13 @@ package com.example.awizom.jihuzur.Helper;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-
 import com.example.awizom.jihuzur.Config.AppConfig;
-
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
 public class AdminHelper extends AppCompatActivity{
+
     public static final class GETCategoryList extends AsyncTask<String, Void, String>{
         @Override
         protected String doInBackground(String... params) {
@@ -245,6 +244,7 @@ public class AdminHelper extends AppCompatActivity{
         }
 
     }
+
     public static final class GETServiceList extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
@@ -288,6 +288,7 @@ public class AdminHelper extends AppCompatActivity{
         }
 
     }
+
     public static final class POSTService extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
@@ -396,6 +397,7 @@ public class AdminHelper extends AppCompatActivity{
 
 
     }
+
     public static final class POSTComplaint extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
@@ -565,6 +567,7 @@ public class AdminHelper extends AppCompatActivity{
 
 
     }
+
     public static final class GETReviewListByORderID extends AsyncTask<String, Void, String>{
         @Override
         protected String doInBackground(String... params) {
@@ -671,5 +674,267 @@ public class AdminHelper extends AppCompatActivity{
         }
 
     }
+
+    public static final class EditPricingPost extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+
+            String json = "";
+            String orderId = params[0];
+            String priceID = params[1];
+
+
+            try {
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                builder.url(AppConfig.BASE_URL_API_Employee + "OrderEditPricingPost/" + orderId + "/" + priceID);
+
+                builder.addHeader("Content-Type", "Application/json");
+                builder.addHeader("Accept", "application/json");
+
+
+                FormBody.Builder parameters = new FormBody.Builder();
+                builder.post(parameters.build());
+
+
+                okhttp3.Response response = client.newCall(builder.build()).execute();
+                if (response.isSuccessful()) {
+                    json = response.body().string();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return json;
+        }
+
+        protected void onPostExecute(String result) {
+            try {
+                if (result.isEmpty()) {
+
+                } else {
+                    super.onPostExecute(result);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public static final class EditPostDiscount extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            //     InputStream inputStream
+            String orderId = params[0];
+            String discountname = params[1];
+
+
+
+            String json = "";
+            try {
+
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                builder.url(AppConfig.BASE_URL_API_Employee + "OrderEditDiscountPost/" + orderId + "/" + discountname);
+                builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
+                builder.addHeader("Accept", "application/json");
+                FormBody.Builder parameters = new FormBody.Builder();
+
+                builder.post(parameters.build());
+
+
+                okhttp3.Response response = client.newCall(builder.build()).execute();
+
+                if (response.isSuccessful()) {
+                    json = response.body().string();
+
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+            return json;
+        }
+
+        protected void onPostExecute(String result) {
+
+            try {
+                if (result.isEmpty()) {
+
+                } else {
+                    super.onPostExecute(result);
+
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    public static final class POSTProfile extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+
+            //     InputStream inputStream
+            String id = params[0];
+            String name = params[1];
+            String image = params[2];
+            String identityimage=params[3];
+            String latitude = params[4];
+            String logitude=params[5];
+
+
+            String json = "";
+            try {
+
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                builder.url(AppConfig.BASE_URL_Account_API + "UpdateProfile");
+                builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
+                builder.addHeader("Accept", "application/json");
+                //builder.addHeader("Authorization", "Bearer " + accesstoken);
+
+                FormBody.Builder parameters = new FormBody.Builder();
+                parameters.add("ID", id);
+                parameters.add("Name", name);
+                parameters.add("Image", image);
+                parameters.add("IdentityImage", identityimage);
+                parameters.add("Lat", latitude);
+                parameters.add("Long", logitude);
+
+
+                builder.post(parameters.build());
+
+
+                okhttp3.Response response = client.newCall(builder.build()).execute();
+
+                if (response.isSuccessful()) {
+                    json = response.body().string();
+
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+            return json;
+        }
+
+        protected void onPostExecute(String result) {
+
+            if (result.isEmpty()) {
+
+            } else {
+                super.onPostExecute(result);
+//
+            }
+
+
+        }
+
+    }
+
+    public static final class GetProfileForShow extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            String id=params[0];
+            String json = "";
+            try {
+
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                builder.url(AppConfig.BASE_URL_API_Customer + "ProfileGet/"+id);
+                builder.addHeader("Content-Type", "application/json");
+                builder.addHeader("Accept", "application/json");
+                okhttp3.Response response = client.newCall(builder.build()).execute();
+                if (response.isSuccessful()) {
+                    json = response.body().string();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Error: " + e);
+            }
+            return json;
+        }
+
+        protected void onPostExecute(String result) {
+            try {
+                if (result.isEmpty()) {
+                } else {
+                    super.onPostExecute(result);
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    public static final class POSTProfileLatLong extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+
+            //     InputStream inputStream
+            String id = params[0];
+
+            String latitude = params[1];
+            String logitude=params[2];
+
+
+            String json = "";
+            try {
+
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                builder.url(AppConfig.BASE_URL_Account_API + "UpdateProfile");
+                builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
+                builder.addHeader("Accept", "application/json");
+                //builder.addHeader("Authorization", "Bearer " + accesstoken);
+
+                FormBody.Builder parameters = new FormBody.Builder();
+                parameters.add("ID", id);
+
+                parameters.add("Lat", latitude);
+                parameters.add("Long", logitude);
+
+
+                builder.post(parameters.build());
+
+
+                okhttp3.Response response = client.newCall(builder.build()).execute();
+
+                if (response.isSuccessful()) {
+                    json = response.body().string();
+
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+            return json;
+        }
+
+        protected void onPostExecute(String result) {
+
+            if (result.isEmpty()) {
+
+            } else {
+                super.onPostExecute(result);
+//
+            }
+
+
+        }
+
+    }
+
 
 }

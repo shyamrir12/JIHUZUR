@@ -22,6 +22,7 @@ public class SharedPrefManager {
     private static final String KEY_PRICING_ID= "PricingID";
     private static final String KEY_USER_LAT = "Lat";
     private static final String KEY_USER_LONG= "Long";
+    private static final String KEY_USER_Contact = "MobileNo";
 
 
     private SharedPrefManager(Context context) {
@@ -46,6 +47,7 @@ public class SharedPrefManager {
         editor.putString(KEY_USER_ProfileImage,user.Image);
         editor.putString(KEY_USER_LAT, String.valueOf(user.Lat));
         editor.putString(KEY_USER_LONG, String.valueOf(user.Long));
+        editor.putString(KEY_USER_Contact, String.valueOf(user.MobileNo));
         editor.apply();
         return true;
     }
@@ -63,6 +65,7 @@ public class SharedPrefManager {
         token.Image   =  sharedPreferences.getString(KEY_USER_ProfileImage, null);
         token.Lat   =  sharedPreferences.getString(KEY_USER_LAT, null);
         token.Long   =  sharedPreferences.getString(KEY_USER_LONG, null);
+        token.MobileNo   =  sharedPreferences.getString(KEY_USER_Contact, null);
         return  token;
     }
 

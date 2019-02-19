@@ -12,9 +12,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabItem;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +33,7 @@ import com.bumptech.glide.Glide;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.DrawingActivity;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeePageAdapter;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
 import com.example.awizom.jihuzur.MenuActivity;
@@ -58,11 +62,17 @@ public class EmployeeHomePage extends AppCompatActivity
     Boolean active = false;
     View header;
     String img_str;
-    TextView userName, identityNo, identityType;
+    TextView userName,userContact, identityNo, identityType;
     private CardView homeCleaningCardView,appliancecardView;
     private Button btn_start, btn_stop;
     private TextView textView;
     private BroadcastReceiver broadcastReceiver;
+
+    android.widget.Toolbar toolbar;
+    TabLayout tabLayout;
+    ViewPager viewPager;
+    EmployeePageAdapter pageAdapter;
+    TabItem outGoing,history;
 
 
     @Override
@@ -151,6 +161,51 @@ public class EmployeeHomePage extends AppCompatActivity
         btn_stop = (Button) findViewById(R.id.button2);
         textView = (TextView) findViewById(R.id.textView);
 
+        tabLayout = findViewById(R.id.tablayout);
+        outGoing = findViewById(R.id.outgoing);
+        history = findViewById(R.id.history);
+
+        viewPager = findViewById(R.id.viewPager);
+
+        pageAdapter = new EmployeePageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(pageAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+                if (tab.getPosition() == 1) {
+
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(EmployeeHomePage.this,
+                            R.color.colorPrimary));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setStatusBarColor(ContextCompat.getColor(EmployeeHomePage.this,
+                                R.color.colorPrimary));
+                    }
+                } else if (tab.getPosition() == 2) {
+
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(EmployeeHomePage.this,
+                            android.R.color.black));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setStatusBarColor(ContextCompat.getColor(EmployeeHomePage.this,
+                                android.R.color.black));
+                    }
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+
         if(!runtime_permissions())
             enable_buttons();
         BottomNavigationView navigation = findViewById(R.id.navigation);
@@ -187,8 +242,11 @@ public class EmployeeHomePage extends AppCompatActivity
         }
 
         userName = headerview.findViewById(R.id.profileName);
+        userContact =headerview.findViewById(R.id.empContact);
         String uname=SharedPrefManager.getInstance(EmployeeHomePage.this).getUser().getName().toString();
         userName.setText(uname);
+        String ucontact=SharedPrefManager.getInstance(EmployeeHomePage.this).getUser().getMobileNo().toString();
+        userContact.setText(ucontact);
 //
         identityNo = headerview.findViewById(R.id.identityNo);
         identityType = headerview.findViewById(R.id.identityType);
@@ -201,6 +259,9 @@ public class EmployeeHomePage extends AppCompatActivity
 
             }
         });
+
+
+
     }
 
     private void enable_buttons() {

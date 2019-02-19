@@ -32,7 +32,6 @@ import com.bumptech.glide.Glide;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
-import com.example.awizom.jihuzur.Helper.AdminProfileHelper;
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.UserLogin;
@@ -84,7 +83,7 @@ public class DrawingActivity extends AppCompatActivity {
         upload=findViewById(R.id.upload);
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
 
-        toolbar.setTitle("Update Profile");
+        toolbar.setTitle("Profile");
 
         toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
@@ -206,7 +205,7 @@ public class DrawingActivity extends AppCompatActivity {
                 String longs="";
 
                 try {
-                    result = new AdminProfileHelper.POSTProfile().execute(id,name,img_str,identityimage,lat,longs).get();
+                    result = new AdminHelper.POSTProfile().execute(id,name,img_str,identityimage,lat,longs).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();

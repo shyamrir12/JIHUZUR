@@ -1,33 +1,26 @@
 package com.example.awizom.jihuzur.AdminActivity;
 
 import android.app.ActivityOptions;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.example.awizom.jihuzur.Adapter.AdminComplaintReplyAdapter;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
-import com.example.awizom.jihuzur.Helper.CustomerComplaintHelper;
 import com.example.awizom.jihuzur.Model.Complaint;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
 import java.util.List;
 

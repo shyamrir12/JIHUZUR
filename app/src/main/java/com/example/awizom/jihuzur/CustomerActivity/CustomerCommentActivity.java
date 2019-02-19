@@ -16,9 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerCommentAdapter;
-import com.example.awizom.jihuzur.Helper.AdminProfileHelper;
+import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
-import com.example.awizom.jihuzur.Helper.CustomerRatingHelper;
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.Reply;
 import com.example.awizom.jihuzur.Model.Result;
@@ -32,7 +31,6 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
@@ -176,7 +174,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
                 String rate = txtRatingValue.getText().toString().split("",3)[1];
                 String revie = review.getText().toString().trim();
                 try {
-                    result = new CustomerRatingHelper.PostRating().execute(revie,rate,orderID).get();
+                    result = new CustomerOrderHelper.CustomerPostRating().execute(revie,rate,orderID).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(this, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
@@ -217,7 +215,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         try {
 
             customerID = SharedPrefManager.getInstance(getApplicationContext()).getUser().ID;
-            result = new AdminProfileHelper.GetProfileForShow().execute(customerID.toString()).get();
+            result = new AdminHelper.GetProfileForShow().execute(customerID.toString()).get();
             if (result.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
             } else {
@@ -247,7 +245,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         try {
 
 
-            result = new AdminProfileHelper.GetProfileForShow().execute(employeeID).get();
+            result = new AdminHelper.GetProfileForShow().execute(employeeID).get();
             if (result.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
             } else {

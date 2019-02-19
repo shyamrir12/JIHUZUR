@@ -76,13 +76,13 @@ public class EmployeeHistoryAdapter extends RecyclerView.Adapter<EmployeeHistory
             holder.pricingterms.setText(order.getPricingTerms());
             holder.serviceID.setText(String.valueOf(order.getServiceID()));
 
-            if (order.getPricingTerms().equals("NULL")) {
-                holder.pricingterms.setVisibility(View.GONE);
-            }
-            if (!order.getDiscountName().equals(null)) {
-                holder.linearLayout.setVisibility(View.VISIBLE);
-                holder.disctName.setVisibility(View.VISIBLE);
-            }
+//            if (order.getPricingTerms().equals("NULL")) {
+//                holder.pricingterms.setVisibility(View.GONE);
+//            }
+//            if (!order.getDiscountName().equals(null)) {
+//                holder.linearLayout.setVisibility(View.VISIBLE);
+//                holder.disctName.setVisibility(View.VISIBLE);
+//            }
             getServiceList(holder.catlgId.getText().toString());
 
         } catch (Exception E) {

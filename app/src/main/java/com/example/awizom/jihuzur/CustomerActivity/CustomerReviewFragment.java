@@ -1,29 +1,21 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
-import android.app.AlertDialog;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.awizom.jihuzur.Helper.AdminHelper;
-import com.example.awizom.jihuzur.Helper.CustomerRatingHelper;
+import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.R;
 import com.google.gson.Gson;
-
-import java.io.ByteArrayOutputStream;
 
 public class CustomerReviewFragment  extends Fragment implements View.OnClickListener {
 
@@ -97,7 +89,7 @@ public class CustomerReviewFragment  extends Fragment implements View.OnClickLis
 
 
                 try {
-                    result = new CustomerRatingHelper.PostRating().execute(revie,rate).get();
+                    result = new CustomerOrderHelper.CustomerPostRating().execute(revie,rate).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(getContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();

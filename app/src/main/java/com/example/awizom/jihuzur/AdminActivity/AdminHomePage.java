@@ -35,7 +35,6 @@ import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
 import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
-import com.example.awizom.jihuzur.Helper.AdminProfileHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.LoginRegistrationActivity.RegistrationActivity;
 import com.example.awizom.jihuzur.Model.DataProfile;
@@ -214,7 +213,7 @@ public class AdminHomePage extends AppCompatActivity
         try {
 
 
-            result = new AdminProfileHelper.GetProfileForShow().execute(id).get();
+            result = new AdminHelper.GetProfileForShow().execute(id).get();
             if (result.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
             } else {

@@ -16,7 +16,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.example.awizom.jihuzur.Adapter.CustomerComplaintListAdapter;
-import com.example.awizom.jihuzur.Helper.CustomerComplaintHelper;
+import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Model.Complaint;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.R;
@@ -106,7 +106,7 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
         String customerId=SharedPrefManager.getInstance(CustomerComplaintActivity.this).getUser().getID();
 
         try {
-            result = new CustomerComplaintHelper.GETCustomerComplaint().execute(customerId).get();
+            result = new CustomerOrderHelper.GETCustomerComplaint().execute(customerId).get();
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Complaint>>() {
             }.getType();
@@ -148,7 +148,7 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
 
                 try {
 
-                    result = new CustomerComplaintHelper.POSTComplaint().execute(customerId,complaint, Active, Status).get();
+                    result = new CustomerOrderHelper.CustomerPOSTComplaint().execute(customerId,complaint, Active, Status).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
@@ -196,7 +196,7 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
 
          try {
 
-            result = new CustomerComplaintHelper.POSTComplaint().execute(customerId,complaint, Active, Status).get();
+            result = new CustomerOrderHelper.CustomerPOSTComplaint().execute(customerId,complaint, Active, Status).get();
             Gson gson = new Gson();
             final Result jsonbodyres = gson.fromJson(result, Result.class);
             Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();

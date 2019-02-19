@@ -80,7 +80,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/v1"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/starttime"
@@ -112,7 +113,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_below="@+id/l2"
-                        android:background="@color/grey" />
+                        android:background="@color/grey"
+                        android:visibility="gone"/>
 
                     <LinearLayout
                         android:id="@+id/l3"
@@ -166,14 +168,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_below="@+id/l3"
-                        android:background="@color/grey" />
+                        android:background="@color/grey"
+                        android:visibility="gone"/>
                     <LinearLayout
                         android:id="@+id/l4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/v3"
                         android:orientation="horizontal"
-                        android:visibility="visible">
+                        android:visibility="gone">
                         <TextView
                             android:id="@+id/pricingterm"
                             android:layout_width="match_parent"

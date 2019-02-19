@@ -232,7 +232,7 @@
                             android:text="DiscountUpdate"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            android:background="@drawable/background_btn_item"
+                            android:background="@drawable/adapter_btn_background"
                             android:textStyle="bold"
                             android:visibility="gone"/>
                     </LinearLayout>
@@ -243,7 +243,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/l5"
-                    android:background="@color/grey" />
+                    android:background="@color/grey"
+                    android:visibility="gone"/>
 
                     <LinearLayout
                         android:id="@+id/l6"
@@ -261,7 +262,7 @@
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textSize="14sp"
-                            android:background="@drawable/background_btn_item"
+                            android:background="@drawable/adapter_btn_background"
                             android:visibility="visible"/>
                         <view
                             android:layout_width="3dp"
@@ -277,7 +278,7 @@
                             android:textColor="@color/white"
                             android:textSize="14sp"
                             android:layout_weight="1"
-                            android:background="@drawable/background_btn_item"
+                            android:background="@drawable/adapter_btn_background"
                             android:visibility="visible"/>
                         <view
                             android:layout_width="3dp"
@@ -293,7 +294,7 @@
                             android:textAllCaps="false"
                             android:textSize="14sp"
                             android:layout_weight="1"
-                            android:background="@drawable/background_btn_item"/>
+                            android:background="@drawable/adapter_btn_background"/>
 
                         <view
                             android:layout_width="3dp"
@@ -309,7 +310,7 @@
                             android:textAllCaps="false"
                             android:textSize="14sp"
                             android:layout_weight="1"
-                            android:background="@drawable/background_btn_item"/>
+                            android:background="@drawable/adapter_btn_background"/>
 
 
                     </LinearLayout>

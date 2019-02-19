@@ -11,12 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerPricingAdapter;
+import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
-import com.example.awizom.jihuzur.Helper.DiscountHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
-import com.example.awizom.jihuzur.LocationActivity;
 import com.example.awizom.jihuzur.Model.EmployeeProfileModel;
 import com.example.awizom.jihuzur.Model.PricingView;
 import com.example.awizom.jihuzur.Model.Result;
@@ -27,7 +25,6 @@ import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -133,7 +130,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 
                 int j = SharedPrefManager.getInstance(CustomerpricingActivity.this).getPricingID().PricingID;
                 try {
-                    result = new DiscountHelper.EditPricingPost().execute(orderID, String.valueOf(j)).get();
+                    result = new AdminHelper.EditPricingPost().execute(orderID, String.valueOf(j)).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();

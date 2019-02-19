@@ -10,12 +10,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.awizom.jihuzur.CustomerActivity.CustomerpricingActivity;
-import com.example.awizom.jihuzur.Helper.DiscountHelper;
+import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Helper.ServicesHelper;
 import com.example.awizom.jihuzur.Model.Order;
@@ -24,7 +22,6 @@ import com.example.awizom.jihuzur.Model.Service;
 import com.example.awizom.jihuzur.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -90,11 +87,11 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             }
 
             if (order.getDiscountName() != null) {
-               holder.linearLayout.setVisibility(View.VISIBLE);
+              // holder.linearLayout.setVisibility(View.VISIBLE);
                holder.disctName.setVisibility(View.VISIBLE);
                 holder.discountUpdateBtn.setVisibility(View.VISIBLE);
             }
-            holder.linearLayout.setVisibility(View.VISIBLE);
+         //   holder.linearLayout.setVisibility(View.VISIBLE);
             holder.disctName.setVisibility(View.VISIBLE);
             holder.discountUpdateBtn.setVisibility(View.VISIBLE);
 //            holder.discountUpdateBtn.setVisibility(View.VISIBLE);
@@ -140,7 +137,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 
                             try {
 
-                                result = new DiscountHelper.EditPostDiscount().execute(orderId,dicountText.getText().toString()).get();
+                                result = new AdminHelper.EditPostDiscount().execute(orderId,dicountText.getText().toString()).get();
                                 Gson gson = new Gson();
                                 final Result jsonbodyres = gson.fromJson(result, Result.class);
                                 Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();

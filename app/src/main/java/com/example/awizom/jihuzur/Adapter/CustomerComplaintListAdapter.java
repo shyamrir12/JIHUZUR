@@ -2,34 +2,23 @@ package com.example.awizom.jihuzur.Adapter;
 
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.example.awizom.jihuzur.AdminActivity.AdminComplaintReply;
-import com.example.awizom.jihuzur.Helper.AdminHelper;
-import com.example.awizom.jihuzur.Helper.CustomerComplaintHelper;
-import com.example.awizom.jihuzur.Model.Catalog;
+import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Model.Complaint;
 import com.example.awizom.jihuzur.Model.ComplaintCustomer;
-import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import org.w3c.dom.Text;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -114,7 +103,7 @@ public class CustomerComplaintListAdapter extends
 
 
         try {
-            result = new CustomerComplaintHelper.GETComplaintReply().execute(complaintId).get();
+            result = new CustomerOrderHelper.GETCustomerComplaintReply().execute(complaintId).get();
             Gson gson = new Gson();
             Type listType = new TypeToken<List<ComplaintCustomer>>() {
             }.getType();

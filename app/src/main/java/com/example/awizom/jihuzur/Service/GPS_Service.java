@@ -19,7 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.awizom.jihuzur.Helper.AdminProfileHelper;
+import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.gson.Gson;
@@ -54,7 +54,7 @@ public class GPS_Service extends Service {
             public void onLocationChanged(Location location) {
 
                 try {
-                    result = new AdminProfileHelper.POSTProfileLatLong().execute( SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(),String.valueOf(location.getLongitude()).toString(),String.valueOf(location.getLatitude()).toString()).get();
+                    result = new AdminHelper.POSTProfileLatLong().execute( SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(),String.valueOf(location.getLatitude()).toString(),String.valueOf(location.getLongitude()).toString()).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     //Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();

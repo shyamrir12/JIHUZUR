@@ -1,30 +1,22 @@
 package com.example.awizom.jihuzur.EmployeeActivity;
 
-import android.app.ProgressDialog;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.awizom.jihuzur.Adapter.CategoryListAdapter;
 import com.example.awizom.jihuzur.Adapter.EmployeeSkillServiceAdapter;
-import com.example.awizom.jihuzur.AdminActivity.AdminCategoryActivity;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
-import com.example.awizom.jihuzur.Helper.EmployeeSkillHelper;
+import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.Service;
@@ -33,9 +25,7 @@ import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeSkillActivity extends AppCompatActivity implements View.OnClickListener {
@@ -93,7 +83,7 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
 
         String employeeid=SharedPrefManager.getInstance(EmployeeSkillActivity.this).getUser().getID();
         try {
-            result = new EmployeeSkillHelper.GetEmployeeSkill().execute(employeeid.toString()).get();
+            result = new EmployeeOrderHelper.GetEmployeeSkill().execute(employeeid.toString()).get();
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Service>>() {
             }.getType();
@@ -184,7 +174,7 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
              String employeeid=   SharedPrefManager.getInstance(getApplicationContext()).getUser().getID();
 
                 try {
-                    result = new EmployeeSkillHelper.POSTSkill().execute(employeeid,serviceid).get();
+                    result = new EmployeeOrderHelper.EmployeePOSTSkill().execute(employeeid,serviceid).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     getEmployeeSkill();

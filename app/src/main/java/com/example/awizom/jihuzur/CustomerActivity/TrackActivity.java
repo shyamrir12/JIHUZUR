@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.awizom.jihuzur.Helper.AdminProfileHelper;
+import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.EmployeeProfileModel;
@@ -67,7 +67,7 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
         try {
 
 
-            result = new AdminProfileHelper.GetProfileForShow().execute(customerID).get();
+            result = new AdminHelper.GetProfileForShow().execute(customerID).get();
             if (result.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
             } else {
@@ -97,7 +97,7 @@ public class TrackActivity extends FragmentActivity implements OnMapReadyCallbac
         try {
 
 
-            result = new AdminProfileHelper.GetProfileForShow().execute(employeeID).get();
+            result = new AdminHelper.GetProfileForShow().execute(employeeID).get();
             if (result.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
             } else {

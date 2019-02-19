@@ -24,7 +24,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.awizom.jihuzur.ComplaintActivity;
+import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.DrawingActivity;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
 import com.example.awizom.jihuzur.Fragment.CatalogFragment;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
 import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
@@ -56,7 +58,10 @@ public class CustomerHomePage extends AppCompatActivity
     private TextView homeCleaningTextView;
     DatabaseReference datauserprofile;
     private Intent intent;
-    TextView userName, identityNo, identityType;
+    TextView userName, identityNo, identityType, userContact;
+
+    ImageView imageView;
+    String img_str;
 
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -150,7 +155,44 @@ public class CustomerHomePage extends AppCompatActivity
 
 
         View headerview = navigationView.getHeaderView(0);
+        imageView=headerview.findViewById(R.id.imageView);
 
+        img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();
+        {
+
+            try {
+                if (SharedPrefManager.getInstance(this).getUser().getImage() == null)
+
+                {
+
+                    imageView.setImageResource(R.drawable.jihuzurblanklogo);
+                    //     Glide.with(mCtx).load("http://192.168.1.105:7096/Images/Category/1.png").into(holder.categoryImage);
+                } else {
+
+
+                    Glide.with(this).load(img_str).into(imageView);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+        }
+        userName = headerview.findViewById(R.id.profileName);
+        userContact =headerview.findViewById(R.id.cusContact);
+        String uname=SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getName().toString();
+        userName.setText(uname);
+        String ucontact=SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getMobileNo().toString();
+        userContact.setText(ucontact);
+
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent=new Intent(CustomerHomePage.this, DrawingActivity.class);
+                startActivity(intent);
+
+            }
+        });
 
 
     }

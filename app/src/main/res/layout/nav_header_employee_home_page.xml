@@ -35,9 +35,29 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/empContact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="employee@gmail.com" />
+
+
+    <TextView
+        android:id="@+id/identityNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Customer Name"
+        android:textColor="@color/colorBlack"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/identityType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="customer@gmail.com"
+        android:textColor="@color/colorBlack"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
 
 </LinearLayout>

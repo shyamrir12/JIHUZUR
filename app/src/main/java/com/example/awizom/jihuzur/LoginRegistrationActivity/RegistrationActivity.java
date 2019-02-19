@@ -161,6 +161,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                             dataProfile.Role = jsonbody.dataProfile.Role;
                             dataProfile.Image = jsonbody.dataProfile.Image;
                             dataProfile.Name = jsonbody.dataProfile.Name;
+                            dataProfile.MobileNo = jsonbody.dataProfile.MobileNo;
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
 
                             if (jsonbody.dataProfile.Role.equals("Employee")) {

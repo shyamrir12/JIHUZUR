@@ -10,37 +10,83 @@
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/white">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/layout_order_tabitem"
+        android:layout_width="match_parent"
+        android:layout_height="470dp"
+        android:orientation="vertical">
 
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextAppearance="@style/MineCustomTabText"
+            app:tabTextColor="@color/white"
+            android:layout_marginTop="50dp">
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/outgoing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current Order" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Order History" />
+
+
+
+        </android.support.design.widget.TabLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_start_end_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/layout_order_tabitem">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:orientation="horizontal">
 
             <Button
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:text="Start Service"
-                android:id="@+id/button" />
+                android:layout_marginTop="10dp"
+                android:id="@+id/button"
+                android:background="@drawable/adapter_btn_background"/>
 
             <Button
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
+                android:layout_height="30dp"
                 android:text="Stop Service"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:id="@+id/button2" />
+                android:id="@+id/button2"
+                android:background="@drawable/adapter_btn_background"/>
         </LinearLayout>
-
         <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
             android:id="@+id/scrollView"
             android:layout_centerHorizontal="true"
             android:foregroundGravity="top|right"
@@ -57,6 +103,8 @@
                 android:text="Coordinates: "
                 android:id="@+id/textView" />
         </ScrollView>
+    </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
 
@@ -85,7 +133,7 @@
 
 
     <include
-        layout="@layout/app_bar_customer_home_page"
+        layout="@layout/app_bar_employee_home_page"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
