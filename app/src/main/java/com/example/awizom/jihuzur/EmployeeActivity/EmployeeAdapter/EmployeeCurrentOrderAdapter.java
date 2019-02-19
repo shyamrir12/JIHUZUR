@@ -21,6 +21,7 @@ import com.example.awizom.jihuzur.Model.Order;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.Service;
 import com.example.awizom.jihuzur.R;
+import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -37,6 +38,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
     private Order order;
     private String orderId = "", otpCode = "", result = "", empId = "", displayType = "", priceid = "";
     private Intent intent;
+
 
     public EmployeeCurrentOrderAdapter(Context employeeCurrentOrderFragment, List<Order> orderList) {
 
@@ -81,6 +83,9 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             holder.serviceID.setText(String.valueOf(order.getServiceID()));
             holder.pricingterms.setText(order.getPricingTerms());
 
+            if(SharedPrefManager.getInstance(mCtx).getUser().Role.contains("Admin")){
+                holder.linerButtonSide.setVisibility(View.GONE);
+            }
 
             if (order.getPricingTerms() != null) {
                 holder.pricingterm.setVisibility(View.VISIBLE);
@@ -205,7 +210,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
         private TextView startTime, endtime, customerName, customerContact, catagoryName, serviceName, totalTime, pricingterm,
                 disctName, catlgId, catagryName, catlgName, pricingterms, serviceID;
         private Button genrateBtn, trackinBtn, stopBtn, acceptPaymentBtn, priceUpdateBtn, discountUpdateBtn;
-        private LinearLayout linearLayout;
+        private LinearLayout linearLayout,linerButtonSide;
         private List<Order> orderitemList;
 
 
@@ -227,6 +232,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             trackinBtn = itemView.findViewById(R.id.trackBtn);
             stopBtn = itemView.findViewById(R.id.stopBtn);
             acceptPaymentBtn = itemView.findViewById(R.id.acceptPaymentBtn);
+            linerButtonSide = itemView.findViewById(R.id.l6);
 
 
             catagryName = itemView.findViewById(R.id.catagoryName);
