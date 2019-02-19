@@ -10,8 +10,8 @@ import com.example.awizom.jihuzur.Fragment.PaintingFragment;
 
 public class PageAdapter extends FragmentPagerAdapter {
 
-    private int numOfTabs;
     private static int count = 2;
+    private int numOfTabs;
 
     public PageAdapter(FragmentManager fm, int numOfTabs) {
         super(fm);
@@ -49,8 +49,7 @@ public class PageAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
 
-        switch (position)
-        {
+        switch (position) {
 
             case 0:
                 return "HomeServices";

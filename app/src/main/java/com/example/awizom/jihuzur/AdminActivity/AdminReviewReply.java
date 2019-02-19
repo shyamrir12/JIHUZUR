@@ -28,11 +28,12 @@ import java.util.List;
 
 public class AdminReviewReply extends AppCompatActivity {
     FloatingActionButton addReviewReply;
-    AutoCompleteTextView editreviewreply,editreviewID;
+    AutoCompleteTextView editreviewreply, editreviewID;
     List<Review> reviewList;
     AdminReviewReplyAdapter adminReviewReplyAdapter;
-    String result ="";
+    String result = "";
     RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +61,8 @@ public class AdminReviewReply extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        addReviewReply=(FloatingActionButton)findViewById(R.id.addReviewReply);
-        recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
+        addReviewReply = (FloatingActionButton) findViewById(R.id.addReviewReply);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         getReviewListByOrderID();
@@ -97,7 +98,7 @@ public class AdminReviewReply extends AppCompatActivity {
         final View dialogView = inflater.inflate(R.layout.add_reviewreply, null);
         dialogBuilder.setView(dialogView);
         editreviewreply = (AutoCompleteTextView) dialogView.findViewById(R.id.editReviewreply);
-        editreviewID=(AutoCompleteTextView) dialogView.findViewById(R.id.editreviewID);
+        editreviewID = (AutoCompleteTextView) dialogView.findViewById(R.id.editreviewID);
 
         final Button buttonAddReviewReply = (Button) dialogView.findViewById(R.id.buttonAddreviewReply);
         final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
@@ -115,7 +116,7 @@ public class AdminReviewReply extends AppCompatActivity {
                 String reviewID = editreviewID.getText().toString().trim();
 
                 try {
-                    result = new AdminHelper.POSTReviewReply().execute(reviewreply,reviewID).get();
+                    result = new AdminHelper.POSTReviewReply().execute(reviewreply, reviewID).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();

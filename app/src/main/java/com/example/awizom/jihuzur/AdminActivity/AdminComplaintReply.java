@@ -26,12 +26,13 @@ import java.util.List;
 
 public class
 AdminComplaintReply extends AppCompatActivity {
-FloatingActionButton addComplaintreply;
-AutoCompleteTextView editComplaintreply,editCompalaintID;
-List<Complaint> complaintlist;
-AdminComplaintReplyAdapter adminComplaintReplyAdapter;
-String result ="";
-RecyclerView recyclerView;
+    FloatingActionButton addComplaintreply;
+    AutoCompleteTextView editComplaintreply, editCompalaintID;
+    List<Complaint> complaintlist;
+    AdminComplaintReplyAdapter adminComplaintReplyAdapter;
+    String result = "";
+    RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +60,8 @@ RecyclerView recyclerView;
                 onBackPressed();
             }
         });
-        addComplaintreply=(FloatingActionButton)findViewById(R.id.addComplaintReply);
-        recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
+        addComplaintreply = (FloatingActionButton) findViewById(R.id.addComplaintReply);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         getComplaintList();
@@ -96,7 +97,7 @@ RecyclerView recyclerView;
         final View dialogView = inflater.inflate(R.layout.add_complaintreply, null);
         dialogBuilder.setView(dialogView);
         editComplaintreply = (AutoCompleteTextView) dialogView.findViewById(R.id.editComplaintreply);
-        editCompalaintID=(AutoCompleteTextView) dialogView.findViewById(R.id.editcomplaintID);
+        editCompalaintID = (AutoCompleteTextView) dialogView.findViewById(R.id.editcomplaintID);
 
         final Button buttonAddCategory = (Button) dialogView.findViewById(R.id.buttonAddCategory);
         final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
@@ -114,7 +115,7 @@ RecyclerView recyclerView;
                 String complaintid = editCompalaintID.getText().toString().trim();
 
                 try {
-                    result = new AdminHelper.POSTComplaintReply().execute(complaintreply,complaintid).get();
+                    result = new AdminHelper.POSTComplaintReply().execute(complaintreply, complaintid).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();

@@ -64,14 +64,12 @@ public class AdminHomePage extends AppCompatActivity
         //side navigation drawer start
 
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
-    String TAG;
-    private Fragment fragment = null;
-    private Fragment searchFragment, myBookingFragment, helpCenterFragment, catalogFragment;
-    DatabaseReference datauser, datauserpro;
     private static int SPLASH_TIME_OUT = 2000;
+    String TAG;
+    DatabaseReference datauser, datauserpro;
     String dUser;
     String img_str;
-    String name,result="";
+    String name, result = "";
     String role;
     String Url;
     Intent intent;
@@ -80,7 +78,9 @@ public class AdminHomePage extends AppCompatActivity
     de.hdodenhof.circleimageview.CircleImageView profileImages;
     CardView homecleaning, appliance;
     TextView userName, identityNo, identityType;
-    List<DataProfile>listtype;
+    List<DataProfile> listtype;
+    private Fragment fragment = null;
+    private Fragment searchFragment, myBookingFragment, helpCenterFragment, catalogFragment;
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -198,12 +198,11 @@ public class AdminHomePage extends AppCompatActivity
 
     }
 
-  
 
     private void initView() {
 
-             getProfile();
-             
+        getProfile();
+
     }
 
     private void getProfile() {
@@ -222,11 +221,11 @@ public class AdminHomePage extends AppCompatActivity
                 Type listType = new TypeToken<DataProfile>() {
                 }.getType();
                 DataProfile dataProfile = new Gson().fromJson(result, listType);
-                if(dataProfile != null){
-                         DataProfile dataProfile1 = new DataProfile();
+                if (dataProfile != null) {
+                    DataProfile dataProfile1 = new DataProfile();
 
-                        dataProfile1.Image = dataProfile.Image;
-                        dataProfile1.Name=dataProfile.Name;
+                    dataProfile1.Image = dataProfile.Image;
+                    dataProfile1.Name = dataProfile.Name;
 
 //                        SharedPrefManager.getInstance(this).userLogin(dataProfile1);
 
@@ -304,7 +303,6 @@ public class AdminHomePage extends AppCompatActivity
             startActivity(intent);
 
 
-
         } else if (id == R.id.nav_master) {
 
 
@@ -317,8 +315,7 @@ public class AdminHomePage extends AppCompatActivity
         } else if (id == R.id.nav_catalogpricing) {
             intent = new Intent(AdminHomePage.this, AdminPricingActivity.class);
             startActivity(intent);
-        }
-        else if (id == R.id.nav_complaintReply) {
+        } else if (id == R.id.nav_complaintReply) {
             intent = new Intent(AdminHomePage.this, AdminComplaintReply.class);
             startActivity(intent);
         }
@@ -346,8 +343,6 @@ public class AdminHomePage extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-  
 
 
     @Override

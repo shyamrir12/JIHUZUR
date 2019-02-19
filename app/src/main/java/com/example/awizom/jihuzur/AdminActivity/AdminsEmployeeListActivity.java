@@ -94,44 +94,165 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
 
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-
-    private GoogleMap mGoogleMap;
-    private DataParser dataParser;
-    private String data = "", distance = "";
-
     /**
      * Code used in requesting runtime permissions.
      */
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
-
-
+    private static final String TAG = "LocationActivity";
+    private final LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(final Location location) {
+            //your code here
+        }
+    };
+    String result = "";
+    List<EmployeeProfileModel> employeeProfileModelList;
+    LatLng latLng;
+    Intent intent;
+    Button getDirection;
+    String empid, name, mobno, img_str;
+    private GoogleMap mGoogleMap;
+    private DataParser dataParser;
+    private String data = "", distance = "";
     private boolean mAlreadyStartedService = false;
     private TextView mMsgView, distancefor;
-    String result = "";
-    private static final String TAG = "LocationActivity";
-
-
     private ArrayList<LatLng> latlngs = new ArrayList<>();
     private ArrayList<String> empID = new ArrayList<>();
     private ArrayList<String> empMobile = new ArrayList<>();
     private ArrayList<String> empName = new ArrayList<>();
-    List<EmployeeProfileModel> employeeProfileModelList;
-    private String[] empNameList, empLat, empLong,employeeid;
-    LatLng latLng;
-    Intent intent;
+    private String[] empNameList, empLat, empLong, employeeid;
     private String priceID = "", priceIDs = "", selectedEmpId;
     private String priceIds;
     private MarkerOptions place1, mylocation, targetlocation;
     private MarkerOptions place2;
-    Button getDirection;
-    String empid,name,mobno,img_str;
     private Polyline currentPolyline;
+    private String names, mobnos, img_strs, empids;
+    private GoogleMap.OnMyLocationButtonClickListener onMyLocationButtonClickListener =
+            new GoogleMap.OnMyLocationButtonClickListener() {
+                @Override
+                public boolean onMyLocationButtonClick() {
+                    mGoogleMap.setMinZoomPreference(11);
+                    mGoogleMap.setMaxZoomPreference(2000);
+                    return false;
+                }
+            };
+    private GoogleMap.OnMyLocationClickListener onMyLocationClickListener =
+            new GoogleMap.OnMyLocationClickListener() {
+                @Override
+                public void onMyLocationClick(@NonNull Location location) {
 
-    private      String names ,  mobnos , img_strs ,empids;
+                    mGoogleMap.setMinZoomPreference(12);
+
+                    CircleOptions circleOptions = new CircleOptions();
+                    circleOptions.center(new LatLng(location.getLatitude(),
+                            location.getLongitude()));
+
+                    circleOptions.radius(200);
+                    circleOptions.fillColor(Color.BLUE);
+                    circleOptions.strokeWidth(6);
+
+                    mGoogleMap.addCircle(circleOptions);
+                }
+            };
+
+    public static Bitmap createCustomMarker(final Context context, String resource, final String _name, String mobno, String id, GoogleMap googleMap) {
+
+        View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
+        CircleImageView markerImage = (CircleImageView) marker.findViewById(R.id.user_dp);
+        RelativeLayout relativeLayout = (RelativeLayout) marker.findViewById(R.id.custom_marker_view);
 
 
+//        markerImage.setImageResource(resource);
+        if (resource == null)
+
+        {
+
+            markerImage.setImageResource(R.drawable.jihuzurblanklogo);
+//                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
+        } else {
+            Glide.with(context).load(resource).into(markerImage);
+        }
+        markerImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "" + _name, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        final TextView txt_name = (TextView) marker.findViewById(R.id.name);
+        TextView text_mob = (TextView) marker.findViewById(R.id.mobno);
+        TextView txt_id = (TextView) marker.findViewById(R.id.empid);
+        text_mob.setText(mobno);
+        txt_name.setText(_name);
+        txt_id.setText(id);
 
 
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        marker.setLayoutParams(new ViewGroup.LayoutParams(52, ViewGroup.LayoutParams.WRAP_CONTENT));
+        marker.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
+        marker.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
+        marker.buildDrawingCache();
+        Bitmap bitmap = Bitmap.createBitmap(marker.getMeasuredWidth(), marker.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        marker.draw(canvas);
+
+
+        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+
+                android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(context);
+                LayoutInflater inflater = LayoutInflater.from(context);
+                final View dialogView = inflater.inflate(R.layout.dialog_reviewemployee, null);
+                dialogBuilder.setView(dialogView);
+
+                final Button buttonAddCategory = (Button) dialogView.findViewById(R.id.buttonAddCategory);
+                final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
+
+                dialogBuilder.setTitle(txt_name.getText().toString());
+                final android.support.v7.app.AlertDialog b = dialogBuilder.create();
+                b.show();
+//change
+
+                buttonAddCategory.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+                        byte[] image = stream.toByteArray();
+                        System.out.println("byte array:" + image);
+
+                        String img_str = Base64.encodeToString(image, 0);
+
+
+                        b.dismiss();
+
+                    }
+
+
+                });
+
+
+                buttonCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        b.dismiss();
+                        /*
+                         * we will code this method to delete the artist
+                         * */
+
+                    }
+                });
+                return true;
+            }
+        });
+
+
+        return bitmap;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,8 +270,8 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
                         if (latitude != null && longitude != null) {
                             int height = 100;
                             int width = 100;
-                            BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.greenmappin);
-                            Bitmap b=bitmapdraw.getBitmap();
+                            BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.greenmappin);
+                            Bitmap b = bitmapdraw.getBitmap();
                             Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
                             mylocation = new MarkerOptions().position(new LatLng(Double.valueOf(latitude), Double.valueOf(longitude))).title("Location 1").icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
                             mMsgView.setText(getString(R.string.msg_location_service_started) + "\n Latitude : " + latitude + "\n Longitude: " + longitude);
@@ -161,7 +282,6 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
 
         InitView();
     }
-
 
     public void PutDistance(String distance) {
 
@@ -199,15 +319,6 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
         mapFragment.getMapAsync(this);
     }
 
-
-    private final LocationListener mLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(final Location location) {
-            //your code here
-        }
-    };
-
-
     private void employeeProfileGet() {
 
         try {
@@ -221,7 +332,7 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
             empNameList = new String[employeeProfileModelList.size()];
             empLat = new String[employeeProfileModelList.size()];
             empLong = new String[employeeProfileModelList.size()];
-            employeeid=new String[employeeProfileModelList.size()];
+            employeeid = new String[employeeProfileModelList.size()];
             for (int i = 0; i < employeeProfileModelList.size(); i++) {
                 empNameList[i] = String.valueOf(employeeProfileModelList.get(i).getName());
                 empLat[i] = String.valueOf(employeeProfileModelList.get(i).getLat());
@@ -229,13 +340,12 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
                 latlngs.add(new LatLng(Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLat())),
                         Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLong()))));
 
-                employeeid[i]=String.valueOf(employeeProfileModelList.get(i).getID());
+                employeeid[i] = String.valueOf(employeeProfileModelList.get(i).getID());
                 empMobile.add(employeeProfileModelList.get(i).getMobileNo());
                 empName.add(employeeProfileModelList.get(i).getName());
 
 
             }
-
 
 
         } catch (ExecutionException e) {
@@ -244,6 +354,8 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
             e.printStackTrace();
         }
     }
+
+    // Fetches data from url passed
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -262,11 +374,9 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
         for (int i = 0; i < employeeProfileModelList.size(); i++) {
             latLng = new LatLng(Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLat())),
                     Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLong())));
-             String ids=employeeProfileModelList.get(i).getID();
+            String ids = employeeProfileModelList.get(i).getID();
 
             if (googleMap != null) {
-
-
 
 
 //                allMarkers[i] = googleMap.addMarker(new MarkerOptions().position(latLng)
@@ -277,9 +387,6 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
 
                 //*Remove google red marker
-
-
-
 
 
             }
@@ -306,7 +413,7 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
 
                     mGoogleMap.addMarker(new MarkerOptions().position(latLng).
                             icon(BitmapDescriptorFactory.fromBitmap(
-                                    createCustomMarker(AdminsEmployeeListActivity.this, img_str, name, mobno, empid,mGoogleMap)))).setTitle(name);
+                                    createCustomMarker(AdminsEmployeeListActivity.this, img_str, name, mobno, empid, mGoogleMap)))).setTitle(name);
 
 
                     //LatLngBound will cover all your marker on Google Maps
@@ -325,7 +432,7 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
 
 
             }
-            });
+        });
 
 
         mGoogleMap.setOnMyLocationButtonClickListener(onMyLocationButtonClickListener);
@@ -337,7 +444,6 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
 
 
     }
-
 
     private String getUrl(LatLng origin, LatLng dest, String directionMode) {
         // Origin of route
@@ -395,9 +501,6 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
         return data;
     }
 
-    // Fetches data from url passed
-
-
     /**
      * A class to parse the Google Places in JSON format
      */
@@ -415,7 +518,6 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
         }
     }
 
-
     private void showDefaultLocation() {
         Toast.makeText(this, "Location permission not granted, " +
                         "showing default location",
@@ -424,147 +526,10 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(redmond));
     }
 
-
-    private GoogleMap.OnMyLocationButtonClickListener onMyLocationButtonClickListener =
-            new GoogleMap.OnMyLocationButtonClickListener() {
-                @Override
-                public boolean onMyLocationButtonClick() {
-                    mGoogleMap.setMinZoomPreference(11);
-                    mGoogleMap.setMaxZoomPreference(2000);
-                    return false;
-                }
-            };
-
-    private GoogleMap.OnMyLocationClickListener onMyLocationClickListener =
-            new GoogleMap.OnMyLocationClickListener() {
-                @Override
-                public void onMyLocationClick(@NonNull Location location) {
-
-                    mGoogleMap.setMinZoomPreference(12);
-
-                    CircleOptions circleOptions = new CircleOptions();
-                    circleOptions.center(new LatLng(location.getLatitude(),
-                            location.getLongitude()));
-
-                    circleOptions.radius(200);
-                    circleOptions.fillColor(Color.BLUE);
-                    circleOptions.strokeWidth(6);
-
-                    mGoogleMap.addCircle(circleOptions);
-                }
-            };
-
-
-    public static Bitmap createCustomMarker(final Context context, String resource, final String _name, String mobno,String id,GoogleMap googleMap) {
-
-        View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
-        CircleImageView markerImage = (CircleImageView) marker.findViewById(R.id.user_dp);
-        RelativeLayout relativeLayout=(RelativeLayout)marker.findViewById(R.id.custom_marker_view);
-
-
-//        markerImage.setImageResource(resource);
-        if (resource == null)
-
-        {
-
-        markerImage.setImageResource(R.drawable.jihuzurblanklogo);
-//                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
-        }
-        else
-            {
-            Glide.with(context).load(resource).into(markerImage);
-        }
-        markerImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, ""+ _name , Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        final TextView txt_name = (TextView) marker.findViewById(R.id.name);
-        TextView text_mob = (TextView) marker.findViewById(R.id.mobno);
-        TextView txt_id = (TextView) marker.findViewById(R.id.empid);
-        text_mob.setText(mobno);
-        txt_name.setText(_name);
-        txt_id.setText(id);
-
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        marker.setLayoutParams(new ViewGroup.LayoutParams(52, ViewGroup.LayoutParams.WRAP_CONTENT));
-        marker.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
-        marker.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
-        marker.buildDrawingCache();
-        Bitmap bitmap = Bitmap.createBitmap(marker.getMeasuredWidth(), marker.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        marker.draw(canvas);
-
-
-
-
-    googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-        @Override
-        public boolean onMarkerClick(Marker marker) {
-
-            android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(context);
-            LayoutInflater inflater = LayoutInflater.from(context);
-            final View dialogView = inflater.inflate(R.layout.dialog_reviewemployee, null);
-            dialogBuilder.setView(dialogView);
-
-            final Button buttonAddCategory = (Button) dialogView.findViewById(R.id.buttonAddCategory);
-            final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
-
-            dialogBuilder.setTitle(txt_name.getText().toString());
-            final android.support.v7.app.AlertDialog b = dialogBuilder.create();
-            b.show();
-//change
-
-            buttonAddCategory.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
-                    byte[] image = stream.toByteArray();
-                    System.out.println("byte array:" + image);
-
-                    String img_str = Base64.encodeToString(image, 0);
-
-
-                    b.dismiss();
-
-                }
-
-
-            });
-
-
-            buttonCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    b.dismiss();
-                    /*
-                     * we will code this method to delete the artist
-                     * */
-
-                }
-            });
-            return true;
-        }
-    });
-
-
-
-
-
-                return bitmap;
-    }
-
     @Override
     public boolean onMarkerClick(Marker marker) {
 
-        String emp=empid;
+        String emp = empid;
 
         String latl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[0];
         String longl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[1].split(Pattern.quote(")"))[0];
@@ -573,13 +538,13 @@ public class AdminsEmployeeListActivity extends AppCompatActivity implements OnM
 
         int height = 100;
         int width = 100;
-        BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.redpin);
-        Bitmap b=bitmapdraw.getBitmap();
+        BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.redpin);
+        Bitmap b = bitmapdraw.getBitmap();
         Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
 
 
-        mGoogleMap.addMarker( new MarkerOptions().position(new LatLng(Double.valueOf(latl),
-                Double.valueOf(longl))).title("Location 1").icon(BitmapDescriptorFactory.fromBitmap(smallMarker)) );
+        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.valueOf(latl),
+                Double.valueOf(longl))).title("Location 1").icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
 
         Log.i(TAG, "marker arg0 = " + marker);
 //        if (!marker.equals(null)) {

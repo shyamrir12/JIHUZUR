@@ -2,7 +2,9 @@ package com.example.awizom.jihuzur.Helper;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
+
 import com.example.awizom.jihuzur.Config.AppConfig;
+
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -165,7 +167,7 @@ public class EmployeeOrderHelper extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Employee + "OrderPaymentPost/" + orderid +"/" + empid);
+                builder.url(AppConfig.BASE_URL_API_Employee + "OrderPaymentPost/" + orderid + "/" + empid);
                 builder.addHeader("Content-Type", "application/json");
                 builder.addHeader("Accept", "application/json");
                 FormBody.Builder parameters = new FormBody.Builder();
@@ -251,7 +253,7 @@ public class EmployeeOrderHelper extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Employee + "MyCompleteOrderGet/" + userId );
+                builder.url(AppConfig.BASE_URL_API_Employee + "MyCompleteOrderGet/" + userId);
                 builder.addHeader("Content-Type", "application/json");
                 builder.addHeader("Accept", "application/json");
                 FormBody.Builder parameters = new FormBody.Builder();
@@ -295,9 +297,6 @@ public class EmployeeOrderHelper extends AppCompatActivity {
 
             String employeeid = params[0];
             String catalogid = params[1];
-
-
-
 
 
             String json = "";
@@ -347,7 +346,7 @@ public class EmployeeOrderHelper extends AppCompatActivity {
 
     }
 
-    public static final class GetEmployeeSkill extends AsyncTask<String, Void, String>{
+    public static final class GetEmployeeSkill extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
 
@@ -358,13 +357,10 @@ public class EmployeeOrderHelper extends AppCompatActivity {
             try {
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Employee +"GetSkill/"+employeeid );
+                builder.url(AppConfig.BASE_URL_API_Employee + "GetSkill/" + employeeid);
 
                 builder.addHeader("Content-Type", "Application/json");
                 builder.addHeader("Accept", "application/json");
-
-
-
 
 
                 okhttp3.Response response = client.newCall(builder.build()).execute();

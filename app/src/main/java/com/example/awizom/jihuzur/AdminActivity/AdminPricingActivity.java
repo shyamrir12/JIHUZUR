@@ -271,8 +271,8 @@ public class AdminPricingActivity extends AppCompatActivity {
                 if (pricingType == "Fix") {
                     pricingSlots = noOfItems.getText().toString();
 
+                } else {
                 }
-                else {}
 
                 try {
                     //String res="";

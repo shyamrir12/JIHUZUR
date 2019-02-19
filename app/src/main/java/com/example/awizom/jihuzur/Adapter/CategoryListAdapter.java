@@ -43,9 +43,7 @@ import static android.app.Activity.RESULT_OK;
 public class CategoryListAdapter extends
         RecyclerView.Adapter<CategoryListAdapter.MyViewHolder> {
 
-    private List<Catalog> categorylist;
-    private Context mCtx;
-    private Catalog categorys;
+    public static final int SELECT_PHOTO = 100;
     String imagestr;
     Intent intent;
     int catalogID;
@@ -54,31 +52,14 @@ public class CategoryListAdapter extends
     AutoCompleteTextView categoryNames;
     ImageView imageView;
     String result = "";
-    public static final int SELECT_PHOTO = 100;
     int[] gridViewImageId = new int[]{
             R.drawable.home_cleaning
 
     };
+    private List<Catalog> categorylist;
+    private Context mCtx;
+    private Catalog categorys;
 
-
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-
-        public TextView category, catalogid, catalogname;
-        public ImageView categoryImage;
-        private List<Catalog> catalogList;
-
-        public MyViewHolder(View view) {
-            super(view);
-
-            category = (TextView) view.findViewById(R.id.categoryName);
-            categoryImage = (ImageView) view.findViewById(R.id.categoryImage);
-            catalogname = (TextView) view.findViewById(R.id.catalogname);
-            catalogid = (TextView) view.findViewById(R.id.catalogId);
-
-        }
-
-
-    }
 
     public CategoryListAdapter(Context baseContext, List<Catalog> categorylist) {
         this.categorylist = categorylist;
@@ -96,12 +77,11 @@ public class CategoryListAdapter extends
         holder.catalogname.setText(c.getCatalogName());
 
         try {
-            if (c.getImage() == null)
-            {
-           holder.categoryImage.setImageResource(R.drawable.jihuzurblanklogo);
+            if (c.getImage() == null) {
+                holder.categoryImage.setImageResource(R.drawable.jihuzurblanklogo);
             } else {
 
-                Glide.with(mCtx).load( imagestr ).into(holder.categoryImage);
+                Glide.with(mCtx).load(imagestr).into(holder.categoryImage);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,7 +109,7 @@ public class CategoryListAdapter extends
             public boolean onLongClick(View v) {
 
 
-                ((AdminCategoryActivity)mCtx).showAddCategoryDialog(categorynem ,cetlogId,cetlogName);
+                ((AdminCategoryActivity) mCtx).showAddCategoryDialog(categorynem, cetlogId, cetlogName);
 
 //                showEditCategoryDialog(categorynem, cetlogId, cetlogName);
 
@@ -152,7 +132,6 @@ public class CategoryListAdapter extends
         chooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
 
 //               openGallery();
@@ -219,12 +198,9 @@ public class CategoryListAdapter extends
     public void openGallery() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
-        ((Activity)mCtx).startActivityForResult(photoPickerIntent,SELECT_PHOTO);
+        ((Activity) mCtx).startActivityForResult(photoPickerIntent, SELECT_PHOTO);
 
     }
-
-
-
 
     @Override
     public int getItemCount() {
@@ -237,6 +213,25 @@ public class CategoryListAdapter extends
                 .inflate(R.layout.adapter_categorylist, parent, false);
 
         return new MyViewHolder(v);
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+
+        public TextView category, catalogid, catalogname;
+        public ImageView categoryImage;
+        private List<Catalog> catalogList;
+
+        public MyViewHolder(View view) {
+            super(view);
+
+            category = (TextView) view.findViewById(R.id.categoryName);
+            categoryImage = (ImageView) view.findViewById(R.id.categoryImage);
+            catalogname = (TextView) view.findViewById(R.id.catalogname);
+            catalogid = (TextView) view.findViewById(R.id.catalogId);
+
+        }
+
+
     }
 
 }

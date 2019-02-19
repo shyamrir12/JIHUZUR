@@ -41,7 +41,6 @@ public class AdminCatalogActivity extends AppCompatActivity {
     AutoCompleteTextView editCatalogName, addCategory;
     ProgressDialog progressDialog;
     GridView gridview;
-    private String[] catalogNameList, categoryNameList;
     List<Catalog> catalogList;
     String catalogname;
     ArrayAdapter<String> adapter;
@@ -51,6 +50,7 @@ public class AdminCatalogActivity extends AppCompatActivity {
     int[] gridViewImageId = {
             R.drawable.home_cleaning, R.drawable.home_cleaning, R.drawable.home_cleaning,
     };
+    private String[] catalogNameList, categoryNameList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,6 +204,20 @@ public class AdminCatalogActivity extends AppCompatActivity {
         }
     }
 
+    private void getCategory() {
+
+
+        try {
+//            mSwipeRefreshLayout.setRefreshing(true);
+            new GETCategoryList().execute(editCatalogName.getText().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+//            mSwipeRefreshLayout.setRefreshing(false);
+            // System.out.println("Error: " + e);
+        }
+    }
+
     private class GETCatalogNameList extends AsyncTask<String, Void, String> implements View.OnClickListener {
         @Override
         protected String doInBackground(String... params) {
@@ -259,20 +273,6 @@ public class AdminCatalogActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
-        }
-    }
-
-    private void getCategory() {
-
-
-        try {
-//            mSwipeRefreshLayout.setRefreshing(true);
-            new GETCategoryList().execute(editCatalogName.getText().toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
-//            mSwipeRefreshLayout.setRefreshing(false);
-            // System.out.println("Error: " + e);
         }
     }
 

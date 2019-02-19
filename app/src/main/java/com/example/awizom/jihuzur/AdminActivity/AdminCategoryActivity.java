@@ -34,6 +34,7 @@ import java.util.List;
 
 public class AdminCategoryActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final int SELECT_PHOTO = 100;
     GridView gridView;
     String catalogName;
     FloatingActionButton addCategory;
@@ -41,14 +42,11 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
     AutoCompleteTextView categoryNames;
     List<Catalog> categorylist;
     CategoryListAdapter adapterCategoryList;
-    private String[] categoryList;
     String result = "";
     ProgressDialog progressDialog;
     RecyclerView recyclerView;
     ImageView imageView;
-
-    private static final int SELECT_PHOTO = 100;
-
+    private String[] categoryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +82,6 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
     private void getCategoryList() {
 
 
-
         try {
 
 
@@ -105,8 +102,8 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         if (v.getId() == addCategory.getId()) {
 
-            String categorynem = null,cetlogId=null,cetlogName=null;
-            showAddCategoryDialog(categorynem,cetlogId,cetlogName);
+            String categorynem = null, cetlogId = null, cetlogName = null;
+            showAddCategoryDialog(categorynem, cetlogId, cetlogName);
         }
     }
 
@@ -117,8 +114,9 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
         final View dialogView = inflater.inflate(R.layout.add_category_layout, null);
         dialogBuilder.setView(dialogView);
         categoryNames = (AutoCompleteTextView) dialogView.findViewById(R.id.editCategory);
-        if (categorynem!=null)
-        { categoryNames.setText(String.valueOf(categorynem));}
+        if (categorynem != null) {
+            categoryNames.setText(String.valueOf(categorynem));
+        }
 
         imageView = (ImageView) dialogView.findViewById(R.id.imageView);
         Button chooseImage = (Button) dialogView.findViewById(R.id.addImage);
@@ -162,12 +160,11 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
 
                 String img_str = Base64.encodeToString(image, 0);
                 String catalogID;
-                if(cetlogId!=null)
-                {
-                     catalogID = cetlogId;
+                if (cetlogId != null) {
+                    catalogID = cetlogId;
+                } else {
+                    catalogID = "0";
                 }
-                else
-                {  catalogID = "0";}
 
                 try {
                     result = new AdminHelper.POSTCategory().execute(catalogName, catalogID, categoryName, img_str).get();
@@ -203,7 +200,7 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
     public void openGallery() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
-         startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
     }
 
 
@@ -214,7 +211,6 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = data.getData();
                     if (selectedImage != null) {
-
 
 
                         imageView.setImageURI(selectedImage);

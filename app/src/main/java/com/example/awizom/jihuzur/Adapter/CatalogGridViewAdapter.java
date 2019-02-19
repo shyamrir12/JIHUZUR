@@ -12,9 +12,9 @@ import com.example.awizom.jihuzur.R;
 
 public class CatalogGridViewAdapter extends BaseAdapter {
 
-    private Context mContext;
     private final String[] catalogNameList;
     private final int[] gridViewImageId;
+    private Context mContext;
 
     public CatalogGridViewAdapter(Context context, String[] catalogNameList, int[] gridViewImageId) {
         mContext = context;

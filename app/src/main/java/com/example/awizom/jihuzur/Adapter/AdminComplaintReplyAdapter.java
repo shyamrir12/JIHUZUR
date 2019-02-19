@@ -31,39 +31,11 @@ import java.util.List;
 public class AdminComplaintReplyAdapter extends
         RecyclerView.Adapter<AdminComplaintReplyAdapter.MyViewHolder> {
 
+    AutoCompleteTextView editComplaintreply;
+    String result = "", active, status;
     private List<Complaint> complaintList;
     private Context mCtx;
-    AutoCompleteTextView editComplaintreply;
-    String result="",active,status;
 
-
-    /**
-     * View holder class
-     */
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView complaintid,customerID,customername;
-        public TextView Complaint,ComplaintDate;
-        public ToggleButton activeToggle;
-        public TextView Status;
-
-
-
-
-        public MyViewHolder(View view) {
-            super(view);
-            complaintid = (TextView) view.findViewById(R.id.complaintID);
-            customername=(TextView) view.findViewById(R.id.cname);
-            ComplaintDate=(TextView) view.findViewById(R.id.cdate);
-            Complaint = (TextView) view.findViewById(R.id.complaint);
-            activeToggle=(ToggleButton)view.findViewById(R.id.activeToggle);
-            Status = (TextView) view.findViewById(R.id.status);
-            customerID=(TextView)view.findViewById(R.id.customerid);
-
-
-
-
-        }
-    }
 
     public AdminComplaintReplyAdapter(Context baseContext, List<Complaint> complaintlist) {
         this.complaintList = complaintlist;
@@ -77,49 +49,40 @@ public class AdminComplaintReplyAdapter extends
         Complaint c = complaintList.get(position);
         holder.complaintid.setText(Integer.toString(c.getComplaintID()));
         holder.customername.setText(String.valueOf(c.getName()));
-        holder.ComplaintDate.setText(String.valueOf(c.getComplaintDate().split("T")[0]) );
+        holder.ComplaintDate.setText(String.valueOf(c.getComplaintDate().split("T")[0]));
         holder.Complaint.setText(String.valueOf(c.getComplaint()));
         holder.customerID.setText(String.valueOf(c.getCustomerID()));
-        if (c.isActive()==true)
-        {
+        if (c.isActive() == true) {
             holder.activeToggle.setChecked(true);
 
-        }
-        else {
+        } else {
             holder.activeToggle.setChecked(false);
         }
 //        holder.Status.setText(c.getStatus());
         holder.Status.setVisibility(View.GONE);
         holder.activeToggle.setVisibility(View.GONE);
 
-        final String complaintId=holder.complaintid.getText().toString();
-       final String status=holder.Status.getText().toString();
-       final String customerId=holder.customerID.getText().toString();
-       final String complaint=holder.Complaint.getText().toString();
-       final String active;
-       if(holder.activeToggle.isChecked())
-        {
-             active="true";
+        final String complaintId = holder.complaintid.getText().toString();
+        final String status = holder.Status.getText().toString();
+        final String customerId = holder.customerID.getText().toString();
+        final String complaint = holder.Complaint.getText().toString();
+        final String active;
+        if (holder.activeToggle.isChecked()) {
+            active = "true";
 
 
-        }
-        else
-        {
-             active="true";
+        } else {
+            active = "true";
 
         }
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                showaddReplyDialog(complaintId,customerId,complaint);
+                showaddReplyDialog(complaintId, customerId, complaint);
                 return true;
             }
         });
-
-
-
-
 
 
     }
@@ -131,35 +94,31 @@ public class AdminComplaintReplyAdapter extends
         final View dialogView = inflater.inflate(R.layout.add_complaintreply, null);
         dialogBuilder.setView(dialogView);
         editComplaintreply = (AutoCompleteTextView) dialogView.findViewById(R.id.editComplaintreply);
-        AutoCompleteTextView editcomplainId=(AutoCompleteTextView)dialogView.findViewById(R.id.editcomplaintID);
+        AutoCompleteTextView editcomplainId = (AutoCompleteTextView) dialogView.findViewById(R.id.editcomplaintID);
         editcomplainId.setVisibility(View.GONE);
 
-        final CheckBox resolve=(CheckBox)dialogView.findViewById(R.id.resolved);
-        CheckBox  hide=(CheckBox)dialogView.findViewById(R.id.hide);
+        final CheckBox resolve = (CheckBox) dialogView.findViewById(R.id.resolved);
+        CheckBox hide = (CheckBox) dialogView.findViewById(R.id.hide);
         resolve.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-           @Override
-           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-               if(isChecked)
-               {
-                    status="true";
-               }
-               if(resolve.isChecked()==false)
-               {
-                    status="false";
-               }
-           }
-       });
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    status = "true";
+                }
+                if (resolve.isChecked() == false) {
+                    status = "false";
+                }
+            }
+        });
 
         hide.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
-                     active="false";
+                if (isChecked) {
+                    active = "false";
                 }
-                if(resolve.isChecked()==false)
-                {
-                     active="true";
+                if (resolve.isChecked() == false) {
+                    active = "true";
                 }
             }
         });
@@ -181,7 +140,7 @@ public class AdminComplaintReplyAdapter extends
 
 
                 try {
-                    result = new AdminHelper.POSTComplaintReply().execute(complaintreply,complaintId).get();
+                    result = new AdminHelper.POSTComplaintReply().execute(complaintreply, complaintId).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
@@ -190,7 +149,7 @@ public class AdminComplaintReplyAdapter extends
 
                 }
                 try {
-                    result = new AdminHelper.POSTComplaint().execute(customerId,complaint, active, status,complaintId).get();
+                    result = new AdminHelper.POSTComplaint().execute(customerId, complaint, active, status, complaintId).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
@@ -198,7 +157,6 @@ public class AdminComplaintReplyAdapter extends
                 } catch (Exception e) {
 
                 }
-
 
 
                 b.dismiss();
@@ -231,5 +189,29 @@ public class AdminComplaintReplyAdapter extends
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.adapter_admincomplaintreply, parent, false);
         return new MyViewHolder(v);
+    }
+
+    /**
+     * View holder class
+     */
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView complaintid, customerID, customername;
+        public TextView Complaint, ComplaintDate;
+        public ToggleButton activeToggle;
+        public TextView Status;
+
+
+        public MyViewHolder(View view) {
+            super(view);
+            complaintid = (TextView) view.findViewById(R.id.complaintID);
+            customername = (TextView) view.findViewById(R.id.cname);
+            ComplaintDate = (TextView) view.findViewById(R.id.cdate);
+            Complaint = (TextView) view.findViewById(R.id.complaint);
+            activeToggle = (ToggleButton) view.findViewById(R.id.activeToggle);
+            Status = (TextView) view.findViewById(R.id.status);
+            customerID = (TextView) view.findViewById(R.id.customerid);
+
+
+        }
     }
 }

@@ -23,13 +23,12 @@ import java.util.concurrent.ExecutionException;
 
 public class EmployeeHistoryCurrentFragment extends Fragment {
 
-    private  View view;
-    private String result="",userId;
     List<Order> orderList;
     EmployeeHistoryAdapter employeeHistoryAdapter;
     RecyclerView recyclerView;
     RelativeLayout relativeLayout;
-
+    private View view;
+    private String result = "", userId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,7 +41,7 @@ public class EmployeeHistoryCurrentFragment extends Fragment {
 
     private void initView(View view) {
 
-        userId= SharedPrefManager.getInstance(getContext()).getUser().getID();
+        userId = SharedPrefManager.getInstance(getContext()).getUser().getID();
         relativeLayout = view.findViewById(R.id.textRelate);
         recyclerView = view.findViewById(R.id.recyclerView);
 
@@ -50,7 +49,7 @@ public class EmployeeHistoryCurrentFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         try {
             getHistoryList();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             relativeLayout.setVisibility(View.VISIBLE);
         }
@@ -59,12 +58,12 @@ public class EmployeeHistoryCurrentFragment extends Fragment {
 
     private void getHistoryList() {
         try {
-            result   = new EmployeeOrderHelper.GetMyCompleteOrderGet().execute(userId).get();
+            result = new EmployeeOrderHelper.GetMyCompleteOrderGet().execute(userId).get();
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Order>>() {
             }.getType();
             orderList = new Gson().fromJson(result, listType);
-            if(orderList.equals(null)){
+            if (orderList.equals(null)) {
                 relativeLayout.setVisibility(View.VISIBLE);
             }
             employeeHistoryAdapter = new EmployeeHistoryAdapter(getContext(), orderList);

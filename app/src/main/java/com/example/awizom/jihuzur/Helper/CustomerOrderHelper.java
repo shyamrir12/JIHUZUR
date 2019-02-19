@@ -2,7 +2,9 @@ package com.example.awizom.jihuzur.Helper;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
+
 import com.example.awizom.jihuzur.Config.AppConfig;
+
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -69,7 +71,7 @@ public class CustomerOrderHelper extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Customer + "OrderStartPost/" + orderId + "/" + otpCode );
+                builder.url(AppConfig.BASE_URL_API_Customer + "OrderStartPost/" + orderId + "/" + otpCode);
                 builder.addHeader("Content-Type", "application/json");
                 builder.addHeader("Accept", "application/json");
                 FormBody.Builder parameters = new FormBody.Builder();
@@ -117,7 +119,7 @@ public class CustomerOrderHelper extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Customer + "OrderCancelPost/" + orderId  + "/" + "CancelReason");
+                builder.url(AppConfig.BASE_URL_API_Customer + "OrderCancelPost/" + orderId + "/" + "CancelReason");
                 builder.addHeader("Content-Type", "application/json");
                 builder.addHeader("Accept", "application/json");
                 FormBody.Builder parameters = new FormBody.Builder();
@@ -166,7 +168,7 @@ public class CustomerOrderHelper extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Admin + "Getpricing/" + serviceId );
+                builder.url(AppConfig.BASE_URL_API_Admin + "Getpricing/" + serviceId);
                 builder.addHeader("Content-Type", "application/json");
                 builder.addHeader("Accept", "application/json");
                 FormBody.Builder parameters = new FormBody.Builder();
@@ -214,7 +216,7 @@ public class CustomerOrderHelper extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Customer + "MyCompleteOrderGet/" + userId );
+                builder.url(AppConfig.BASE_URL_API_Customer + "MyCompleteOrderGet/" + userId);
                 builder.addHeader("Content-Type", "application/json");
                 builder.addHeader("Accept", "application/json");
                 FormBody.Builder parameters = new FormBody.Builder();
@@ -455,7 +457,7 @@ public class CustomerOrderHelper extends AppCompatActivity {
                 Request.Builder builder = new Request.Builder();
                 builder.url(AppConfig.BASE_URL_API_Customer + "SubmitReviewReply");
                 builder.addHeader("Content-Type", "Application/json");
-                    builder.addHeader("Accept", "application/json");
+                builder.addHeader("Accept", "application/json");
                 FormBody.Builder parameters = new FormBody.Builder();
                 parameters.add("ReplyID", replyid);
                 parameters.add("Reply1", reply);
@@ -494,8 +496,8 @@ public class CustomerOrderHelper extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             //     InputStream inputStream
-            String customerID=params[0];
-            String complaint=params[1];
+            String customerID = params[0];
+            String complaint = params[1];
             String active = params[2];
             String status = params[3];
 
@@ -551,17 +553,17 @@ public class CustomerOrderHelper extends AppCompatActivity {
 
     }
 
-    public static final class GETCustomerComplaint extends AsyncTask<String, Void, String>{
+    public static final class GETCustomerComplaint extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
 
-            String customerid=params[0];
+            String customerid = params[0];
             String json = "";
 
             try {
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Customer + "GetCustomerComplaint/"+customerid);
+                builder.url(AppConfig.BASE_URL_API_Customer + "GetCustomerComplaint/" + customerid);
 
                 builder.addHeader("Content-Type", "Application/json");
                 builder.addHeader("Accept", "application/json");
@@ -595,20 +597,19 @@ public class CustomerOrderHelper extends AppCompatActivity {
 
     }
 
-    public static final class GETCustomerComplaintReply extends AsyncTask<String, Void, String>{
+    public static final class GETCustomerComplaintReply extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
 
-            String complaintid=params[0];
+            String complaintid = params[0];
 
             String json = "";
-
 
 
             try {
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Customer + "GetComplaintReply/"+complaintid);
+                builder.url(AppConfig.BASE_URL_API_Customer + "GetComplaintReply/" + complaintid);
 
                 builder.addHeader("Content-Type", "Application/json");
                 builder.addHeader("Accept", "application/json");
@@ -647,7 +648,7 @@ public class CustomerOrderHelper extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             //     InputStream inputStream
-            String review=params[0];
+            String review = params[0];
             String rate = params[1];
             String orderId = params[2];
 
@@ -669,7 +670,6 @@ public class CustomerOrderHelper extends AppCompatActivity {
 
                 parameters.add("Active", "True");
                 parameters.add("OrderId", orderId);
-
 
 
                 builder.post(parameters.build());

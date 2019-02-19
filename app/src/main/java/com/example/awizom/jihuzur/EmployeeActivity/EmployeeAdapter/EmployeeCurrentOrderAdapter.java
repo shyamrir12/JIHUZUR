@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.awizom.jihuzur.CustomerActivity.CustomerpricingActivity;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
@@ -22,6 +23,7 @@ import com.example.awizom.jihuzur.Model.Service;
 import com.example.awizom.jihuzur.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -33,7 +35,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
     private Context mCtx;
     private List<Order> orderitemList;
     private Order order;
-    private String orderId = "", otpCode = "", result = "", empId = "", displayType = "",priceid="";
+    private String orderId = "", otpCode = "", result = "", empId = "", displayType = "", priceid = "";
     private Intent intent;
 
     public EmployeeCurrentOrderAdapter(Context employeeCurrentOrderFragment, List<Order> orderList) {
@@ -56,7 +58,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
     public void onBindViewHolder(@NonNull final EmployeeCurrentOrderAdapter.OrderItemViewHolder holder, int position) {
         order = orderitemList.get(position);
         orderId = String.valueOf(order.getOrderID());
-        priceid =String.valueOf(order.getPricingID());
+        priceid = String.valueOf(order.getPricingID());
         empId = order.getEmployeeID();
         try {
 
@@ -68,16 +70,16 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             holder.catagoryName.setText(order.getCatalogName());
             holder.serviceName.setText(order.getServiceName());
             holder.totalTime.setText(order.getTotalTime());
-            if(order.getDiscountName() != null) {
+            if (order.getDiscountName() != null) {
                 holder.disctName.setText(order.getDiscountName());
-            }else {
+            } else {
                 holder.disctName.setText(null);
             }
-           // holder.catlgName.setText(order.getCatalogName());
+            // holder.catlgName.setText(order.getCatalogName());
 
             holder.catlgId.setText(String.valueOf(order.getCatalogID()));
             holder.serviceID.setText(String.valueOf(order.getServiceID()));
-           holder.pricingterms.setText(order.getPricingTerms());
+            holder.pricingterms.setText(order.getPricingTerms());
 
 
             if (order.getPricingTerms() != null) {
@@ -87,11 +89,11 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             }
 
             if (order.getDiscountName() != null) {
-              // holder.linearLayout.setVisibility(View.VISIBLE);
-               holder.disctName.setVisibility(View.VISIBLE);
+                // holder.linearLayout.setVisibility(View.VISIBLE);
+                holder.disctName.setVisibility(View.VISIBLE);
                 holder.discountUpdateBtn.setVisibility(View.VISIBLE);
             }
-         //   holder.linearLayout.setVisibility(View.VISIBLE);
+            //   holder.linearLayout.setVisibility(View.VISIBLE);
             holder.disctName.setVisibility(View.VISIBLE);
             holder.discountUpdateBtn.setVisibility(View.VISIBLE);
 //            holder.discountUpdateBtn.setVisibility(View.VISIBLE);
@@ -137,7 +139,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 
                             try {
 
-                                result = new AdminHelper.EditPostDiscount().execute(orderId,dicountText.getText().toString()).get();
+                                result = new AdminHelper.EditPostDiscount().execute(orderId, dicountText.getText().toString()).get();
                                 Gson gson = new Gson();
                                 final Result jsonbodyres = gson.fromJson(result, Result.class);
                                 Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
@@ -159,14 +161,13 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                     intent.putExtra("description", order.getServiceDesc());
                     intent.putExtra("serviceID", holder.serviceID.getText());
                     intent.putExtra("DisplayType", displayType.toString());
-                    intent.putExtra("button","empBtn");
-                    intent.putExtra("orderId",orderId);
-                    intent.putExtra("priceId",priceid);
+                    intent.putExtra("button", "empBtn");
+                    intent.putExtra("orderId", orderId);
+                    intent.putExtra("priceId", priceid);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mCtx.startActivity(intent);
                 }
             });
-
 
 
         } catch (Exception E) {
@@ -203,7 +204,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
         private Context mCtx;
         private TextView startTime, endtime, customerName, customerContact, catagoryName, serviceName, totalTime, pricingterm,
                 disctName, catlgId, catagryName, catlgName, pricingterms, serviceID;
-        private Button genrateBtn, trackinBtn, stopBtn, acceptPaymentBtn,priceUpdateBtn,discountUpdateBtn;
+        private Button genrateBtn, trackinBtn, stopBtn, acceptPaymentBtn, priceUpdateBtn, discountUpdateBtn;
         private LinearLayout linearLayout;
         private List<Order> orderitemList;
 
@@ -231,7 +232,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             catagryName = itemView.findViewById(R.id.catagoryName);
             pricingterms = itemView.findViewById(R.id.pricingterm);
             serviceID = itemView.findViewById(R.id.serviceID);
-           // catlgName = itemView.findViewById(R.id.catalogName);
+            // catlgName = itemView.findViewById(R.id.catalogName);
             catlgId = itemView.findViewById(R.id.catalogID);
             disctName = itemView.findViewById(R.id.discountName);
             linearLayout = itemView.findViewById(R.id.l5);

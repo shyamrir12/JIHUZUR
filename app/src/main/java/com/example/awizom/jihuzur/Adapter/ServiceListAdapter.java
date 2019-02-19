@@ -31,8 +31,6 @@ import java.util.List;
 public class ServiceListAdapter extends
         RecyclerView.Adapter<ServiceListAdapter.MyViewHolder> {
 
-    private List<Service> serviceList;
-    private Context mCtx;
     String uri;
     Intent intent;
     int catalogID;
@@ -40,28 +38,9 @@ public class ServiceListAdapter extends
     AutoCompleteTextView editServicename, editDescription;
     Spinner displayType;
     String result = "";
+    private List<Service> serviceList;
+    private Context mCtx;
 
-
-    /**
-     * View holder class
-     */
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-
-        public TextView serviceName, description, serviceID, dType, catalogID;
-
-
-        public MyViewHolder(View view) {
-            super(view);
-
-            serviceName = view.findViewById(R.id.serviceName);
-            description = view.findViewById(R.id.description);
-            serviceID = view.findViewById(R.id.serviceID);
-            dType = view.findViewById(R.id.displayTypes);
-            catalogID = view.findViewById(R.id.catalogID);
-
-
-        }
-    }
 
     public ServiceListAdapter(Context baseContext, List<Service> serviceList) {
         this.serviceList = serviceList;
@@ -115,7 +94,7 @@ public class ServiceListAdapter extends
                     intent.putExtra("description", holder.description.getText());
                     intent.putExtra("serviceID", holder.serviceID.getText());
                     intent.putExtra("DisplayType", holder.dType.getText());
-                    intent.putExtra("button","serBtn");
+                    intent.putExtra("button", "serBtn");
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mCtx.startActivity(intent);
 
@@ -127,7 +106,7 @@ public class ServiceListAdapter extends
                     intent.putExtra("description", holder.description.getText());
                     intent.putExtra("serviceID", holder.serviceID.getText());
                     intent.putExtra("DisplayType", holder.dType.getText());
-                    intent.putExtra("button","serBtn");
+                    intent.putExtra("button", "serBtn");
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mCtx.startActivity(intent);
                 }
@@ -205,7 +184,7 @@ public class ServiceListAdapter extends
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-                    ((SelectServices)mCtx).getServiceList();
+                    ((SelectServices) mCtx).getServiceList();
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -243,5 +222,26 @@ public class ServiceListAdapter extends
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.adapter_servicelist, parent, false);
         return new MyViewHolder(v);
+    }
+
+    /**
+     * View holder class
+     */
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+
+        public TextView serviceName, description, serviceID, dType, catalogID;
+
+
+        public MyViewHolder(View view) {
+            super(view);
+
+            serviceName = view.findViewById(R.id.serviceName);
+            description = view.findViewById(R.id.description);
+            serviceID = view.findViewById(R.id.serviceID);
+            dType = view.findViewById(R.id.displayTypes);
+            catalogID = view.findViewById(R.id.catalogID);
+
+
+        }
     }
 }

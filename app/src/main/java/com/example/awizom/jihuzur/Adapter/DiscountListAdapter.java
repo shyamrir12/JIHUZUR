@@ -28,35 +28,16 @@ public class DiscountListAdapter extends
     private Context mCtx;
     private int position;
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        return true;
-    }
-
-
-    /**
-     * View holder class
-     */
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView discountName;
-        public TextView discountType;
-        public TextView discountAmount;
-
-
-        public MyViewHolder(View view) {
-            super(view);
-            discountName = (TextView) view.findViewById(R.id.discountName);
-            discountType = (TextView) view.findViewById(R.id.discounttype);
-            discountAmount = (TextView) view.findViewById(R.id.discountAmount);
-
-        }
-    }
-
     public DiscountListAdapter(Context baseContext, List<DiscountView> discountlist) {
         this.discountlist = discountlist;
         this.mCtx = baseContext;
 
 
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return true;
     }
 
     @Override
@@ -80,5 +61,23 @@ public class DiscountListAdapter extends
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.adapter_discountlist, parent, false);
         return new MyViewHolder(v);
+    }
+
+    /**
+     * View holder class
+     */
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView discountName;
+        public TextView discountType;
+        public TextView discountAmount;
+
+
+        public MyViewHolder(View view) {
+            super(view);
+            discountName = (TextView) view.findViewById(R.id.discountName);
+            discountType = (TextView) view.findViewById(R.id.discounttype);
+            discountAmount = (TextView) view.findViewById(R.id.discountAmount);
+
+        }
     }
 }

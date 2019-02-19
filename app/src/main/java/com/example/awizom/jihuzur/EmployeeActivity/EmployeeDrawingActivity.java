@@ -45,27 +45,25 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class EmployeeDrawingActivity extends AppCompatActivity {
 
+    private final static int ALL_PERMISSIONS_RESULT = 107;
+    private final static int IMAGE_RESULT = 200;
     Uri picUri;
     Uri outputFileUri;
     Button upload;
     Uri filePath;
     String datauser;
     ProgressDialog pd;
-
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReferenceFromUrl("gs://jihuzurdb.appspot.com");    //change the url according to your firebase app
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
     private ArrayList<String> permissions = new ArrayList<>();
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-    StorageReference storageRef = storage.getReferenceFromUrl("gs://jihuzurdb.appspot.com");    //change the url according to your firebase app
-
-    private final static int ALL_PERMISSIONS_RESULT = 107;
-    private final static int IMAGE_RESULT = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_drawing);
-        upload=findViewById(R.id.upload);
+        upload = findViewById(R.id.upload);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +76,7 @@ public class EmployeeDrawingActivity extends AppCompatActivity {
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(outputFileUri != null) {
+                if (outputFileUri != null) {
                     pd.show();
                     datauser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -92,7 +90,7 @@ public class EmployeeDrawingActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             pd.dismiss();
                             Toast.makeText(EmployeeDrawingActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(EmployeeDrawingActivity.this,EmployeeHomePage.class);
+                            Intent intent = new Intent(EmployeeDrawingActivity.this, EmployeeHomePage.class);
                             startActivity(intent);
 
                         }
@@ -103,21 +101,17 @@ public class EmployeeDrawingActivity extends AppCompatActivity {
                             Toast.makeText(EmployeeDrawingActivity.this, "Upload Failed -> " + e, Toast.LENGTH_SHORT).show();
                         }
                     });
-                }
-                else {
+                } else {
                     Toast.makeText(EmployeeDrawingActivity.this, "Select an image", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
 
-
-
         permissions.add(CAMERA);
         permissions.add(WRITE_EXTERNAL_STORAGE);
         permissions.add(READ_EXTERNAL_STORAGE);
         permissionsToRequest = findUnAskedPermissions(permissions);
-
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -131,7 +125,7 @@ public class EmployeeDrawingActivity extends AppCompatActivity {
 
     public Intent getPickImageChooserIntent() {
 
-         outputFileUri = getCaptureImageOutputUri();
+        outputFileUri = getCaptureImageOutputUri();
 
         List<Intent> allIntents = new ArrayList<>();
         PackageManager packageManager = getPackageManager();
@@ -175,7 +169,7 @@ public class EmployeeDrawingActivity extends AppCompatActivity {
 
 
     private Uri getCaptureImageOutputUri() {
-         outputFileUri = null;
+        outputFileUri = null;
         File getImage = getExternalFilesDir("");
         if (getImage != null) {
             outputFileUri = Uri.fromFile(new File(getImage.getPath(), "profile.png"));
@@ -193,7 +187,7 @@ public class EmployeeDrawingActivity extends AppCompatActivity {
 
             if (requestCode == IMAGE_RESULT) {
 
-               String  filePath = getImageFilePath(data);
+                String filePath = getImageFilePath(data);
                 if (filePath != null) {
                     Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
                     imageView.setImageBitmap(selectedImage);

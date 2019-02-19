@@ -36,42 +36,12 @@ import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 public class PricingListAdapter extends
         RecyclerView.Adapter<PricingListAdapter.MyViewHolder> implements View.OnTouchListener {
 
+    String result = "", displaytype = "", pricingType;
+    String pricingendSlot, pricingSlots;
     private List<PricingView> pricingList;
     private Context mCtx;
     private int position;
-    String result = "", displaytype = "", pricingType;
-    String pricingendSlot, pricingSlots;
 
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        return true;
-    }
-
-
-    /**
-     * View holder class
-     */
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView pricingterms;
-        public TextView amount;
-        public TextView description;
-        public TextView pricingId;
-        public TextView catalogid;
-
-        public SeekBar seekBar;
-
-
-        public MyViewHolder(View view) {
-            super(view);
-            pricingterms = (TextView) view.findViewById(R.id.pricingTerms);
-            amount = (TextView) view.findViewById(R.id.amount);
-            pricingId = (TextView) view.findViewById(R.id.pricingID);
-            catalogid = (TextView) view.findViewById(R.id.catalogID);
-            description = (TextView) view.findViewById(R.id.description);
-
-        }
-    }
 
     public PricingListAdapter(Context baseContext, List<PricingView> pricingList, String displayType) {
         this.pricingList = pricingList;
@@ -79,6 +49,11 @@ public class PricingListAdapter extends
         this.mCtx = baseContext;
 
 
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return true;
     }
 
     @Override
@@ -172,7 +147,7 @@ public class PricingListAdapter extends
                         Gson gson = new Gson();
                         final Result jsonbodyres = gson.fromJson(result, Result.class);
                         Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-                        ((AdminPricingActivity)mCtx).getPricing();
+                        ((AdminPricingActivity) mCtx).getPricing();
                     }
 
 
@@ -202,7 +177,6 @@ public class PricingListAdapter extends
         });
     }
 
-
     @Override
     public int getItemCount() {
         return pricingList.size();
@@ -213,5 +187,29 @@ public class PricingListAdapter extends
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.adapter_pricinglist, parent, false);
         return new MyViewHolder(v);
+    }
+
+    /**
+     * View holder class
+     */
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView pricingterms;
+        public TextView amount;
+        public TextView description;
+        public TextView pricingId;
+        public TextView catalogid;
+
+        public SeekBar seekBar;
+
+
+        public MyViewHolder(View view) {
+            super(view);
+            pricingterms = (TextView) view.findViewById(R.id.pricingTerms);
+            amount = (TextView) view.findViewById(R.id.amount);
+            pricingId = (TextView) view.findViewById(R.id.pricingID);
+            catalogid = (TextView) view.findViewById(R.id.catalogID);
+            description = (TextView) view.findViewById(R.id.description);
+
+        }
     }
 }

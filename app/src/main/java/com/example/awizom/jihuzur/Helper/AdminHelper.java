@@ -3,14 +3,16 @@ package com.example.awizom.jihuzur.Helper;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
 import com.example.awizom.jihuzur.Config.AppConfig;
+
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-public class AdminHelper extends AppCompatActivity{
+public class AdminHelper extends AppCompatActivity {
 
-    public static final class GETCategoryList extends AsyncTask<String, Void, String>{
+    public static final class GETCategoryList extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
 
@@ -69,8 +71,7 @@ public class AdminHelper extends AppCompatActivity{
             String catalogname = params[0];
             String catalogID = params[1];
             String categoryName = params[2];
-            String image=params[3];
-
+            String image = params[3];
 
 
             String json = "";
@@ -208,8 +209,6 @@ public class AdminHelper extends AppCompatActivity{
                 parameters.add("PricingEndSlot", pricingendslot);
 
 
-
-
 //                parameters.add("CatalogID", catalogID.split("-")[0]);
 
                 builder.post(parameters.build());
@@ -294,11 +293,11 @@ public class AdminHelper extends AppCompatActivity{
         protected String doInBackground(String... params) {
 
             //     InputStream inputStream
-            String serviceid=params[0];
+            String serviceid = params[0];
             String catalogid = params[1];
             String service = params[2];
             String description = params[3];
-            String displaytype=params[4];
+            String displaytype = params[4];
 
             String json = "";
             try {
@@ -353,12 +352,11 @@ public class AdminHelper extends AppCompatActivity{
 
     }
 
-    public static final class GETDiscountList extends AsyncTask<String, Void, String>{
+    public static final class GETDiscountList extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
 
             String json = "";
-
 
 
             try {
@@ -403,8 +401,8 @@ public class AdminHelper extends AppCompatActivity{
         protected String doInBackground(String... params) {
 
             //     InputStream inputStream
-            String customerID=params[0];
-            String complaint=params[1];
+            String customerID = params[0];
+            String complaint = params[1];
             String active = params[2];
             String status = params[3];
             String complainid = params[4];
@@ -466,7 +464,7 @@ public class AdminHelper extends AppCompatActivity{
         protected String doInBackground(String... params) {
 
             //     InputStream inputStream
-            String complaintreply=params[0];
+            String complaintreply = params[0];
             String complaintid = params[1];
 
             String json = "";
@@ -486,7 +484,6 @@ public class AdminHelper extends AppCompatActivity{
                 parameters.add("CReplyID", "0");
                 parameters.add("Active", "True");
                 parameters.add("Status", "True");
-
 
 
                 builder.post(parameters.build());
@@ -523,12 +520,11 @@ public class AdminHelper extends AppCompatActivity{
 
     }
 
-    public static final class GETComplaintList extends AsyncTask<String, Void, String>{
+    public static final class GETComplaintList extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
 
             String json = "";
-
 
 
             try {
@@ -568,12 +564,11 @@ public class AdminHelper extends AppCompatActivity{
 
     }
 
-    public static final class GETReviewListByORderID extends AsyncTask<String, Void, String>{
+    public static final class GETReviewListByORderID extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
 
             String json = "";
-
 
 
             try {
@@ -618,7 +613,7 @@ public class AdminHelper extends AppCompatActivity{
         protected String doInBackground(String... params) {
 
             //     InputStream inputStream
-            String reviewreply=params[0];
+            String reviewreply = params[0];
             String reviewid = params[1];
 
             String json = "";
@@ -632,13 +627,11 @@ public class AdminHelper extends AppCompatActivity{
                 //builder.addHeader("Authorization", "Bearer " + accesstoken);
 
                 FormBody.Builder parameters = new FormBody.Builder();
-                parameters.add("ReplyID","0");
+                parameters.add("ReplyID", "0");
                 parameters.add("Reply1", reviewreply);
                 parameters.add("ReviewID", reviewid);
 
                 parameters.add("Active", "True");
-
-
 
 
                 builder.post(parameters.build());
@@ -731,7 +724,6 @@ public class AdminHelper extends AppCompatActivity{
             String discountname = params[1];
 
 
-
             String json = "";
             try {
 
@@ -784,9 +776,9 @@ public class AdminHelper extends AppCompatActivity{
             String id = params[0];
             String name = params[1];
             String image = params[2];
-            String identityimage=params[3];
+            String identityimage = params[3];
             String latitude = params[4];
-            String logitude=params[5];
+            String logitude = params[5];
 
 
             String json = "";
@@ -843,13 +835,13 @@ public class AdminHelper extends AppCompatActivity{
 
         @Override
         protected String doInBackground(String... params) {
-            String id=params[0];
+            String id = params[0];
             String json = "";
             try {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Customer + "ProfileGet/"+id);
+                builder.url(AppConfig.BASE_URL_API_Customer + "ProfileGet/" + id);
                 builder.addHeader("Content-Type", "application/json");
                 builder.addHeader("Accept", "application/json");
                 okhttp3.Response response = client.newCall(builder.build()).execute();
@@ -885,7 +877,7 @@ public class AdminHelper extends AppCompatActivity{
             String id = params[0];
 
             String latitude = params[1];
-            String logitude=params[2];
+            String logitude = params[2];
 
 
             String json = "";

@@ -45,33 +45,10 @@ public class EmployeeSkillServiceAdapter extends
         RecyclerView.Adapter<EmployeeSkillServiceAdapter.MyViewHolder> {
 
 
-    private Context mCtx;
     List<Service> serviceListforshow;
-
-
-
     String result = "";
+    private Context mCtx;
 
-
-
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-
-        public TextView serviceName;
-        public ImageButton deleteSkill;
-
-
-
-        public MyViewHolder(View view) {
-            super(view);
-
-            serviceName = (TextView) view.findViewById(R.id.serviceName);
-            deleteSkill =(ImageButton)view.findViewById(R.id.deleteskill);
-
-
-        }
-
-
-    }
 
     public EmployeeSkillServiceAdapter(Context baseContext, List<Service> serviceListforshow) {
         this.serviceListforshow = serviceListforshow;
@@ -86,13 +63,7 @@ public class EmployeeSkillServiceAdapter extends
         holder.serviceName.setText(c.getServiceName());
 
 
-
     }
-
-
-
-
-
 
     @Override
     public int getItemCount() {
@@ -105,6 +76,24 @@ public class EmployeeSkillServiceAdapter extends
                 .inflate(R.layout.adapter_employeeskillservice, parent, false);
 
         return new MyViewHolder(v);
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+
+        public TextView serviceName;
+        public ImageButton deleteSkill;
+
+
+        public MyViewHolder(View view) {
+            super(view);
+
+            serviceName = (TextView) view.findViewById(R.id.serviceName);
+            deleteSkill = (ImageButton) view.findViewById(R.id.deleteskill);
+
+
+        }
+
+
     }
 
 }

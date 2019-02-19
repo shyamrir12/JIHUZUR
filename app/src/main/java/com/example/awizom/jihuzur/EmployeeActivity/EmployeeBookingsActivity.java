@@ -19,7 +19,7 @@ public class EmployeeBookingsActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;
     EmployeePageAdapter pageAdapter;
-    TabItem outGoing,history;
+    TabItem outGoing, history;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

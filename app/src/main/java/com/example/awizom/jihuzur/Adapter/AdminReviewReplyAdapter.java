@@ -33,35 +33,11 @@ import java.util.List;
 public class AdminReviewReplyAdapter extends
         RecyclerView.Adapter<AdminReviewReplyAdapter.MyViewHolder> {
 
-    private List<Review> reviewList;
-    private Context mCtx;
     AutoCompleteTextView editComplaintreply;
     String result = "", active, status;
+    private List<Review> reviewList;
+    private Context mCtx;
 
-
-    /**
-     * View holder class
-     */
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView reviewID, customerID;
-        public TextView Review,Rate;
-
-        public ToggleButton activeToggle;
-        public TextView Status;
-        public ImageButton addComplaintReply;
-
-
-        public MyViewHolder(View view) {
-            super(view);
-//            reviewID = (TextView) view.findViewById(R.id.reviewID);
-//            Review = (TextView) view.findViewById(R.id.review);
-//            Rate = (TextView) view.findViewById(R.id.rate);
-//
-//            addComplaintReply = (ImageButton) view.findViewById(R.id.addComplaintReply);
-
-
-        }
-    }
 
     public AdminReviewReplyAdapter(Context baseContext, List<Review> reviewList) {
         this.reviewList = reviewList;
@@ -77,7 +53,6 @@ public class AdminReviewReplyAdapter extends
         holder.Review.setText(String.valueOf(c.getReview()));
 
         holder.Rate.setText(Integer.toString(c.getRate()));
-
 
 
         final String reviewid = holder.reviewID.getText().toString();
@@ -198,5 +173,29 @@ public class AdminReviewReplyAdapter extends
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.adapter_adminreviewreply, parent, false);
         return new MyViewHolder(v);
+    }
+
+    /**
+     * View holder class
+     */
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView reviewID, customerID;
+        public TextView Review, Rate;
+
+        public ToggleButton activeToggle;
+        public TextView Status;
+        public ImageButton addComplaintReply;
+
+
+        public MyViewHolder(View view) {
+            super(view);
+//            reviewID = (TextView) view.findViewById(R.id.reviewID);
+//            Review = (TextView) view.findViewById(R.id.review);
+//            Rate = (TextView) view.findViewById(R.id.rate);
+//
+//            addComplaintReply = (ImageButton) view.findViewById(R.id.addComplaintReply);
+
+
+        }
     }
 }

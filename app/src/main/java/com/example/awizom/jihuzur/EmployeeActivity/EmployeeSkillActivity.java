@@ -32,14 +32,14 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
 
     FloatingActionButton addSkill;
     String result = "";
-    String[] catalogname = {"--Select Catalog--","Home Cleaning & Repairs", "Appliance & Repairs"};
-    String catalogs, catalogid,serviceid;
+    String[] catalogname = {"--Select Catalog--", "Home Cleaning & Repairs", "Appliance & Repairs"};
+    String catalogs, catalogid, serviceid;
     List<Catalog> categorylist;
-    List<Service> serviceList,serviceListforshow;
+    List<Service> serviceList, serviceListforshow;
     RecyclerView recyclerView;
     EmployeeSkillServiceAdapter employeeSkillServiceAdapter;
-    private String[] category, service;
     Spinner categoryspin, servicesspin;
+    private String[] category, service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +48,8 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
 
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
 
-        String employeeNmae=SharedPrefManager.getInstance(EmployeeSkillActivity.this).getUser().getName();
-        toolbar.setTitle(employeeNmae+"'s Skill");
+        String employeeNmae = SharedPrefManager.getInstance(EmployeeSkillActivity.this).getUser().getName();
+        toolbar.setTitle(employeeNmae + "'s Skill");
 
         toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
@@ -67,7 +67,7 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
 
     private void intitView() {
 
-        recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
@@ -81,7 +81,7 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
     private void getEmployeeSkill() {
 
 
-        String employeeid=SharedPrefManager.getInstance(EmployeeSkillActivity.this).getUser().getID();
+        String employeeid = SharedPrefManager.getInstance(EmployeeSkillActivity.this).getUser().getID();
         try {
             result = new EmployeeOrderHelper.GetEmployeeSkill().execute(employeeid.toString()).get();
             Gson gson = new Gson();
@@ -123,16 +123,15 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
 
                 catalogs = catalogname[position];
 
-                if(catalogs!="--Select Catalog--")
-                {
+                if (catalogs != "--Select Catalog--") {
                     categoryspin.setVisibility(View.VISIBLE);
                     servicesspin.setVisibility(View.VISIBLE);
                     getCategoryList();
-                }
-            else {
+                } else {
                     categoryspin.setVisibility(View.GONE);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -149,6 +148,7 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
                 catalogid = category[position].split(" ")[0];
                 getServiceList(catalogid);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -158,6 +158,7 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 serviceid = service[position].split(" ")[0];
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -171,10 +172,10 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
         buttonAddSkill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             String employeeid=   SharedPrefManager.getInstance(getApplicationContext()).getUser().getID();
+                String employeeid = SharedPrefManager.getInstance(getApplicationContext()).getUser().getID();
 
                 try {
-                    result = new EmployeeOrderHelper.EmployeePOSTSkill().execute(employeeid,serviceid).get();
+                    result = new EmployeeOrderHelper.EmployeePOSTSkill().execute(employeeid, serviceid).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     getEmployeeSkill();
@@ -213,7 +214,7 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
 
             for (int i = 0; i < serviceList.size(); i++) {
 
-                service[i] = String.valueOf(serviceList.get(i).getServiceID()) + " " +String.valueOf(serviceList.get(i).getServiceName());
+                service[i] = String.valueOf(serviceList.get(i).getServiceID()) + " " + String.valueOf(serviceList.get(i).getServiceName());
 
 
             }

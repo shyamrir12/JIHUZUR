@@ -29,6 +29,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
@@ -54,53 +55,24 @@ public class EmployeeHomePage extends AppCompatActivity
 
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     String TAG;
-    private Fragment fragment = null;
     ImageView imageView;
-    private Fragment helpCenterFragment;
-    private Intent intent;
-    String dUser,name,role,Url;
+    String dUser, name, role, Url;
     Boolean active = false;
     View header;
     String img_str;
-    TextView userName,userContact, identityNo, identityType;
-    private CardView homeCleaningCardView,appliancecardView;
-    private Button btn_start, btn_stop;
-    private TextView textView;
-    private BroadcastReceiver broadcastReceiver;
-
+    TextView userName, userContact, identityNo, identityType;
     android.widget.Toolbar toolbar;
     TabLayout tabLayout;
     ViewPager viewPager;
     EmployeePageAdapter pageAdapter;
-    TabItem outGoing,history;
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(broadcastReceiver == null){
-            broadcastReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-
-                    textView.append("\n" +intent.getExtras().get("coordinates"));
-                    //Log.d("myTag", "\n" +intent.getExtras().get("coordinates"));
-                }
-            };
-        }
-        registerReceiver(broadcastReceiver,new IntentFilter("location_update"));
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(broadcastReceiver != null){
-            unregisterReceiver(broadcastReceiver);
-        }
-    }
-
-
+    TabItem outGoing, history;
+    private Fragment fragment = null;
+    private Fragment helpCenterFragment;
+    private Intent intent;
+    private CardView homeCleaningCardView, appliancecardView;
+    private Button btn_start, btn_stop;
+    private TextView textView;
+    private BroadcastReceiver broadcastReceiver;
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -113,13 +85,13 @@ public class EmployeeHomePage extends AppCompatActivity
             switch (item.getItemId()) {
                 case R.id.navigation_search:
                     getSupportActionBar().setTitle("Employee Home");
-                    intent=new Intent(EmployeeHomePage.this,EmployeeHomePage.class);
+                    intent = new Intent(EmployeeHomePage.this, EmployeeHomePage.class);
                     startActivity(intent);
 
                     break;
                 case R.id.navigation_booking:
 
-                    intent=new Intent(EmployeeHomePage.this,EmployeeBookingsActivity.class);
+                    intent = new Intent(EmployeeHomePage.this, EmployeeBookingsActivity.class);
                     startActivity(intent);
                     break;
 
@@ -142,6 +114,30 @@ public class EmployeeHomePage extends AppCompatActivity
         }
     };
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (broadcastReceiver == null) {
+            broadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+
+                    textView.append("\n" + intent.getExtras().get("coordinates"));
+                    //Log.d("myTag", "\n" +intent.getExtras().get("coordinates"));
+                }
+            };
+        }
+        registerReceiver(broadcastReceiver, new IntentFilter("location_update"));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (broadcastReceiver != null) {
+            unregisterReceiver(broadcastReceiver);
+        }
+    }
+
     //layout declaration
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,7 +148,7 @@ public class EmployeeHomePage extends AppCompatActivity
 
     private void initView() {
 
-       // searchFragment = new SearchFragment();
+        // searchFragment = new SearchFragment();
 
         setContentView(R.layout.activity_employee_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -206,11 +202,11 @@ public class EmployeeHomePage extends AppCompatActivity
         });
 
 
-        if(!runtime_permissions())
+        if (!runtime_permissions())
             enable_buttons();
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -218,7 +214,7 @@ public class EmployeeHomePage extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         View headerview = navigationView.getHeaderView(0);
-        imageView=headerview.findViewById(R.id.imageView);
+        imageView = headerview.findViewById(R.id.imageView);
 
         img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();
         {
@@ -242,10 +238,10 @@ public class EmployeeHomePage extends AppCompatActivity
         }
 
         userName = headerview.findViewById(R.id.profileName);
-        userContact =headerview.findViewById(R.id.empContact);
-        String uname=SharedPrefManager.getInstance(EmployeeHomePage.this).getUser().getName().toString();
+        userContact = headerview.findViewById(R.id.empContact);
+        String uname = SharedPrefManager.getInstance(EmployeeHomePage.this).getUser().getName().toString();
         userName.setText(uname);
-        String ucontact=SharedPrefManager.getInstance(EmployeeHomePage.this).getUser().getMobileNo().toString();
+        String ucontact = SharedPrefManager.getInstance(EmployeeHomePage.this).getUser().getMobileNo().toString();
         userContact.setText(ucontact);
 //
         identityNo = headerview.findViewById(R.id.identityNo);
@@ -254,12 +250,11 @@ public class EmployeeHomePage extends AppCompatActivity
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent=new Intent(EmployeeHomePage.this, DrawingActivity.class);
+                intent = new Intent(EmployeeHomePage.this, DrawingActivity.class);
                 startActivity(intent);
 
             }
         });
-
 
 
     }
@@ -272,7 +267,7 @@ public class EmployeeHomePage extends AppCompatActivity
                 Intent serviceIntent = new Intent(EmployeeHomePage.this, LocationMonitoringNotificationService.class);
                 serviceIntent.putExtra("inputExtra", "my msg");
                 ContextCompat.startForegroundService(EmployeeHomePage.this, serviceIntent);
-                Intent i =new Intent(getApplicationContext(),GPS_Service.class);
+                Intent i = new Intent(getApplicationContext(), GPS_Service.class);
                 startService(i);
 
             }
@@ -283,7 +278,7 @@ public class EmployeeHomePage extends AppCompatActivity
             public void onClick(View view) {
                 Intent serviceIntent = new Intent(EmployeeHomePage.this, LocationMonitoringNotificationService.class);
                 stopService(serviceIntent);
-                Intent i = new Intent(getApplicationContext(),GPS_Service.class);
+                Intent i = new Intent(getApplicationContext(), GPS_Service.class);
                 stopService(i);
 
             }
@@ -292,9 +287,9 @@ public class EmployeeHomePage extends AppCompatActivity
     }
 
     private boolean runtime_permissions() {
-        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},100);
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
 
             return true;
         }
@@ -305,10 +300,10 @@ public class EmployeeHomePage extends AppCompatActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == 100){
-            if( grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == 100) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 enable_buttons();
-            }else {
+            } else {
                 runtime_permissions();
             }
         }
@@ -351,7 +346,7 @@ public class EmployeeHomePage extends AppCompatActivity
 
             return true;
         }
-        if(id == R.id.action_settings){
+        if (id == R.id.action_settings) {
             Intent i = new Intent(EmployeeHomePage.this, SettingsActivity.class);
             startActivity(i);
 
@@ -374,11 +369,11 @@ public class EmployeeHomePage extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_booking) {
 
-            intent=new Intent(EmployeeHomePage.this,EmployeeBookingsActivity.class);
+            intent = new Intent(EmployeeHomePage.this, EmployeeBookingsActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_skill) {
-            intent=new Intent(EmployeeHomePage.this,EmployeeSkillActivity.class);
+            intent = new Intent(EmployeeHomePage.this, EmployeeSkillActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_logout) {
@@ -399,7 +394,7 @@ public class EmployeeHomePage extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-            String phoneNumber="",message="";
+            String phoneNumber = "", message = "";
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + phoneNumber));
             intent.putExtra("sms_body", message);
             startActivity(intent);
@@ -412,10 +407,9 @@ public class EmployeeHomePage extends AppCompatActivity
     }
 
 
-
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
 
         }
     }

@@ -21,27 +21,6 @@ public class CatalogListAdapter extends
     private Context mCtx;
 
 
-    /**
-     * View holder class
-     */
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView catalogId;
-        public TextView catalogName;
-        public TextView category;
-        public TextView serviceName;
-        public TextView description;
-
-        public MyViewHolder(View view) {
-            super(view);
-            catalogId = (TextView) view.findViewById(R.id.catalogId);
-            catalogName = (TextView) view.findViewById(R.id.catalogName);
-            category = (TextView) view.findViewById(R.id.category);
-            serviceName = (TextView) view.findViewById(R.id.servicename);
-            description = (TextView) view.findViewById(R.id.description);
-
-        }
-    }
-
     public CatalogListAdapter(Context baseContext, List<Catalog> catalogList) {
         this.catalogList = catalogList;
         this.mCtx = baseContext;
@@ -70,5 +49,26 @@ public class CatalogListAdapter extends
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.adapter_cataloglist, parent, false);
         return new MyViewHolder(v);
+    }
+
+    /**
+     * View holder class
+     */
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView catalogId;
+        public TextView catalogName;
+        public TextView category;
+        public TextView serviceName;
+        public TextView description;
+
+        public MyViewHolder(View view) {
+            super(view);
+            catalogId = (TextView) view.findViewById(R.id.catalogId);
+            catalogName = (TextView) view.findViewById(R.id.catalogName);
+            category = (TextView) view.findViewById(R.id.category);
+            serviceName = (TextView) view.findViewById(R.id.servicename);
+            description = (TextView) view.findViewById(R.id.description);
+
+        }
     }
 }
