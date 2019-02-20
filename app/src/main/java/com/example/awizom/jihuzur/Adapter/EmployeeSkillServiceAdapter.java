@@ -57,8 +57,6 @@ public class EmployeeSkillServiceAdapter extends
     public EmployeeSkillServiceAdapter(Context baseContext, List<Skill> serviceListforshow) {
         this.serviceListforshow = serviceListforshow;
         this.mCtx = baseContext;
-
-
     }
 
     @Override
@@ -66,16 +64,13 @@ public class EmployeeSkillServiceAdapter extends
         Skill c = serviceListforshow.get(position);
         holder.serviceName.setText(c.getServiceName());
         holder.skillid.setText(String.valueOf(c.getID()));
-
-         Skillid=holder.skillid.getText().toString();
-         holder.deleteSkill.setOnClickListener(new View.OnClickListener() {
+        Skillid=holder.skillid.getText().toString();
+        holder.deleteSkill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deleteskill(Skillid);
             }
         });
-
-
     }
 
     private void deleteskill(String skillid) {
@@ -91,12 +86,6 @@ public class EmployeeSkillServiceAdapter extends
 
         }
 
-
-
-
-
-
-
     }
 
     @Override
@@ -108,7 +97,6 @@ public class EmployeeSkillServiceAdapter extends
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.adapter_employeeskillservice, parent, false);
-
         return new MyViewHolder(v);
     }
 
@@ -117,15 +105,11 @@ public class EmployeeSkillServiceAdapter extends
         public TextView serviceName,skillid;
         public ImageButton deleteSkill;
 
-
         public MyViewHolder(View view) {
             super(view);
-
             serviceName = (TextView) view.findViewById(R.id.serviceName);
             deleteSkill = (ImageButton) view.findViewById(R.id.deleteskill);
             skillid=(TextView)view.findViewById(R.id.skillid);
-
-
 
         }
 
