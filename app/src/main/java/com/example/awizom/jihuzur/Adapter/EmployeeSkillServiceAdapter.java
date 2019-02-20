@@ -23,10 +23,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.awizom.jihuzur.AdminActivity.AdminCategoryActivity;
 import com.example.awizom.jihuzur.Config.AppConfig;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeSkillActivity;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
+import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.Service;
+import com.example.awizom.jihuzur.Model.Skill;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.SelectServices;
 import com.google.gson.Gson;
@@ -45,12 +48,13 @@ public class EmployeeSkillServiceAdapter extends
         RecyclerView.Adapter<EmployeeSkillServiceAdapter.MyViewHolder> {
 
 
-    List<Service> serviceListforshow;
+    List<Skill> serviceListforshow;
     String result = "";
     private Context mCtx;
+    String Skillid;
 
 
-    public EmployeeSkillServiceAdapter(Context baseContext, List<Service> serviceListforshow) {
+    public EmployeeSkillServiceAdapter(Context baseContext, List<Skill> serviceListforshow) {
         this.serviceListforshow = serviceListforshow;
         this.mCtx = baseContext;
 
@@ -59,8 +63,38 @@ public class EmployeeSkillServiceAdapter extends
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        Service c = serviceListforshow.get(position);
+        Skill c = serviceListforshow.get(position);
         holder.serviceName.setText(c.getServiceName());
+        holder.skillid.setText(String.valueOf(c.getID()));
+
+         Skillid=holder.skillid.getText().toString();
+         holder.deleteSkill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteskill(Skillid);
+            }
+        });
+
+
+    }
+
+    private void deleteskill(String skillid) {
+
+        try {
+            result = new EmployeeOrderHelper.EmployeePOSTDeleteSkill().execute(skillid).get();
+            Gson gson = new Gson();
+            final Result jsonbodyres = gson.fromJson(result, Result.class);
+            Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+            ((EmployeeSkillActivity)mCtx).getEmployeeSkill();
+////                progressDialog.dismiss();
+        } catch (Exception e) {
+
+        }
+
+
+
+
+
 
 
     }
@@ -80,7 +114,7 @@ public class EmployeeSkillServiceAdapter extends
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView serviceName;
+        public TextView serviceName,skillid;
         public ImageButton deleteSkill;
 
 
@@ -89,6 +123,8 @@ public class EmployeeSkillServiceAdapter extends
 
             serviceName = (TextView) view.findViewById(R.id.serviceName);
             deleteSkill = (ImageButton) view.findViewById(R.id.deleteskill);
+            skillid=(TextView)view.findViewById(R.id.skillid);
+
 
 
         }

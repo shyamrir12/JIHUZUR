@@ -20,6 +20,7 @@ import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.Service;
+import com.example.awizom.jihuzur.Model.Skill;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.gson.Gson;
@@ -35,7 +36,8 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
     String[] catalogname = {"--Select Catalog--", "Home Cleaning & Repairs", "Appliance & Repairs"};
     String catalogs, catalogid, serviceid;
     List<Catalog> categorylist;
-    List<Service> serviceList, serviceListforshow;
+    List<Skill>  serviceListforshow;
+    List<Service> serviceList;
     RecyclerView recyclerView;
     EmployeeSkillServiceAdapter employeeSkillServiceAdapter;
     Spinner categoryspin, servicesspin;
@@ -78,14 +80,14 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
 
     }
 
-    private void getEmployeeSkill() {
+    public void getEmployeeSkill() {
 
 
         String employeeid = SharedPrefManager.getInstance(EmployeeSkillActivity.this).getUser().getID();
         try {
             result = new EmployeeOrderHelper.GetEmployeeSkill().execute(employeeid.toString()).get();
             Gson gson = new Gson();
-            Type listType = new TypeToken<List<Service>>() {
+            Type listType = new TypeToken<List<Skill>>() {
             }.getType();
             serviceListforshow = new Gson().fromJson(result, listType);
             employeeSkillServiceAdapter = new EmployeeSkillServiceAdapter(EmployeeSkillActivity.this, serviceListforshow);

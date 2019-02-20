@@ -36,7 +36,6 @@ public class EmployeeHistoryCurrentFragment extends Fragment {
         View view = inflater.inflate(R.layout.customer_history_item_fragment, container, false);
         initView(view);
         return view;
-
     }
 
     private void initView(View view) {

@@ -349,11 +349,8 @@ public class EmployeeHomePage extends AppCompatActivity
         if (id == R.id.action_settings) {
             Intent i = new Intent(EmployeeHomePage.this, SettingsActivity.class);
             startActivity(i);
-
-
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

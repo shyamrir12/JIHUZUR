@@ -65,7 +65,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     LinearLayout coordinatorLayout;
     Snackbar snackbar;
     private FirebaseFirestore db;
-boolean check=false;
+    boolean check=false;
     /*For layout binding */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
