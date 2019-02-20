@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -34,6 +35,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
@@ -107,7 +109,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
     TextView userName, identityNo, identityType;
     List<DataProfile> listtype;
     private Fragment fragment = null;
-
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     /**
      * Code used in requesting runtime permissions.
@@ -139,6 +140,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
     private MarkerOptions place2;
     private Polyline currentPolyline;
     private Fragment searchFragment, myBookingFragment, helpCenterFragment, catalogFragment;
+    ImageButton mapRefresh;
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -198,6 +200,16 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+
+        mapRefresh=(ImageButton)findViewById(R.id.getRefresh);
+        mapRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                employeeProfileGet();
+                onMapLoaded();
+            }
+        });
         mMsgView = (TextView) findViewById(R.id.msgView);
         distancefor = (TextView) findViewById(R.id.distance);
         LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -249,6 +261,38 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         });
     }
 
+    public void onMapLoaded() {
+
+        for (int i = 0; i < employeeProfileModelList.size(); i++) {
+
+            latLng = new LatLng(Double.parseDouble(employeeProfileModelList.get(i).getLat()), Double.parseDouble(employeeProfileModelList.get(i).getLong()));
+            name = employeeProfileModelList.get(i).getName();
+            mobno = employeeProfileModelList.get(i).getMobileNo();
+            img_str = employeeProfileModelList.get(i).getImage();
+            empid = employeeProfileModelList.get(i).getID();
+
+            //                    LatLng customMarkerLocationOne = new LatLng(28.583911, 77.319116);
+
+
+            mGoogleMap.addMarker(new MarkerOptions().position(latLng).
+                    icon(BitmapDescriptorFactory.fromBitmap(
+                            createCustomMarker(AdminHomePage.this, img_str, name, mobno, empid, mGoogleMap)))).setTitle(name + "," + empid + "," + img_str);
+
+
+            //LatLngBound will cover all your marker on Google Maps
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            builder.include(latLng);
+            LatLngBounds bounds = builder.build();
+
+
+          /*  mGoogleMap.addMarker(place1);
+            mGoogleMap.addMarker(place1);
+            mGoogleMap.addMarker(mylocation);*/
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
+            mGoogleMap.moveCamera(cu);
+            mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
+        }
+    }
     private void initView() {
 
         getProfile();
@@ -305,7 +349,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         }
     }
 
-    private GoogleMap.OnMyLocationButtonClickListener onMyLocationButtonClickListener =
+    public GoogleMap.OnMyLocationButtonClickListener onMyLocationButtonClickListener =
             new GoogleMap.OnMyLocationButtonClickListener() {
                 @Override
                 public boolean onMyLocationButtonClick() {
@@ -314,7 +358,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     return false;
                 }
             };
-    private GoogleMap.OnMyLocationClickListener onMyLocationClickListener =
+    public GoogleMap.OnMyLocationClickListener onMyLocationClickListener =
             new GoogleMap.OnMyLocationClickListener() {
                 @Override
                 public void onMyLocationClick(@NonNull Location location) {
@@ -417,21 +461,15 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 if (img_str.equals("null"))
 
                 {
-
                     profileimage.setImageResource(R.drawable.jihuzurblanklogo);
 //                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
                 } else {
-
-
-
                     Glide.with(context).load(AppConfig.BASE_URL + img_str).into(profileimage);
                 }
-
 
                 dialogBuilder.setTitle(name.toString());
                 dialogBuilder.setNegativeButton("Close",
                         new DialogInterface.OnClickListener() {
-
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
@@ -637,9 +675,9 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     LatLngBounds bounds = builder.build();
 
 
-                    mGoogleMap.addMarker(place1);
-                    mGoogleMap.addMarker(place1);
-                    mGoogleMap.addMarker(mylocation);
+                  /*  mGoogleMap.addMarker(place1);
+                    mGoogleMap.addMarker(place1);*/
+                  /*  mGoogleMap.addMarker(mylocation);*/
                     CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
                     mGoogleMap.moveCamera(cu);
                     mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);

@@ -82,7 +82,6 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
 
     public void getEmployeeSkill() {
 
-
         String employeeid = SharedPrefManager.getInstance(EmployeeSkillActivity.this).getUser().getID();
         try {
             result = new EmployeeOrderHelper.GetEmployeeSkill().execute(employeeid.toString()).get();
@@ -92,8 +91,6 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
             serviceListforshow = new Gson().fromJson(result, listType);
             employeeSkillServiceAdapter = new EmployeeSkillServiceAdapter(EmployeeSkillActivity.this, serviceListforshow);
             recyclerView.setAdapter(employeeSkillServiceAdapter);
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -133,13 +130,11 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
                     categoryspin.setVisibility(View.GONE);
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
-
         ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_spinner_item, catalogname);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //Setting the ArrayAdapter data on the Spinner
@@ -185,9 +180,7 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
 
                 } catch (Exception e) {
                 }
-
                 b.dismiss();
-
             }
 
 
@@ -199,7 +192,6 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
                 /*
                  * we will code this method to delete the artist
                  * */
-
             }
         });
     }
@@ -212,21 +204,14 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
             }.getType();
             serviceList = new Gson().fromJson(result, listType);
             service = new String[serviceList.size()];
-
-
             for (int i = 0; i < serviceList.size(); i++) {
-
                 service[i] = String.valueOf(serviceList.get(i).getServiceID()) + " " + String.valueOf(serviceList.get(i).getServiceName());
-
-
             }
 
             ArrayAdapter serviceadapt = new ArrayAdapter(this, android.R.layout.simple_spinner_item, service);
             serviceadapt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //Setting the ArrayAdapter data on the Spinner
             servicesspin.setAdapter(serviceadapt);
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }

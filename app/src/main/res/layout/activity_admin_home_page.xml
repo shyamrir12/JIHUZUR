@@ -18,6 +18,13 @@
             android:layout_height="0dp"
             android:layout_below="@+id/rvToolbar"
             android:layout_weight="1" />
+        <ImageButton
+            android:id="@+id/getRefresh"
+            android:text="Refresh Map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_refresh_black_24dp"
+            />
 
         <TextView
             android:id="@+id/msgView"
@@ -38,6 +45,9 @@
 
             />
 
+
+
+
         <Button
             android:id="@+id/btnGetDirection"
             android:text="Get Direction"
@@ -46,7 +56,18 @@
             android:background="?attr/selectableItemBackground" />
     </LinearLayout>
 
-
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/myLocationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:src="@android:drawable/ic_menu_mylocation"
+        app:borderWidth="0dp"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        app:fabSize="normal" />
     <RelativeLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
