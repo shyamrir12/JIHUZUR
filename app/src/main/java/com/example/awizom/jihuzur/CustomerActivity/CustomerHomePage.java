@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.ComplaintActivity;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.DrawingActivity;
@@ -170,7 +171,12 @@ public class CustomerHomePage extends AppCompatActivity
                 } else {
 
 
-                    Glide.with(this).load(img_str).into(imageView);
+                    Glide.with(CustomerHomePage.this)
+                            .load(img_str)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
+                            .into(imageView);
+
 
                 }
             } catch (Exception e) {
