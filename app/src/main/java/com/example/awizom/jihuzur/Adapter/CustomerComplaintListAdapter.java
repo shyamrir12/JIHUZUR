@@ -50,7 +50,7 @@ public class CustomerComplaintListAdapter extends
         holder.customerID.setText(String.valueOf(c.getCustomerID()));
 
 //                holder.Status.setText(c.getStatus());
-        holder.complaintDate.setText(String.valueOf(c.getComplaintDate()));
+        holder.complaintDate.setText(String.valueOf(c.getComplaintDate()).split("T")[0]);
 
         final String complaintId = holder.complaintid.getText().toString();
         final String status = holder.Status.getText().toString();

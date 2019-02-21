@@ -78,7 +78,7 @@
                     android:layout_below="@+id/l0"
                     android:background="@color/grey"
                     android:layout_marginTop="5dp"
-                    android:visibility="gone"/>
+                    android:visibility="visible"/>
                 <LinearLayout
                     android:id="@+id/l1"
                     android:layout_width="match_parent"
@@ -108,7 +108,7 @@
                     android:layout_below="@+id/l1"
                     android:background="@color/grey"
                     android:layout_marginTop="10dp"
-                    android:visibility="visible"/>
+                    android:visibility="gone"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

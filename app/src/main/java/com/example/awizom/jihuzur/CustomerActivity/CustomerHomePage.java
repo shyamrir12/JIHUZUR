@@ -281,9 +281,7 @@ public class CustomerHomePage extends AppCompatActivity
                 ActivityOptions startAnimation = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.fui_slide_out_left,R.anim.fui_slide_in_right);
 
             startActivity(intent,startAnimation.toBundle());
-        } else if (id == R.id.nav_order) {
-
-        } else if (id == R.id.nav_logout) {
+        }  else if (id == R.id.nav_logout) {
             SharedPrefManager.getInstance(this).logout();
             Intent login = new Intent(getApplicationContext(), RegistrationActivity.class);
             startActivity(login);
