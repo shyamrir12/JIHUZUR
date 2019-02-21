@@ -62,6 +62,8 @@ public class EmployeeSkillServiceAdapter extends
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         Skill c = serviceListforshow.get(position);
+
+
         holder.serviceName.setText(c.getServiceName());
         holder.skillid.setText(String.valueOf(c.getID()));
         Skillid=holder.skillid.getText().toString();
@@ -103,13 +105,13 @@ public class EmployeeSkillServiceAdapter extends
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView serviceName,skillid;
-        public ImageButton deleteSkill;
+        public ImageView deleteSkill;
 
         public MyViewHolder(View view) {
             super(view);
-            serviceName = (TextView) view.findViewById(R.id.serviceName);
-            deleteSkill = (ImageButton) view.findViewById(R.id.deleteskill);
-            skillid=(TextView)view.findViewById(R.id.skillid);
+            serviceName = view.findViewById(R.id.serviceName);
+            deleteSkill =  view.findViewById(R.id.deleteskill);
+            skillid=view.findViewById(R.id.skillid);
 
         }
 
