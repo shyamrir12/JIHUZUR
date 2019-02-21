@@ -76,12 +76,9 @@ public class DrawingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_drawing);
         upload=findViewById(R.id.upload);
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-
         toolbar.setTitle("Profile");
-
         toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
-
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -103,9 +100,7 @@ public class DrawingActivity extends AppCompatActivity {
         {
             identityImage.setVisibility(View.VISIBLE);
             fabidentityImage.setVisibility(View.VISIBLE);
-
         }
-
             fabidentityImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -115,7 +110,6 @@ public class DrawingActivity extends AppCompatActivity {
             });
 
         FloatingActionButton fab = findViewById(R.id.fab);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,7 +117,6 @@ public class DrawingActivity extends AppCompatActivity {
                 startActivityForResult(getPickImageChooserIntent(), IMAGE_RESULT);
             }
         });
-
 
         identimage_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getIdentityImage();
         try {

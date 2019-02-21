@@ -44,6 +44,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.BuildConfig;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeCurrentOrderAdapter;
@@ -124,7 +125,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 
     List<EmployeeProfileModel> employeeProfileModelList;
     LatLng latLng;
-
     Button getDirection;
     String empid, name, mobno;
     private GoogleMap mGoogleMap;
@@ -246,7 +246,15 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     profileImages.setImageResource(R.drawable.jihuzurblanklogo);
                     //     Glide.with(mCtx).load("http://192.168.1.105:7096/Images/Category/1.png").into(holder.categoryImage);
                 } else {
-                    Glide.with(this).load(img_str).into(profileImages);
+//                    Glide.with(this).load(img_str).into(profileImages);
+
+
+                    Glide.with(AdminHomePage.this)
+                            .load(img_str)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
+                            .into(profileImages);
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
