@@ -152,9 +152,9 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             Class framentClass = null;
             switch (item.getItemId()) {
                 case R.id.navigation_search:
-                  /*  getSupportActionBar().setTitle("Catalog");
-                 fragment = catalogFragment;
-                    framentClass = AdminHomePage.class;*/
+/*                  getSupportActionBar().setTitle("Catalog");
+                      fragment = catalogFragment;
+                      framentClass = AdminHomePage.class;*/
                     intent = new Intent(AdminHomePage.this, AdminHomePage.class);
                     startActivity(intent);
 
@@ -163,9 +163,9 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     getSupportActionBar().setTitle("My Booking");
                     fragment = myBookingFragment;
                     framentClass = MyBookingFragment.class;
-
-//                    intent = new Intent(AdminHomePage.this, AdminPricingActivity.class);
-//                    startActivity(intent);
+/*
+                    intent = new Intent(AdminHomePage.this, AdminPricingActivity.class);
+                    startActivity(intent);*/
                     break;
                 case R.id.navigation_helpCenter:
                     getSupportActionBar().setTitle("Help Center");
@@ -237,7 +237,9 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         View headerview = navigationView.getHeaderView(0);
         profileImages = headerview.findViewById(R.id.profileImage);
         userName = headerview.findViewById(R.id.profileName);
-        userName.setText(SharedPrefManager.getInstance(this).getUser().getName());
+        getProfile();
+//        SharedPrefManager.getInstance(this).getUser().;
+      //  userName.setText(SharedPrefManager.getInstance(this).getUser().getName());
         userName.setOnClickListener(this);
         img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();
         {
@@ -303,26 +305,18 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
     }
     private void initView() {
 
-        getProfile();
-
         priceID = getIntent().getStringExtra("PricingID");
         priceIDs = String.valueOf(getIntent().getIntExtra("PricingIDS", 0));
-
-//        getMapvalue();
-        //latlngs.add(new LatLng(latitude, longitude));
-        // latlngs.add(new LatLng(latitude1, longitude1));
-
+/*        getMapvalue();
+         latlngs.add(new LatLng(latitude, longitude));
+         latlngs.add(new LatLng(latitude1, longitude1));*/
         employeeProfileGet();
-
         getDirection = findViewById(R.id.btnGetDirection);
         getDirection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new FetchURL(AdminHomePage.this).execute(getUrl(mylocation.getPosition(), place2.getPosition(), "driving"), "driving");
-
             }
-
-
         });
 
         place1 = new MarkerOptions().position(new LatLng(21.2379468, 81.6336833)).title("Location 1");
@@ -344,10 +338,13 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 Type listType = new TypeToken<DataProfile>() {
                 }.getType();
                 DataProfile dataProfile = new Gson().fromJson(result, listType);
+                userName.setText(dataProfile.getName().toString());
                 if (dataProfile != null) {
                     DataProfile dataProfile1 = new DataProfile();
                     dataProfile1.Image = dataProfile.Image;
                     dataProfile1.Name = dataProfile.Name;
+
+
 //                        SharedPrefManager.getInstance(this).userLogin(dataProfile1);
 
                 }
@@ -389,13 +386,20 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         RelativeLayout relativeLayout = (RelativeLayout) marker.findViewById(R.id.custom_marker_view);
 
         String img_strs = AppConfig.BASE_URL + resource;
-//        markerImage.setImageResource(resource);
+/*        markerImage.setImageResource(resource);*/
         if (resource == null)
         {
             markerImage.setImageResource(R.drawable.jihuzurblanklogo);
-//                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
+/*                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);*/
         } else {
-            Glide.with(marker.getContext()).load(img_strs).into(markerImage);
+
+          /*  Glide.with(marker.getContext())
+                    .load(img_strs)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(markerImage);*/
+
+                      Glide.with(marker.getContext()).load(img_strs).into(markerImage);
         }
         markerImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -461,7 +465,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 
                 {
                     profileimage.setImageResource(R.drawable.jihuzurblanklogo);
-//                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
+ /*                Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);*/
                 } else {
                     Glide.with(context).load(AppConfig.BASE_URL + img_str).into(profileimage);
                 }
@@ -471,8 +475,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
-
                                 dialog.cancel();
                             }
                         });

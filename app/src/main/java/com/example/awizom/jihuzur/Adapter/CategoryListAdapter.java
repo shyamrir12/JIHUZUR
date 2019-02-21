@@ -21,8 +21,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.AdminActivity.AdminCategoryActivity;
 import com.example.awizom.jihuzur.Config.AppConfig;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.Result;
@@ -81,7 +83,13 @@ public class CategoryListAdapter extends
                 holder.categoryImage.setImageResource(R.drawable.jihuzurblanklogo);
             } else {
 
-                Glide.with(mCtx).load(imagestr).into(holder.categoryImage);
+                Glide.with(mCtx)
+                        .load(imagestr)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(holder.categoryImage);
+
+               // Glide.with(mCtx).load(imagestr).into(holder.categoryImage);
             }
         } catch (Exception e) {
             e.printStackTrace();

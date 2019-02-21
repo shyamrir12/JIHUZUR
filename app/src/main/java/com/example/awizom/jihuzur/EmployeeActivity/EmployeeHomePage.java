@@ -236,9 +236,7 @@ public class EmployeeHomePage extends AppCompatActivity
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
                             .skipMemoryCache(true)
                             .into(imageView);
-
-
-//                    Glide.with(this).load(img_str).into(imageView);
+                    //                    Glide.with(this).load(img_str).into(imageView);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
