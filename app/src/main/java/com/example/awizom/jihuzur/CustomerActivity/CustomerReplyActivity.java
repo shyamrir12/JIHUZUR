@@ -1,6 +1,7 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +29,7 @@ public class CustomerReplyActivity extends AppCompatActivity implements View.OnC
     private String result = "",reviewID="",reView,reviewdate,replyID="0";
     CustomerReplyAdapter customerReplyAdapter;
     private boolean active=true;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,17 +54,31 @@ public class CustomerReplyActivity extends AppCompatActivity implements View.OnC
 
         reviewMsz.setText(reView.toString());
         reviewDate.setText(reviewdate.toString());
-
+        mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         sendButton.setOnClickListener(this);
         getReplyList();
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                try {
+                    getReplyList();
+                }catch (Exception e){
+                    e.printStackTrace();
+
+                }
+            }
+        });
     }
     private void getReplyList() {
         try {
+            mSwipeRefreshLayout.setRefreshing(true);
             result = new CustomerOrderHelper.GetReviewReplyList().execute(reviewID.toString()).get();
+            mSwipeRefreshLayout.setRefreshing(false);
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Reply>>() {
             }.getType();

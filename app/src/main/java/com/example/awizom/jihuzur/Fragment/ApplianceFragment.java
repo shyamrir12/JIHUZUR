@@ -3,6 +3,7 @@ package com.example.awizom.jihuzur.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ public class ApplianceFragment extends Fragment {
     RecyclerView recyclerView;
     RelativeLayout relativeLayout;
     CustomerCatagoryAdapter customerCatagoryAdapter;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,17 +43,30 @@ public class ApplianceFragment extends Fragment {
     private void initView(View view) {
 
         relativeLayout = view.findViewById(R.id.textRelate);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         recyclerView = view.findViewById(R.id.recyclerView);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         getcatagoryList();
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                try {
+                    getcatagoryList();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void getcatagoryList() {
 
         try {
+            mSwipeRefreshLayout.setRefreshing(true);
             result = new CustomerOrderHelper.GETCustomerCategoryList().execute(catalogName).get();
+            mSwipeRefreshLayout.setRefreshing(false);
             if(result != null){
 
                 Gson gson = new Gson();

@@ -14,6 +14,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
                 android:id="@+id/l0"
                 android:layout_width="match_parent"
@@ -84,12 +85,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_below="@+id/vv1">
-
-
-
-
-
-
 
                 <LinearLayout
                     android:id="@+id/l1"
@@ -334,23 +329,18 @@
                                 android:textSize="19dp"
                                 android:visibility="gone"/>
 
-                            <android.support.v4.widget.SwipeRefreshLayout
-                                android:id="@+id/swipeRefreshLayout"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_below="@+id/reply">
+
                                 <android.support.v7.widget.RecyclerView
                                     android:id="@+id/recyclerView"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                     />
-                            </android.support.v4.widget.SwipeRefreshLayout>
+                                    android:layout_below="@+id/reply" />
+
 
                         </RelativeLayout>
                     </android.support.v7.widget.CardView>
 
                 </LinearLayout>
-
 
             </RelativeLayout>
 
