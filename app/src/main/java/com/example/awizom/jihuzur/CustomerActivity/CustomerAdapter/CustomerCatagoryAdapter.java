@@ -68,7 +68,7 @@ public class CustomerCatagoryAdapter extends RecyclerView.Adapter<CustomerCatago
                 intent.putExtra("CategoryName",holder.catalogoryName.getText().toString());
                 intent.putExtra("CatalogID", holder.catalogid.getText().toString());
                 intent.putExtra("CatalogName", holder.catagory.getText().toString());
-                intent.putExtra("Image",imagelink);
+                intent.putExtra("Image", AppConfig.BASE_URL + c.getImage().toString());
                 mCtx.startActivity(intent);
             }
         });

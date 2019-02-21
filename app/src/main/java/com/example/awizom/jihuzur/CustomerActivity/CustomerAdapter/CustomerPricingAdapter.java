@@ -22,7 +22,7 @@ public class CustomerPricingAdapter extends RecyclerView.Adapter<CustomerPricing
     private Context mCtx;
     private List<PricingView> pricingViewList;
     private String serviceID = "", result = "", displytype = "", orderId = "", priceId = "", btn = "";
-
+    private RadioButton selectedRadioButton;
 
     public CustomerPricingAdapter(CustomerpricingActivity customerpricingActivity, List<PricingView> pricingViewsList, String displayType, String orderID, String priceID, String btn) {
         this.mCtx = customerpricingActivity;
@@ -42,7 +42,7 @@ public class CustomerPricingAdapter extends RecyclerView.Adapter<CustomerPricing
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomerPricingAdapter.OrderItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final CustomerPricingAdapter.OrderItemViewHolder holder, final int position) {
 
         try {
             final int pos = position;
@@ -93,7 +93,30 @@ public class CustomerPricingAdapter extends RecyclerView.Adapter<CustomerPricing
                 }
             });
 
+            holder.radioButton.setChecked(pricingViewList.get(position).isSelected());
+            holder.radioButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for(PricingView model: pricingViewList)
+                        model.setSelected(false);
 
+                    pricingViewList.get(position).setSelected(true);
+
+                    // If current view (RadioButton) differs from previous selected radio button, then uncheck selectedRadioButton
+                    if(null != selectedRadioButton && !v.equals(selectedRadioButton))
+                        selectedRadioButton.setChecked(false);
+
+                    // Replace the previous selected radio button with the current (clicked) one, and "check" it
+                    selectedRadioButton = (RadioButton) v;
+                    selectedRadioButton.setChecked(true);
+
+                    Toast.makeText(
+                            v.getContext(),
+                            "Clicked on Checkbox: " + holder.radioButton.getText() + " is "
+                                    + selectedRadioButton.isChecked(), Toast.LENGTH_LONG).show();
+
+                }
+            });
 
 
 
@@ -155,16 +178,16 @@ public class CustomerPricingAdapter extends RecyclerView.Adapter<CustomerPricing
             pricingView = new PricingView();
 
             if (v.getId() == radioButton.getId()) {
-                if (radioButton.isChecked()) {
-                    Toast.makeText(mCtx, "Selected CheckBox ID" + priceIDText.getText(), Toast.LENGTH_SHORT).show();
-                    PricingView pView = new PricingView();
-                    pView.PricingID = Integer.valueOf((String) priceIDText.getText());
-                    SharedPrefManager.getInstance(mCtx).checked(pView);
-                    String s = String.valueOf(SharedPrefManager.getInstance(mCtx).getPricingID().PricingID);
-
-                } else {
-                    Toast.makeText(mCtx, "Not Selected" + radioButton.getText(), Toast.LENGTH_SHORT).show();
-                }
+//                if (radioButton.isChecked()) {
+//                    Toast.makeText(mCtx, "Selected CheckBox ID" + priceIDText.getText(), Toast.LENGTH_SHORT).show();
+//                    PricingView pView = new PricingView();
+//                    pView.PricingID = Integer.valueOf((String) priceIDText.getText());
+//                    SharedPrefManager.getInstance(mCtx).checked(pView);
+//                    String s = String.valueOf(SharedPrefManager.getInstance(mCtx).getPricingID().PricingID);
+//
+//                } else {
+//                    Toast.makeText(mCtx, "Not Selected" + radioButton.getText(), Toast.LENGTH_SHORT).show();
+//                }
             }
 
         }
