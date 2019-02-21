@@ -391,16 +391,10 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         String img_strs = AppConfig.BASE_URL + resource;
 //        markerImage.setImageResource(resource);
         if (resource == null)
-
-
         {
-
-
             markerImage.setImageResource(R.drawable.jihuzurblanklogo);
 //                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
         } else {
-
-
             Glide.with(marker.getContext()).load(img_strs).into(markerImage);
         }
         markerImage.setOnClickListener(new View.OnClickListener() {
@@ -416,8 +410,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         text_mob.setText(mobno);
         txt_name.setText(_name);
         txt_id.setText(id);
-
-
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         marker.setLayoutParams(new ViewGroup.LayoutParams(52, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -427,7 +419,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         Bitmap bitmap = Bitmap.createBitmap(marker.getMeasuredWidth(), marker.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         marker.draw(canvas);
-
 
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override

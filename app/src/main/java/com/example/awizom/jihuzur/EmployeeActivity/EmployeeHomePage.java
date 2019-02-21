@@ -31,6 +31,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.awizom.jihuzur.AdminActivity.AdminHomePage;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.DrawingActivity;
@@ -229,7 +231,14 @@ public class EmployeeHomePage extends AppCompatActivity
                 } else {
 
 
-                    Glide.with(this).load(img_str).into(imageView);
+                    Glide.with(EmployeeHomePage.this)
+                            .load(img_str)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
+                            .into(imageView);
+
+
+//                    Glide.with(this).load(img_str).into(imageView);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

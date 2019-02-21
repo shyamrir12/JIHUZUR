@@ -302,14 +302,8 @@ public class DrawingActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-
         if (resultCode == Activity.RESULT_OK) {
-
-
-
             if (requestCode == IMAGE_RESULT) {
-
                 String  filePath = getImageFilePath(data);
                 if (filePath != null) {
                     Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
@@ -320,8 +314,6 @@ public class DrawingActivity extends AppCompatActivity {
                     {
                      identityImage.setImageBitmap(selectedImage);
                     }
-
-
                 }
             }
 
