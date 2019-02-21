@@ -184,13 +184,13 @@ public class DrawingActivity extends AppCompatActivity {
                     if (SharedPrefManager.getInstance(DrawingActivity.this).getUser().getImage() != null) {
                         Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
                     }
-                    if (SharedPrefManager.getInstance(DrawingActivity.this).getUser().getRole() == "Customer") {
+                    if (SharedPrefManager.getInstance(DrawingActivity.this).getUser().getRole().equals("Customer")) {
                         intent = new Intent(DrawingActivity.this, CustomerHomePage.class);
                         startActivity(intent);
-                    } else if (SharedPrefManager.getInstance(DrawingActivity.this).getUser().getRole() == "Employee") {
+                    } else if (SharedPrefManager.getInstance(DrawingActivity.this).getUser().getRole().equals("Employee")) {
                         intent = new Intent(DrawingActivity.this, EmployeeHomePage.class);
                         startActivity(intent);
-                    } else {
+                    } else if (SharedPrefManager.getInstance(DrawingActivity.this).getUser().getRole().equals("Admin"))  {
                         intent = new Intent(DrawingActivity.this, AdminHomePage.class);
                         startActivity(intent);
                     }
