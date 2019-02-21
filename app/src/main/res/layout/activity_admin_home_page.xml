@@ -21,6 +21,7 @@
         <ImageButton
             android:id="@+id/getRefresh"
             android:text="Refresh Map"
+            android:background="#359c5e"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_refresh_black_24dp"

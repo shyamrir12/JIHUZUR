@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -47,6 +48,7 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
     RecyclerView recyclerView;
     ImageView imageView;
     private String[] categoryList;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +69,22 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
                 onBackPressed();
             }
         });
+        mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         addCategory = (FloatingActionButton) findViewById(R.id.addCategory);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                try {
+                    getCategoryList();
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                }
+            }
+        });
         addCategory.setOnClickListener(this);
 
 
@@ -81,17 +95,15 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
 
     private void getCategoryList() {
 
-
         try {
-
-
+            mSwipeRefreshLayout.setRefreshing(true);
             result = new AdminHelper.GETCategoryList().execute(catalogName.toString()).get();
-
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Catalog>>() {
             }.getType();
             categorylist = new Gson().fromJson(result, listType);
             adapterCategoryList = new CategoryListAdapter(AdminCategoryActivity.this, categorylist);
+            mSwipeRefreshLayout.setRefreshing(false);
             recyclerView.setAdapter(adapterCategoryList);
         } catch (Exception e) {
             e.printStackTrace();

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -49,7 +50,7 @@ public class AdminPricingActivity extends AppCompatActivity {
     TextView tv;
     String result = "";
     android.support.v7.widget.Toolbar toolbar;
-
+    SwipeRefreshLayout mSwipeRefreshLayout;;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class AdminPricingActivity extends AppCompatActivity {
         });
         layout = (LinearLayout) findViewById(R.id.ll1);
         lparams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
+        mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         servicename = (TextView) findViewById(R.id.servicePricing);
         recyclerView.setHasFixedSize(true);
@@ -78,6 +79,17 @@ public class AdminPricingActivity extends AppCompatActivity {
         displayType = getIntent().getStringExtra("displayType");
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                try {
+                    getPricing();
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                }
+            }
+        });
         addPricing = (FloatingActionButton) findViewById(R.id.addPricing);
         progressDialog = new ProgressDialog(this);
         addPricing.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +108,7 @@ public class AdminPricingActivity extends AppCompatActivity {
 
 
         try {
+            mSwipeRefreshLayout.setRefreshing(true);
             result = new AdminHelper.GETPricingList().execute(String.valueOf(serviceID)).get();
             if (result.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
@@ -126,6 +139,7 @@ public class AdminPricingActivity extends AppCompatActivity {
 
                 adapterPricingList = new PricingListAdapter(AdminPricingActivity.this, pricingList, displayType);
                 recyclerView.setAdapter(adapterPricingList);
+                mSwipeRefreshLayout.setRefreshing(false);
                 pricingList.get(0).getServiceName();
                 serviceName = pricingList.get(0).getServiceName();
                 servicename.setText(serviceName + " Pricing");
