@@ -140,7 +140,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
     private MarkerOptions place2;
     private Polyline currentPolyline;
     private Fragment searchFragment, myBookingFragment, helpCenterFragment, catalogFragment;
-    ImageButton mapRefresh;
+    ImageView mapRefresh;
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -202,7 +202,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         toggle.syncState();
 
 
-        mapRefresh=(ImageButton)findViewById(R.id.getRefresh);
+        mapRefresh=(ImageView)findViewById(R.id.getRefresh);
         mapRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
