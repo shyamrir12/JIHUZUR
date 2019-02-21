@@ -2,18 +2,27 @@ package com.example.awizom.jihuzur.Model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.security.PublicKey;
+
 public class Result {
     @SerializedName("Status")
-    private Boolean Status;
+    public Boolean Status;
 
     @SerializedName("Message")
-    private String Message;
+    public String Message;
+
+    @SerializedName("ImageUrl")
+    public String ImageUrl;
 
 
-    public Result(String Message, Boolean Status) {
+
+
+
+    public Result(String Message, Boolean Status,String ImageUrl) {
 
         this.Message = Message;
         this.Status = Status;
+        this.ImageUrl = ImageUrl;
 
     }
 
@@ -25,5 +34,8 @@ public class Result {
         return Message;
     }
 
+    public String getImageUrl() {
+        return ImageUrl;
+    }
 
 }

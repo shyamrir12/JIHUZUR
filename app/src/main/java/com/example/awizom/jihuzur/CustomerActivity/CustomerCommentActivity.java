@@ -3,6 +3,7 @@ package com.example.awizom.jihuzur.CustomerActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -68,6 +69,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
     private DataProfile dataProfileCustomer;
     private DataProfile dataProfileEmployee;
     private String customerID = "", employeeID = "";
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     @Override
@@ -100,7 +102,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         ratingBar=findViewById(R.id.rating);
         review=findViewById(R.id.review) ;
         txtRatingValue = findViewById(R.id.txtRatingValue);
-
+        mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -145,6 +147,21 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
 
         getCustomerProfileGet();
         getEmployeeProfileGet();
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                try {
+                    getreviewByOrder();
+
+                    getCustomerProfileGet();
+                    getEmployeeProfileGet();
+                }catch (Exception e){
+                    e.printStackTrace();
+
+                }
+            }
+        });
 
     }
 
@@ -192,7 +209,9 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
 
     private void getreviewByOrder() {
         try {
+            mSwipeRefreshLayout.setRefreshing(true);
             result = new CustomerOrderHelper.GetReviewByServiceList().execute(orderID).get();
+            mSwipeRefreshLayout.setRefreshing(false);
            // Toast.makeText(CustomerCommentActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Review>>() {
@@ -215,7 +234,9 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         try {
 
             customerID = SharedPrefManager.getInstance(getApplicationContext()).getUser().ID;
+            mSwipeRefreshLayout.setRefreshing(true);
             result = new AdminHelper.GetProfileForShow().execute(customerID.toString()).get();
+            mSwipeRefreshLayout.setRefreshing(false);
             if (result.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
             } else {
@@ -244,8 +265,9 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
 
         try {
 
-
+            mSwipeRefreshLayout.setRefreshing(true);
             result = new AdminHelper.GetProfileForShow().execute(employeeID).get();
+            mSwipeRefreshLayout.setRefreshing(false);
             if (result.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
             } else {

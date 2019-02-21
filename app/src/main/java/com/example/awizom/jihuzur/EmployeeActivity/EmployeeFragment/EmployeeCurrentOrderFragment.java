@@ -2,6 +2,7 @@ package com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ public class EmployeeCurrentOrderFragment extends Fragment implements View.OnCli
     private View view;
     private String result = "", empId;
     private ImageView reloadBtn;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,12 +45,24 @@ public class EmployeeCurrentOrderFragment extends Fragment implements View.OnCli
 
         empId = SharedPrefManager.getInstance(getContext()).getUser().getID();
         relativeLayout = view.findViewById(R.id.textRelate);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         recyclerView = view.findViewById(R.id.recyclerView);
         // reloadBtn = view.findViewById(R.id.reload);
         // reloadBtn.setOnClickListener(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                try {
+                    getMyOrderRunning();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    relativeLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         try {
             getMyOrderRunning();
         } catch (Exception e) {
@@ -59,7 +73,9 @@ public class EmployeeCurrentOrderFragment extends Fragment implements View.OnCli
 
     private void getMyOrderRunning() {
         try {
+            mSwipeRefreshLayout.setRefreshing(true);
             result = new EmployeeOrderHelper.EmployeeGetMyCurrentOrder().execute(empId).get();
+            mSwipeRefreshLayout.setRefreshing(false);
             if (result.isEmpty()) {
                 relativeLayout.setVisibility(View.VISIBLE);
             } else {

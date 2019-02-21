@@ -171,6 +171,7 @@ public class CustomerHomePage extends AppCompatActivity
 
 
                     Glide.with(this).load(img_str).into(imageView);
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();

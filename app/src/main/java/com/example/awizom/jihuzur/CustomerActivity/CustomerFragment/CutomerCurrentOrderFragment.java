@@ -2,6 +2,7 @@ package com.example.awizom.jihuzur.CustomerActivity.CustomerFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ public class CutomerCurrentOrderFragment extends Fragment {
     CustomerCurrentOrderAdapter currentOrderAdapter;
     RecyclerView recyclerView;
     RelativeLayout relativeLayout;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,12 +43,26 @@ public class CutomerCurrentOrderFragment extends Fragment {
     private void initView(View view) {
         userId= SharedPrefManager.getInstance(getContext()).getUser().getID();
 
+        mSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+
         relativeLayout = view.findViewById(R.id.textRelate);
         recyclerView = view.findViewById(R.id.recyclerView);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                try {
+                    getMyOrderRunning();
+                }catch (Exception e){
+                    e.printStackTrace();
+                    relativeLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         try {
             getMyOrderRunning();
         }catch (Exception e){
@@ -58,7 +74,9 @@ public class CutomerCurrentOrderFragment extends Fragment {
     }
     private void getMyOrderRunning() {
         try {
+            mSwipeRefreshLayout.setRefreshing(true);
             result   = new CustomerOrderHelper.GetMyOrderRunning().execute(userId).get();
+            mSwipeRefreshLayout.setRefreshing(false);
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Order>>() {
             }.getType();

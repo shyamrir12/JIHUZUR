@@ -2,6 +2,7 @@ package com.example.awizom.jihuzur.EmployeeActivity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -42,6 +43,7 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
     EmployeeSkillServiceAdapter employeeSkillServiceAdapter;
     Spinner categoryspin, servicesspin;
     private String[] category, service;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,13 +71,26 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
 
     private void intitView() {
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
+        mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
         getEmployeeSkill();
         addSkill = (FloatingActionButton) findViewById(R.id.addSkill);
         addSkill.setOnClickListener(this);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                try {
+                    getEmployeeSkill();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
 
 
     }
@@ -84,7 +99,9 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
 
         String employeeid = SharedPrefManager.getInstance(EmployeeSkillActivity.this).getUser().getID();
         try {
+            mSwipeRefreshLayout.setRefreshing(true);
             result = new EmployeeOrderHelper.GetEmployeeSkill().execute(employeeid.toString()).get();
+            mSwipeRefreshLayout.setRefreshing(false);
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Skill>>() {
             }.getType();

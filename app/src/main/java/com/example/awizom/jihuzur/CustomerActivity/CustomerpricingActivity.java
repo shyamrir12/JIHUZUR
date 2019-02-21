@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,6 +56,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     List<EmployeeProfileModel> employeeProfileModelList;
     private EmployeeProfileModel employeeProfileModel;
     private String[] empNameList, empLat, empLong;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 
 
         getSupportActionBar().setTitle(serviceName);
+        mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -99,12 +102,27 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 
         getMyOrderRunning();
         employeeProfileGet();
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                try {
+                    getMyOrderRunning();
+                    employeeProfileGet();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
 
     private void getMyOrderRunning() {
         try {
+            mSwipeRefreshLayout.setRefreshing(true);
             result = new CustomerOrderHelper.GetCustomerPricing().execute(serviceID.toString()).get();
+            mSwipeRefreshLayout.setRefreshing(false);
             Gson gson = new Gson();
             Type listType = new TypeToken<List<PricingView>>() {
             }.getType();

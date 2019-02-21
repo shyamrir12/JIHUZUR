@@ -29,6 +29,8 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.awizom.jihuzur.AdminActivity.AdminHomePage;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
@@ -127,8 +129,13 @@ public class DrawingActivity extends AppCompatActivity {
                 //     Glide.with(mCtx).load("http://192.168.1.105:7096/Images/Category/1.png").into(holder.categoryImage);
             } else {
 
+                Glide.with(DrawingActivity.this)
+                        .load(identimage_str)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(identityImage);
 
-                Glide.with(this).load(identimage_str).into(identityImage);
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -140,6 +147,10 @@ public class DrawingActivity extends AppCompatActivity {
 
         img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();
             try {
+//                DataProfile dataProfile = new DataProfile();
+//                dataProfile.Image = img_str;
+                SharedPrefManager.getInstance(this).getUser().setImage(img_str);
+
                 if (SharedPrefManager.getInstance(this).getUser().getImage() == null)
                 {
 
@@ -147,8 +158,13 @@ public class DrawingActivity extends AppCompatActivity {
                     //     Glide.with(mCtx).load("http://192.168.1.105:7096/Images/Category/1.png").into(holder.categoryImage);
                 } else {
 
+                    Glide.with(DrawingActivity.this)
+                            .load(img_str)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
+                            .into(imageView);
 
-                    Glide.with(this).load(img_str).into(imageView);
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -195,7 +211,13 @@ public class DrawingActivity extends AppCompatActivity {
                     result = new AdminHelper.POSTProfile().execute(id,name,img_str,identityimage,lat,longs).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
-                    Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                    DataProfile dataProfile = new DataProfile();
+                    dataProfile.Image = jsonbodyres.ImageUrl;
+                    SharedPrefManager.getInstance(DrawingActivity.this).getUser().setImage(String.valueOf(dataProfile));
+                    if(SharedPrefManager.getInstance(DrawingActivity.this).getUser().getImage() != null){
+                        Toast.makeText(getApplicationContext(),"Updated", Toast.LENGTH_SHORT).show();
+                    }
+
 
 
                 } catch (Exception e) {

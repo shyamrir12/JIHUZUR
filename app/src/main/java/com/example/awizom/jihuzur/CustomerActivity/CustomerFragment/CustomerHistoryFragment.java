@@ -2,6 +2,7 @@ package com.example.awizom.jihuzur.CustomerActivity.CustomerFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ public class CustomerHistoryFragment extends Fragment {
     CustomerHistoryAdapter currentOrderAdapter;
     RecyclerView recyclerView;
     RelativeLayout relativeLayout;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     @Override
@@ -44,16 +46,30 @@ public class CustomerHistoryFragment extends Fragment {
 
         userId= SharedPrefManager.getInstance(getContext()).getUser().getID();
         relativeLayout = view.findViewById(R.id.textRelate);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         recyclerView = view.findViewById(R.id.recyclerView);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                try {
+                    getHistoryList();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
         getHistoryList();
     }
 
     private void getHistoryList() {
         try {
+            mSwipeRefreshLayout.setRefreshing(true);
             result   = new CustomerOrderHelper.GetMyCompleteOrderGet().execute(userId).get();
+            mSwipeRefreshLayout.setRefreshing(false);
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Order>>() {
             }.getType();
