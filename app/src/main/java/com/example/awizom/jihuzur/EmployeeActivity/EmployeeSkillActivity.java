@@ -51,7 +51,7 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
 
         String employeeNmae = SharedPrefManager.getInstance(EmployeeSkillActivity.this).getUser().getName();
-        toolbar.setTitle(employeeNmae + "'s Skill");
+        toolbar.setTitle("Select Skill");
 
         toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);

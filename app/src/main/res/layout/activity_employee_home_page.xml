@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_weight="1"
-                android:text="Start Service"
+                android:text="Start location Service"
                 android:layout_marginTop="10dp"
                 android:textSize="16sp"
                 android:textColor="@color/colorBlack"
@@ -92,7 +92,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="Stop Service"
+                android:text="Stop location Service"
                 android:layout_marginTop="10dp"
                 android:textSize="16sp"
                 android:textColor="@color/colorBlack"
