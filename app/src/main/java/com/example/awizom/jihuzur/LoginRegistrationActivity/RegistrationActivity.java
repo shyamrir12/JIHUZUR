@@ -47,6 +47,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener {
@@ -64,7 +66,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     boolean connected = false;
     LinearLayout coordinatorLayout;
     Snackbar snackbar;
-    private FirebaseFirestore db;
+     FirebaseFirestore db;
     boolean check=false;
     /*For layout binding */
     @Override
@@ -79,7 +81,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private void initView() {
 
         //19/02/2019 comment for not login
-//        db=FirebaseFirestore.getInstance();
+        db=FirebaseFirestore.getInstance();
+
+
         coordinatorLayout = (LinearLayout) findViewById(R.id.coordinator);
         snackbar = Snackbar
                 .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
@@ -179,8 +183,34 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
 //20/02/2019 Comment for not login on employee profile
 
-        /*                  if(jsonbody.dataProfile.Role.equals( "Employee" )&& !jsonbody.dataProfile.ID.isEmpty() )
-                        { CollectionReference dbprofile=db.collection( "profile" );
+
+                            Map<String, Object> profile = new HashMap<>();
+
+                            profile.put("busystatus", 0);
+                            profile.put("lat", 20.22);
+                            profile.put("long", 80.66);
+
+                            db.collection("Profile").document(jsonbody.dataProfile.ID)
+                                    .set(profile)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                         //   Log.d(TAG, "DocumentSnapshot successfully written!");
+                                            Toast.makeText(getApplicationContext(), "Success!",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(getApplicationContext(), "Failed!",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+
+
+                         if(jsonbody.dataProfile.Role.equals( "Employee" )&& !jsonbody.dataProfile.ID.isEmpty() )
+                        { CollectionReference dbprofile=db.collection( "Profile" );
                              dbprofile.whereEqualTo( "id",jsonbody.dataProfile.ID ).get().addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                                  @Override
                                  public void onSuccess(QuerySnapshot documentSnapshots) {
@@ -205,7 +235,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                                      }
                                  } );
                              }
-                         }*/
+                         }
 
                             if (jsonbody.dataProfile.Role.equals("Employee")) {
                                 intent = new Intent(RegistrationActivity.this, EmployeeHomePage.class);

@@ -649,13 +649,10 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 
         }
 
-
         mGoogleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
-
                 for (int i = 0; i < employeeProfileModelList.size(); i++) {
-
                     latLng = new LatLng(Double.parseDouble(employeeProfileModelList.get(i).getLat()), Double.parseDouble(employeeProfileModelList.get(i).getLong()));
                     name = employeeProfileModelList.get(i).getName();
                     mobno = employeeProfileModelList.get(i).getMobileNo();

@@ -14,6 +14,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
@@ -22,7 +23,13 @@ import android.widget.Toast;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class GPS_Service extends Service {
     private LocationListener listener;
@@ -31,6 +38,7 @@ public class GPS_Service extends Service {
 
     private BroadcastReceiver broadcastReceiver;
     private MediaPlayer player;
+    FirebaseFirestore db;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -49,16 +57,45 @@ public class GPS_Service extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-
+                db=FirebaseFirestore.getInstance();
+                String ID=SharedPrefManager.getInstance(getApplicationContext()).getUser().getID();
                 try {
-                    result = new AdminHelper.POSTProfileLatLong().execute( SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(),String.valueOf(location.getLatitude()).toString(),String.valueOf(location.getLongitude()).toString()).get();
+                   /* result = new AdminHelper.POSTProfileLatLong().execute( SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(),String.valueOf(location.getLatitude()).toString(),String.valueOf(location.getLongitude()).toString()).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
+                  */
+                    Map<String, Object> profile = new HashMap<>();
+                    profile.put("busystatus", false);
+                    profile.put("lat", location.getLatitude());
+                    profile.put("long", location.getLongitude());
+
+                    db.collection("Profile").document(ID)
+                            .set(profile)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    //   Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    Toast.makeText(getApplicationContext(), "Success!",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getApplicationContext(), "Failed!",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            });
+
                     //Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.d("myTag", "\n" + jsonbodyres.getMessage()+" "+location.getLongitude() + " " + location.getLatitude());
+                    Log.d("myTag", "\n" + " "+location.getLongitude() + " " + location.getLatitude());
+
+
+
 
                 } catch (Exception e) {
 
