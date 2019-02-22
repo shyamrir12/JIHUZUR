@@ -26,9 +26,9 @@
             android:layout_margin="5dp">
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:src="@mipmap/skill"
-                android:layout_weight="1.6"
+                android:layout_weight="1.8"
                 android:padding="6dp"/>
             <TextView
                 android:id="@+id/serviceName"
@@ -37,7 +37,7 @@
                 android:layout_weight="1"
                 android:text="TextView"
                 android:textColor="@color/colorBlack"
-                android:textSize="18sp"
+                android:textSize="13sp"
                 android:padding="15dp"/>
             <TextView
                 android:id="@+id/skillid"
@@ -47,13 +47,12 @@
                 android:shadowColor="@color/colorBlack"
                 android:text="TextView"
                 android:textColor="@color/colorBlack"
-                android:visibility="gone"
-                android:textSize="18sp" />
+                android:visibility="gone" />
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1.6"
+                android:layout_height="50dp"
+                android:layout_weight="1.7"
                 android:padding="5dp"
                 android:id="@+id/deleteskill"
                 android:src="@drawable/ic_delete_forever_black_24dp" />
