@@ -222,7 +222,9 @@ public class DrawingActivity extends AppCompatActivity {
                 Type listType = new TypeToken<DataProfile>() {
                 }.getType();
                 DataProfile dataProfile = new Gson().fromJson(result, listType);
-                yourname.setText(dataProfile.getName().toString());
+                if(!dataProfile.getName().toString().equals(null)){
+                    yourname.setText(dataProfile.getName().toString());
+                }
                 if (dataProfile != null) {
                     DataProfile dataProfile1 = new DataProfile();
                     dataProfile1.Image = dataProfile.Image;

@@ -198,7 +198,8 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
     }
     public void InitView() {
 
-
+        getSupportActionBar().setTitle("Track location");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         priceID = getIntent().getStringExtra("PricingID");
         priceIDs = String.valueOf(getIntent().getIntExtra("PricingIDS", 0));
 

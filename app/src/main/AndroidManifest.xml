@@ -158,7 +158,8 @@
         <activity
             android:name=".AdminActivity.AdminMasterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".EmployeeActivity.EmployeeLocationActivity">
+        <activity android:name=".EmployeeActivity.EmployeeLocationActivity"
+            android:parentActivityName=".EmployeeActivity.EmployeeBookingsActivity">
 
         </activity>
     </application>

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.awizom.jihuzur.CustomerActivity.CustomerpricingActivity;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeLocationActivity;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Helper.ServicesHelper;
@@ -273,7 +274,8 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 
                     break;
                 case R.id.trackBtn:
-
+                        intent = new Intent(mCtx, EmployeeLocationActivity.class);
+                        mCtx.startActivity(intent);
 
                     break;
                 case R.id.stopBtn:

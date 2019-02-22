@@ -370,7 +370,8 @@ public class EmployeeHomePage extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            // Handle the camera action
+            intent = new Intent(EmployeeHomePage.this, DrawingActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_booking) {
 
             intent = new Intent(EmployeeHomePage.this, EmployeeBookingsActivity.class);
