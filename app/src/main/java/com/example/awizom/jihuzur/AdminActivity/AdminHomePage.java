@@ -403,7 +403,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(markerImage);*/
-
+//
             Glide.with(marker.getContext()).load(img_strs).into(markerImage);
         }
         markerImage.setOnClickListener(new View.OnClickListener() {
