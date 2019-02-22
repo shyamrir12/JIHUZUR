@@ -65,7 +65,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     }
 
     private void InitView() {
-
+        getSupportActionBar().setTitle("Track");
         customerID = getIntent().getStringExtra("CustomerID");
         employeeID = getIntent().getStringExtra("EmployeeID");
         getCustomerProfileGet();

@@ -130,7 +130,8 @@
         <activity
             android:name=".CustomerActivity.CustomerCommentActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CustomerActivity.TrackActivity" />
+        <activity android:name=".CustomerActivity.TrackActivity"
+            android:parentActivityName=".MyBokingsActivity"/>
         <activity android:name=".CustomerActivity.CustomerReplyActivity" />
 
         <service
