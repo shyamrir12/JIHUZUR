@@ -12,18 +12,13 @@
         android:id="@+id/w1">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-
-
+            android:layout_height="wrap_content">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/categoryImage"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/home_cleaning" />
-
-
 
             <TextView
                 android:id="@+id/categoryName"
@@ -41,16 +36,17 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:id="@+id/catalogId"
-            android:visibility="gone"
-
-            />
+            android:visibility="gone" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:id="@+id/catalogoryName"
-            android:visibility="gone"
-
-            />
+            android:visibility="gone" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:id="@+id/imgLink"
+            android:visibility="gone" />
 
 
 
@@ -58,8 +54,5 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="20dp"
-        android:layout_below="@+id/w1"
-
-
-        />
+        android:layout_below="@+id/w1" />
 </RelativeLayout>

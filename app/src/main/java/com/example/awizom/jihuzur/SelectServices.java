@@ -1,18 +1,13 @@
 package com.example.awizom.jihuzur;
 
 
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.support.annotation.NonNull;
+import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,35 +17,18 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.awizom.jihuzur.Adapter.CatalogGridViewAdapter;
-import com.example.awizom.jihuzur.Adapter.CategoryListAdapter;
 import com.example.awizom.jihuzur.Adapter.ServiceListAdapter;
-import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
-import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.Service;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 
 public class SelectServices extends AppCompatActivity implements View.OnClickListener {
 
@@ -83,6 +61,8 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
 
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Services");
+        toolbar.setTitleTextColor(Color.BLACK);
+        toolbar.setSubtitleTextColor(Color.BLACK);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
