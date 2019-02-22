@@ -26,36 +26,27 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.awizom.jihuzur.AdminActivity.AdminHomePage;
 import com.example.awizom.jihuzur.Config.AppConfig;
-import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.DrawingActivity;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeePageAdapter;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
-import com.example.awizom.jihuzur.Fragment.SearchFragment;
-import com.example.awizom.jihuzur.MenuActivity;
-import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.LoginRegistrationActivity.RegistrationActivity;
 import com.example.awizom.jihuzur.Service.GPS_Service;
 import com.example.awizom.jihuzur.Service.LocationMonitoringNotificationService;
 import com.example.awizom.jihuzur.SettingsActivity;
-import com.example.awizom.jihuzur.UpdateProfile;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 
 public class EmployeeHomePage extends AppCompatActivity
 
         //side navigation drawer start
 
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+   implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     String TAG;
     ImageView imageView;
     String dUser, name, role, Url;
