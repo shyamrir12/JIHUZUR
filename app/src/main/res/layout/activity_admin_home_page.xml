@@ -5,23 +5,24 @@
     android:id="@+id/drawer_layout"
     android:layout_height="match_parent">
 
-
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
+        android:layout_marginTop="50dp"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <fragment
             android:id="@+id/mapNearBy"
+            android:layout_marginTop="10dp"
             android:name="com.google.android.gms.maps.MapFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_below="@+id/rvToolbar"
             android:layout_weight="1" />
-        <ImageButton
+
+        <ImageView
             android:id="@+id/getRefresh"
             android:text="Refresh Map"
-            android:background="#359c5e"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_refresh_black_24dp"
@@ -43,12 +44,7 @@
             android:textSize="20sp"
             android:textColor="#00f"
             style="@style/Base.TextAppearance.AppCompat.Headline"
-
             />
-
-
-
-
         <Button
             android:id="@+id/btnGetDirection"
             android:text="Get Direction"
@@ -79,8 +75,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/home_container" />
-
-
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigation"
             android:layout_width="match_parent"

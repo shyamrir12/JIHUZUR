@@ -160,7 +160,6 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                     CircleOptions circleOptions = new CircleOptions();
                     circleOptions.center(new LatLng(location.getLatitude(),
                             location.getLongitude()));
-
                     circleOptions.radius(200);
                     circleOptions.fillColor(Color.BLUE);
                     circleOptions.strokeWidth(6);
@@ -220,7 +219,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
 
         });
 
-        place1 = new MarkerOptions().position(new LatLng(21.2379468, 81.6336833)).title("Location 1");
+       /* place1 = new MarkerOptions().position(new LatLng(21.2379468, 81.6336833)).title("Location 1"); */
         /*  place2 = new MarkerOptions().position(new LatLng(21.2120677, 81.3732849)).title("Location 2");*/
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.mapNearBy);
@@ -521,8 +520,8 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                     LatLngBounds bounds = builder.build();
 
 
-                    mGoogleMap.addMarker(place1);
-                    mGoogleMap.addMarker(place1);
+                 /*  mGoogleMap.addMarker(place1);
+                   mGoogleMap.addMarker(place1);*/
                     mGoogleMap.addMarker(mylocation);
                     CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
                     mGoogleMap.moveCamera(cu);
