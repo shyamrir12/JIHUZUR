@@ -9,14 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.SelectServices;
-
 import java.util.List;
 
 public class CustomerCatagoryAdapter extends RecyclerView.Adapter<CustomerCatagoryAdapter.catalogListItemViewHolder> {
@@ -56,6 +54,8 @@ public class CustomerCatagoryAdapter extends RecyclerView.Adapter<CustomerCatago
                     .placeholder(R.drawable.home_cleaning).dontAnimate()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(holder.imageViewList);
+            holder.imglinkurl.setText(imagelink);
+
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener()
@@ -68,7 +68,7 @@ public class CustomerCatagoryAdapter extends RecyclerView.Adapter<CustomerCatago
                 intent.putExtra("CategoryName",holder.catalogoryName.getText().toString());
                 intent.putExtra("CatalogID", holder.catalogid.getText().toString());
                 intent.putExtra("CatalogName", holder.catagory.getText().toString());
-                intent.putExtra("Image", AppConfig.BASE_URL + c.getImage().toString());
+                intent.putExtra("Image", holder.imglinkurl.getText().toString());
                 mCtx.startActivity(intent);
             }
         });
@@ -85,7 +85,7 @@ public class CustomerCatagoryAdapter extends RecyclerView.Adapter<CustomerCatago
     class catalogListItemViewHolder extends RecyclerView.ViewHolder {
 
         private Context mCtx;
-        private TextView catagory,catalogid,catalogoryName;
+        private TextView catagory,catalogid,catalogoryName,imglinkurl;
         private ImageView imageViewList;
         private List<Catalog> catalogList;
 
@@ -98,6 +98,7 @@ public class CustomerCatagoryAdapter extends RecyclerView.Adapter<CustomerCatago
             catalogoryName =  view.findViewById(R.id.catalogoryName);
             catalogid = view.findViewById(R.id.catalogId);
             imageViewList = view.findViewById(R.id.categoryImage);
+            imglinkurl = view.findViewById(R.id.imgLink);
 
 
         }
