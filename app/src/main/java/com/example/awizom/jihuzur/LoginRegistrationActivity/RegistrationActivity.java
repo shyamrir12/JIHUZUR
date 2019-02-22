@@ -189,7 +189,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                             profile.put("busystatus", 0);
                             profile.put("lat", 20.22);
                             profile.put("long", 80.66);
-
+//
                             db.collection("Profile").document(jsonbody.dataProfile.ID)
                                     .set(profile)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
