@@ -75,6 +75,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
@@ -103,6 +108,7 @@ import com.example.awizom.jihuzur.SettingsActivity;
 
 public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallback, TaskLoadedCallback, GoogleMap.OnMarkerClickListener,NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
+    FirebaseFirestore db;
     String img_str;
     String result = "";
     Intent intent;
@@ -133,7 +139,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
     private ArrayList<LatLng> latlngs = new ArrayList<>();
     private ArrayList<String> empMobile = new ArrayList<>();
     private ArrayList<String> empName = new ArrayList<>();
-    private String[] empNameList, empLat, empLong, employeeid;
+    private String[] empNameList, empLat, empLong, employeeid, fireid, firelat, firelong;
     private String priceID = "", priceIDs = "", selectedEmpId;
     private String priceIds;
     private MarkerOptions place1, mylocation;
@@ -200,9 +206,9 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        db = FirebaseFirestore.getInstance();
 
-
-        mapRefresh=(ImageView)findViewById(R.id.getRefresh);
+        mapRefresh = (ImageView) findViewById(R.id.getRefresh);
         mapRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -239,7 +245,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         userName = headerview.findViewById(R.id.profileName);
         getProfile();
 //        SharedPrefManager.getInstance(this).getUser().;
-      //  userName.setText(SharedPrefManager.getInstance(this).getUser().getName());
+        //  userName.setText(SharedPrefManager.getInstance(this).getUser().getName());
         userName.setOnClickListener(this);
         img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();
         {
@@ -275,8 +281,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 
         for (int i = 0; i < employeeProfileModelList.size(); i++) {
 
-            latLng = new LatLng(Double.parseDouble(employeeProfileModelList.get(i).getLat()), Double.parseDouble(employeeProfileModelList.get(i).getLong()));
-            name = employeeProfileModelList.get(i).getName();
+             name = employeeProfileModelList.get(i).getName();
             mobno = employeeProfileModelList.get(i).getMobileNo();
             img_str = employeeProfileModelList.get(i).getImage();
             empid = employeeProfileModelList.get(i).getID();
@@ -303,6 +308,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
         }
     }
+
     private void initView() {
 
         priceID = getIntent().getStringExtra("PricingID");
@@ -386,11 +392,10 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         RelativeLayout relativeLayout = (RelativeLayout) marker.findViewById(R.id.custom_marker_view);
 
         String img_strs = AppConfig.BASE_URL + resource;
-/*        markerImage.setImageResource(resource);*/
-        if (resource == null)
-        {
+        /*        markerImage.setImageResource(resource);*/
+        if (resource == null) {
             markerImage.setImageResource(R.drawable.jihuzurblanklogo);
-/*                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);*/
+            /*                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);*/
         } else {
 
           /*  Glide.with(marker.getContext())
@@ -399,7 +404,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     .skipMemoryCache(true)
                     .into(markerImage);*/
 
-                      Glide.with(marker.getContext()).load(img_strs).into(markerImage);
+            Glide.with(marker.getContext()).load(img_strs).into(markerImage);
         }
         markerImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -427,6 +432,8 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+
+
 
                 android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(context);
                 LayoutInflater inflater = LayoutInflater.from(context);
@@ -465,7 +472,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 
                 {
                     profileimage.setImageResource(R.drawable.jihuzurblanklogo);
- /*                Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);*/
+                    /*                Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);*/
                 } else {
                     Glide.with(context).load(AppConfig.BASE_URL + img_str).into(profileimage);
                 }
@@ -576,12 +583,39 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
     private void employeeProfileGet() {
 
         try {
-
             result = new EmployeeOrderHelper.GetEmployeeProfileForShow().execute().get();
-
             Type listType = new TypeToken<List<EmployeeProfileModel>>() {
             }.getType();
             employeeProfileModelList = new Gson().fromJson(result.toString(), listType);
+
+
+            db.collection("Profile")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    fireid = new String[employeeProfileModelList.size()];
+                                    firelat = new String[employeeProfileModelList.size()];
+                                    firelong = new String[employeeProfileModelList.size()];
+                                    for (int i = 0; i < task.getResult().size(); i++) {
+                                        fireid[i] = task.getResult().getDocuments().get(i).getId();
+                                        firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
+                                        firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
+
+                                        latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
+                                                Double.valueOf( String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
+                                    }
+
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+
 
             empNameList = new String[employeeProfileModelList.size()];
             empLat = new String[employeeProfileModelList.size()];
@@ -591,23 +625,27 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 empNameList[i] = String.valueOf(employeeProfileModelList.get(i).getName());
                 empLat[i] = String.valueOf(employeeProfileModelList.get(i).getLat());
                 empLong[i] = String.valueOf(employeeProfileModelList.get(i).getLong());
-                latlngs.add(new LatLng(Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLat())),
-                        Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLong()))));
-
                 employeeid[i] = String.valueOf(employeeProfileModelList.get(i).getID());
                 empMobile.add(employeeProfileModelList.get(i).getMobileNo());
                 empName.add(employeeProfileModelList.get(i).getName());
 
 
+
+
+                }
+
+            } catch(ExecutionException e){
+                e.printStackTrace();
+            } catch(InterruptedException e){
+                e.printStackTrace();
             }
-
-
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
-    }
+
+
+
+
+
+
 
     // Fetches data from url passed
 
@@ -626,8 +664,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         Marker[] allMarkers = new Marker[employeeProfileModelList.size()];
 
         for (int i = 0; i < employeeProfileModelList.size(); i++) {
-            latLng = new LatLng(Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLat())),
-                    Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLong())));
+
             String ids = employeeProfileModelList.get(i).getID();
 
             if (googleMap != null) {
@@ -637,9 +674,9 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 //                        .title(employeeProfileModelList.get(i).getName() + " " + "+91" + employeeProfileModelList.get(i).getMobileNo())
 //                        .snippet(employeeProfileModelList.get(i).getID()));
 //                googleMap.addPolyline(polylineOptions);
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13.0f));
+          /*      googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13.0f));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
-
+*/
                 //*Remove google red marker
 
 
@@ -653,8 +690,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             @Override
             public void onMapLoaded() {
                 for (int i = 0; i < employeeProfileModelList.size(); i++) {
-                    latLng = new LatLng(Double.parseDouble(employeeProfileModelList.get(i).getLat()), Double.parseDouble(employeeProfileModelList.get(i).getLong()));
-                    name = employeeProfileModelList.get(i).getName();
+                     name = employeeProfileModelList.get(i).getName();
                     mobno = employeeProfileModelList.get(i).getMobileNo();
                     img_str = employeeProfileModelList.get(i).getImage();
                     empid = employeeProfileModelList.get(i).getID();
@@ -734,10 +770,8 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
     public boolean onMarkerClick(Marker marker) {
 
         String emp = empid;
-
         String latl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[0];
         String longl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[1].split(Pattern.quote(")"))[0];
-
         place2 = new MarkerOptions().position(new LatLng(Double.valueOf(latl), Double.valueOf(longl))).title("Location 1");
 
         int height = 100;

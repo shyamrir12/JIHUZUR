@@ -79,15 +79,15 @@ public class GPS_Service extends Service {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     //   Log.d(TAG, "DocumentSnapshot successfully written!");
-                                    Toast.makeText(getApplicationContext(), "Success!",
-                                            Toast.LENGTH_LONG).show();
+                                 /*   Toast.makeText(getApplicationContext(), "Success!",
+                                            Toast.LENGTH_LONG).show();*/
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getApplicationContext(), "Failed!",
-                                            Toast.LENGTH_LONG).show();
+                                 /*   Toast.makeText(getApplicationContext(), "Failed!",
+                                            Toast.LENGTH_LONG).show();*/
                                 }
                             });
 

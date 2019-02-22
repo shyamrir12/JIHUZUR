@@ -82,8 +82,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         //19/02/2019 comment for not login
         db=FirebaseFirestore.getInstance();
-
-
         coordinatorLayout = (LinearLayout) findViewById(R.id.coordinator);
         snackbar = Snackbar
                 .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
@@ -184,18 +182,23 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 //20/02/2019 Comment for not login on employee profile
 
 
-                            Map<String, Object> profile = new HashMap<>();
 
+
+                         if(jsonbody.dataProfile.Role.equals( "Employee" ))
+                        {
+
+                         /*Start for load data into firestore for employee*/
+                            Map<String, Object> profile = new HashMap<>();
                             profile.put("busystatus", 0);
                             profile.put("lat", 20.22);
                             profile.put("long", 80.66);
-//
+
                             db.collection("Profile").document(jsonbody.dataProfile.ID)
                                     .set(profile)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                         //   Log.d(TAG, "DocumentSnapshot successfully written!");
+                                            //   Log.d(TAG, "DocumentSnapshot successfully written!");
                                             Toast.makeText(getApplicationContext(), "Success!",
                                                     Toast.LENGTH_LONG).show();
                                         }
@@ -208,9 +211,16 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                                         }
                                     });
 
+/*                                        end*/
 
-                         if(jsonbody.dataProfile.Role.equals( "Employee" )&& !jsonbody.dataProfile.ID.isEmpty() )
-                        { CollectionReference dbprofile=db.collection( "Profile" );
+
+
+
+
+
+
+
+                      /*      CollectionReference dbprofile=db.collection( "Profile" );
                              dbprofile.whereEqualTo( "id",jsonbody.dataProfile.ID ).get().addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
                                  @Override
                                  public void onSuccess(QuerySnapshot documentSnapshots) {
@@ -234,7 +244,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
                                      }
                                  } );
-                             }
+                             }*/
                          }
 
                             if (jsonbody.dataProfile.Role.equals("Employee")) {
