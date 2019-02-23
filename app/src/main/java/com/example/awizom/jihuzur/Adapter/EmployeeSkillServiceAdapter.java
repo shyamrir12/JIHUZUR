@@ -34,8 +34,6 @@ public class EmployeeSkillServiceAdapter extends
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         Skill c = serviceListforshow.get(position);
-
-
         holder.serviceName.setText(c.getServiceName());
         holder.skillid.setText(String.valueOf(c.getID()));
         Skillid=holder.skillid.getText().toString();
