@@ -1,5 +1,6 @@
 package com.example.awizom.jihuzur.EmployeeActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.example.awizom.jihuzur.Adapter.EmployeeSkillServiceAdapter;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
+import com.example.awizom.jihuzur.MenuActivity;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.Service;
@@ -42,6 +44,7 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
     Spinner categoryspin, servicesspin;
     private String[] category, service;
     SwipeRefreshLayout mSwipeRefreshLayout;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,9 +91,6 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
             }
         });
 
-
-
-
     }
 
     public void getEmployeeSkill() {
@@ -114,8 +114,11 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
         if (v.getId() == addSkill.getId()) {
-            addskillforEmpDialog();
-
+            intent = new Intent(EmployeeSkillActivity.this, MenuActivity.class);
+            intent = intent.putExtra("EmployeeSkill","EmployeeSkill");
+            intent = intent.putExtra("CategoryName",5);
+            startActivity(intent);
+           // addskillforEmpDialog();
 
         }
     }
@@ -225,7 +228,7 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
 
             ArrayAdapter serviceadapt = new ArrayAdapter(this, android.R.layout.simple_spinner_item, service);
             serviceadapt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//Setting the ArrayAdapter data on the Spinner
+            //Setting the ArrayAdapter data on the Spinner
             servicesspin.setAdapter(serviceadapt);
         } catch (Exception e) {
             e.printStackTrace();
@@ -241,19 +244,14 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
             categorylist = new Gson().fromJson(result, listType);
             category = new String[categorylist.size()];
 
-
             for (int i = 0; i < categorylist.size(); i++) {
-
                 category[i] = String.valueOf(categorylist.get(i).getCatalogID()) + " " + String.valueOf(categorylist.get(i).getCategory());
-
-
             }
 
             ArrayAdapter catgoryadpt = new ArrayAdapter(this, android.R.layout.simple_spinner_item, category);
             catgoryadpt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//Setting the ArrayAdapter data on the Spinner
+            //Setting the ArrayAdapter data on the Spinner
             categoryspin.setAdapter(catgoryadpt);
-
 
         } catch (Exception e) {
             e.printStackTrace();

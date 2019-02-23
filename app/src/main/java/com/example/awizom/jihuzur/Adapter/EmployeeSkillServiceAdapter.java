@@ -84,7 +84,6 @@ public class EmployeeSkillServiceAdapter extends
             serviceName = view.findViewById(R.id.serviceName);
             deleteSkill =  view.findViewById(R.id.deleteskill);
             skillid=view.findViewById(R.id.skillid);
-
         }
 
 

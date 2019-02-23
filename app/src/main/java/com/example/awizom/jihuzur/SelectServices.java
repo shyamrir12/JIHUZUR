@@ -32,7 +32,7 @@ import java.util.List;
 
 public class SelectServices extends AppCompatActivity implements View.OnClickListener {
 
-    String categoryName, catalogID,imageLink;
+    String categoryName, catalogID,imageLink,empskill="";
     RecyclerView recyclerView;
     List<Service> serviceList;
     ServiceListAdapter serviceListAdapter;
@@ -57,6 +57,7 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
         categoryName = getIntent().getStringExtra("CategoryName");
         catalogID = getIntent().getStringExtra("CatalogID");
         imageLink = getIntent().getStringExtra("Image");
+        empskill = getIntent().getStringExtra("EmployeeSkill");
 
 
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
@@ -120,7 +121,7 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
                 Type listType = new TypeToken<List<Service>>() {
                 }.getType();
                 serviceList = new Gson().fromJson(result, listType);
-                serviceListAdapter = new ServiceListAdapter(SelectServices.this, serviceList);
+                serviceListAdapter = new ServiceListAdapter(SelectServices.this, serviceList,empskill);
 
                 recyclerView.setAdapter(serviceListAdapter);
 

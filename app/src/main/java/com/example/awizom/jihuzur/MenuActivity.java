@@ -24,7 +24,7 @@ public class MenuActivity extends AppCompatActivity {
 //    TabItem tutors;
 //    TabItem movingHome;
 
-    private String catagoryName="";
+    private String catagoryName="",employeeSkill="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +43,8 @@ public class MenuActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         catagoryName = String.valueOf(getIntent().getIntExtra("CategoryName",0));
+        employeeSkill = getIntent().getStringExtra("EmployeeSkill");
+
         tabLayout = findViewById(R.id.tablayout);
         appliance = findViewById(R.id.HomeServices);
         massage = findViewById(R.id.Appliance);
