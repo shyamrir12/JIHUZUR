@@ -208,7 +208,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         //latlngs.add(new LatLng(latitude, longitude));
         // latlngs.add(new LatLng(latitude1, longitude1));
 
-        employeeProfileGet();
+        CustomerProfileGet();
 
         getDirection = findViewById(R.id.btnGetDirection);
         getDirection.setOnClickListener(new View.OnClickListener() {
@@ -412,9 +412,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
             int sum = 0;
             Integer average = null;
             for (int i = 0; i < employeeReviewList.size(); i++)
-
             {
-
                 raTe[i] = Integer.valueOf(employeeReviewList.get(i).getRate());
                 sum += raTe[i];
                 average = sum / employeeReviewList.size();
@@ -437,12 +435,11 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
 
     }
 
-    private void employeeProfileGet() {
+    private void CustomerProfileGet() {
 
         try {
 
-
-            result = new AdminHelper.GetProfileForShow().execute("384a15f1-c1b4-47d0-acd1-812fb7c84961").get();
+            result = new AdminHelper.GetProfileForShow().execute(cusID).get();
             if (result.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
             } else {
@@ -483,24 +480,18 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         Marker[] allMarkers = new Marker[1];
 
        {
-            latLng = new LatLng(Double.valueOf(String.valueOf(dataProfileCustomer.getLat())),
+                   latLng = new LatLng(Double.valueOf(String.valueOf(dataProfileCustomer.getLat())),
                     Double.valueOf(String.valueOf(dataProfileCustomer.getLong())));
 
-
             if (googleMap != null) {
-
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13.0f));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
-
             }
-
         }
                 mGoogleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
-
               {
-
                     latLng = new LatLng(Double.parseDouble(String.valueOf(dataProfileCustomer.getLat())), Double.parseDouble(String.valueOf(dataProfileCustomer.getLong())));
                     name = dataProfileCustomer.getName();
                     mobno = dataProfileCustomer.getMobileNo();
@@ -514,7 +505,6 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                     mGoogleMap.addMarker(new MarkerOptions().position(latLng).
                             icon(BitmapDescriptorFactory.fromBitmap(
                                     createCustomMarker(EmployeeLocationActivity.this, img_str, name, mobno, empid, mGoogleMap)))).setTitle(name + "," + empid + "," + img_str);
-
 
                     //LatLngBound will cover all your marker on Google Maps
                     LatLngBounds.Builder builder = new LatLngBounds.Builder();
