@@ -82,6 +82,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
@@ -89,6 +90,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
+
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -98,6 +100,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.DrawingActivity;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
@@ -106,7 +109,7 @@ import com.example.awizom.jihuzur.LoginRegistrationActivity.RegistrationActivity
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.SettingsActivity;
 
-public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallback, TaskLoadedCallback, GoogleMap.OnMarkerClickListener,NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallback, TaskLoadedCallback, GoogleMap.OnMarkerClickListener, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     FirebaseFirestore db;
     String img_str;
@@ -281,7 +284,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 
         for (int i = 0; i < employeeProfileModelList.size(); i++) {
 
-             name = employeeProfileModelList.get(i).getName();
+            name = employeeProfileModelList.get(i).getName();
             mobno = employeeProfileModelList.get(i).getMobileNo();
             img_str = employeeProfileModelList.get(i).getImage();
             empid = employeeProfileModelList.get(i).getID();
@@ -291,8 +294,17 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 
             mGoogleMap.addMarker(new MarkerOptions().position(latLng).
                     icon(BitmapDescriptorFactory.fromBitmap(
-                            createCustomMarker(AdminHomePage.this, img_str, name, mobno, empid, mGoogleMap)))).setTitle(name + "," + empid + "," + img_str);
+                            createCustomMarker(AdminHomePage.this, img_str, name, mobno, empid, mGoogleMap,place2)))).setTitle(name + "," + empid + "," + img_str);
 
+            mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    String latl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[0];
+                    String longl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[1].split(Pattern.quote(")"))[0];
+                    place2 = new MarkerOptions().position(new LatLng(Double.valueOf(latl), Double.valueOf(longl))).title("Location 1");
+                    return true;
+                }
+            });
 
             //LatLngBound will cover all your marker on Google Maps
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
@@ -385,7 +397,9 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 }
             };
 
-    public static Bitmap createCustomMarker(final Context context, String resource, final String _name, String mobno, String id, GoogleMap googleMap) {
+    public static Bitmap createCustomMarker(final Context context, String resource, final String _name, String mobno, String id, GoogleMap googleMap,final MarkerOptions place2) {
+
+
 
         View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
         final de.hdodenhof.circleimageview.CircleImageView markerImage = (de.hdodenhof.circleimageview.CircleImageView) marker.findViewById(R.id.user_dp);
@@ -429,11 +443,13 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         Canvas canvas = new Canvas(bitmap);
         marker.draw(canvas);
 
-        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+       /* googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
 
-
+                String latl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[0];
+                String longl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[1].split(Pattern.quote(")"))[0];
+                place2 = new MarkerOptions().position(new LatLng(Double.valueOf(latl), Double.valueOf(longl))).title("Location 1");
 
                 android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(context);
                 LayoutInflater inflater = LayoutInflater.from(context);
@@ -465,14 +481,14 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 });
 
                 getRatingForEmployee(ide, ratingBar);
-                /*  getMyOrderRunning(orderNew,ide,context);*/
+                *//*  getMyOrderRunning(orderNew,ide,context);*//*
 
                 de.hdodenhof.circleimageview.CircleImageView profileimage = (de.hdodenhof.circleimageview.CircleImageView) dialogView.findViewById(R.id.profileImage);
                 if (img_str.equals("null"))
 
                 {
                     profileimage.setImageResource(R.drawable.jihuzurblanklogo);
-                    /*                Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);*/
+                    *//*                Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);*//*
                 } else {
                     Glide.with(context).load(AppConfig.BASE_URL + img_str).into(profileimage);
                 }
@@ -490,7 +506,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 b.show();
                 return true;
             }
-        });
+        });*/
 
         return bitmap;
     }
@@ -588,35 +604,35 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             }.getType();
             employeeProfileModelList = new Gson().fromJson(result.toString(), listType);
 
+            for (int i = 0; i < employeeProfileModelList.size(); i++) {
+                db.collection("Profile")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        fireid = new String[employeeProfileModelList.size()];
+                                        firelat = new String[employeeProfileModelList.size()];
+                                        firelong = new String[employeeProfileModelList.size()];
+                                        for (int i = 0; i < task.getResult().size(); i++) {
+                                            fireid[i] = task.getResult().getDocuments().get(i).getId();
+                                            firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
+                                            firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
 
-            db.collection("Profile")
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    fireid = new String[employeeProfileModelList.size()];
-                                    firelat = new String[employeeProfileModelList.size()];
-                                    firelong = new String[employeeProfileModelList.size()];
-                                    for (int i = 0; i < task.getResult().size(); i++) {
-                                        fireid[i] = task.getResult().getDocuments().get(i).getId();
-                                        firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
-                                        firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
+                                            latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
+                                                    Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
+                                        }
 
-                                        latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
-                                                Double.valueOf( String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
+                                        Log.d(TAG, document.getId() + " => " + document.getData());
                                     }
-
-                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
                                 }
-                            } else {
-                                Log.d(TAG, "Error getting documents: ", task.getException());
                             }
-                        }
-                    });
+                        });
 
-
+            }
             empNameList = new String[employeeProfileModelList.size()];
             empLat = new String[employeeProfileModelList.size()];
             empLong = new String[employeeProfileModelList.size()];
@@ -628,24 +644,14 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 employeeid[i] = String.valueOf(employeeProfileModelList.get(i).getID());
                 empMobile.add(employeeProfileModelList.get(i).getMobileNo());
                 empName.add(employeeProfileModelList.get(i).getName());
-
-
-
-
                 }
 
-            } catch(ExecutionException e){
-                e.printStackTrace();
-            } catch(InterruptedException e){
-                e.printStackTrace();
-            }
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-
-
-
-
-
-
+    }
 
     // Fetches data from url passed
 
@@ -655,12 +661,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         mGoogleMap = googleMap;
 
         Log.d("mylog", "Added Markers");
-//        PolylineOptions polylineOptions = new PolylineOptions();
-//        polylineOptions.addAll(latlngs);
-//        polylineOptions
-//                .width(4)
-//                .color(Color.BLACK);
-
         Marker[] allMarkers = new Marker[employeeProfileModelList.size()];
 
         for (int i = 0; i < employeeProfileModelList.size(); i++) {
@@ -668,17 +668,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             String ids = employeeProfileModelList.get(i).getID();
 
             if (googleMap != null) {
-
-
-//                allMarkers[i] = googleMap.addMarker(new MarkerOptions().position(latLng)
-//                        .title(employeeProfileModelList.get(i).getName() + " " + "+91" + employeeProfileModelList.get(i).getMobileNo())
-//                        .snippet(employeeProfileModelList.get(i).getID()));
-//                googleMap.addPolyline(polylineOptions);
-          /*      googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13.0f));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
-*/
-                //*Remove google red marker
-
 
             }
 
@@ -690,37 +679,73 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             @Override
             public void onMapLoaded() {
                 for (int i = 0; i < employeeProfileModelList.size(); i++) {
-                     name = employeeProfileModelList.get(i).getName();
-                    mobno = employeeProfileModelList.get(i).getMobileNo();
-                    img_str = employeeProfileModelList.get(i).getImage();
-                    empid = employeeProfileModelList.get(i).getID();
+
 
                     //                    LatLng customMarkerLocationOne = new LatLng(28.583911, 77.319116);
+                    for (int j = 0; j < employeeProfileModelList.size(); j++) {
+                        db.collection("Profile")
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                fireid = new String[employeeProfileModelList.size()];
+                                                firelat = new String[employeeProfileModelList.size()];
+                                                firelong = new String[employeeProfileModelList.size()];
+                                                for (int i = 0; i < task.getResult().size(); i++) {
+                                                    fireid[i] = task.getResult().getDocuments().get(i).getId();
+                                                    firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
+                                                    firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
+
+                                                    name = employeeProfileModelList.get(i).getName();
+                                                    mobno = employeeProfileModelList.get(i).getMobileNo();
+                                                    img_str = employeeProfileModelList.get(i).getImage();
+                                                    empid = employeeProfileModelList.get(i).getID();
+                                                    latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
+                                                            Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
 
 
-                    mGoogleMap.addMarker(new MarkerOptions().position(latLng).
-                            icon(BitmapDescriptorFactory.fromBitmap(
-                                    createCustomMarker(AdminHomePage.this, img_str, name, mobno, empid, mGoogleMap)))).setTitle(name + "," + empid + "," + img_str);
+                                                    mGoogleMap.addMarker(new MarkerOptions().position(latLng).
+                                                            icon(BitmapDescriptorFactory.fromBitmap(
+                                                                    createCustomMarker(AdminHomePage.this, img_str, name, mobno, empid, mGoogleMap,place2)))).setTitle(name + "," + empid + "," + img_str);
 
 
-                    //LatLngBound will cover all your marker on Google Maps
-                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                    builder.include(latLng);
-                    LatLngBounds bounds = builder.build();
 
+                                                    //LatLngBound will cover all your marker on Google Maps
+                                                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                                                    builder.include(latLng);
+                                                    LatLngBounds bounds = builder.build();
 
-                  /*  mGoogleMap.addMarker(place1);
-                    mGoogleMap.addMarker(place1);*/
-                  /*  mGoogleMap.addMarker(mylocation);*/
-                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
-                    mGoogleMap.moveCamera(cu);
-                    mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
+                                                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
+                                                    mGoogleMap.moveCamera(cu);
+                                                    mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
+                                                }
+
+                                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                            }
+                                        } else {
+                                            Log.d(TAG, "Error getting documents: ", task.getException());
+                                        }
+                                    }
+                                });
+                        }
+
+                    mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(Marker marker) {
+
+                            String latl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[0];
+                            String longl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[1].split(Pattern.quote(")"))[0];
+                            place2 = new MarkerOptions().position(new LatLng(Double.valueOf(latl), Double.valueOf(longl))).title("Location 1");
+
+                            return true;
+                        }
+                    });
+
                 }
-
-
             }
         });
-
 
         mGoogleMap.setOnMyLocationButtonClickListener(onMyLocationButtonClickListener);
         mGoogleMap.setOnMyLocationClickListener(onMyLocationClickListener);
@@ -785,28 +810,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 Double.valueOf(longl))).title("Location 1").icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
 
         Log.i(TAG, "marker arg0 = " + marker);
-//        if (!marker.equals(null)) {
-//            AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
-//            alertbox.setMessage("Do you want to place this order");
-//            alertbox.setTitle("Order");
-//            alertbox.setIcon(R.drawable.ic_dashboard_black_24dp);
-//
-//            alertbox.setNeutralButton("Yes",
-//                    new DialogInterface.OnClickListener() {
-//                        Class fragmentClass = null;
-//
-//                        public void onClick(DialogInterface arg0,
-//                                            int arg1) {
-//
-//                            postOderCreate();
-//                        }
-//
-//
-//                    });
-//            alertbox.setPositiveButton("No", null);
-//
-//            alertbox.show();
-//        }
         return false;
     }
 
@@ -1171,7 +1174,5 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
     @Override
     public void onClick(View v) {
 
-
     }
 }
-
