@@ -116,6 +116,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 
     FirebaseFirestore db;
     String img_str;
+    String namesForMap;
     String result = "";
     Intent intent;
     de.hdodenhof.circleimageview.CircleImageView profileImages;
@@ -137,7 +138,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 
     List<EmployeeProfileModel> employeeProfileModelList;
     LatLng latLng;
-    Button getDirection;
+    ImageButton getDirection;
     String empid, name, mobno;
     private GoogleMap mGoogleMap;
     private boolean mAlreadyStartedService = false;
@@ -731,9 +732,84 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                             String longl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[1].split(Pattern.quote(")"))[0];
                             place2 = new MarkerOptions().position(new LatLng(Double.valueOf(latl), Double.valueOf(longl))).title("Location 1");
 
+
+                                    android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(AdminHomePage.this);
+                                    LayoutInflater inflater = LayoutInflater.from(AdminHomePage.this);
+                                    final View dialogView = inflater.inflate(R.layout.dialog_reviewemployee, null);
+                                    dialogBuilder.setView(dialogView);
+                                    final String ide = marker.getTitle().split(",")[1];
+                                    String name = marker.getTitle().split(",")[0];
+                                    String img_str = marker.getTitle().split(",")[2];
+                                    RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.rating);
+                                    final RecyclerView orderNew = (RecyclerView) dialogView.findViewById(R.id.orderNew);
+                                    orderNew.setHasFixedSize(true);
+                                    orderNew.setLayoutManager(new LinearLayoutManager(AdminHomePage.this));
+                                    Button oderrun = (Button) dialogView.findViewById(R.id.orderRun);
+                                    Button orderHist = (Button) dialogView.findViewById(R.id.orderHist);
+                                    oderrun.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+
+                                            getMyOrderRunning(orderNew, ide, AdminHomePage.this);
+                                        }
+                                    });
+                                    orderHist.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+
+                                            orderNew.invalidate();
+                                            getHistoryList(orderNew, ide, AdminHomePage.this);
+                                        }
+                                    });
+
+                                    getRatingForEmployee(ide, ratingBar);
+                                    getMyOrderRunning(orderNew,ide,AdminHomePage.this);
+
+                                    de.hdodenhof.circleimageview.CircleImageView profileimage = (de.hdodenhof.circleimageview.CircleImageView) dialogView.findViewById(R.id.profileImage);
+                                    if (img_str.equals("null"))
+
+                                    {
+                                        profileimage.setImageResource(R.drawable.jihuzurblanklogo);
+                                      //  Glide.with(AdminHomePage.this).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
+                                    } else {
+                                        Glide.with(AdminHomePage.this).load(AppConfig.BASE_URL + img_str).into(profileimage);
+                                    }
+
+                                    dialogBuilder.setTitle(name.toString());
+                                    dialogBuilder.setNegativeButton("Close",
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.cancel();
+                                                }
+                                            });
+
+                                    final android.support.v7.app.AlertDialog b = dialogBuilder.create();
+                                    b.show();
+
+
+
+
                             return true;
                         }
                     });
+
+                    mGoogleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+                        @Override
+                        public void onMapLongClick(LatLng latLng) {
+                            Double latitud=latLng.latitude;
+                            Double longitud=latLng.longitude;
+                            String label = "Route for employee";
+                            String uriBegin = "geo:" + latitud + "," + longitud;
+                            String query = latitud + "," + longitud + "(" + label + ")";
+                            String encodedQuery = Uri.encode(query);
+                            String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
+                            Uri uri = Uri.parse(uriString);
+                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
+                        }
+                    });
+
 
                 }
             }
