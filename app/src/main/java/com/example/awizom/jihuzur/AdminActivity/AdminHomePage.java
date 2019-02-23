@@ -138,7 +138,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 
     List<EmployeeProfileModel> employeeProfileModelList;
     LatLng latLng;
-    ImageButton getDirection;
+    Button getDirection;
     String empid, name, mobno;
     private GoogleMap mGoogleMap;
     private boolean mAlreadyStartedService = false;
@@ -219,8 +219,8 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         mapRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                employeeProfileGet();
-                onMapLoaded();
+                initView();
+
             }
         });
         mMsgView = (TextView) findViewById(R.id.msgView);
@@ -232,6 +232,8 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                         String latitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LATITUDE);
                         String longitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LONGITUDE);
 
+
+
                         if (latitude != null && longitude != null) {
                             int height = 100;
                             int width = 100;
@@ -240,6 +242,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                             Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
                             mylocation = new MarkerOptions().position(new LatLng(Double.valueOf(latitude), Double.valueOf(longitude))).title("Location 1").icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
                             mMsgView.setText(getString(R.string.msg_location_service_started) + "\n Latitude : " + latitude + "\n Longitude: " + longitude);
+                            mGoogleMap.addMarker(mylocation);
                         }
 
                     }
@@ -373,6 +376,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 @Override
                 public boolean onMyLocationButtonClick() {
                     mGoogleMap.setMinZoomPreference(11);
+
                     mGoogleMap.setMaxZoomPreference(2000);
                     return false;
                 }
@@ -381,6 +385,8 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             new GoogleMap.OnMyLocationClickListener() {
                 @Override
                 public void onMyLocationClick(@NonNull Location location) {
+
+
 
                     mGoogleMap.setMinZoomPreference(12);
                     CircleOptions circleOptions = new CircleOptions();
@@ -657,7 +663,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         mGoogleMap = googleMap;
 
         Log.d("mylog", "Added Markers");
-        Marker[] allMarkers = new Marker[employeeProfileModelList.size()];
+        final Marker[] allMarkers = new Marker[employeeProfileModelList.size()];
 
         for (int i = 0; i < employeeProfileModelList.size(); i++) {
 
@@ -794,12 +800,13 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                         }
                     });
 
+
                     mGoogleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                         @Override
                         public void onMapLongClick(LatLng latLng) {
                             Double latitud=latLng.latitude;
                             Double longitud=latLng.longitude;
-                            String label = "Route for employee";
+                            String label = "Route for employee" ;
                             String uriBegin = "geo:" + latitud + "," + longitud;
                             String query = latitud + "," + longitud + "(" + label + ")";
                             String encodedQuery = Uri.encode(query);
