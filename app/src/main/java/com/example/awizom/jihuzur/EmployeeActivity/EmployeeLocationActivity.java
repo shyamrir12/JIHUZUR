@@ -134,7 +134,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
     private ArrayList<String> empMobile = new ArrayList<>();
     private ArrayList<String> empName = new ArrayList<>();
     private String[] empNameList, empLat, empLong, employeeid;
-    private String priceID = "", priceIDs = "", selectedEmpId;
+    private String priceID = "", priceIDs = "", selectedEmpId,cusID="";
     private String priceIds;
     private MarkerOptions place1, mylocation, targetlocation;
     private MarkerOptions place2;
@@ -202,6 +202,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         priceID = getIntent().getStringExtra("PricingID");
         priceIDs = String.valueOf(getIntent().getIntExtra("PricingIDS", 0));
+        cusID = getIntent().getStringExtra("CustomerId");
 
 //        getMapvalue();
         //latlngs.add(new LatLng(latitude, longitude));

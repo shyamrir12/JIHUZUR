@@ -73,6 +73,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             holder.catagoryName.setText(order.getCatalogName());
             holder.serviceName.setText(order.getServiceName());
             holder.totalTime.setText(order.getTotalTime());
+            holder.cusId.setText(order.getCustomerID());
             if (order.getDiscountName() != null) {
                 holder.disctName.setText(order.getDiscountName());
             } else {
@@ -175,6 +176,15 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                 }
             });
 
+            holder.trackinBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    intent = new Intent(mCtx, EmployeeLocationActivity.class);
+                    intent.putExtra("CustomerId", holder.cusId.getText().toString());
+                    mCtx.startActivity(intent);
+                }
+            });
+
 
         } catch (Exception E) {
             E.printStackTrace();
@@ -209,7 +219,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 
         private Context mCtx;
         private TextView startTime, endtime, customerName, customerContact, catagoryName, serviceName, totalTime, pricingterm,
-                disctName, catlgId, catagryName, catlgName, pricingterms, serviceID;
+                disctName, catlgId, catagryName, catlgName, pricingterms, serviceID,cusId;
         private Button genrateBtn, trackinBtn, stopBtn, acceptPaymentBtn, priceUpdateBtn, discountUpdateBtn;
         private LinearLayout linearLayout,linerButtonSide;
         private List<Order> orderitemList;
@@ -222,6 +232,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             itemView.setOnClickListener(this);
 
             customerName = itemView.findViewById(R.id.cusName);
+            cusId = itemView.findViewById(R.id.cusID);
             startTime = itemView.findViewById(R.id.starttime);
             endtime = itemView.findViewById(R.id.endtime);
             customerContact = itemView.findViewById(R.id.cusMobile);
@@ -245,7 +256,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             linearLayout = itemView.findViewById(R.id.l5);
 
             genrateBtn.setOnClickListener(this);
-            trackinBtn.setOnClickListener(this);
+           // trackinBtn.setOnClickListener(this);
             stopBtn.setOnClickListener(this);
             acceptPaymentBtn.setOnClickListener(this);
 
@@ -273,11 +284,11 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                     }
 
                     break;
-                case R.id.trackBtn:
-                        intent = new Intent(mCtx, EmployeeLocationActivity.class);
-                        mCtx.startActivity(intent);
-
-                    break;
+//                case R.id.trackBtn:
+//                        intent = new Intent(mCtx, EmployeeLocationActivity.class);
+//                        mCtx.startActivity(intent);
+//
+//                    break;
                 case R.id.stopBtn:
 
                     try {
