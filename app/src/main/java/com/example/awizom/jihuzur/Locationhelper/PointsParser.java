@@ -64,7 +64,7 @@ String Distance="",Duration="";
         for (int i = 0; i < result.size(); i++) {
             points = new ArrayList<>();
             lineOptions = new PolylineOptions();
-Distance=new String();
+            Distance=new String();
             Duration=new String();
             // Fetching i-th route
             List<HashMap<String, String>> path = result.get(i);

@@ -43,30 +43,57 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="60dp"
         android:id="@+id/buttons"
         android:orientation="horizontal">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:orientation="vertical">
 
-        <Button
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            style="@style/Widget.AppCompat.Button.Small"
             android:hint="New Order"
             android:text="New Order"
+            android:src="@drawable/ic_history_black_24dp"
             android:id="@+id/orderRun"
-            android:layout_height="40dp" />
+            android:layout_height="45dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/current_order"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/colorBlack"
+        />
 
-        <Button
+
+</LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+        <ImageView
             android:hint="Order History"
             android:layout_weight="1"
-            android:text="Order History"
+            android:text="@string/Order_history"
+            android:src="@drawable/ic_offline_pin_black_24dp"
             android:id="@+id/orderHist"
             android:layout_width="match_parent"
-            android:layout_height="40dp" />
+            android:layout_height="45dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/colorBlack"
+                android:text="Order History"/>
 
+        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+   <!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/orderpart"
@@ -85,7 +112,7 @@
         </android.support.v7.widget.CardView>
 
     </LinearLayout>
-
+-->
 
 
 

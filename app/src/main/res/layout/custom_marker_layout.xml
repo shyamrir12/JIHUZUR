@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/custom_marker_view"
-    android:layout_width="52dp"
+    android:layout_width="wrap_content"
     android:background="@color/fui_bgTwitter"
     android:layout_height="wrap_content">
 
@@ -17,14 +17,14 @@
         android:layout_marginLeft="4dp"
         android:contentDescription="@null"
         android:src="@drawable/circle" />
-    <RelativeLayout android:layout_width="50dp"
+    <RelativeLayout android:layout_width="70dp"
         android:layout_height="95dp"
         android:backgroundTint="@color/colorPrimary"
         android:layout_marginTop="20dp"
      >
 
         <TextView android:text="janet John"
-            android:layout_width="match_parent"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:gravity="center"
            android:layout_below="@+id/user_dp"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_below="@+id/name"
-            android:textSize="7sp"
+            android:textSize="10sp"
             android:layout_marginLeft="10dp"
             android:textColor="#000"
             android:alpha="0.8"
@@ -52,13 +52,13 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             />
-        <LinearLayout
+   <!--     <LinearLayout
             android:layout_width="wrap_content"
             android:layout_below="@+id/mobno"
             android:layout_height="30dp"
             android:orientation="horizontal">
 
-            <ImageButton
+            <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:id="@+id/codrer"
@@ -74,7 +74,7 @@
                 />
 
         </LinearLayout>
-
+-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

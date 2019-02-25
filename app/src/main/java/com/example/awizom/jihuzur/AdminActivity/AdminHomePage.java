@@ -24,6 +24,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -52,6 +53,7 @@ import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeCurre
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeHistoryAdapter;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeBookingsActivity;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment.EmployeeCurrentOrderFragment;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment.EmployeeHistoryCurrentFragment;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Locationhelper.FetchURL;
@@ -116,6 +118,12 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 
     FirebaseFirestore db;
     String img_str;
+     String idmark ;
+    String namemark;
+    String img_strmark;
+    private Fragment employeeCurrentOrderFragment,employeeHistoryCurreFragment;
+    private  FragmentManager fragmentManager;
+    String latl,long1;
     String namesForMap;
     String result = "";
     Intent intent;
@@ -205,6 +213,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        fragmentManager = getSupportFragmentManager();//Get Fragment Manager
         setSupportActionBar(toolbar);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -214,7 +223,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         db = FirebaseFirestore.getInstance();
-
+        employeeCurrentOrderFragment=new EmployeeCurrentOrderFragment();
         mapRefresh = (ImageView) findViewById(R.id.getRefresh);
         mapRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -331,13 +340,13 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         priceIDs = String.valueOf(getIntent().getIntExtra("PricingIDS", 0));
         employeeProfileGet();
         getDirection = findViewById(R.id.btnGetDirection);
-        getDirection.setOnClickListener(new View.OnClickListener() {
+      /*  getDirection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new FetchURL(AdminHomePage.this).execute(getUrl(mylocation.getPosition(), place2.getPosition(), "driving"), "driving");
             }
         });
-
+*/
         place1 = new MarkerOptions().position(new LatLng(21.2379468, 81.6336833)).title("Location 1");
         place2 = new MarkerOptions().position(new LatLng(21.2120677, 81.3732849)).title("Location 2");
         MapFragment mapFragment = (MapFragment) getFragmentManager() .findFragmentById(R.id.mapNearBy);
@@ -411,11 +420,11 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         final TextView txt_name = (TextView) marker.findViewById(R.id.name);
         TextView text_mob = (TextView) marker.findViewById(R.id.mobno);
         TextView txt_id = (TextView) marker.findViewById(R.id.empid);
-        ImageView orderHIstory=(ImageView)marker.findViewById(R.id.horder);
-        final ImageButton orderCurrent=(ImageButton)marker.findViewById(R.id.codrer);
+      /*  ImageView orderHIstory=(ImageView)marker.findViewById(R.id.horder);
+        final ImageView orderCurrent=(ImageView)marker.findViewById(R.id.codrer);*/
         final String ide=txt_id.getText().toString();
 
-        orderCurrent.setOnClickListener(new View.OnClickListener() {
+      /*  orderCurrent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(v.getId()==orderCurrent.getId())
@@ -423,7 +432,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     Toast.makeText(context,"Click",Toast.LENGTH_LONG).show();
                 }
             }
-        });
+        });*/
         text_mob.setText(mobno);
         txt_name.setText(_name);
 
@@ -449,66 +458,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         Bitmap bitmap = Bitmap.createBitmap(marker.getMeasuredWidth(), marker.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         marker.draw(canvas);
-
-      /*  googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(context);
-                LayoutInflater inflater = LayoutInflater.from(context);
-                final View dialogView = inflater.inflate(R.layout.dialog_reviewemployee, null);
-                dialogBuilder.setView(dialogView);
-                final String ide = marker.getTitle().split(",")[1];
-                String name = marker.getTitle().split(",")[0];
-                String img_str = marker.getTitle().split(",")[2];
-                RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.rating);
-                final RecyclerView orderNew = (RecyclerView) dialogView.findViewById(R.id.orderNew);
-                orderNew.setHasFixedSize(true);
-                orderNew.setLayoutManager(new LinearLayoutManager(context));
-                Button oderrun = (Button) dialogView.findViewById(R.id.orderRun);
-                Button orderHist = (Button) dialogView.findViewById(R.id.orderHist);
-                oderrun.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        getMyOrderRunning(orderNew, ide, context);
-                    }
-                });
-                orderHist.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        orderNew.invalidate();
-                        getHistoryList(orderNew, ide, context);
-                    }
-                });
-
-                getRatingForEmployee(ide, ratingBar);
-                  getMyOrderRunning(orderNew,ide,context);
-
-                de.hdodenhof.circleimageview.CircleImageView profileimage = (de.hdodenhof.circleimageview.CircleImageView) dialogView.findViewById(R.id.profileImage);
-                if (img_str.equals("null"))
-
-                {
-                    profileimage.setImageResource(R.drawable.jihuzurblanklogo);
-                                    Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
-                } else {
-                    Glide.with(context).load(AppConfig.BASE_URL + img_str).into(profileimage);
-                }
-
-                dialogBuilder.setTitle(name.toString());
-                dialogBuilder.setNegativeButton("Close",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-
-                final android.support.v7.app.AlertDialog b = dialogBuilder.create();
-                b.show();
-                return true;
-            }
-        });*/
 
         return bitmap;
     }
@@ -734,90 +683,115 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                         @Override
                         public boolean onMarkerClick(Marker marker) {
 
-                            String latl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[0];
-                            String longl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[1].split(Pattern.quote(")"))[0];
-                            place2 = new MarkerOptions().position(new LatLng(Double.valueOf(latl), Double.valueOf(longl))).title("Location 1");
+                             latl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[0];
+                            long1 = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[1].split(Pattern.quote(")"))[0];
+                            place2 = new MarkerOptions().position(new LatLng(Double.valueOf(latl), Double.valueOf(long1))).title("Location 1");
 
+                            new FetchURL(AdminHomePage.this).execute(getUrl(mylocation.getPosition(), place2.getPosition(), "driving"), "driving");
 
-                                    android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(AdminHomePage.this);
-                                    LayoutInflater inflater = LayoutInflater.from(AdminHomePage.this);
-                                    final View dialogView = inflater.inflate(R.layout.dialog_reviewemployee, null);
-                                    dialogBuilder.setView(dialogView);
-                                    final String ide = marker.getTitle().split(",")[1];
-                                    String name = marker.getTitle().split(",")[0];
-                                    String img_str = marker.getTitle().split(",")[2];
-                                    RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.rating);
-                                    final RecyclerView orderNew = (RecyclerView) dialogView.findViewById(R.id.orderNew);
-                                    orderNew.setHasFixedSize(true);
-                                    orderNew.setLayoutManager(new LinearLayoutManager(AdminHomePage.this));
-                                    Button oderrun = (Button) dialogView.findViewById(R.id.orderRun);
-                                    Button orderHist = (Button) dialogView.findViewById(R.id.orderHist);
-                                    oderrun.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-
-                                            getMyOrderRunning(orderNew, ide, AdminHomePage.this);
-                                        }
-                                    });
-                                    orderHist.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-
-                                            orderNew.invalidate();
-                                            getHistoryList(orderNew, ide, AdminHomePage.this);
-                                        }
-                                    });
-
-                                    getRatingForEmployee(ide, ratingBar);
-                                    getMyOrderRunning(orderNew,ide,AdminHomePage.this);
-
-                                    de.hdodenhof.circleimageview.CircleImageView profileimage = (de.hdodenhof.circleimageview.CircleImageView) dialogView.findViewById(R.id.profileImage);
-                                    if (img_str.equals("null"))
-
-                                    {
-                                        profileimage.setImageResource(R.drawable.jihuzurblanklogo);
-                                      //  Glide.with(AdminHomePage.this).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
-                                    } else {
-                                        Glide.with(AdminHomePage.this).load(AppConfig.BASE_URL + img_str).into(profileimage);
-                                    }
-
-                                    dialogBuilder.setTitle(name.toString());
-                                    dialogBuilder.setNegativeButton("Close",
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    dialog.cancel();
-                                                }
-                                            });
-
-                                    final android.support.v7.app.AlertDialog b = dialogBuilder.create();
-                                    b.show();
-
-
-
-
+                            idmark = marker.getTitle().split(",")[1];
+                            namemark = marker.getTitle().split(",")[0];
+                            img_strmark = marker.getTitle().split(",")[2];
                             return true;
                         }
                     });
 
 
+              getDirection.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+
+                   /*   Double latitud=latLng.latitude;
+                      Double longitud=latLng.longitude;*/
+                      String label = "Route for "+ namemark ;
+                      String uriBegin = "geo:" + latl + "," + long1;
+                      String query = latl + "," + long1 + "(" + label + ")";
+                      String encodedQuery = Uri.encode(query);
+                      String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
+                      Uri uri = Uri.parse(uriString);
+                      Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
+                      startActivity(intent);
+
+                  }
+              });
+
                     mGoogleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                         @Override
                         public void onMapLongClick(LatLng latLng) {
-                            Double latitud=latLng.latitude;
-                            Double longitud=latLng.longitude;
-                            String label = "Route for employee" ;
-                            String uriBegin = "geo:" + latitud + "," + longitud;
-                            String query = latitud + "," + longitud + "(" + label + ")";
-                            String encodedQuery = Uri.encode(query);
-                            String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
-                            Uri uri = Uri.parse(uriString);
-                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
-                            startActivity(intent);
+
+                            if(idmark==null)
+                            {
+                                Toast.makeText(getApplicationContext(),"Please Click Marker First!",Toast.LENGTH_LONG).show();
+                            }
+                            else {
+                                android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(AdminHomePage.this);
+                                LayoutInflater inflater = LayoutInflater.from(AdminHomePage.this);
+                                final View dialogView = inflater.inflate(R.layout.dialog_reviewemployee, null);
+                                dialogBuilder.setView(dialogView);
+                                final String ide = idmark;
+                                String name = namemark;
+                                String img_str = img_strmark;
+                                RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.rating);
+                               /* final RecyclerView orderNew = (RecyclerView) dialogView.findViewById(R.id.orderNew);
+                                orderNew.setHasFixedSize(true);
+                                orderNew.setLayoutManager(new LinearLayoutManager(AdminHomePage.this));
+                               */ ImageView oderrun = (ImageView) dialogView.findViewById(R.id.orderRun);
+                                ImageView orderHist = (ImageView) dialogView.findViewById(R.id.orderHist);
+
+
+
+                               /* getRatingForEmployee(ide, ratingBar);
+                                getMyOrderRunning(orderNew, ide, AdminHomePage.this);*/
+                                de.hdodenhof.circleimageview.CircleImageView profileimage = (de.hdodenhof.circleimageview.CircleImageView) dialogView.findViewById(R.id.profileImage);
+                                if (img_str.equals("null"))
+
+                                {
+                                    profileimage.setImageResource(R.drawable.jihuzurblanklogo);
+                                    //  Glide.with(AdminHomePage.this).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
+                                } else {
+                                    Glide.with(AdminHomePage.this).load(AppConfig.BASE_URL + img_str).into(profileimage);
+                                }
+
+                                dialogBuilder.setTitle("Mr/Ms. "+name.toString());
+                                dialogBuilder.setNegativeButton("Close",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.cancel();
+                                            }
+                                        });
+
+                                final android.support.v7.app.AlertDialog b = dialogBuilder.create();
+                                b.show();
+                                oderrun.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        b.cancel();
+                                        getSupportActionBar().setTitle(namemark+"'s"+" "+ "Current Order");
+                                        Fragment employeeCurrentOrderFragment = new EmployeeCurrentOrderFragment();//Get Fragment Instance
+                                        Bundle data = new Bundle();//Use bundle to pass data
+                                        data.putString("EmployeeID",ide );//put string, int, etc in bundle with a key value
+                                        employeeCurrentOrderFragment.setArguments(data);//Finally set argument bundle to fragment
+                                        fragmentManager.beginTransaction().replace(R.id.home_container, employeeCurrentOrderFragment).commit();//now replace the argument fragment
+
+                                    }
+                                });
+                                orderHist.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        b.cancel();
+                                        getSupportActionBar().setTitle(namemark+"'s"+" "+ "Order History");
+                                        Fragment employeeHistoryCurrentFragment = new EmployeeHistoryCurrentFragment();//Get Fragment Instance
+                                        Bundle data = new Bundle();//Use bundle to pass data
+                                        data.putString("EmployeeID",ide );//put string, int, etc in bundle with a key value
+                                        employeeHistoryCurrentFragment.setArguments(data);//Finally set argument bundle to fragment
+                                        fragmentManager.beginTransaction().replace(R.id.home_container, employeeHistoryCurrentFragment).commit();//now replace the argument fragment
+
+                                    }
+                                });
+                            }
                         }
                     });
-
-
                 }
             }
         });
@@ -825,11 +799,8 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         mGoogleMap.setOnMyLocationButtonClickListener(onMyLocationButtonClickListener);
         mGoogleMap.setOnMyLocationClickListener(onMyLocationClickListener);
         enableMyLocationIfPermitted();
-
         mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
         mGoogleMap.setMinZoomPreference(11);
-
-
     }
 
     private String getUrl(LatLng origin, LatLng dest, String directionMode) {
@@ -846,14 +817,11 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         // Building the url to the web service
         String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + getString(R.string.google_maps_api_key);
         return url;
-
-
     }
 
     /**
      * A class to parse the Google Places in JSON format
      */
-
     private void enableMyLocationIfPermitted() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -865,23 +833,18 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             mGoogleMap.setMyLocationEnabled(true);
         }
     }
-
     @Override
     public boolean onMarkerClick(Marker marker) {
-
         String emp = empid;
         String latl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[0];
         String longl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[1].split(Pattern.quote(")"))[0];
         place2 = new MarkerOptions().position(new LatLng(Double.valueOf(latl), Double.valueOf(longl))).title("Location 1");
-
         int height = 100;
         int width = 100;
         BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.redpin);
         Bitmap b = bitmapdraw.getBitmap();
         Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
-
-
-        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.valueOf(latl),
+       mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.valueOf(latl),
                 Double.valueOf(longl))).title("Location 1").icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
 
         Log.i(TAG, "marker arg0 = " + marker);

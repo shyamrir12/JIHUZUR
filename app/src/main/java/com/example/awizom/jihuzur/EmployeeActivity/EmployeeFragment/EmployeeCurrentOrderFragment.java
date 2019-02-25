@@ -30,6 +30,7 @@ public class EmployeeCurrentOrderFragment extends Fragment implements View.OnCli
     RelativeLayout relativeLayout;
     private View view;
     private String result = "", empId;
+    String empid;
     private ImageView reloadBtn;
     SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -37,6 +38,11 @@ public class EmployeeCurrentOrderFragment extends Fragment implements View.OnCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.employee_current_list, container, false);
+        try {
+            empid = getArguments().getString("EmployeeID");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         initView(view);
         return view;
     }
@@ -72,6 +78,11 @@ public class EmployeeCurrentOrderFragment extends Fragment implements View.OnCli
     }
 
     private void getMyOrderRunning() {
+
+        if (SharedPrefManager.getInstance(getContext()).getUser().getRole().equals("Admin")) {
+            empId = empid.toString();
+        }
+
         try {
             mSwipeRefreshLayout.setRefreshing(true);
             result = new EmployeeOrderHelper.EmployeeGetMyCurrentOrder().execute(empId).get();

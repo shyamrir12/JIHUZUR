@@ -45,6 +45,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.awizom.jihuzur.AdminActivity.AdminHomePage;
 import com.example.awizom.jihuzur.BuildConfig;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeCurrentOrderAdapter;
@@ -107,6 +108,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
 
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    String latl,long1,namemark,img_strmark,idmark;
     /**
      * Code used in requesting runtime permissions.
      */
@@ -163,7 +165,6 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                     circleOptions.radius(200);
                     circleOptions.fillColor(Color.BLUE);
                     circleOptions.strokeWidth(6);
-
                     mGoogleMap.addCircle(circleOptions);
                 }
             };
@@ -209,23 +210,15 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         // latlngs.add(new LatLng(latitude1, longitude1));
 
         CustomerProfileGet();
-
         getDirection = findViewById(R.id.btnGetDirection);
-        getDirection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new FetchURL(EmployeeLocationActivity.this).execute(getUrl(mylocation.getPosition(), place2.getPosition(), "driving"), "driving");
-
-            }
-
-
-        });
 
        /* place1 = new MarkerOptions().position(new LatLng(21.2379468, 81.6336833)).title("Location 1"); */
         /*  place2 = new MarkerOptions().position(new LatLng(21.2120677, 81.3732849)).title("Location 2");*/
+
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.mapNearBy);
         mapFragment.getMapAsync(this);
+
     }
 
     public static Bitmap createCustomMarker(final Context context, String resource, final String _name, String mobno, String id, GoogleMap googleMap) {
@@ -240,12 +233,9 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
 
 
         {
-
             markerImage.setImageResource(R.drawable.jihuzurblanklogo);
 //                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
         } else {
-
-
             Glide.with(marker.getContext()).load(img_strs).into(markerImage);
         }
         markerImage.setOnClickListener(new View.OnClickListener() {
@@ -262,7 +252,6 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         txt_name.setText(_name);
         txt_id.setText(id);
 
-
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         marker.setLayoutParams(new ViewGroup.LayoutParams(52, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -274,176 +263,16 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         marker.draw(canvas);
 
 
-        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                String latl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[0];
-                String longl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[1].split(Pattern.quote(")"))[0];
-
-
-            //    place2 = new MarkerOptions().position(new LatLng(Double.valueOf(latl), Double.valueOf(longl))).title("Location 1");
-
-                android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(context);
-                LayoutInflater inflater = LayoutInflater.from(context);
-                final View dialogView = inflater.inflate(R.layout.dialog_reviewemployee, null);
-                dialogBuilder.setView(dialogView);
-                final String ide = marker.getTitle().split(",")[1];
-                String name = marker.getTitle().split(",")[0];
-                String img_str = marker.getTitle().split(",")[2];
-                RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.rating);
-                final RecyclerView orderNew = (RecyclerView) dialogView.findViewById(R.id.orderNew);
-                orderNew.setHasFixedSize(true);
-                orderNew.setLayoutManager(new LinearLayoutManager(context));
-                Button oderrun = (Button) dialogView.findViewById(R.id.orderRun);
-                Button orderHist = (Button) dialogView.findViewById(R.id.orderHist);
-                oderrun.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        getMyOrderRunning(orderNew, ide, context);
-                    }
-                });
-                orderHist.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        orderNew.invalidate();
-                        getHistoryList(orderNew, ide, context);
-                    }
-                });
-
-                getRatingForEmployee(ide, ratingBar);
-                /*  getMyOrderRunning(orderNew,ide,context);*/
-
-                de.hdodenhof.circleimageview.CircleImageView profileimage = (de.hdodenhof.circleimageview.CircleImageView) dialogView.findViewById(R.id.profileImage);
-                if (img_str.equals("null"))
-
-                {
-
-                    profileimage.setImageResource(R.drawable.jihuzurblanklogo);
-//                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
-                } else {
-
-
-
-                    Glide.with(context).load(AppConfig.BASE_URL + img_str).into(profileimage);
-                }
-
-
-                dialogBuilder.setTitle(name.toString());
-                dialogBuilder.setNegativeButton("Close",
-                        new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-
-                                dialog.cancel();
-                            }
-                        });
-
-                final android.support.v7.app.AlertDialog b = dialogBuilder.create();
-                b.show();
-                return true;
-            }
-        });
-
         return bitmap;
-    }
-
-    private static void getHistoryList(RecyclerView orderNew, String ide, Context context) {
-
-
-        String result = "";
-        EmployeeHistoryAdapter employeeHistoryAdapter;
-        List<Order> orderList;
-        try {
-            result = new EmployeeOrderHelper.GetMyCompleteOrderGet().execute(ide).get();
-            Gson gson = new Gson();
-            Type listType = new TypeToken<List<Order>>() {
-            }.getType();
-            orderList = new Gson().fromJson(result, listType);
-
-            employeeHistoryAdapter = new EmployeeHistoryAdapter(context, orderList);
-            orderNew.setAdapter(employeeHistoryAdapter);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void getMyOrderRunning(RecyclerView orderNew, String empid, Context context) {
-        List<Order> orderList;
-        String result = "";
-        EmployeeCurrentOrderAdapter employeeCurrentOrderAdapter;
-
-        try {
-            result = new EmployeeOrderHelper.EmployeeGetMyCurrentOrder().execute(empid).get();
-            if (result.isEmpty()) {
-
-            } else {
-                Gson gson = new Gson();
-                Type listType = new TypeToken<List<Order>>() {
-                }.getType();
-                orderList = new Gson().fromJson(result, listType);
-                employeeCurrentOrderAdapter = new EmployeeCurrentOrderAdapter(context, orderList);
-                orderNew.setAdapter(employeeCurrentOrderAdapter);
-            }
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void getRatingForEmployee(String ide, RatingBar ratingBar) {
-        List<Review> employeeReviewList;
-        String result = "";
-        int[] raTe;
-        try {
-
-            result = new EmployeeOrderHelper.GetReviewByEmployee().execute(ide).get();
-
-            Type listType = new TypeToken<List<Review>>() {
-            }.getType();
-            employeeReviewList = new Gson().fromJson(result.toString(), listType);
-            raTe = new int[employeeReviewList.size()];
-            int sum = 0;
-            Integer average = null;
-            for (int i = 0; i < employeeReviewList.size(); i++)
-            {
-                raTe[i] = Integer.valueOf(employeeReviewList.get(i).getRate());
-                sum += raTe[i];
-                average = sum / employeeReviewList.size();
-
-            }
-            Integer avg = Integer.valueOf(average);
-            ratingBar.setRating(avg);
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-
-    public void PutDistance(String distance) {
-
-        distancefor.setText(distance);
-
     }
 
     private void CustomerProfileGet() {
 
         try {
-
             result = new AdminHelper.GetProfileForShow().execute(cusID).get();
             if (result.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
             } else {
-
                 Gson gson = new Gson();
                 Type listType = new TypeToken<DataProfile>() {
                 }.getType();
@@ -452,14 +281,13 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                     latlngs.add( new LatLng(Double.valueOf(String.valueOf(dataProfileCustomer.Lat)),
                             Double.valueOf(String.valueOf(dataProfileCustomer.Long))));
 
-                  /*  getMapvalue();*/
+                    place2 = new MarkerOptions().position( new LatLng(Double.valueOf(String.valueOf(dataProfileCustomer.Lat)),
+                            Double.valueOf(String.valueOf(dataProfileCustomer.Long)))).title("Location 1");
+                    /*  getMapvalue();*/
 
                 }
 
             }
-
-
-
 
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -478,11 +306,9 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         Log.d("mylog", "Added Markers");
 
         Marker[] allMarkers = new Marker[1];
-
        {
                    latLng = new LatLng(Double.valueOf(String.valueOf(dataProfileCustomer.getLat())),
                     Double.valueOf(String.valueOf(dataProfileCustomer.getLong())));
-
             if (googleMap != null) {
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13.0f));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
@@ -506,11 +332,40 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                             icon(BitmapDescriptorFactory.fromBitmap(
                                     createCustomMarker(EmployeeLocationActivity.this, img_str, name, mobno, empid, mGoogleMap)))).setTitle(name + "," + empid + "," + img_str);
 
-                    //LatLngBound will cover all your marker on Google Maps
+                  new FetchURL(EmployeeLocationActivity.this).execute(getUrl(mylocation.getPosition(), place2.getPosition(), "driving"), "driving");
+
+                  mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(Marker marker) {
+
+                            latl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[0];
+                            long1 = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[1].split(Pattern.quote(")"))[0];
+                            place2 = new MarkerOptions().position(new LatLng(Double.valueOf(latl), Double.valueOf(long1))).title("Location 1");
+                            idmark = marker.getTitle().split(",")[1];
+                            namemark = marker.getTitle().split(",")[0];
+                            img_strmark = marker.getTitle().split(",")[2];
+                            new FetchURL(EmployeeLocationActivity.this).execute(getUrl(mylocation.getPosition(), place2.getPosition(), "driving"), "driving");
+                            return false;
+                        }
+                    });
+                  getDirection.setOnClickListener(new View.OnClickListener() {
+                      @Override
+                      public void onClick(View view) {
+                          String label = "Route for "+ dataProfileCustomer.getName() ;
+                          String uriBegin = "geo:" + String.valueOf(dataProfileCustomer.getLat()) + "," +String.valueOf(dataProfileCustomer.getLong());
+                          String query =  String.valueOf(dataProfileCustomer.getLat()) + "," +  String.valueOf(dataProfileCustomer.getLong()) + "(" + label + ")";
+                          String encodedQuery = Uri.encode(query);
+                          String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
+                          Uri uri = Uri.parse(uriString);
+                          Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
+                          startActivity(intent);
+                      }
+                  });
+
+                  //LatLngBound will cover all your marker on Google Maps
                     LatLngBounds.Builder builder = new LatLngBounds.Builder();
                     builder.include(latLng);
                     LatLngBounds bounds = builder.build();
-
 
                  /*  mGoogleMap.addMarker(place1);
                    mGoogleMap.addMarker(place1);*/

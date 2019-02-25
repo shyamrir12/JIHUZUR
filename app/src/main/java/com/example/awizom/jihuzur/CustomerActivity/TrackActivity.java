@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -33,6 +34,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -56,11 +62,13 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     TextView  distancefor, mMsgView ;
     Button getDirection;
     MarkerOptions place1,place2;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.track_location_activity);
+        db = FirebaseFirestore.getInstance();
         InitView();
     }
 
@@ -68,6 +76,33 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         getSupportActionBar().setTitle("Track");
         customerID = getIntent().getStringExtra("CustomerID");
         employeeID = getIntent().getStringExtra("EmployeeID");
+        db.collection("Profile").document(employeeID)
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_LONG).show();
+
+                        String lat1= String.valueOf(document.get("lat"));
+                        String long1=String.valueOf(document.get("lat"));
+
+                        empLatLng = new LatLng(Double.valueOf(lat1),
+                                Double.valueOf(long1));
+                        place2=new MarkerOptions().position(new LatLng(Double.valueOf(lat1),
+                                Double.valueOf(long1))).title("Employee Location");
+                        getMapvalue();
+
+                        //       Log.d( "DocumentSnapshot data: " + document.getData());
+                    } else {
+                        //Log.d(TAG, "No such document");
+                    }
+                } else {
+                    //  Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
         getCustomerProfileGet();
         getEmployeeProfileGet();
         mMsgView = (TextView) findViewById(R.id.msgView);
@@ -77,24 +112,17 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             @Override
             public void onClick(View view) {
                 new FetchURL(TrackActivity.this).execute(getUrl(place1.getPosition(), place2.getPosition(), "driving"), "driving");
-
             }
-
-
         });
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
     }
 
     private void getCustomerProfileGet() {
 
         String id = SharedPrefManager.getInstance(this).getUser().getID();
-
         try {
-
-
             result = new AdminHelper.GetProfileForShow().execute(customerID).get();
             if (result.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
@@ -112,9 +140,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                             Double.valueOf(String.valueOf(dataProfileCustomer.Long)))).title("Employee Location");
 
                     getMapvalue();
-
                 }
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,8 +152,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         String id = SharedPrefManager.getInstance(this).getUser().getID();
 
         try {
-
-
             result = new AdminHelper.GetProfileForShow().execute(employeeID).get();
             if (result.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
@@ -138,14 +162,11 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 }.getType();
                 dataProfileEmployee = new Gson().fromJson(result, listType);
                 if (dataProfileEmployee != null) {
-                    empLatLng = new LatLng(Double.valueOf(String.valueOf(dataProfileEmployee.Lat)),
-                            Double.valueOf(String.valueOf(dataProfileEmployee.Long)));
-                    place2=new MarkerOptions().position(new LatLng(Double.valueOf(String.valueOf(dataProfileEmployee.Lat)),
-                            Double.valueOf(String.valueOf(dataProfileEmployee.Long)))).title("Employee Location");
-                    getMapvalue();
+
+
+
 
                 }
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -166,7 +187,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + getString(R.string.google_maps_api_key);
         return url;
 
-
     }
 
     private void getMapvalue() {
@@ -175,17 +195,10 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         mapFragment.getMapAsync(this);
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
-//        PolylineOptions polylineOptions = new PolylineOptions();
-//        polylineOptions.addAll(latlngCustomer);
-//        polylineOptions
-//                .width(5)
-//                .color(Color.BLUE);
-
         PolylineOptions polylinesOptions = new PolylineOptions();
         polylinesOptions.add()
                 .add(new LatLng(Double.valueOf(String.valueOf(dataProfileCustomer.Lat)),
@@ -196,9 +209,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 .width(4)
                 .color(Color.YELLOW);
         mMap.addPolyline(polylinesOptions);
-
-
-
 
         //This is Customer Location
         mMap.addMarker(new MarkerOptions().position(cusLatLng)
@@ -221,17 +231,11 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             @Override
             public void onMapLoaded() {
 
-//                place2 = new MarkerOptions().position(new LatLng(Double.valueOf(String.valueOf(dataProfileCustomer.Lat)),
-//                        Double.valueOf(String.valueOf(dataProfileCustomer.Long)))).title("Customer Location");
-//                place1=new MarkerOptions().position(new LatLng(Double.valueOf(String.valueOf(dataProfileEmployee.Lat)),
-//                        Double.valueOf(String.valueOf(dataProfileEmployee.Long)))).title("Employee Location");
                 mMap.addMarker(place1);
                 mMap.addMarker(place1);
             }
         });
-
     }
-
 
     @Override
     public boolean onMarkerClick(Marker marker) {

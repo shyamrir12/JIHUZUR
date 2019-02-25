@@ -30,12 +30,18 @@ public class EmployeeHistoryCurrentFragment extends Fragment {
     RelativeLayout relativeLayout;
     private View view;
     private String result = "", userId;
+    String empid;
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.customer_history_item_fragment, container, false);
+        try {
+            empid = getArguments().getString("EmployeeID");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         initView(view);
         return view;
     }
@@ -70,23 +76,27 @@ public class EmployeeHistoryCurrentFragment extends Fragment {
     }
 
     private void getHistoryList() {
-    try {
-        mSwipeRefreshLayout.setRefreshing(true);
-        result = new EmployeeOrderHelper.GetMyCompleteOrderGet().execute(userId).get();
-        mSwipeRefreshLayout.setRefreshing(false);
-        Gson gson = new Gson();
-        Type listType = new TypeToken<List<Order>>() {
-        }.getType();
-        orderList = new Gson().fromJson(result, listType);
-        if (orderList.equals(null)) {
-            relativeLayout.setVisibility(View.VISIBLE);
+        if (SharedPrefManager.getInstance(getContext()).getUser().getRole().equals("Admin")) {
+            userId = empid.toString();
         }
-        employeeHistoryAdapter = new EmployeeHistoryAdapter(getContext(), orderList);
-        recyclerView.setAdapter(employeeHistoryAdapter);
-    } catch (ExecutionException e) {
-        e.printStackTrace();
-    } catch (InterruptedException e) {
-        e.printStackTrace();
+
+        try {
+            mSwipeRefreshLayout.setRefreshing(true);
+            result = new EmployeeOrderHelper.GetMyCompleteOrderGet().execute(userId).get();
+            mSwipeRefreshLayout.setRefreshing(false);
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<Order>>() {
+            }.getType();
+            orderList = new Gson().fromJson(result, listType);
+            if (orderList.equals(null)) {
+                relativeLayout.setVisibility(View.VISIBLE);
+            }
+            employeeHistoryAdapter = new EmployeeHistoryAdapter(getContext(), orderList);
+            recyclerView.setAdapter(employeeHistoryAdapter);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
-}
 }
