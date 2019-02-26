@@ -81,6 +81,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -118,12 +120,12 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 
     FirebaseFirestore db;
     String img_str;
-     String idmark ;
+    String idmark;
     String namemark;
     String img_strmark;
-    private Fragment employeeCurrentOrderFragment,employeeHistoryCurreFragment;
-    private  FragmentManager fragmentManager;
-    String latl,long1;
+    private Fragment employeeCurrentOrderFragment, employeeHistoryCurreFragment;
+    private FragmentManager fragmentManager;
+    String latl, long1;
     String namesForMap;
     String result = "";
     Intent intent;
@@ -193,7 +195,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     fragment = helpCenterFragment;
                     framentClass = HelpCenterFragment.class;
                     break;
-
             }
             try {
                 fragment = (Fragment) framentClass.newInstance();
@@ -223,7 +224,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         db = FirebaseFirestore.getInstance();
-        employeeCurrentOrderFragment=new EmployeeCurrentOrderFragment();
+        employeeCurrentOrderFragment = new EmployeeCurrentOrderFragment();
         mapRefresh = (ImageView) findViewById(R.id.getRefresh);
         mapRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -240,8 +241,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     public void onReceive(Context context, Intent intent) {
                         String latitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LATITUDE);
                         String longitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LONGITUDE);
-
-
 
                         if (latitude != null && longitude != null) {
                             int height = 100;
@@ -349,7 +348,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 */
         place1 = new MarkerOptions().position(new LatLng(21.2379468, 81.6336833)).title("Location 1");
         place2 = new MarkerOptions().position(new LatLng(21.2120677, 81.3732849)).title("Location 2");
-        MapFragment mapFragment = (MapFragment) getFragmentManager() .findFragmentById(R.id.mapNearBy);
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapNearBy);
         mapFragment.getMapAsync(this);
     }
 
@@ -395,8 +394,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 @Override
                 public void onMyLocationClick(@NonNull Location location) {
 
-
-
                     mGoogleMap.setMinZoomPreference(12);
                     CircleOptions circleOptions = new CircleOptions();
                     circleOptions.center(new LatLng(location.getLatitude(),
@@ -422,7 +419,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         TextView txt_id = (TextView) marker.findViewById(R.id.empid);
       /*  ImageView orderHIstory=(ImageView)marker.findViewById(R.id.horder);
         final ImageView orderCurrent=(ImageView)marker.findViewById(R.id.codrer);*/
-        final String ide=txt_id.getText().toString();
+        final String ide = txt_id.getText().toString();
 
       /*  orderCurrent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -538,17 +535,13 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void PutDistance(String distance) {
-
         distancefor.setText(distance);
-
     }
 
     private void employeeProfileGet() {
-
         try {
             result = new EmployeeOrderHelper.GetEmployeeProfileForShow().execute().get();
             Type listType = new TypeToken<List<EmployeeProfileModel>>() {
@@ -570,11 +563,9 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                             fireid[i] = task.getResult().getDocuments().get(i).getId();
                                             firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
                                             firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
-
                                             latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
                                                     Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
                                         }
-
                                         Log.d(TAG, document.getId() + " => " + document.getData());
                                     }
                                 } else {
@@ -582,7 +573,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                 }
                             }
                         });
-
             }
             empNameList = new String[employeeProfileModelList.size()];
             empLat = new String[employeeProfileModelList.size()];
@@ -595,7 +585,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 employeeid[i] = String.valueOf(employeeProfileModelList.get(i).getID());
                 empMobile.add(employeeProfileModelList.get(i).getMobileNo());
                 empName.add(employeeProfileModelList.get(i).getName());
-                }
+            }
 
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -619,11 +609,8 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             String ids = employeeProfileModelList.get(i).getID();
 
             if (googleMap != null) {
-
             }
-
             selectedEmpId = employeeProfileModelList.get(i).getID();
-
         }
 
         mGoogleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
@@ -632,63 +619,51 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 for (int i = 0; i < employeeProfileModelList.size(); i++) {
 
                     //                    LatLng customMarkerLocationOne = new LatLng(28.583911, 77.319116);
-
-                        db.collection("Profile")
-                                .get()
-                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                                fireid = new String[employeeProfileModelList.size()];
-                                                firelat = new String[employeeProfileModelList.size()];
-                                                firelong = new String[employeeProfileModelList.size()];
-                                                for (int i = 0; i < task.getResult().size(); i++) {
-                                                    fireid[i] = task.getResult().getDocuments().get(i).getId();
-                                                    firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
-                                                    firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
-
-                                                    name = employeeProfileModelList.get(i).getName();
-                                                    mobno = employeeProfileModelList.get(i).getMobileNo();
-                                                    img_str = employeeProfileModelList.get(i).getImage();
-                                                    empid = employeeProfileModelList.get(i).getID();
-                                                    latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
-                                                            Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
-
-
-                                                    mGoogleMap.addMarker(new MarkerOptions().position(latLng).
-                                                            icon(BitmapDescriptorFactory.fromBitmap(
-                                                                    createCustomMarker(AdminHomePage.this, img_str, name, mobno, empid, mGoogleMap)))).setTitle(name + "," + empid + "," + img_str);
-
-                                                    //LatLngBound will cover all your marker on Google Maps
-                                                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                                                    builder.include(latLng);
-                                                    LatLngBounds bounds = builder.build();
-
-                                                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
-                                                    mGoogleMap.moveCamera(cu);
-                                                    mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
-                                                }
-
-                                                Log.d(TAG, document.getId() + " => " + document.getData());
+                    db.collection("Profile")
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            fireid = new String[employeeProfileModelList.size()];
+                                            firelat = new String[employeeProfileModelList.size()];
+                                            firelong = new String[employeeProfileModelList.size()];
+                                            for (int i = 0; i < task.getResult().size(); i++) {
+                                                fireid[i] = task.getResult().getDocuments().get(i).getId();
+                                                firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
+                                                firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
+                                                name = employeeProfileModelList.get(i).getName();
+                                                mobno = employeeProfileModelList.get(i).getMobileNo();
+                                                img_str = employeeProfileModelList.get(i).getImage();
+                                                empid = employeeProfileModelList.get(i).getID();
+                                                latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
+                                                        Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
+                                                mGoogleMap.addMarker(new MarkerOptions().position(latLng).
+                                                        icon(BitmapDescriptorFactory.fromBitmap(
+                                                                createCustomMarker(AdminHomePage.this, img_str, name, mobno, empid, mGoogleMap)))).setTitle(name + "," + empid + "," + img_str);                                                    //LatLngBound will cover all your marker on Google Maps
+                                                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                                                builder.include(latLng);
+                                                LatLngBounds bounds = builder.build();
+                                                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
+                                                mGoogleMap.moveCamera(cu);
+                                                mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
                                             }
-                                        } else {
-                                            Log.d(TAG, "Error getting documents: ", task.getException());
+                                            Log.d(TAG, document.getId() + " => " + document.getData());
                                         }
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
                                     }
-                                });
-
+                                }
+                            });
 
                     mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                         @Override
                         public boolean onMarkerClick(Marker marker) {
-
-                             latl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[0];
+                            latl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[0];
                             long1 = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[1].split(Pattern.quote(")"))[0];
                             place2 = new MarkerOptions().position(new LatLng(Double.valueOf(latl), Double.valueOf(long1))).title("Location 1");
-
                             new FetchURL(AdminHomePage.this).execute(getUrl(mylocation.getPosition(), place2.getPosition(), "driving"), "driving");
-
                             idmark = marker.getTitle().split(",")[1];
                             namemark = marker.getTitle().split(",")[0];
                             img_strmark = marker.getTitle().split(",")[2];
@@ -696,34 +671,28 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                         }
                     });
 
-
-              getDirection.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
-
+                    getDirection.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
                    /*   Double latitud=latLng.latitude;
                       Double longitud=latLng.longitude;*/
-                      String label = "Route for "+ namemark ;
-                      String uriBegin = "geo:" + latl + "," + long1;
-                      String query = latl + "," + long1 + "(" + label + ")";
-                      String encodedQuery = Uri.encode(query);
-                      String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
-                      Uri uri = Uri.parse(uriString);
-                      Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
-                      startActivity(intent);
-
-                  }
-              });
+                            String label = "Route for " + namemark;
+                            String uriBegin = "geo:" + latl + "," + long1;
+                            String query = latl + "," + long1 + "(" + label + ")";
+                            String encodedQuery = Uri.encode(query);
+                            String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
+                            Uri uri = Uri.parse(uriString);
+                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
+                        }
+                    });
 
                     mGoogleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                         @Override
                         public void onMapLongClick(LatLng latLng) {
-
-                            if(idmark==null)
-                            {
-                                Toast.makeText(getApplicationContext(),"Please Click Marker First!",Toast.LENGTH_LONG).show();
-                            }
-                            else {
+                            if (idmark == null) {
+                                Toast.makeText(getApplicationContext(), "Please Click Marker First!", Toast.LENGTH_LONG).show();
+                            } else {
                                 android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(AdminHomePage.this);
                                 LayoutInflater inflater = LayoutInflater.from(AdminHomePage.this);
                                 final View dialogView = inflater.inflate(R.layout.dialog_reviewemployee, null);
@@ -735,24 +704,18 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                /* final RecyclerView orderNew = (RecyclerView) dialogView.findViewById(R.id.orderNew);
                                 orderNew.setHasFixedSize(true);
                                 orderNew.setLayoutManager(new LinearLayoutManager(AdminHomePage.this));
-                               */ ImageView oderrun = (ImageView) dialogView.findViewById(R.id.orderRun);
-                                ImageView orderHist = (ImageView) dialogView.findViewById(R.id.orderHist);
-
-
-
-                               /* getRatingForEmployee(ide, ratingBar);
+                               */
+                                ImageView oderrun = (ImageView) dialogView.findViewById(R.id.orderRun);
+                                ImageView orderHist = (ImageView) dialogView.findViewById(R.id.orderHist);                               /* getRatingForEmployee(ide, ratingBar);
                                 getMyOrderRunning(orderNew, ide, AdminHomePage.this);*/
                                 de.hdodenhof.circleimageview.CircleImageView profileimage = (de.hdodenhof.circleimageview.CircleImageView) dialogView.findViewById(R.id.profileImage);
-                                if (img_str.equals("null"))
-
-                                {
+                                if (img_str.equals("null")) {
                                     profileimage.setImageResource(R.drawable.jihuzurblanklogo);
                                     //  Glide.with(AdminHomePage.this).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
                                 } else {
                                     Glide.with(AdminHomePage.this).load(AppConfig.BASE_URL + img_str).into(profileimage);
                                 }
-
-                                dialogBuilder.setTitle("Mr/Ms. "+name.toString());
+                                dialogBuilder.setTitle("Mr/Ms. " + name.toString());
                                 dialogBuilder.setNegativeButton("Close",
                                         new DialogInterface.OnClickListener() {
                                             @Override
@@ -767,26 +730,24 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                     @Override
                                     public void onClick(View v) {
                                         b.cancel();
-                                        getSupportActionBar().setTitle(namemark+"'s"+" "+ "Current Order");
+                                        getSupportActionBar().setTitle(namemark + "'s" + " " + "Current Order");
                                         Fragment employeeCurrentOrderFragment = new EmployeeCurrentOrderFragment();//Get Fragment Instance
                                         Bundle data = new Bundle();//Use bundle to pass data
-                                        data.putString("EmployeeID",ide );//put string, int, etc in bundle with a key value
+                                        data.putString("EmployeeID", ide);//put string, int, etc in bundle with a key value
                                         employeeCurrentOrderFragment.setArguments(data);//Finally set argument bundle to fragment
                                         fragmentManager.beginTransaction().replace(R.id.home_container, employeeCurrentOrderFragment).commit();//now replace the argument fragment
-
                                     }
                                 });
                                 orderHist.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         b.cancel();
-                                        getSupportActionBar().setTitle(namemark+"'s"+" "+ "Order History");
+                                        getSupportActionBar().setTitle(namemark + "'s" + " " + "Order History");
                                         Fragment employeeHistoryCurrentFragment = new EmployeeHistoryCurrentFragment();//Get Fragment Instance
                                         Bundle data = new Bundle();//Use bundle to pass data
-                                        data.putString("EmployeeID",ide );//put string, int, etc in bundle with a key value
+                                        data.putString("EmployeeID", ide);//put string, int, etc in bundle with a key value
                                         employeeHistoryCurrentFragment.setArguments(data);//Finally set argument bundle to fragment
                                         fragmentManager.beginTransaction().replace(R.id.home_container, employeeHistoryCurrentFragment).commit();//now replace the argument fragment
-
                                     }
                                 });
                             }
@@ -833,6 +794,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             mGoogleMap.setMyLocationEnabled(true);
         }
     }
+
     @Override
     public boolean onMarkerClick(Marker marker) {
         String emp = empid;
@@ -844,9 +806,8 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.redpin);
         Bitmap b = bitmapdraw.getBitmap();
         Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
-       mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.valueOf(latl),
+        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.valueOf(latl),
                 Double.valueOf(longl))).title("Location 1").icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
-
         Log.i(TAG, "marker arg0 = " + marker);
         return false;
     }
@@ -859,8 +820,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         String distances = values[1].toString();
         String duration = values[2].toString();
         distancefor.setText(distances + "," + duration);
-
-
     }
 
     @Override
@@ -901,11 +860,9 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             return false;
         }
 
-
         if (dialog != null) {
             dialog.dismiss();
         }
-
         //Yes there is active internet connection. Next check Location is granted by user or not.
 
         if (checkPermissions()) { //Yes permissions are granted by the user. Go to the next step.
@@ -923,31 +880,25 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(AdminHomePage.this);
         builder.setTitle(R.string.title_alert_no_intenet);
         builder.setMessage(R.string.msg_alert_no_internet);
-
         String positiveText = getString(R.string.btn_label_refresh);
         builder.setPositiveButton(positiveText,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-
                         //Block the Application Execution until user grants the permissions
                         if (startStep2(dialog)) {
-
                             //Now make sure about location permission.
                             if (checkPermissions()) {
-
                                 //Step 2: Start the Location Monitor Service
                                 //Everything is there to start the service.
                                 startStep3();
                             } else if (!checkPermissions()) {
                                 requestPermissions();
                             }
-
                         }
                     }
                 });
-
         android.support.v7.app.AlertDialog dialog = builder.create();
         dialog.show();
     }

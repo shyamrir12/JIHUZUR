@@ -18,6 +18,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -84,6 +85,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -99,16 +101,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.example.awizom.jihuzur.R.drawable.jihuzurapplogo;
+import static com.example.awizom.jihuzur.R.drawable.jihuzurblanklogo;
+import static java.lang.System.load;
+
 public class EmployeeLocationActivity extends AppCompatActivity implements OnMapReadyCallback, TaskLoadedCallback, GoogleMap.OnMarkerClickListener {
 
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-    String latl,long1,namemark,img_strmark,idmark;
+    String latl, long1, namemark, img_strmark, idmark;
     /**
      * Code used in requesting runtime permissions.
      */
@@ -136,7 +143,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
     private ArrayList<String> empMobile = new ArrayList<>();
     private ArrayList<String> empName = new ArrayList<>();
     private String[] empNameList, empLat, empLong, employeeid;
-    private String priceID = "", priceIDs = "", selectedEmpId,cusID="";
+    private String priceID = "", priceIDs = "", selectedEmpId, cusID = "";
     private String priceIds;
     private MarkerOptions place1, mylocation, targetlocation;
     private MarkerOptions place2;
@@ -197,6 +204,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
 
         InitView();
     }
+
     public void InitView() {
 
         getSupportActionBar().setTitle("Track location");
@@ -212,7 +220,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         CustomerProfileGet();
         getDirection = findViewById(R.id.btnGetDirection);
 
-       /* place1 = new MarkerOptions().position(new LatLng(21.2379468, 81.6336833)).title("Location 1"); */
+        /* place1 = new MarkerOptions().position(new LatLng(21.2379468, 81.6336833)).title("Location 1"); */
         /*  place2 = new MarkerOptions().position(new LatLng(21.2120677, 81.3732849)).title("Location 2");*/
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
@@ -220,6 +228,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         mapFragment.getMapAsync(this);
 
     }
+
 
     public static Bitmap createCustomMarker(final Context context, String resource, final String _name, String mobno, String id, GoogleMap googleMap) {
 
@@ -229,21 +238,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
 
         String img_strs = AppConfig.BASE_URL + resource;
 //        markerImage.setImageResource(resource);
-        if (resource == null)
 
-
-        {
-            markerImage.setImageResource(R.drawable.jihuzurblanklogo);
-//                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
-        } else {
-            Glide.with(marker.getContext()).load(img_strs).into(markerImage);
-        }
-        markerImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "" + _name, Toast.LENGTH_SHORT).show();
-            }
-        });
 
         final TextView txt_name = (TextView) marker.findViewById(R.id.name);
         TextView text_mob = (TextView) marker.findViewById(R.id.mobno);
@@ -251,7 +246,12 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         text_mob.setText(mobno);
         txt_name.setText(_name);
         txt_id.setText(id);
-
+        if (resource == null) {
+            markerImage.setImageResource(jihuzurblanklogo);
+//                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
+        } else {
+            Glide.with(marker.getContext()).load(img_strs).into(markerImage);
+        }
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         marker.setLayoutParams(new ViewGroup.LayoutParams(52, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -261,13 +261,10 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         Bitmap bitmap = Bitmap.createBitmap(marker.getMeasuredWidth(), marker.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         marker.draw(canvas);
-
-
         return bitmap;
     }
 
     private void CustomerProfileGet() {
-
         try {
             result = new AdminHelper.GetProfileForShow().execute(cusID).get();
             if (result.isEmpty()) {
@@ -278,24 +275,20 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                 }.getType();
                 dataProfileCustomer = new Gson().fromJson(result, listType);
                 if (dataProfileCustomer != null) {
-                    latlngs.add( new LatLng(Double.valueOf(String.valueOf(dataProfileCustomer.Lat)),
+                    latlngs.add(new LatLng(Double.valueOf(String.valueOf(dataProfileCustomer.Lat)),
                             Double.valueOf(String.valueOf(dataProfileCustomer.Long))));
 
-                    place2 = new MarkerOptions().position( new LatLng(Double.valueOf(String.valueOf(dataProfileCustomer.Lat)),
+                    place2 = new MarkerOptions().position(new LatLng(Double.valueOf(String.valueOf(dataProfileCustomer.Lat)),
                             Double.valueOf(String.valueOf(dataProfileCustomer.Long)))).title("Location 1");
                     /*  getMapvalue();*/
-
                 }
-
             }
-
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
-
     // Fetches data from url passed
 
     @Override
@@ -306,35 +299,35 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         Log.d("mylog", "Added Markers");
 
         Marker[] allMarkers = new Marker[1];
-       {
-                   latLng = new LatLng(Double.valueOf(String.valueOf(dataProfileCustomer.getLat())),
+        {
+            latLng = new LatLng(Double.valueOf(String.valueOf(dataProfileCustomer.getLat())),
                     Double.valueOf(String.valueOf(dataProfileCustomer.getLong())));
             if (googleMap != null) {
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13.0f));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
             }
         }
-                mGoogleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+        mGoogleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
-              {
+                {
                     latLng = new LatLng(Double.parseDouble(String.valueOf(dataProfileCustomer.getLat())), Double.parseDouble(String.valueOf(dataProfileCustomer.getLong())));
                     name = dataProfileCustomer.getName();
                     mobno = dataProfileCustomer.getMobileNo();
-                    img_str =dataProfileCustomer.getImage();
-                    empid =dataProfileCustomer.getID();
+                    img_str = dataProfileCustomer.getImage();
+                    empid = dataProfileCustomer.getID();
 
                     //                    LatLng customMarkerLocationOne = new LatLng(28.583911, 77.319116);
-                   place2 = new MarkerOptions().position( new LatLng(Double.parseDouble(String.valueOf(dataProfileCustomer.getLat())), Double.parseDouble(String.valueOf(dataProfileCustomer.getLong())))).title("Location 1");
+                    place2 = new MarkerOptions().position(new LatLng(Double.parseDouble(String.valueOf(dataProfileCustomer.getLat())), Double.parseDouble(String.valueOf(dataProfileCustomer.getLong())))).title("Location 1");
 
 
                     mGoogleMap.addMarker(new MarkerOptions().position(latLng).
                             icon(BitmapDescriptorFactory.fromBitmap(
                                     createCustomMarker(EmployeeLocationActivity.this, img_str, name, mobno, empid, mGoogleMap)))).setTitle(name + "," + empid + "," + img_str);
 
-                  new FetchURL(EmployeeLocationActivity.this).execute(getUrl(mylocation.getPosition(), place2.getPosition(), "driving"), "driving");
+                    new FetchURL(EmployeeLocationActivity.this).execute(getUrl(mylocation.getPosition(), place2.getPosition(), "driving"), "driving");
 
-                  mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                         @Override
                         public boolean onMarkerClick(Marker marker) {
 
@@ -348,21 +341,27 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                             return false;
                         }
                     });
-                  getDirection.setOnClickListener(new View.OnClickListener() {
-                      @Override
-                      public void onClick(View view) {
-                          String label = "Route for "+ dataProfileCustomer.getName() ;
-                          String uriBegin = "geo:" + String.valueOf(dataProfileCustomer.getLat()) + "," +String.valueOf(dataProfileCustomer.getLong());
-                          String query =  String.valueOf(dataProfileCustomer.getLat()) + "," +  String.valueOf(dataProfileCustomer.getLong()) + "(" + label + ")";
-                          String encodedQuery = Uri.encode(query);
-                          String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
-                          Uri uri = Uri.parse(uriString);
-                          Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
-                          startActivity(intent);
-                      }
-                  });
+                    getDirection.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String label = "Route for " + dataProfileCustomer.getName();
+                            String uriBegin = "geo:" + String.valueOf(dataProfileCustomer.getLat()) + "," + String.valueOf(dataProfileCustomer.getLong());
+                            String query = String.valueOf(dataProfileCustomer.getLat()) + "," + String.valueOf(dataProfileCustomer.getLong()) + "(" + label + ")";
+                            String encodedQuery = Uri.encode(query);
+                            String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
+                            Uri uri = Uri.parse(uriString);
+                            try {
+                                Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
+                                startActivity(intent);
+                            } catch (Exception e) {
+                                Toast.makeText(getApplicationContext(), "Update Your Google Map", Toast.LENGTH_LONG).show();
+                                e.printStackTrace();
+                            }
 
-                  //LatLngBound will cover all your marker on Google Maps
+                        }
+                    });
+
+                    //LatLngBound will cover all your marker on Google Maps
                     LatLngBounds.Builder builder = new LatLngBounds.Builder();
                     builder.include(latLng);
                     LatLngBounds bounds = builder.build();
@@ -384,7 +383,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
         mGoogleMap.setMinZoomPreference(11);
 
-            }
+    }
 
     private String getUrl(LatLng origin, LatLng dest, String directionMode) {
         // Origin of route

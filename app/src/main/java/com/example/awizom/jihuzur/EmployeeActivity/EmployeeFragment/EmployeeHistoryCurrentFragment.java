@@ -47,12 +47,10 @@ public class EmployeeHistoryCurrentFragment extends Fragment {
     }
 
     private void initView(View view) {
-
         userId = SharedPrefManager.getInstance(getContext()).getUser().getID();
         mSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         relativeLayout = view.findViewById(R.id.textRelate);
         recyclerView = view.findViewById(R.id.recyclerView);
-
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
