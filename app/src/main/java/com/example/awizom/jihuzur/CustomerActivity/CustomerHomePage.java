@@ -190,7 +190,7 @@ public class CustomerHomePage extends AppCompatActivity
         userName.setText(uname);
         String ucontact=SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getMobileNo().toString();
         userContact.setText(ucontact);
-
+/**/
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
