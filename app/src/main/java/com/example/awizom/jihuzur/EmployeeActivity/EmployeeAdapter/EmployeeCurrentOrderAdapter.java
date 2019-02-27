@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,15 +21,23 @@ import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Helper.ServicesHelper;
 import com.example.awizom.jihuzur.Model.Order;
 import com.example.awizom.jihuzur.Model.Result;
+import com.example.awizom.jihuzur.Model.ResultModel;
 import com.example.awizom.jihuzur.Model.Service;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+import static com.firebase.ui.auth.ui.email.RegisterEmailFragment.TAG;
 
 public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCurrentOrderAdapter.OrderItemViewHolder> {
 
@@ -39,13 +48,11 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
     private Order order;
     private String orderId = "", otpCode = "", result = "", empId = "", displayType = "", priceid = "";
     private Intent intent;
-
+    FirebaseFirestore db;
 
     public EmployeeCurrentOrderAdapter(Context employeeCurrentOrderFragment, List<Order> orderList) {
-
         this.mCtx = employeeCurrentOrderFragment;
         this.orderitemList = orderList;
-
     }
 
     @NonNull
@@ -117,6 +124,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             }
 
 
+            db=FirebaseFirestore.getInstance();
             getServiceList(holder.catlgId.getText().toString());
 
 
@@ -145,14 +153,12 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                         public void onClick(View v) {
 
                             try {
-
                                 result = new AdminHelper.EditPostDiscount().execute(orderId, dicountText.getText().toString()).get();
                                 Gson gson = new Gson();
                                 final Result jsonbodyres = gson.fromJson(result, Result.class);
                                 Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
                             } catch (Exception e) {
                                 e.printStackTrace();
-
                             }
                         }
                     });
@@ -293,7 +299,35 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 
                     try {
                         result = new EmployeeOrderHelper.StopOrder().execute(orderId).get();
+                        Gson gson = new Gson();
+                        Type getType = new TypeToken<ResultModel>() {
+                        }.getType();
+                        ResultModel resultModel = new Gson().fromJson(result, getType);
+                        if (resultModel.getMessage().contains("Order End")) {
+                            String employeeid=resultModel.getEmployeeID().toString();
+                            Map<String, Object> profile = new HashMap<>();
+                            profile.put("busystatus",false);
+
+                            db.collection("Profile").document(employeeid).update(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                }
+                            })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error writing document", e);
+                                        }
+                                    });
+
+                            //   canclBtn.setVisibility(View.GONE);
+                        }
+
+
                         Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
+
+
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {

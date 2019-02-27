@@ -28,6 +28,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.Config.AppConfig;
@@ -46,7 +47,7 @@ public class EmployeeHomePage extends AppCompatActivity
 
         //side navigation drawer start
 
-   implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     String TAG;
     ImageView imageView;
     String dUser, name, role, Url;
@@ -185,12 +186,10 @@ public class EmployeeHomePage extends AppCompatActivity
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
 
@@ -213,15 +212,10 @@ public class EmployeeHomePage extends AppCompatActivity
         {
 
             try {
-                if (SharedPrefManager.getInstance(this).getUser().getImage() == null)
-
-                {
-
+                if (SharedPrefManager.getInstance(this).getUser().getImage() == null) {
                     imageView.setImageResource(R.drawable.jihuzurblanklogo);
                     //     Glide.with(mCtx).load("http://192.168.1.105:7096/Images/Category/1.png").into(holder.categoryImage);
                 } else {
-
-
                     Glide.with(EmployeeHomePage.this)
                             .load(img_str)
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -231,10 +225,8 @@ public class EmployeeHomePage extends AppCompatActivity
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-
             }
         }
-
         userName = headerview.findViewById(R.id.profileName);
         userContact = headerview.findViewById(R.id.empContact);
         String uname = SharedPrefManager.getInstance(EmployeeHomePage.this).getUser().getName().toString();
@@ -250,15 +242,11 @@ public class EmployeeHomePage extends AppCompatActivity
             public void onClick(View v) {
                 intent = new Intent(EmployeeHomePage.this, DrawingActivity.class);
                 startActivity(intent);
-
             }
         });
-
-
     }
 
     private void enable_buttons() {
-
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -267,10 +255,8 @@ public class EmployeeHomePage extends AppCompatActivity
                 ContextCompat.startForegroundService(EmployeeHomePage.this, serviceIntent);
                 Intent i = new Intent(getApplicationContext(), GPS_Service.class);
                 startService(i);
-
             }
         });
-
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -278,7 +264,6 @@ public class EmployeeHomePage extends AppCompatActivity
                 stopService(serviceIntent);
                 Intent i = new Intent(getApplicationContext(), GPS_Service.class);
                 stopService(i);
-
             }
         });
 
@@ -286,9 +271,7 @@ public class EmployeeHomePage extends AppCompatActivity
 
     private boolean runtime_permissions() {
         if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
-
             return true;
         }
         return false;
@@ -328,9 +311,7 @@ public class EmployeeHomePage extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_signout) {
             FirebaseAuth fAuth = FirebaseAuth.getInstance();
@@ -340,8 +321,6 @@ public class EmployeeHomePage extends AppCompatActivity
         if (id == R.id.action_customerHome) {
             Intent i = new Intent(EmployeeHomePage.this, EmployeeHomePage.class);
             startActivity(i);
-
-
             return true;
         }
         if (id == R.id.action_settings) {
@@ -359,19 +338,15 @@ public class EmployeeHomePage extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_profile) {
             intent = new Intent(EmployeeHomePage.this, DrawingActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_booking) {
-
             intent = new Intent(EmployeeHomePage.this, EmployeeBookingsActivity.class);
             startActivity(intent);
-
         } else if (id == R.id.nav_skill) {
             intent = new Intent(EmployeeHomePage.this, EmployeeSkillActivity.class);
             startActivity(intent);
-
         } else if (id == R.id.nav_logout) {
 
             SharedPrefManager.getInstance(this).logout();

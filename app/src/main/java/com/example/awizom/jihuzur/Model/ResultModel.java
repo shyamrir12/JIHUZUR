@@ -4,6 +4,7 @@ public class ResultModel {
 
     private Boolean Status;
     private String Message;
+    private String EmployeeID;
 
     public Boolean getStatus() {
         return Status;
@@ -19,5 +20,13 @@ public class ResultModel {
 
     public void setMessage(String message) {
         Message = message;
+    }
+
+    public String getEmployeeID() {
+        return EmployeeID;
+    }
+
+    public void setEmployeeID(String employeeID) {
+        EmployeeID = employeeID;
     }
 }

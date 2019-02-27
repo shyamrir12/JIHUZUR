@@ -68,86 +68,86 @@ public class ServiceListAdapter extends
         final String catalogiD = String.valueOf(holder.serviceID.getText());
 
 
-        if(!empskills.equals(null)){
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String employeeid = SharedPrefManager.getInstance(mCtx).getUser().getID();
+                if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Admin")) {
 
-                try {
-                    result = new EmployeeOrderHelper.EmployeePOSTSkill().execute(employeeid, serviceID).get();
-                    Gson gson = new Gson();
-                    final Result jsonbodyres = gson.fromJson(result, Result.class);
-                    Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                    intent = new Intent(mCtx, AdminPricingActivity.class);
+                    intent.putExtra("serviceName", holder.serviceName.getText());
+                    intent.putExtra("description", holder.description.getText());
+                    intent.putExtra("serviceID", holder.serviceID.getText());
+                    intent.putExtra("displayType", holder.dType.getText());
+                    mCtx.startActivity(intent);
 
-                    if (!result.equals(null)) {
-                        intent = new Intent(mCtx, EmployeeSkillActivity.class);
-                        mCtx.startActivity(intent);
-                    }
+                    Toast.makeText(mCtx, "" + position, Toast.LENGTH_SHORT).show();
 
-                } catch (Exception e) {
+                } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Employee")) {
+
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            String employeeid = SharedPrefManager.getInstance(mCtx).getUser().getID();
+
+                            try {
+                                result = new EmployeeOrderHelper.EmployeePOSTSkill().execute(employeeid, serviceID).get();
+                                Gson gson = new Gson();
+                                final Result jsonbodyres = gson.fromJson(result, Result.class);
+                                Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                if (!result.equals(null)) {
+                                    intent = new Intent(mCtx, EmployeeSkillActivity.class);
+                                    mCtx.startActivity(intent);
+                                }
+
+                            } catch (Exception e) {
+                            }
+
+
+                        }
+                    });
+
+
+//                        intent = new Intent(mCtx, CustomerpricingActivity.class);
+//                        intent.putExtra("serviceName", holder.serviceName.getText());
+//                        intent.putExtra("description", holder.description.getText());
+//                        intent.putExtra("serviceID", holder.serviceID.getText());
+//                        intent.putExtra("DisplayType", holder.dType.getText());
+//                        intent.putExtra("button", "serBtn");
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        mCtx.startActivity(intent);
+
+
+                } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Customer")) {
+
+                    intent = new Intent(mCtx, CustomerpricingActivity.class);
+                    intent.putExtra("serviceName", holder.serviceName.getText());
+                    intent.putExtra("description", holder.description.getText());
+                    intent.putExtra("serviceID", holder.serviceID.getText());
+                    intent.putExtra("DisplayType", holder.dType.getText());
+                    intent.putExtra("button", "serBtn");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mCtx.startActivity(intent);
                 }
 
 
-                }
-             });
-        }else {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Admin")) {
-
-                        intent = new Intent(mCtx, AdminPricingActivity.class);
-                        intent.putExtra("serviceName", holder.serviceName.getText());
-                        intent.putExtra("description", holder.description.getText());
-                        intent.putExtra("serviceID", holder.serviceID.getText());
-                        intent.putExtra("displayType", holder.dType.getText());
-                        mCtx.startActivity(intent);
-
-                        Toast.makeText(mCtx, "" + position, Toast.LENGTH_SHORT).show();
-
-                    } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Employee")) {
-
-                        intent = new Intent(mCtx, CustomerpricingActivity.class);
-                        intent.putExtra("serviceName", holder.serviceName.getText());
-                        intent.putExtra("description", holder.description.getText());
-                        intent.putExtra("serviceID", holder.serviceID.getText());
-                        intent.putExtra("DisplayType", holder.dType.getText());
-                        intent.putExtra("button", "serBtn");
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        mCtx.startActivity(intent);
-
-
-                    } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Customer")) {
-
-                        intent = new Intent(mCtx, CustomerpricingActivity.class);
-                        intent.putExtra("serviceName", holder.serviceName.getText());
-                        intent.putExtra("description", holder.description.getText());
-                        intent.putExtra("serviceID", holder.serviceID.getText());
-                        intent.putExtra("DisplayType", holder.dType.getText());
-                        intent.putExtra("button", "serBtn");
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        mCtx.startActivity(intent);
-                    }
-
-
-                }
-            });
-
-        }
-
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-
-                showEditServiceDialogue(servicename, description, serviceID, catalogiD, displaytype);
-                return true;
             }
         });
 
 
+        if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Admin")) {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+
+                    showEditServiceDialogue(servicename, description, serviceID, catalogiD, displaytype);
+                    return true;
+                }
+            });
+        }
+        else {}
     }
 
     private void showEditServiceDialogue(final String servicename, final String description, final String serviceid, final String catalogId, String displaytype) {
@@ -156,37 +156,25 @@ public class ServiceListAdapter extends
         LayoutInflater inflater = LayoutInflater.from(mCtx);
         final View dialogView = inflater.inflate(R.layout.add_servicelayout, null);
         dialogBuilder.setView(dialogView);
-
-
         editServicename = (AutoCompleteTextView) dialogView.findViewById(R.id.editServiceName);
         editServicename.setText(servicename);
-
         editDescription = (AutoCompleteTextView) dialogView.findViewById(R.id.description);
         editDescription.setText(description);
         displayType = (Spinner) dialogView.findViewById(R.id.displayType);
         if (displaytype.equals("Radio")) {
             List<String> list = new ArrayList<String>();
             list.add("Radio");
-
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(mCtx, android.R.layout.simple_spinner_item, list);
-
             displayType.setAdapter(dataAdapter);
-
         } else if (displaytype.equals("Checkbox")) {
             List<String> list = new ArrayList<String>();
             list.add("Checkbox");
-
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(mCtx, android.R.layout.simple_spinner_item, list);
-
             displayType.setAdapter(dataAdapter);
         } else {
             List<String> list = new ArrayList<String>();
-
-            ;
             list.add("Range");
-
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(mCtx, android.R.layout.simple_spinner_item, list);
-
             displayType.setAdapter(dataAdapter);
         }
         final Button buttonAddCatalog = (Button) dialogView.findViewById(R.id.buttonAddService);

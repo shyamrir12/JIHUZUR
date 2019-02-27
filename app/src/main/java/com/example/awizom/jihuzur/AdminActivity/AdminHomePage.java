@@ -66,6 +66,7 @@ import com.example.awizom.jihuzur.Service.LocationMonitoringService;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.internal.Constants;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -84,9 +85,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -180,16 +183,16 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                       framentClass = AdminHomePage.class;*/
                     intent = new Intent(AdminHomePage.this, AdminHomePage.class);
                     startActivity(intent);
-
                     break;
+
                 case R.id.navigation_booking:
                     getSupportActionBar().setTitle("My Booking");
                     fragment = myBookingFragment;
                     framentClass = MyBookingFragment.class;
-/*
-                    intent = new Intent(AdminHomePage.this, AdminPricingActivity.class);
+/*                    intent = new Intent(AdminHomePage.this, AdminPricingActivity.class);
                     startActivity(intent);*/
                     break;
+
                 case R.id.navigation_helpCenter:
                     getSupportActionBar().setTitle("Help Center");
                     fragment = helpCenterFragment;
@@ -211,6 +214,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
     //layout declaration
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -229,8 +233,11 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         mapRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initView();
-
+                try {
+                    initView();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         mMsgView = (TextView) findViewById(R.id.msgView);
@@ -252,11 +259,15 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                             mMsgView.setText(getString(R.string.msg_location_service_started) + "\n Latitude : " + latitude + "\n Longitude: " + longitude);
                             mGoogleMap.addMarker(mylocation);
                         }
-
                     }
                 }, new IntentFilter(LocationMonitoringService.ACTION_LOCATION_BROADCAST)
         );
-        initView();
+
+        try {
+            initView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerview = navigationView.getHeaderView(0);
@@ -305,9 +316,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             mobno = employeeProfileModelList.get(i).getMobileNo();
             img_str = employeeProfileModelList.get(i).getImage();
             empid = employeeProfileModelList.get(i).getID();
-
             //                    LatLng customMarkerLocationOne = new LatLng(28.583911, 77.319116);
-
 
             mGoogleMap.addMarker(new MarkerOptions().position(latLng).
                     icon(BitmapDescriptorFactory.fromBitmap(
@@ -437,7 +446,11 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             markerImage.setImageResource(R.drawable.jihuzurblanklogo);
             /*                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);*/
         } else {
-            Glide.with(marker.getContext()).load(img_strs).into(markerImage);
+            try {
+                Glide.with(marker.getContext()).load(img_strs).into(markerImage);
+            } catch (Exception e) {
+                markerImage.setImageResource(R.drawable.jihuzurblanklogo);
+            }
         }
         markerImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -455,7 +468,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         Bitmap bitmap = Bitmap.createBitmap(marker.getMeasuredWidth(), marker.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         marker.draw(canvas);
-
         return bitmap;
     }
 
@@ -560,11 +572,13 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                         firelat = new String[employeeProfileModelList.size()];
                                         firelong = new String[employeeProfileModelList.size()];
                                         for (int i = 0; i < task.getResult().size(); i++) {
-                                            fireid[i] = task.getResult().getDocuments().get(i).getId();
-                                            firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
-                                            firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
-                                            latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
-                                                    Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
+                                            if (task.getResult().getDocuments().get(i).get("busystatus").equals(false)) {
+                                                fireid[i] = task.getResult().getDocuments().get(i).getId();
+                                                firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
+                                                firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
+                                                latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
+                                                        Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
+                                            }
                                         }
                                         Log.d(TAG, document.getId() + " => " + document.getData());
                                     }
@@ -619,6 +633,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 for (int i = 0; i < employeeProfileModelList.size(); i++) {
 
                     //                    LatLng customMarkerLocationOne = new LatLng(28.583911, 77.319116);
+
                     db.collection("Profile")
                             .get()
                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -630,18 +645,22 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                             firelat = new String[employeeProfileModelList.size()];
                                             firelong = new String[employeeProfileModelList.size()];
                                             for (int i = 0; i < task.getResult().size(); i++) {
-                                                fireid[i] = task.getResult().getDocuments().get(i).getId();
-                                                firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
-                                                firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
-                                                name = employeeProfileModelList.get(i).getName();
-                                                mobno = employeeProfileModelList.get(i).getMobileNo();
-                                                img_str = employeeProfileModelList.get(i).getImage();
-                                                empid = employeeProfileModelList.get(i).getID();
-                                                latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
-                                                        Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
-                                                mGoogleMap.addMarker(new MarkerOptions().position(latLng).
-                                                        icon(BitmapDescriptorFactory.fromBitmap(
-                                                                createCustomMarker(AdminHomePage.this, img_str, name, mobno, empid, mGoogleMap)))).setTitle(name + "," + empid + "," + img_str);                                                    //LatLngBound will cover all your marker on Google Maps
+                                                if (task.getResult().getDocuments().get(i).get("busystatus").equals(false)) {
+                                                    fireid[i] = task.getResult().getDocuments().get(i).getId();
+                                                    firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
+                                                    firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
+                                                    latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
+                                                            Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
+
+
+                                                    name = employeeProfileModelList.get(i).getName();
+                                                    mobno = employeeProfileModelList.get(i).getMobileNo();
+                                                    img_str = employeeProfileModelList.get(i).getImage();
+                                                    empid = employeeProfileModelList.get(i).getID();
+                                                    mGoogleMap.addMarker(new MarkerOptions().position(latLng).
+                                                            icon(BitmapDescriptorFactory.fromBitmap(
+                                                                    createCustomMarker(AdminHomePage.this, img_str, name, mobno, empid, mGoogleMap)))).setTitle(name + "," + empid + "," + img_str);                                                    //LatLngBound will cover all your marker on Google Maps
+                                                }
                                                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
                                                 builder.include(latLng);
                                                 LatLngBounds bounds = builder.build();
@@ -670,6 +689,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                             return true;
                         }
                     });
+
 
                     getDirection.setOnClickListener(new View.OnClickListener() {
                         @Override

@@ -66,8 +66,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     boolean connected = false;
     LinearLayout coordinatorLayout;
     Snackbar snackbar;
-     FirebaseFirestore db;
-    boolean check=false;
+    FirebaseFirestore db;
+    boolean check = false;
+
     /*For layout binding */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,14 +82,14 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private void initView() {
 
         //19/02/2019 comment for not login
-        db=FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         coordinatorLayout = (LinearLayout) findViewById(R.id.coordinator);
         snackbar = Snackbar
                 .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
                 .setAction("RETRY", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                       initView();
+                        initView();
                     }
                 });
         snackbar.setActionTextColor(Color.RED);
@@ -109,6 +110,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         role.setAdapter(spinnerArrayAdapter);
         progressDialog = new ProgressDialog(this);
     }
+
     private void checkInternet() {
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -116,15 +118,15 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
             //we are connected to a network
             connected = true;
-        //    Toast.makeText(getApplicationContext(), "Internet is On", Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(getApplicationContext(), "Internet is On", Toast.LENGTH_SHORT).show();
         } else {
             connected = false;
             snackbar.show();
 
-
         }
 
     }
+
     /*For Event Listeners*/
     @Override
     public void onClick(View v) {
@@ -136,7 +138,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             intent = new Intent(RegistrationActivity.this, CustomerHomePage.class);
             startActivity(intent);
         }
-
     }
 
     /*For Validation */
@@ -169,7 +170,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                         Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
 
                         if (jsonbody.OtpCode.equals("mobile already verified")) {
-
                             DataProfile dataProfile = new DataProfile();
                             dataProfile.ID = jsonbody.dataProfile.ID;
                             dataProfile.Active = jsonbody.dataProfile.Active;
@@ -180,72 +180,30 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
 
 //20/02/2019 Comment for not login on employee profile
-
-
-
-
-                         if(jsonbody.dataProfile.Role.equals( "Employee" ))
-                        {
-
-                         /*Start for load data into firestore for employee*/
-                            Map<String, Object> profile = new HashMap<>();
-                            profile.put("busystatus", 0);
-                            profile.put("lat", 20.22);
-                            profile.put("long", 80.66);
-
-                            db.collection("Profile").document(jsonbody.dataProfile.ID)
-                                    .set(profile)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            //   Log.d(TAG, "DocumentSnapshot successfully written!");
-                                            Toast.makeText(getApplicationContext(), "Success!",
-                                                    Toast.LENGTH_LONG).show();
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(getApplicationContext(), "Failed!",
-                                                    Toast.LENGTH_LONG).show();
-                                        }
-                                    });
-
-/*                                        end*/
-
-
-
-
-
-
-
-
-                      /*      CollectionReference dbprofile=db.collection( "Profile" );
-                             dbprofile.whereEqualTo( "id",jsonbody.dataProfile.ID ).get().addOnSuccessListener( new OnSuccessListener<QuerySnapshot>() {
-                                 @Override
-                                 public void onSuccess(QuerySnapshot documentSnapshots) {
-                                     if(documentSnapshots.isEmpty()){
-                                         check=true;
-                                     }
-
-                                 }
-                             } );
-
-                             if(check==true){
-                                 ProfileFirebase pf=new ProfileFirebase(jsonbody.dataProfile.ID,0,0,false);
-                                 dbprofile.add( pf ).addOnSuccessListener( new OnSuccessListener<DocumentReference>() {
-                                     @Override
-                                     public void onSuccess(DocumentReference documentReference) {
-
-                                     }
-                                 } ).addOnFailureListener( new OnFailureListener() {
-                                     @Override
-                                     public void onFailure(@NonNull Exception e) {
-
-                                     }
-                                 } );
-                             }*/
-                         }
+                            if (jsonbody.dataProfile.Role.equals("Employee")) {
+                                /*Start for load data into firestore for employee*/
+                                Map<String, Object> profile = new HashMap<>();
+                                profile.put("busystatus", false);
+                                profile.put("lat", 20.22);
+                                profile.put("long", 80.66);
+                                db.collection("Profile").document(jsonbody.dataProfile.ID)
+                                        .set(profile)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                //   Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                Toast.makeText(getApplicationContext(), "Success!",
+                                                        Toast.LENGTH_LONG).show();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(getApplicationContext(), "Failed!",
+                                                        Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                            }
 
                             if (jsonbody.dataProfile.Role.equals("Employee")) {
                                 intent = new Intent(RegistrationActivity.this, EmployeeHomePage.class);
@@ -258,7 +216,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                             } else if (jsonbody.dataProfile.Role.equals("Admin")) {
                                 intent = new Intent(RegistrationActivity.this, AdminHomePage.class);
                                 startActivity(intent);
-
                             }
                         } else {
                             intent = new Intent(RegistrationActivity.this, VerifyPhoneActivity.class);
@@ -268,7 +225,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                             intent.putExtra("Active", jsonbody.dataProfile.Active);
                             startActivity(intent);
                         }
-
                     }
 
                 } catch (Exception e) {

@@ -1,10 +1,16 @@
 package com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter;
 
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +27,20 @@ import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Model.Order;
 import com.example.awizom.jihuzur.Model.ResultModel;
 import com.example.awizom.jihuzur.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+import static com.firebase.ui.auth.ui.email.RegisterEmailFragment.TAG;
 
 public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCurrentOrderAdapter.OrderItemViewHolder> {
 
@@ -35,13 +49,12 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     private Order order;
     private String orderId = "", otpCode = "", result = "";
     private Intent intent;
+    FirebaseFirestore db;
 
     public CustomerCurrentOrderAdapter(Context currentOrderActivity, List<Order> orderList) {
         this.mCtx = currentOrderActivity;
         this.orderitemList = orderList;
-
     }
-
 
     @NonNull
     @Override
@@ -55,10 +68,8 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     public void onBindViewHolder(@NonNull OrderItemViewHolder holder, int position) {
         order = orderitemList.get(position);
         try {
-
             order = orderitemList.get(position);
             orderId = String.valueOf(order.getOrderID());
-
 //            holder.servicesName.setText(order.getServiceName());
 //           holder.bookingAccepted.setText(order.getEmpMob());
 //            holder.description.setText(order.getCatalogName());
@@ -86,12 +97,10 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
 //                holder.acceptBtn.setVisibility(View.GONE);
 //            }
 
-
         } catch (Exception E) {
             E.printStackTrace();
         }
     }
-
 
     @Override
     public int getItemCount() {
@@ -137,6 +146,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             dctName = itemView.findViewById(R.id.discountName);
             commentBtn = itemView.findViewById(R.id.commentBtn);
             linearLayout = itemView.findViewById(R.id.l4);
+            db=FirebaseFirestore.getInstance();
 
 
             acceptBtn.setOnClickListener(this);
@@ -145,7 +155,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             timercount.setOnClickListener(this);
             commentBtn.setOnClickListener(this);
         }
-
 
         @Override
         public void onClick(final View v) {
@@ -168,7 +177,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
 
                         enterOtp.setError("Enter a valid value");
                         enterOtp.requestFocus();
-
                     }
                     verify.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -180,10 +188,28 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                                 }.getType();
                                 ResultModel resultModel = new Gson().fromJson(result, getType);
                                 if (resultModel.getMessage().contains("Order Started")) {
+                                    String employeeid=resultModel.getEmployeeID().toString();
+                                    Map<String, Object> profile = new HashMap<>();
+                                    profile.put("busystatus",true);
+
+                                    db.collection("Profile").document(employeeid).update(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                                        }
+                                    })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.w(TAG, "Error writing document", e);
+                                                }
+                                            });
+
                                 //   canclBtn.setVisibility(View.GONE);
                                 }
 
                                 Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
+                                Log.d("result",result.toString());
                                 Intent intent = new Intent(mCtx, CustomerHomePage.class);
                                 mCtx.startActivity(intent);
 
@@ -194,7 +220,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                             }
                         }
                     });
-
 
                     break;
                 case R.id.trackBtn:
@@ -209,6 +234,31 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
 
                     try {
                         result = new CustomerOrderHelper.CancelOrder().execute(orderId).get();
+                        Gson gson = new Gson();
+                        Type getType = new TypeToken<ResultModel>() {
+                        }.getType();
+                        ResultModel resultModel = new Gson().fromJson(result, getType);
+                        if (resultModel.getMessage().contains("Order End")) {
+                            String employeeid=resultModel.getEmployeeID().toString();
+                            Map<String, Object> profile = new HashMap<>();
+                            profile.put("busystatus",false);
+
+                            db.collection("Profile").document(employeeid).update(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                }
+                            })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error writing document", e);
+                                        }
+                                    });
+
+                            //   canclBtn.setVisibility(View.GONE);
+                        }
+
                         Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
@@ -236,7 +286,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                     break;
             }
         }
-
 
     }
 

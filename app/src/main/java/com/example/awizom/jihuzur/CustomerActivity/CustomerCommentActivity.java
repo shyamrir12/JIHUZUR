@@ -44,22 +44,21 @@ import java.util.concurrent.ExecutionException;
 
 public class CustomerCommentActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
 
-    private ImageButton sendBtn,backBtn;
+    private ImageButton sendBtn, backBtn;
     private AutoCompleteTextView receiverName;
-    private EditText messageCommentText,review;
+    private EditText messageCommentText, review;
     private Intent intent;
-    private String orderID="",cusID="",empID="",orderStartTime="",orderEndtime="",catagoryName="",serviceName=""
-            ,pricingterm="",employeeName="",employeeContact="",result="",serviceId="";
-    private TextView arrowBack,cancel,empName,empMobile,serviceNAme,txtRatingValue;
+    private String orderID = "", cusID = "", empID = "", orderStartTime = "", orderEndtime = "", catagoryName = "", serviceName = "", pricingterm = "", employeeName = "", employeeContact = "", result = "", serviceId = "";
+    private TextView arrowBack, cancel, empName, empMobile, serviceNAme, txtRatingValue;
     private CustomerCommentAdapter customerCommentAdapter;
 
     private List<Review> reviews;
     RecyclerView recyclerView;
-    private Button commentButtonn,buttonAddCategory,buttonCancel;
+    private Button commentButtonn, buttonAddCategory, buttonCancel;
     RatingBar ratingBar;
     private Reply reply;
     private List<Reply> replyList;
-    private String s="";
+    private String s = "";
 
     LatLng cusLatLng, empLatLng;
     private MapView mapView;
@@ -97,12 +96,11 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         serviceNAme = findViewById(R.id.serviceName);
 
 
-
         commentButtonn = findViewById(R.id.commentBtn);
-        ratingBar=findViewById(R.id.rating);
-        review=findViewById(R.id.review) ;
+        ratingBar = findViewById(R.id.rating);
+        review = findViewById(R.id.review);
         txtRatingValue = findViewById(R.id.txtRatingValue);
-    //    mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        //    mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -117,9 +115,8 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         buttonCancel.setOnClickListener(this);
 
 
-
         // orderID = getIntent().getStringExtra("OrderID");
-        orderID = String.valueOf(getIntent().getIntExtra("OrderID",0));
+        orderID = String.valueOf(getIntent().getIntExtra("OrderID", 0));
         cusID = getIntent().getStringExtra("CustomerID");
         empID = getIntent().getStringExtra("EmployeeID");
         orderEndtime = getIntent().getStringExtra("OrderEndTime");
@@ -129,7 +126,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         employeeName = getIntent().getStringExtra("EmployeeName");
         employeeContact = getIntent().getStringExtra("EmployeeContact");
         orderStartTime = getIntent().getStringExtra("OrderStartTime");
-        serviceId = String.valueOf(getIntent().getIntExtra("ServiceID",0));
+        serviceId = String.valueOf(getIntent().getIntExtra("ServiceID", 0));
 
         empName.setText(employeeName.toString());
         empMobile.setText(employeeContact.toString());
@@ -167,7 +164,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.backArrow:
                 intent = new Intent(CustomerCommentActivity.this, MyBokingsActivity.class);
                 startActivity(intent);
@@ -188,10 +185,10 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
                 break;
             case R.id.buttonAddCategory:
 
-                String rate = txtRatingValue.getText().toString().split("",3)[1];
+                String rate = txtRatingValue.getText().toString().split("", 3)[1];
                 String revie = review.getText().toString().trim();
                 try {
-                    result = new CustomerOrderHelper.CustomerPostRating().execute(revie,rate,orderID).get();
+                    result = new CustomerOrderHelper.CustomerPostRating().execute(revie, rate, orderID).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(this, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
@@ -211,13 +208,13 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         try {
 //            mSwipeRefreshLayout.setRefreshing(true);
             result = new CustomerOrderHelper.GetReviewByServiceList().execute(orderID).get();
- //           mSwipeRefreshLayout.setRefreshing(false);
-           // Toast.makeText(CustomerCommentActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
+            //           mSwipeRefreshLayout.setRefreshing(false);
+            // Toast.makeText(CustomerCommentActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Review>>() {
             }.getType();
             reviews = new Gson().fromJson(result, listType);
-            customerCommentAdapter = new CustomerCommentAdapter(CustomerCommentActivity.this,reviews);
+            customerCommentAdapter = new CustomerCommentAdapter(CustomerCommentActivity.this, reviews);
             recyclerView.setAdapter(customerCommentAdapter);
 
         } catch (ExecutionException e) {
@@ -236,7 +233,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
             customerID = SharedPrefManager.getInstance(getApplicationContext()).getUser().ID;
 //            mSwipeRefreshLayout.setRefreshing(true);
             result = new AdminHelper.GetProfileForShow().execute(customerID.toString()).get();
- //           mSwipeRefreshLayout.setRefreshing(false);
+            //           mSwipeRefreshLayout.setRefreshing(false);
             if (result.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
             } else {
@@ -265,9 +262,9 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
 
         try {
 
- //           mSwipeRefreshLayout.setRefreshing(true);
+            //           mSwipeRefreshLayout.setRefreshing(true);
             result = new AdminHelper.GetProfileForShow().execute(employeeID).get();
- //           mSwipeRefreshLayout.setRefreshing(false);
+            //           mSwipeRefreshLayout.setRefreshing(false);
             if (result.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
             } else {
@@ -289,6 +286,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
             e.printStackTrace();
         }
     }
+
     private void getMapvalue() {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);

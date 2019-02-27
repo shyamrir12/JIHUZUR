@@ -29,6 +29,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_layout);
 
+
         new Handler().postDelayed(new Runnable() {
 
             /*
@@ -68,7 +69,6 @@ public class SplashActivity extends AppCompatActivity {
                     Intent intent = new Intent(SplashActivity.this,RegistrationActivity.class);
                     startActivity(intent);
                 }
-
 
 
                 // close this activity

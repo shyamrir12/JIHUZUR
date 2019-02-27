@@ -30,30 +30,24 @@ public class HomeCleaningFragment extends Fragment {
     CustomerCatagoryAdapter customerCatagoryAdapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layout_apliance, container, false);
         initView(view);
         return view;
-
     }
 
     private void initView(View view) {
-
         relativeLayout = view.findViewById(R.id.textRelate);
         recyclerView = view.findViewById(R.id.recyclerView);
-
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         getcatagoryList();
     }
 
     private void getcatagoryList() {
-
         try {
             result = new CustomerOrderHelper.GETCustomerCategoryList().execute(catalogName).get();
             if(result != null){
-
                 Gson gson = new Gson();
                 Type listType = new TypeToken<List<Catalog>>() {
                 }.getType();
@@ -64,6 +58,5 @@ public class HomeCleaningFragment extends Fragment {
         }catch (Exception e){
             e.printStackTrace();
         }
-
     }
 }

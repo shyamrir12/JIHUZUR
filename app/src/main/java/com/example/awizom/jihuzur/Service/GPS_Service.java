@@ -69,12 +69,13 @@ public class GPS_Service extends Service {
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                   */
                     Map<String, Object> profile = new HashMap<>();
-                    profile.put("busystatus", false);
+
+                /*    profile.put("busystatus", false);*/
                     profile.put("lat", location.getLatitude());
                     profile.put("long", location.getLongitude());
 
                     db.collection("Profile").document(ID)
-                            .set(profile)
+                            .update(profile)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -94,23 +95,14 @@ public class GPS_Service extends Service {
                     //Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.d("myTag", "\n" + " "+location.getLongitude() + " " + location.getLatitude());
 
-
-
-
                 } catch (Exception e) {
-
                 }
-
-
-
 
             }
 
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {
-
             }
-
             @Override
             public void onProviderEnabled(String s) {
 
@@ -138,8 +130,6 @@ public class GPS_Service extends Service {
             return START_NOT_STICKY;
         }
         locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 3000, 0, listener );
-
-
 
         return START_NOT_STICKY;
     }
