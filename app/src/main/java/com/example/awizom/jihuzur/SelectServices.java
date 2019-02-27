@@ -84,34 +84,37 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         getServiceList();
-
-        if(SharedPrefManager.getInstance(SelectServices.this).getUser().getRole().equals("Employee") ){
+        if(SharedPrefManager.getInstance(SelectServices.this).getUser().getID()==null)
+        {
             addService.setVisibility(View.GONE);
-        }else if(SharedPrefManager.getInstance(SelectServices.this).getUser().getRole().equals("Customer")){
-            addService.setVisibility(View.GONE);
-        }else {
-            addService.setVisibility(View.VISIBLE);
         }
 
-
+   try {
+       if (SharedPrefManager.getInstance(SelectServices.this).getUser().getRole().equals("Employee")) {
+           addService.setVisibility(View.GONE);
+       } else if (SharedPrefManager.getInstance(SelectServices.this).getUser().getRole().equals("Customer")) {
+           addService.setVisibility(View.GONE);
+       } else if (SharedPrefManager.getInstance(SelectServices.this).getUser().getRole().equals("Admin")){
+           addService.setVisibility(View.VISIBLE);
+       }
+   }
+   catch (Exception e)
+   {
+       e.printStackTrace();
+   }
         if(imageLink != null) {
-
             Glide.with(getApplicationContext())
                     .load(imageLink)
                     .placeholder(R.drawable.home_cleaning).dontAnimate()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(imageView);
         }
-
-
     }
 
     public void getServiceList() {
 
-
         try {
 //            mSwipeRefreshLayout.setRefreshing(true);
-
               result=new AdminHelper.GETServiceList().execute(catalogID).get();
             if (result.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
@@ -122,9 +125,7 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
                 }.getType();
                 serviceList = new Gson().fromJson(result, listType);
                 serviceListAdapter = new ServiceListAdapter(SelectServices.this, serviceList,empskill);
-
                 recyclerView.setAdapter(serviceListAdapter);
-
 
             }
         } catch (Exception e) {
@@ -149,10 +150,7 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.add_servicelayout, null);
         dialogBuilder.setView(dialogView);
-
-
         editServicename = (AutoCompleteTextView) dialogView.findViewById(R.id.editServiceName);
-
         editDescription = (AutoCompleteTextView) dialogView.findViewById(R.id.description);
         displayType=(Spinner)dialogView.findViewById(R.id.displayType);
         List<String> list = new ArrayList<String>();
@@ -161,27 +159,19 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
         list.add("Range");
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, list);
-
         displayType.setAdapter(dataAdapter);
-
         final Button buttonAddCatalog = (Button) dialogView.findViewById(R.id.buttonAddService);
         final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
-
         dialogBuilder.setTitle("Add Service");
         final AlertDialog b = dialogBuilder.create();
         b.show();
-
-
         buttonAddCatalog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 String service = editServicename.getText().toString().trim();
                 String descriptions = editDescription.getText().toString().trim();
                 String displaytype = displayType.getSelectedItem().toString();
                 String serviceid = "0";
-
                 if (displaytype=="Range")
                 {
                     displaytype="";
@@ -189,7 +179,6 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
                 }
 
                 try {
-
                 result= new AdminHelper.POSTService().execute(serviceid,catalogID, service, descriptions,displaytype).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
@@ -197,7 +186,6 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
                     getServiceList();
                 } catch (Exception e) {
                     e.printStackTrace();
-
                     Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
                     // System.out.println("Error: " + e);
                 }
@@ -207,7 +195,6 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
 
 
         });
-
 
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override

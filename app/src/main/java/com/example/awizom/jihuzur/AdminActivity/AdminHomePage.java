@@ -189,10 +189,10 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     getSupportActionBar().setTitle("My Booking");
                     fragment = myBookingFragment;
                     framentClass = MyBookingFragment.class;
-/*                    intent = new Intent(AdminHomePage.this, AdminPricingActivity.class);
+/*
+                    intent = new Intent(AdminHomePage.this, AdminPricingActivity.class);
                     startActivity(intent);*/
                     break;
-
                 case R.id.navigation_helpCenter:
                     getSupportActionBar().setTitle("Help Center");
                     fragment = helpCenterFragment;

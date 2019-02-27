@@ -11,6 +11,7 @@ import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.icu.text.UnicodeSetSpanner;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -51,6 +52,8 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class DrawingActivity extends AppCompatActivity {
 
+
+    String identityimage = "";
     Uri picUri;
     Uri outputFileUri;
     Button upload;
@@ -94,9 +97,13 @@ public class DrawingActivity extends AppCompatActivity {
         identityImage.setVisibility(View.GONE);
         fabidentityImage = (FloatingActionButton) findViewById(R.id.fab3);
         fabidentityImage.setVisibility(View.GONE);
-        if (SharedPrefManager.getInstance(DrawingActivity.this).getUser().getRole().equals("Employee")) {
-            identityImage.setVisibility(View.VISIBLE);
-            fabidentityImage.setVisibility(View.VISIBLE);
+        try {
+            if (SharedPrefManager.getInstance(DrawingActivity.this).getUser().getRole().equals("Employee")) {
+                identityImage.setVisibility(View.VISIBLE);
+                fabidentityImage.setVisibility(View.VISIBLE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         fabidentityImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,16 +166,23 @@ public class DrawingActivity extends AppCompatActivity {
                 System.out.println("byte array:" + image);
                 String img_str = Base64.encodeToString(image, 0);
                 String name = yourname.getText().toString();
-                String identityimage;
-                if (SharedPrefManager.getInstance(DrawingActivity.this).getUser().getRole().equals("Employee")) {
-                    identityImage.buildDrawingCache();
-                    Bitmap bitmap1 = identityImage.getDrawingCache();
-                    ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
-                    bitmap1.compress(Bitmap.CompressFormat.PNG, 90, stream1);
-                    byte[] image1 = stream1.toByteArray();
-                    identityimage = Base64.encodeToString(image1, 0);
-                } else {
-                    identityimage = "";
+
+                try {
+
+
+                    if (SharedPrefManager.getInstance(DrawingActivity.this).getUser().getRole().equals("Employee")) {
+                        identityImage.buildDrawingCache();
+                        Bitmap bitmap1 = identityImage.getDrawingCache();
+                        ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
+                        bitmap1.compress(Bitmap.CompressFormat.PNG, 90, stream1);
+                        byte[] image1 = stream1.toByteArray();
+                        identityimage = Base64.encodeToString(image1, 0);
+                    } else {
+                        identityimage = "";
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "You Have to Login First", Toast.LENGTH_LONG).show();
                 }
                 String id = SharedPrefManager.getInstance(DrawingActivity.this).getUser().getID();
                 String lat = "";
@@ -190,7 +204,7 @@ public class DrawingActivity extends AppCompatActivity {
                     } else if (SharedPrefManager.getInstance(DrawingActivity.this).getUser().getRole().equals("Employee")) {
                         intent = new Intent(DrawingActivity.this, EmployeeHomePage.class);
                         startActivity(intent);
-                    } else if (SharedPrefManager.getInstance(DrawingActivity.this).getUser().getRole().equals("Admin"))  {
+                    } else if (SharedPrefManager.getInstance(DrawingActivity.this).getUser().getRole().equals("Admin")) {
                         intent = new Intent(DrawingActivity.this, AdminHomePage.class);
                         startActivity(intent);
                     }
@@ -222,7 +236,7 @@ public class DrawingActivity extends AppCompatActivity {
                 Type listType = new TypeToken<DataProfile>() {
                 }.getType();
                 DataProfile dataProfile = new Gson().fromJson(result, listType);
-                if(!dataProfile.getName().toString().equals(null)){
+                if (!dataProfile.getName().toString().equals(null)) {
                     yourname.setText(dataProfile.getName().toString());
                 }
                 if (dataProfile != null) {

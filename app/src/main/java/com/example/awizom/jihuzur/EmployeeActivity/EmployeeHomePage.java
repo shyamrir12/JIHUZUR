@@ -28,6 +28,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -35,6 +36,8 @@ import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.DrawingActivity;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeePageAdapter;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
+import com.example.awizom.jihuzur.Helper.AdminHelper;
+import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.LoginRegistrationActivity.RegistrationActivity;
 import com.example.awizom.jihuzur.Service.GPS_Service;
@@ -42,12 +45,14 @@ import com.example.awizom.jihuzur.Service.LocationMonitoringNotificationService;
 import com.example.awizom.jihuzur.SettingsActivity;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-public class EmployeeHomePage extends AppCompatActivity
+import java.lang.reflect.Type;
 
-        //side navigation drawer start
+public class EmployeeHomePage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+    String result = "";
     String TAG;
     ImageView imageView;
     String dUser, name, role, Url;
@@ -230,13 +235,14 @@ public class EmployeeHomePage extends AppCompatActivity
         userName = headerview.findViewById(R.id.profileName);
         userContact = headerview.findViewById(R.id.empContact);
         String uname = SharedPrefManager.getInstance(EmployeeHomePage.this).getUser().getName().toString();
-        userName.setText(uname);
+
         String ucontact = SharedPrefManager.getInstance(EmployeeHomePage.this).getUser().getMobileNo().toString();
         userContact.setText(ucontact);
 //
         identityNo = headerview.findViewById(R.id.identityNo);
         identityType = headerview.findViewById(R.id.identityType);
 
+        getProfile();
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -244,6 +250,31 @@ public class EmployeeHomePage extends AppCompatActivity
                 startActivity(intent);
             }
         });
+    }
+
+    private void getProfile() {
+        String id = SharedPrefManager.getInstance(this).getUser().getID();
+        try {
+            result = new AdminHelper.GetProfileForShow().execute(id).get();
+            if (result.isEmpty()) {
+                Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
+            } else {
+                Gson gson = new Gson();
+                Type listType = new TypeToken<DataProfile>() {
+                }.getType();
+                DataProfile dataProfile = new Gson().fromJson(result, listType);
+                userName.setText(dataProfile.getName().toString());
+                if (dataProfile != null) {
+                    DataProfile dataProfile1 = new DataProfile();
+                    dataProfile1.Image = dataProfile.Image;
+                    dataProfile1.Name = dataProfile.Name;
+//                        SharedPrefManager.getInstance(this).userLogin(dataProfile1);
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void enable_buttons() {

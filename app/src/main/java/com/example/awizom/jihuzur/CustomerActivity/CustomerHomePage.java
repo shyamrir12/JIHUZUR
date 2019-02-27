@@ -21,6 +21,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -32,7 +33,9 @@ import com.example.awizom.jihuzur.Fragment.CatalogFragment;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
 import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
+import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.MenuActivity;
+import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.LoginRegistrationActivity.RegistrationActivity;
@@ -40,6 +43,10 @@ import com.example.awizom.jihuzur.SettingsActivity;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 
 public class CustomerHomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -47,7 +54,7 @@ public class CustomerHomePage extends AppCompatActivity
     String TAG;
     private Fragment fragment = null;
     private Fragment searchFragment,myBookingFragment,helpCenterFragment,catalogFragment;
-
+    String result="";
     DatabaseReference datauser, datauserpro;
     String dUser,name,role;
     String Url;
@@ -157,51 +164,71 @@ public class CustomerHomePage extends AppCompatActivity
 
         View headerview = navigationView.getHeaderView(0);
         imageView=headerview.findViewById(R.id.imageView);
-
         img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();
         {
-
             try {
                 if (SharedPrefManager.getInstance(this).getUser().getImage() == null)
-
                 {
-
                     imageView.setImageResource(R.drawable.jihuzurblanklogo);
                     //     Glide.with(mCtx).load("http://192.168.1.105:7096/Images/Category/1.png").into(holder.categoryImage);
                 } else {
-
-
                     Glide.with(CustomerHomePage.this)
                             .load(img_str)
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
                             .skipMemoryCache(true)
                             .into(imageView);
-
-
-                }
+                    }
             } catch (Exception e) {
                 e.printStackTrace();
-
             }
         }
         userName = headerview.findViewById(R.id.profileName);
         userContact =headerview.findViewById(R.id.cusContact);
+        try{
         String uname=SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getName().toString();
-        userName.setText(uname);
+
         String ucontact=SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getMobileNo().toString();
         userContact.setText(ucontact);
 /**/
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent=new Intent(CustomerHomePage.this, DrawingActivity.class);
                 startActivity(intent);
-
             }
         });
+        getProfile();
+    }
 
+    private void getProfile() {
+        String id = SharedPrefManager.getInstance(this).getUser().getID();
+        try {
+            result = new AdminHelper.GetProfileForShow().execute(id).get();
+            if (result.isEmpty()) {
+                Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
+            } else {
+                Gson gson = new Gson();
+                Type listType = new TypeToken<DataProfile>() {
+                }.getType();
+                DataProfile dataProfile = new Gson().fromJson(result, listType);
+                userName.setText(dataProfile.getName().toString());
+                if (dataProfile != null) {
+                    DataProfile dataProfile1 = new DataProfile();
+                    dataProfile1.Image = dataProfile.Image;
+                    dataProfile1.Name = dataProfile.Name;
+//                        SharedPrefManager.getInstance(this).userLogin(dataProfile1);
 
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -230,9 +257,12 @@ public class CustomerHomePage extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_signout) {
-            FirebaseAuth fAuth = FirebaseAuth.getInstance();
-            fAuth.signOut();
-
+         try{   SharedPrefManager.getInstance(this).logout();
+            Intent login = new Intent(getApplicationContext(), RegistrationActivity.class);
+            startActivity(login);
+            finish();}
+            catch (Exception e)
+            {e.printStackTrace();}
             return true;
         }
         if (id == R.id.action_customerHome) {
@@ -271,12 +301,12 @@ public class CustomerHomePage extends AppCompatActivity
             intent=new Intent(CustomerHomePage.this,MyBokingsActivity.class);
             startActivity(intent);
         }
-        else if (id == R.id.nav_review) {
+       /* else if (id == R.id.nav_review) {
                    getSupportActionBar().setTitle("My Review");
                     fragment = myBookingFragment;
                     framentClass = CustomerReviewFragment.class;
 
-          } else if (id == R.id.nav_complaint) {
+          }*/ else if (id == R.id.nav_complaint) {
             intent=new Intent(CustomerHomePage.this,CustomerComplaintActivity.class);
                 ActivityOptions startAnimation = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.fui_slide_out_left,R.anim.fui_slide_in_right);
 

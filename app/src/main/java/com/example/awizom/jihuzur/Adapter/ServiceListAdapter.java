@@ -72,42 +72,43 @@ public class ServiceListAdapter extends
             @Override
             public void onClick(View v) {
 
-                if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Admin")) {
+try {
+    if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Admin")) {
 
-                    intent = new Intent(mCtx, AdminPricingActivity.class);
-                    intent.putExtra("serviceName", holder.serviceName.getText());
-                    intent.putExtra("description", holder.description.getText());
-                    intent.putExtra("serviceID", holder.serviceID.getText());
-                    intent.putExtra("displayType", holder.dType.getText());
-                    mCtx.startActivity(intent);
+        intent = new Intent(mCtx, AdminPricingActivity.class);
+        intent.putExtra("serviceName", holder.serviceName.getText());
+        intent.putExtra("description", holder.description.getText());
+        intent.putExtra("serviceID", holder.serviceID.getText());
+        intent.putExtra("displayType", holder.dType.getText());
+        mCtx.startActivity(intent);
 
-                    Toast.makeText(mCtx, "" + position, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mCtx, "" + position, Toast.LENGTH_SHORT).show();
 
-                } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Employee")) {
+    } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Employee")) {
 
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                            String employeeid = SharedPrefManager.getInstance(mCtx).getUser().getID();
+                String employeeid = SharedPrefManager.getInstance(mCtx).getUser().getID();
 
-                            try {
-                                result = new EmployeeOrderHelper.EmployeePOSTSkill().execute(employeeid, serviceID).get();
-                                Gson gson = new Gson();
-                                final Result jsonbodyres = gson.fromJson(result, Result.class);
-                                Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                try {
+                    result = new EmployeeOrderHelper.EmployeePOSTSkill().execute(employeeid, serviceID).get();
+                    Gson gson = new Gson();
+                    final Result jsonbodyres = gson.fromJson(result, Result.class);
+                    Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
 
-                                if (!result.equals(null)) {
-                                    intent = new Intent(mCtx, EmployeeSkillActivity.class);
-                                    mCtx.startActivity(intent);
-                                }
+                    if (!result.equals(null)) {
+                        intent = new Intent(mCtx, EmployeeSkillActivity.class);
+                        mCtx.startActivity(intent);
+                    }
 
-                            } catch (Exception e) {
-                            }
+                } catch (Exception e) {
+                }
 
 
-                        }
-                    });
+            }
+        });
 
 
 //                        intent = new Intent(mCtx, CustomerpricingActivity.class);
@@ -120,34 +121,42 @@ public class ServiceListAdapter extends
 //                        mCtx.startActivity(intent);
 
 
-                } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Customer")) {
+    } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Customer")) {
 
-                    intent = new Intent(mCtx, CustomerpricingActivity.class);
-                    intent.putExtra("serviceName", holder.serviceName.getText());
-                    intent.putExtra("description", holder.description.getText());
-                    intent.putExtra("serviceID", holder.serviceID.getText());
-                    intent.putExtra("DisplayType", holder.dType.getText());
-                    intent.putExtra("button", "serBtn");
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mCtx.startActivity(intent);
-                }
+        intent = new Intent(mCtx, CustomerpricingActivity.class);
+        intent.putExtra("serviceName", holder.serviceName.getText());
+        intent.putExtra("description", holder.description.getText());
+        intent.putExtra("serviceID", holder.serviceID.getText());
+        intent.putExtra("DisplayType", holder.dType.getText());
+        intent.putExtra("button", "serBtn");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mCtx.startActivity(intent);
+    }
 
-
+}catch (Exception e)
+{e.printStackTrace();}
             }
         });
 
+try {
 
-        if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Admin")) {
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
 
-                    showEditServiceDialogue(servicename, description, serviceID, catalogiD, displaytype);
-                    return true;
-                }
-            });
-        }
-        else {}
+    if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Admin")) {
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                showEditServiceDialogue(servicename, description, serviceID, catalogiD, displaytype);
+                return true;
+            }
+        });
+    } else {
+    }
+}
+catch (Exception e)
+{
+    e.printStackTrace();
+}
     }
 
     private void showEditServiceDialogue(final String servicename, final String description, final String serviceid, final String catalogId, String displaytype) {
