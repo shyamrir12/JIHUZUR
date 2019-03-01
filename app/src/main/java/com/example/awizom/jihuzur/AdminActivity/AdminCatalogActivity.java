@@ -51,7 +51,7 @@ public class AdminCatalogActivity extends AppCompatActivity {
             R.drawable.home_cleaning, R.drawable.home_cleaning, R.drawable.home_cleaning,
     };
     private String[] catalogNameList, categoryNameList;
-
+//test
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
