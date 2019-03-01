@@ -49,6 +49,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.AdminActivity.AdminHomePage;
 import com.example.awizom.jihuzur.BuildConfig;
 import com.example.awizom.jihuzur.Config.AppConfig;
+import com.example.awizom.jihuzur.CustomerActivity.TrackActivity;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeCurrentOrderAdapter;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeHistoryAdapter;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
@@ -324,13 +325,14 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                     mGoogleMap.addMarker(new MarkerOptions().position(latLng).
                             icon(BitmapDescriptorFactory.fromBitmap(
                                     createCustomMarker(EmployeeLocationActivity.this, img_str, name, mobno, empid, mGoogleMap)))).setTitle(name + "," + empid + "," + img_str);
-
-                    new FetchURL(EmployeeLocationActivity.this).execute(getUrl(mylocation.getPosition(), place2.getPosition(), "driving"), "driving");
-
+                    try {
+                        new FetchURL(EmployeeLocationActivity.this).execute(getUrl(mylocation.getPosition(), place2.getPosition(), "driving"), "driving");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                         @Override
                         public boolean onMarkerClick(Marker marker) {
-
                             latl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[0];
                             long1 = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[1].split(Pattern.quote(")"))[0];
                             place2 = new MarkerOptions().position(new LatLng(Double.valueOf(latl), Double.valueOf(long1))).title("Location 1");
@@ -338,6 +340,36 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                             namemark = marker.getTitle().split(",")[0];
                             img_strmark = marker.getTitle().split(",")[2];
                             new FetchURL(EmployeeLocationActivity.this).execute(getUrl(mylocation.getPosition(), place2.getPosition(), "driving"), "driving");
+                            final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EmployeeLocationActivity.this);
+                            alertDialogBuilder.setMessage("Do You Want To Call " + namemark);
+                            alertDialogBuilder.setPositiveButton("yes",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface arg0, int arg1) {
+                                            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mobno));
+                                            if (ActivityCompat.checkSelfPermission(EmployeeLocationActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                                // TODO: Consider calling
+                                                //    ActivityCompat#requestPermissions
+                                                // here to request the missing permissions, and then overriding
+                                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                                //                                          int[] grantResults)
+                                                // to handle the case where the user grants the permission. See the documentation
+                                                // for ActivityCompat#requestPermissions for more details.
+
+                                            }
+                                            startActivity(intent);
+
+                                        }
+                                    });
+                            alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    alertDialogBuilder.setCancelable(true);
+                                }
+                            });
+
+                            AlertDialog alertDialog = alertDialogBuilder.create();
+                            alertDialog.show();
                             return false;
                         }
                     });

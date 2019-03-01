@@ -215,7 +215,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
 
         img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();
         {
-
             try {
                 if (SharedPrefManager.getInstance(this).getUser().getImage() == null) {
                     imageView.setImageResource(R.drawable.jihuzurblanklogo);
@@ -235,7 +234,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         userName = headerview.findViewById(R.id.profileName);
         userContact = headerview.findViewById(R.id.empContact);
         String uname = SharedPrefManager.getInstance(EmployeeHomePage.this).getUser().getName().toString();
-
         String ucontact = SharedPrefManager.getInstance(EmployeeHomePage.this).getUser().getMobileNo().toString();
         userContact.setText(ucontact);
 //
@@ -297,7 +295,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
                 stopService(i);
             }
         });
-
     }
 
     private boolean runtime_permissions() {
@@ -307,7 +304,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         }
         return false;
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

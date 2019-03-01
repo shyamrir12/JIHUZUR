@@ -1,6 +1,5 @@
 package com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter;
 
-
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -8,7 +7,9 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Model.Order;
 import com.example.awizom.jihuzur.Model.ResultModel;
 import com.example.awizom.jihuzur.R;
+import com.example.awizom.jihuzur.ShowNotificationClass;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -38,6 +40,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 import static com.firebase.ui.auth.ui.email.RegisterEmailFragment.TAG;
@@ -110,8 +114,8 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context mCtx;
-       private TextView startTime, endtime, empName, timercount, empContAct, catagryName, servicName, pricingterm, dctName;
-       private Button acceptBtn, trackinBtn, canclBtn, commentBtn;
+        private TextView startTime, endtime, empName, timercount, empContAct, catagryName, servicName, pricingterm, dctName;
+        private Button acceptBtn, trackinBtn, canclBtn, commentBtn;
         private List<Order> orderitemList;
         private LinearLayout linearLayout;
 
@@ -134,11 +138,9 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             startTime = itemView.findViewById(R.id.starttime);
             endtime = itemView.findViewById(R.id.endtime);
             timercount = itemView.findViewById(R.id.timeCount);
-
             acceptBtn = itemView.findViewById(R.id.acceptOtpBtn);
             trackinBtn = itemView.findViewById(R.id.trackBtn);
             canclBtn = itemView.findViewById(R.id.cancelBtn);
-
             empContAct = itemView.findViewById(R.id.empMobile);
             catagryName = itemView.findViewById(R.id.catagoryName);
             servicName = itemView.findViewById(R.id.serviceName);
@@ -146,9 +148,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             dctName = itemView.findViewById(R.id.discountName);
             commentBtn = itemView.findViewById(R.id.commentBtn);
             linearLayout = itemView.findViewById(R.id.l4);
-            db=FirebaseFirestore.getInstance();
-
-
+            db = FirebaseFirestore.getInstance();
             acceptBtn.setOnClickListener(this);
             trackinBtn.setOnClickListener(this);
             canclBtn.setOnClickListener(this);
@@ -180,7 +180,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                     }
                     verify.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onClick(final View v) {
                             try {
                                 result = new CustomerOrderHelper.AcceptOtp().execute(orderId, enterOtp.getText().toString()).get();
                                 Gson gson = new Gson();
@@ -188,9 +188,21 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                                 }.getType();
                                 ResultModel resultModel = new Gson().fromJson(result, getType);
                                 if (resultModel.getMessage().contains("Order Started")) {
-                                    String employeeid=resultModel.getEmployeeID().toString();
+
+                                    new java.util.Timer().schedule(
+                                            new java.util.TimerTask() {
+                                                @Override
+                                                public void run() {
+                                                    sendNotification(v);
+                                                    // your code here
+                                                }
+                                            },
+                                            3600000
+                                    );
+
+                                    String employeeid = resultModel.getEmployeeID().toString();
                                     Map<String, Object> profile = new HashMap<>();
-                                    profile.put("busystatus",true);
+                                    profile.put("busystatus", true);
 
                                     db.collection("Profile").document(employeeid).update(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
@@ -205,11 +217,11 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                                                 }
                                             });
 
-                                //   canclBtn.setVisibility(View.GONE);
+                                    //   canclBtn.setVisibility(View.GONE);
                                 }
 
                                 Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
-                                Log.d("result",result.toString());
+                                Log.d("result", result.toString());
                                 Intent intent = new Intent(mCtx, CustomerHomePage.class);
                                 mCtx.startActivity(intent);
 
@@ -223,11 +235,11 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
 
                     break;
                 case R.id.trackBtn:
-                        intent = new Intent(mCtx, TrackActivity.class);
-                        intent.putExtra("CustomerID",order.getCustomerID());
-                        intent.putExtra("EmployeeID",order.getEmployeeID());
-                        mCtx.startActivity(intent
-                        );
+                    intent = new Intent(mCtx, TrackActivity.class);
+                    intent.putExtra("CustomerID", order.getCustomerID());
+                    intent.putExtra("EmployeeID", order.getEmployeeID());
+                    mCtx.startActivity(intent
+                    );
 
                     break;
                 case R.id.cancelBtn:
@@ -239,9 +251,9 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                         }.getType();
                         ResultModel resultModel = new Gson().fromJson(result, getType);
                         if (resultModel.getMessage().contains("Order End")) {
-                            String employeeid=resultModel.getEmployeeID().toString();
+                            String employeeid = resultModel.getEmployeeID().toString();
                             Map<String, Object> profile = new HashMap<>();
-                            profile.put("busystatus",false);
+                            profile.put("busystatus", false);
 
                             db.collection("Profile").document(employeeid).update(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -273,20 +285,43 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                     break;
                 case R.id.commentBtn:
                     intent = new Intent(mCtx, CustomerCommentActivity.class);
-                    intent.putExtra("OrderID",order.getOrderID());
-                    intent.putExtra("CustomerID",order.getCustomerID());
-                    intent.putExtra("EmployeeID",order.getEmployeeID());
-                    intent.putExtra("OrderEndTime",order.getOrderEndTime());
-                    intent.putExtra("CategoryName",order.getCatalogName());
-                    intent.putExtra("ServiceName",order.getServiceName());
-                    intent.putExtra("PricingTerms",order.getPricingTerms());
-                    intent.putExtra("EmployeeName",order.getEmpName());
-                    intent.putExtra("EmployeeContact",order.getEmpMob());
+                    intent.putExtra("OrderID", order.getOrderID());
+                    intent.putExtra("CustomerID", order.getCustomerID());
+                    intent.putExtra("EmployeeID", order.getEmployeeID());
+                    intent.putExtra("OrderEndTime", order.getOrderEndTime());
+                    intent.putExtra("CategoryName", order.getCatalogName());
+                    intent.putExtra("ServiceName", order.getServiceName());
+                    intent.putExtra("PricingTerms", order.getPricingTerms());
+                    intent.putExtra("EmployeeName", order.getEmpName());
+                    intent.putExtra("EmployeeContact", order.getEmpMob());
                     mCtx.startActivity(intent);
                     break;
             }
         }
 
+    }
+
+    public void sendNotification(View view) {
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(mCtx);
+
+        //Create the intent thatâ€™ll fire when the user taps the notification//
+
+        Intent intent = new Intent(mCtx, CustomerHomePage.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(mCtx, 0, intent, 0);
+
+        mBuilder.setContentIntent(pendingIntent);
+
+        mBuilder.setSmallIcon(R.drawable.jihuzurapplogo);
+        mBuilder.setContentTitle("Your order is running");
+        mBuilder.setContentText("Your order is completed one hour");
+
+        NotificationManager mNotificationManager =
+
+                (NotificationManager) mCtx.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        mNotificationManager.notify(001, mBuilder.build());
     }
 
 }
