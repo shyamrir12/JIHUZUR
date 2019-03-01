@@ -199,11 +199,10 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                                             },
                                             3600000
                                     );
-
+                                }
                                     String employeeid = resultModel.getEmployeeID().toString();
                                     Map<String, Object> profile = new HashMap<>();
                                     profile.put("busystatus", true);
-
                                     db.collection("Profile").document(employeeid).update(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
@@ -218,7 +217,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                                             });
 
                                     //   canclBtn.setVisibility(View.GONE);
-                                }
+
 
                                 Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                                 Log.d("result", result.toString());

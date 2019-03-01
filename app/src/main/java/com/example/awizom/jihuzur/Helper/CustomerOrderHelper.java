@@ -77,16 +77,13 @@ public class CustomerOrderHelper extends AppCompatActivity {
                 FormBody.Builder parameters = new FormBody.Builder();
                 builder.post(parameters.build());
                 okhttp3.Response response = client.newCall(builder.build()).execute();
-
                 if (response.isSuccessful()) {
                     json = response.body().string();
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Error: " + e);
             }
-
             return json;
         }
 
@@ -94,16 +91,12 @@ public class CustomerOrderHelper extends AppCompatActivity {
 
             try {
                 if (result.isEmpty()) {
-
                 } else {
                     super.onPostExecute(result);
-
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -113,10 +106,8 @@ public class CustomerOrderHelper extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             String orderId = params[0];
-
             String json = "";
             try {
-
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
                 builder.url(AppConfig.BASE_URL_API_Customer + "OrderCancelPost/" + orderId + "/" + "CancelReason");
@@ -125,33 +116,25 @@ public class CustomerOrderHelper extends AppCompatActivity {
                 FormBody.Builder parameters = new FormBody.Builder();
                 builder.post(parameters.build());
                 okhttp3.Response response = client.newCall(builder.build()).execute();
-
                 if (response.isSuccessful()) {
                     json = response.body().string();
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Error: " + e);
             }
-
             return json;
         }
 
         protected void onPostExecute(String result) {
-
             try {
                 if (result.isEmpty()) {
-
                 } else {
                     super.onPostExecute(result);
-
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -159,48 +142,36 @@ public class CustomerOrderHelper extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-
             String serviceId = params[0];
-
             String json = "";
             String s;
             try {
-
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
                 builder.url(AppConfig.BASE_URL_API_Admin + "Getpricing/" + serviceId);
                 builder.addHeader("Content-Type", "application/json");
                 builder.addHeader("Accept", "application/json");
                 FormBody.Builder parameters = new FormBody.Builder();
-
                 okhttp3.Response response = client.newCall(builder.build()).execute();
-
                 if (response.isSuccessful()) {
                     json = response.body().string();
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Error: " + e);
             }
-
             return json;
         }
 
         protected void onPostExecute(String result) {
-
             try {
                 if (result.isEmpty()) {
-
                 } else {
                     super.onPostExecute(result);
-
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -208,47 +179,36 @@ public class CustomerOrderHelper extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-
             String userId = params[0];
-
             String json = "";
             try {
-
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
                 builder.url(AppConfig.BASE_URL_API_Customer + "MyCompleteOrderGet/" + userId);
                 builder.addHeader("Content-Type", "application/json");
                 builder.addHeader("Accept", "application/json");
                 FormBody.Builder parameters = new FormBody.Builder();
-
                 okhttp3.Response response = client.newCall(builder.build()).execute();
-
                 if (response.isSuccessful()) {
                     json = response.body().string();
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Error: " + e);
             }
-
             return json;
         }
 
         protected void onPostExecute(String result) {
-
             try {
                 if (result.isEmpty()) {
 
                 } else {
                     super.onPostExecute(result);
-
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -259,21 +219,15 @@ public class CustomerOrderHelper extends AppCompatActivity {
             String json = "";
             String catalogNameOne = params[0];
 
-
             try {
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
                 builder.url(AppConfig.BASE_URL_API_Admin + "GetCategoryName");
-
                 builder.addHeader("Content-Type", "Application/json");
                 builder.addHeader("Accept", "application/json");
-
-
                 FormBody.Builder parameters = new FormBody.Builder();
                 parameters.add("CatalogName", catalogNameOne);
                 builder.post(parameters.build());
-
-
                 okhttp3.Response response = client.newCall(builder.build()).execute();
                 if (response.isSuccessful()) {
                     json = response.body().string();
@@ -318,7 +272,6 @@ public class CustomerOrderHelper extends AppCompatActivity {
                 builder.url(AppConfig.BASE_URL_API_Customer + "OrderPost");
                 builder.addHeader("Content-Type", "application/json");
                 builder.addHeader("Accept", "application/json");
-
                 FormBody.Builder parameters = new FormBody.Builder();
                 parameters.add("CustomerID", customerid);
                 parameters.add("EmployeeID", empId);
@@ -326,30 +279,22 @@ public class CustomerOrderHelper extends AppCompatActivity {
                 parameters.add("CatalogID", catalogId);
                 parameters.add("PricingID", priceId);
                 builder.post(parameters.build());
-
                 okhttp3.Response response = client.newCall(builder.build()).execute();
-
                 if (response.isSuccessful()) {
                     json = response.body().string();
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Error: " + e);
             }
-
             return json;
         }
 
         protected void onPostExecute(String result) {
-
             try {
                 if (result.isEmpty()) {
-
                 } else {
                     super.onPostExecute(result);
-
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -364,18 +309,13 @@ public class CustomerOrderHelper extends AppCompatActivity {
 
             String json = "";
             String orderID = params[0];
-
-
             try {
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
                 builder.url(AppConfig.BASE_URL_API_Customer + "GetReviewByOrder/" + orderID);
-
                 builder.addHeader("Content-Type", "Application/json");
                 builder.addHeader("Accept", "application/json");
                 FormBody.Builder parameters = new FormBody.Builder();
-
-
                 okhttp3.Response response = client.newCall(builder.build()).execute();
                 if (response.isSuccessful()) {
                     json = response.body().string();
@@ -406,18 +346,13 @@ public class CustomerOrderHelper extends AppCompatActivity {
 
             String json = "";
             String reviewID = params[0];
-
-
             try {
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
                 builder.url(AppConfig.BASE_URL_API_Customer + "GetReviewReply/" + reviewID);
-
                 builder.addHeader("Content-Type", "Application/json");
                 builder.addHeader("Accept", "application/json");
                 FormBody.Builder parameters = new FormBody.Builder();
-
-
                 okhttp3.Response response = client.newCall(builder.build()).execute();
                 if (response.isSuccessful()) {
                     json = response.body().string();
@@ -431,7 +366,6 @@ public class CustomerOrderHelper extends AppCompatActivity {
         protected void onPostExecute(String result) {
             try {
                 if (result.isEmpty()) {
-
                 } else {
                     super.onPostExecute(result);
                 }
@@ -463,10 +397,8 @@ public class CustomerOrderHelper extends AppCompatActivity {
                 parameters.add("Reply1", reply);
                 parameters.add("ReviewID", reviewID);
                 parameters.add("Active", active);
-
                 builder.post(parameters.build());
                 okhttp3.Response response = client.newCall(builder.build()).execute();
-
                 if (response.isSuccessful()) {
                     json = response.body().string();
                 }
@@ -480,7 +412,6 @@ public class CustomerOrderHelper extends AppCompatActivity {
         protected void onPostExecute(String result) {
             try {
                 if (result.isEmpty()) {
-
                 } else {
                     super.onPostExecute(result);
                 }
@@ -500,8 +431,6 @@ public class CustomerOrderHelper extends AppCompatActivity {
             String complaint = params[1];
             String active = params[2];
             String status = params[3];
-
-
             String json = "";
             try {
 
@@ -511,46 +440,31 @@ public class CustomerOrderHelper extends AppCompatActivity {
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
                 //builder.addHeader("Authorization", "Bearer " + accesstoken);
-
                 FormBody.Builder parameters = new FormBody.Builder();
                 parameters.add("ComplaintID", "0");
                 parameters.add("CustomerID", customerID);
                 parameters.add("Complaint1", complaint);
                 parameters.add("Active", active);
                 parameters.add("Status", status);
-
                 builder.post(parameters.build());
-
-
                 okhttp3.Response response = client.newCall(builder.build()).execute();
-
                 if (response.isSuccessful()) {
                     json = response.body().string();
-
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-
                 // System.out.println("Error: " + e);
-
             }
             return json;
         }
 
 
         protected void onPostExecute(String result) {
-
             if (result.isEmpty()) {
-
             } else {
                 super.onPostExecute(result);
-//
             }
-
-
         }
-
     }
 
     public static final class GETCustomerComplaint extends AsyncTask<String, Void, String> {
