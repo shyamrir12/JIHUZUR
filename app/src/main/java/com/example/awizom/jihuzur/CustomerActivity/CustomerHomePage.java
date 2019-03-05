@@ -353,8 +353,6 @@ public class CustomerHomePage extends AppCompatActivity
     }
 
 
-
-
     @Override
     public void onClick(View v) {
 

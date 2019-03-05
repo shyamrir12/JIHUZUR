@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -29,8 +30,9 @@ public class LocationMonitoringNotificationService extends Service {
                 0, notificationIntent, 0);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Example Service")
-                .setContentText(input)
+                .setContentTitle(input)
+                .setContentText("Employee's' Location Service is Enabled for Customer Tracking in Google Maps")
+                .setColor(Color.parseColor("#F5360C"))
                 .setSmallIcon( R.drawable.ic_add_location_green_24dp)
                 .setContentIntent(pendingIntent)
                 .build();

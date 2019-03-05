@@ -280,7 +280,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             @Override
             public void onClick(View view) {
                 Intent serviceIntent = new Intent(EmployeeHomePage.this, LocationMonitoringNotificationService.class);
-                serviceIntent.putExtra("inputExtra", "my msg");
+                serviceIntent.putExtra("inputExtra", "Location Service Enabled");
                 ContextCompat.startForegroundService(EmployeeHomePage.this, serviceIntent);
                 Intent i = new Intent(getApplicationContext(), GPS_Service.class);
                 startService(i);
