@@ -34,9 +34,9 @@ public class AlarmService extends Service {
          docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
              @Override
              public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot, @javax.annotation.Nullable FirebaseFirestoreException e) {
-            if(documentSnapshot.get("endTime")!=0)
+            if(!documentSnapshot.get("endTime").equals(0))
             {
-                onDestroy();
+                AlarmService.super.onDestroy();
             }
              }
          });

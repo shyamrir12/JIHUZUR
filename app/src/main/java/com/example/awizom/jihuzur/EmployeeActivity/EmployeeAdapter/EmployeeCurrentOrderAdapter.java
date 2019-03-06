@@ -313,7 +313,9 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 
                             Intent serviceIntent = new Intent(mCtx, AlarmService.class);
                             serviceIntent.putExtra("inputExtra", "Order End");
-                            ContextCompat.startForegroundService(mCtx, serviceIntent);
+                            serviceIntent.putExtra("orderId", orderId);
+
+                            mCtx.stopService(serviceIntent);
 
 
                             String employeeid=resultModel.getEmployeeID().toString();
