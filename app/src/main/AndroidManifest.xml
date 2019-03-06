@@ -155,6 +155,7 @@
             android:enabled="true"
             android:exported="true" />
         <service android:name=".Service.LocationMonitoringNotificationService" />
+        <service android:name=".Service.AlarmService" />
 
         <activity
             android:name=".AdminActivity.AdminMasterActivity"

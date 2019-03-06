@@ -266,7 +266,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
                     DataProfile dataProfile1 = new DataProfile();
                     dataProfile1.Image = dataProfile.Image;
                     dataProfile1.Name = dataProfile.Name;
-//                        SharedPrefManager.getInstance(this).userLogin(dataProfile1);
 
                 }
             }
@@ -274,6 +273,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             e.printStackTrace();
         }
     }
+
 
     private void enable_buttons() {
         btn_start.setOnClickListener(new View.OnClickListener() {
@@ -316,7 +316,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             }
         }
     }
-
 
     //fumctionalities for side navigation drawer
     @Override
@@ -403,7 +402,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
     @Override
     public void onClick(View v) {

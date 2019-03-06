@@ -1,5 +1,6 @@
 package com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -8,8 +9,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,10 +27,14 @@ import android.widget.Toast;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerCommentActivity;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.CustomerActivity.TrackActivity;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Model.Order;
 import com.example.awizom.jihuzur.Model.ResultModel;
 import com.example.awizom.jihuzur.R;
+import com.example.awizom.jihuzur.Service.AlarmService;
+import com.example.awizom.jihuzur.Service.GPS_Service;
+import com.example.awizom.jihuzur.Service.LocationMonitoringNotificationService;
 import com.example.awizom.jihuzur.ShowNotificationClass;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,7 +43,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -162,8 +171,9 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             switch (v.getId()) {
                 case R.id.acceptOtpBtn:
 
-                    android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(v.getRootView().getContext());
+                    final android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(v.getRootView().getContext());
                     LayoutInflater inflater = LayoutInflater.from(v.getRootView().getContext());
+
                     final View dialogView = inflater.inflate(R.layout.accept_otp_for_order_layout, null);
                     dialogBuilder.setView(dialogView);
 
@@ -179,6 +189,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                         enterOtp.requestFocus();
                     }
                     verify.setOnClickListener(new View.OnClickListener() {
+                        @SuppressLint("NewApi")
                         @Override
                         public void onClick(final View v) {
                             try {
@@ -189,17 +200,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                                 ResultModel resultModel = new Gson().fromJson(result, getType);
                                 if (resultModel.getMessage().contains("Order Started")) {
 
-                                    new java.util.Timer().schedule(
-                                            new java.util.TimerTask() {
-                                                @Override
-                                                public void run() {
-                                                    sendNotification(v);
-                                                    // your code here
-                                                }
-                                            },
-                                            3600000
-                                    );
-                                }
                                     String employeeid = resultModel.getEmployeeID().toString();
                                     Map<String, Object> profile = new HashMap<>();
                                     profile.put("busystatus", true);
@@ -215,9 +215,33 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                                                     Log.w(TAG, "Error writing document", e);
                                                 }
                                             });
+                                    Date today = new Date();
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+                                    String dateToStr = format.format(today);
+                                    Map<String, Object> order = new HashMap<>();
+                                    order.put("startTime", dateToStr);
+                                    order.put("endTime", 00);
 
-                                    //   canclBtn.setVisibility(View.GONE);
+                                    db.collection("Order").document(orderId).set(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                                        }
+                                    })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.w(TAG, "Error writing document", e);
+                                                }
+                                            });
 
+                                    Intent serviceIntent = new Intent(mCtx, AlarmService.class);
+                                    serviceIntent.putExtra("inputExtra", "Order Is Started");
+                                    serviceIntent.putExtra("orderId", orderId);
+
+                                    ContextCompat.startForegroundService(mCtx, serviceIntent);
+                                    }
+                                //   canclBtn.setVisibility(View.GONE);
 
                                 Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                                 Log.d("result", result.toString());
@@ -242,7 +266,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
 
                     break;
                 case R.id.cancelBtn:
-
                     try {
                         result = new CustomerOrderHelper.CancelOrder().execute(orderId).get();
                         Gson gson = new Gson();
@@ -266,7 +289,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                                             Log.w(TAG, "Error writing document", e);
                                         }
                                     });
-
                             //   canclBtn.setVisibility(View.GONE);
                         }
 

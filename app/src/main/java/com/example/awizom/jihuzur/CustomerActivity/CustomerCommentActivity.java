@@ -1,12 +1,17 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -17,14 +22,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerCommentAdapter;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.Reply;
 import com.example.awizom.jihuzur.Model.Result;
+import com.example.awizom.jihuzur.Model.ResultModel;
 import com.example.awizom.jihuzur.Model.Review;
 import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
+import com.example.awizom.jihuzur.Service.AlarmService;
+import com.example.awizom.jihuzur.Service.LocationMonitoringNotificationService;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,15 +43,27 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import static com.firebase.ui.auth.ui.email.RegisterEmailFragment.TAG;
+
 public class CustomerCommentActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
+
+
+    FirebaseFirestore db;
 
     private ImageButton sendBtn, backBtn;
     private AutoCompleteTextView receiverName;
@@ -54,7 +75,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
 
     private List<Review> reviews;
     RecyclerView recyclerView;
-    private Button commentButtonn, buttonAddCategory, buttonCancel;
+    private Button commentButtonn, buttonAddCategory, buttonCancel, acceptOtpBtn;
     RatingBar ratingBar;
     private Reply reply;
     private List<Reply> replyList;
@@ -81,7 +102,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
     private void initView() {
 
         employeeID = getIntent().getStringExtra("EmployeeID");
-
+        db=FirebaseFirestore.getInstance();
 //        sendBtn = findViewById(R.id.sendBtn);
 //        receiverName = findViewById(R.id.receverName);
 //        messageCommentText = findViewById(R.id.messageEditText);
@@ -90,6 +111,13 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
 //        String messages = messageCommentText.getText().toString().trim();
 
         arrowBack = findViewById(R.id.backArrow);
+      /*  acceptOtpBtn = findViewById(R.id.acceptOtpBtn);
+        acceptOtpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                acceptotp(v);
+            }
+        });*/
         cancel = findViewById(R.id.cancel);
         empName = findViewById(R.id.empName);
         empMobile = findViewById(R.id.contactNumber);
@@ -183,6 +211,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
             case R.id.commentBtn:
                 getreviewByOrder();
                 break;
+
             case R.id.buttonAddCategory:
 
                 String rate = txtRatingValue.getText().toString().split("", 3)[1];
@@ -204,6 +233,96 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         }
     }
 
+  /*  public void acceptotp(View v) {
+
+        final android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(v.getRootView().getContext());
+        LayoutInflater inflater = LayoutInflater.from(v.getRootView().getContext());
+
+
+        final View dialogView = inflater.inflate(R.layout.accept_otp_for_order_layout, null);
+        dialogBuilder.setView(dialogView);
+
+        final EditText enterOtp = dialogView.findViewById(R.id.editTextOtp);
+        Button verify = dialogView.findViewById(R.id.buttonVerify);
+
+        dialogBuilder.setTitle("Accept Otp");
+        final android.support.v7.app.AlertDialog b = dialogBuilder.create();
+        b.show();
+        if (enterOtp.getText().toString().isEmpty()) {
+
+            enterOtp.setError("Enter a valid value");
+            enterOtp.requestFocus();
+        }
+        verify.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NewApi")
+            @Override
+            public void onClick(final View v) {
+                try {
+                    result = new CustomerOrderHelper.AcceptOtp().execute(orderID, enterOtp.getText().toString()).get();
+                    Gson gson = new Gson();
+                    Type getType = new TypeToken<ResultModel>() {
+                    }.getType();
+                    ResultModel resultModel = new Gson().fromJson(result, getType);
+                    if (resultModel.getMessage().contains("Order Started")) {
+                        Intent serviceIntent = new Intent(CustomerCommentActivity.this, AlarmService.class);
+                        serviceIntent.putExtra("inputExtra", "Order Is Started");
+                        ContextCompat.startForegroundService(CustomerCommentActivity.this, serviceIntent);
+
+                        String employeeid = resultModel.getEmployeeID().toString();
+                        Map<String, Object> profile = new HashMap<>();
+                        profile.put("busystatus", true);
+                        db.collection("Profile").document(employeeid).update(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                            }
+                        })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
+                        Date today = new Date();
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+                        String dateToStr = format.format(today);
+                        Map<String, Object> order = new HashMap<>();
+                        order.put("startTime", dateToStr);
+                        order.put("endTime", 00);
+
+                        db.collection("Order").document(orderID).set(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                            }
+                        })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
+
+                    }
+                    //   canclBtn.setVisibility(View.GONE);
+
+                    Toast.makeText(getApplicationContext(), result.toString(), Toast.LENGTH_SHORT).show();
+                    Log.d("result", result.toString());
+                    Intent intent = new Intent(CustomerCommentActivity.this, CustomerHomePage.class);
+                    startActivity(intent);
+
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+*/
     private void getreviewByOrder() {
         try {
 //            mSwipeRefreshLayout.setRefreshing(true);

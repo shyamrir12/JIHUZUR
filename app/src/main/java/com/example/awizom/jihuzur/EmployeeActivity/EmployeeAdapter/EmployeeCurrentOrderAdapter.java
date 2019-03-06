@@ -3,6 +3,7 @@ package com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.awizom.jihuzur.CustomerActivity.CustomerpricingActivity;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeLocationActivity;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
@@ -24,6 +26,8 @@ import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.ResultModel;
 import com.example.awizom.jihuzur.Model.Service;
 import com.example.awizom.jihuzur.R;
+import com.example.awizom.jihuzur.Service.AlarmService;
+import com.example.awizom.jihuzur.Service.LocationMonitoringNotificationService;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,6 +36,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -304,6 +310,12 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                         }.getType();
                         ResultModel resultModel = new Gson().fromJson(result, getType);
                         if (resultModel.getMessage().contains("Order End")) {
+
+                            Intent serviceIntent = new Intent(mCtx, AlarmService.class);
+                            serviceIntent.putExtra("inputExtra", "Order End");
+                            ContextCompat.startForegroundService(mCtx, serviceIntent);
+
+
                             String employeeid=resultModel.getEmployeeID().toString();
                             Map<String, Object> profile = new HashMap<>();
                             profile.put("busystatus",false);
@@ -320,14 +332,28 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                                             Log.w(TAG, "Error writing document", e);
                                         }
                                     });
+                            Date today = new Date();
+                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+                            String dateToStr = format.format(today);
+                            Map<String, Object> order = new HashMap<>();
+                            order.put("endTime", dateToStr);
 
-                            //   canclBtn.setVisibility(View.GONE);
+                            db.collection("Order").document(orderId).update(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                }
+                            })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error writing document", e);
+                                        }
+                                    });
                         }
 
 
                         Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
-
-
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {
@@ -345,7 +371,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-
                     break;
             }
         }
