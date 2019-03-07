@@ -198,6 +198,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                                 Type getType = new TypeToken<ResultModel>() {
                                 }.getType();
                                 ResultModel resultModel = new Gson().fromJson(result, getType);
+                            try {
                                 if (resultModel.getMessage().contains("Order Started")) {
 
                                     String employeeid = resultModel.getEmployeeID().toString();
@@ -240,7 +241,11 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                                     serviceIntent.putExtra("orderId", orderId);
 
                                     ContextCompat.startForegroundService(mCtx, serviceIntent);
-                                    }
+                                }
+                            }catch (Exception e )
+                            {
+                                e.printStackTrace();
+                            }
                                 //   canclBtn.setVisibility(View.GONE);
 
                                 Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
@@ -326,22 +331,16 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(mCtx);
-
         //Create the intent thatâ€™ll fire when the user taps the notification//
 
         Intent intent = new Intent(mCtx, CustomerHomePage.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(mCtx, 0, intent, 0);
-
         mBuilder.setContentIntent(pendingIntent);
-
         mBuilder.setSmallIcon(R.drawable.jihuzurapplogo);
         mBuilder.setContentTitle("Your order is running");
         mBuilder.setContentText("Your order is completed one hour");
-
         NotificationManager mNotificationManager =
-
                 (NotificationManager) mCtx.getSystemService(Context.NOTIFICATION_SERVICE);
-
         mNotificationManager.notify(001, mBuilder.build());
     }
 

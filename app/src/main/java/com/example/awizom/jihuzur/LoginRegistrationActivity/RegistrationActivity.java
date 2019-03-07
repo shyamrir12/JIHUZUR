@@ -1,10 +1,12 @@
 package com.example.awizom.jihuzur.LoginRegistrationActivity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.Image;
 import android.net.ConnectivityManager;
@@ -13,6 +15,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -74,7 +77,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
+        checkAppPermission();
         initView();
     }
 
@@ -97,6 +100,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(Color.YELLOW);
         checkInternet();
+
         editTextMobile = findViewById(R.id.editTextMobile);
         butonContinue = findViewById(R.id.buttonContinue);
         skiplogin = findViewById(R.id.skiplogin);
@@ -111,6 +115,14 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         progressDialog = new ProgressDialog(this);
     }
 
+    private void checkAppPermission() {
+
+        ActivityCompat.requestPermissions(RegistrationActivity.this,
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CALL_PHONE,Manifest.permission.READ_CONTACTS},
+                1);
+    }
+
     private void checkInternet() {
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -122,8 +134,22 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         } else {
             connected = false;
             snackbar.show();
-
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                } else {
+                    Toast.makeText(RegistrationActivity.this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+            }
 
     }
 
@@ -144,10 +170,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private boolean validation() {
 
         if (editTextMobile.getText().toString().isEmpty() || editTextMobile.getText().toString().length() < 10) {
-
             editTextMobile.setError("Enter a valid mobile");
             editTextMobile.requestFocus();
-
             return false;
         }
         return true;
@@ -163,12 +187,10 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             try {
                 result = new LoginHelper.GetLogin().execute(editTextMobile.getText().toString().trim(), "Jihuzur@123", "Jihuzur@123", ur).get();
                 Gson gson = new Gson();
-
                 UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
                 try {
                     if (jsonbody.isStatus()) {
                         Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
-
                         if (jsonbody.OtpCode.equals("mobile already verified")) {
                             DataProfile dataProfile = new DataProfile();
                             dataProfile.ID = jsonbody.dataProfile.ID;
@@ -179,7 +201,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                             dataProfile.MobileNo = jsonbody.dataProfile.MobileNo;
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
 
-//20/02/2019 Comment for not login on employee profile
+//20/02/2019 ravi
                             if (jsonbody.dataProfile.Role.equals("Employee")) {
                                 /*Start for load data into firestore for employee*/
                                 Map<String, Object> profile = new HashMap<>();

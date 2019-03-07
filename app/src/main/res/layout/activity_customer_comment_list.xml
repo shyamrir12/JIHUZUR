@@ -56,13 +56,67 @@
                 android:layout_height="2dp"
                 android:background="@color/grey"
                 android:layout_below="@+id/l0"/>
+            <LinearLayout
+                android:id="@+id/l1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="40dp"
+                android:layout_below="@+id/l0"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="vertical">
 
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageEmp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@mipmap/profile" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/l2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/l1"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/empName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:text="Employee Name"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/contactNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:text="9987654328"
+                    android:textColor="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/serviceName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:text="Repair and Fix"
+                    android:textColor="@color/colorBlack" />
+
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/l"
                 android:layout_width="match_parent"
                 android:layout_height="210dp"
                 android:orientation="vertical"
-                android:layout_below="@+id/v">
+                android:layout_below="@+id/l2">
                 <fragment
                     android:id="@+id/map"
                     android:layout_width="match_parent"
@@ -86,60 +140,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_below="@+id/vv1">
 
-                <LinearLayout
-                    android:id="@+id/l1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginRight="40dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/imageEmp"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:src="@mipmap/profile" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/l2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/l1"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/empName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:text="Employee Name"
-                        android:textColor="@color/colorBlack" />
-
-                    <TextView
-                        android:id="@+id/contactNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:paddingLeft="10dp"
-                        android:text="9987654328"
-                        android:textColor="@color/colorBlack" />
-
-                    <TextView
-                        android:id="@+id/serviceName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:paddingLeft="10dp"
-                        android:text="Repair and Fix"
-                        android:textColor="@color/colorBlack" />
-
-                </LinearLayout>
 
 
                 <LinearLayout

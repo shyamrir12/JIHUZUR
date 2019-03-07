@@ -14,6 +14,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
+import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -117,6 +118,9 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     String latl, long1, namemark, img_strmark, idmark;
+    de.hdodenhof.circleimageview.CircleImageView customerimage;
+    ImageView call;
+    TextView customerDetails;
     /**
      * Code used in requesting runtime permissions.
      */
@@ -181,8 +185,15 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_location);
+        checksomething();
+        ActivityCompat.requestPermissions(EmployeeLocationActivity.this,
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                1);
         mMsgView = (TextView) findViewById(R.id.msgView);
+        customerimage = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.customer_dp);
+        call = (ImageView) findViewById(R.id.call);
         distancefor = (TextView) findViewById(R.id.distance);
+        customerDetails = (TextView) findViewById(R.id.customerdetails);
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 new BroadcastReceiver() {
                     @Override
@@ -206,6 +217,13 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         InitView();
     }
 
+    private boolean checksomething()
+    {
+        String permission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+        int res = this.checkCallingOrSelfPermission(permission);
+        return (res == PackageManager.PERMISSION_GRANTED);
+    }
+
     public void InitView() {
 
         getSupportActionBar().setTitle("Track location");
@@ -213,17 +231,8 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         priceID = getIntent().getStringExtra("PricingID");
         priceIDs = String.valueOf(getIntent().getIntExtra("PricingIDS", 0));
         cusID = getIntent().getStringExtra("CustomerId");
-
-//        getMapvalue();
-        //latlngs.add(new LatLng(latitude, longitude));
-        // latlngs.add(new LatLng(latitude1, longitude1));
-
         CustomerProfileGet();
         getDirection = findViewById(R.id.btnGetDirection);
-
-        /* place1 = new MarkerOptions().position(new LatLng(21.2379468, 81.6336833)).title("Location 1"); */
-        /*  place2 = new MarkerOptions().position(new LatLng(21.2120677, 81.3732849)).title("Location 2");*/
-
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.mapNearBy);
         mapFragment.getMapAsync(this);
@@ -231,40 +240,40 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
     }
 
 
-    public static Bitmap createCustomMarker(final Context context, String resource, final String _name, String mobno, String id, GoogleMap googleMap) {
+    /* public static Bitmap createCustomMarker(final Context context, String resource, final String _name, String mobno, String id, GoogleMap googleMap) {
 
-        View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
-        final de.hdodenhof.circleimageview.CircleImageView markerImage = (de.hdodenhof.circleimageview.CircleImageView) marker.findViewById(R.id.user_dp);
-        RelativeLayout relativeLayout = (RelativeLayout) marker.findViewById(R.id.custom_marker_view);
+         View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
+         final de.hdodenhof.circleimageview.CircleImageView markerImage = (de.hdodenhof.circleimageview.CircleImageView) marker.findViewById(R.id.user_dp);
+         RelativeLayout relativeLayout = (RelativeLayout) marker.findViewById(R.id.custom_marker_view);
 
-        String img_strs = AppConfig.BASE_URL + resource;
-//        markerImage.setImageResource(resource);
+         String img_strs = AppConfig.BASE_URL + resource;
+ //        markerImage.setImageResource(resource);
 
 
-        final TextView txt_name = (TextView) marker.findViewById(R.id.name);
-        TextView text_mob = (TextView) marker.findViewById(R.id.mobno);
-        TextView txt_id = (TextView) marker.findViewById(R.id.empid);
-        text_mob.setText(mobno);
-        txt_name.setText(_name);
-        txt_id.setText(id);
-        if (resource == null) {
-            markerImage.setImageResource(jihuzurblanklogo);
-//                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
-        } else {
-            Glide.with(marker.getContext()).load(img_strs).into(markerImage);
-        }
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        marker.setLayoutParams(new ViewGroup.LayoutParams(52, ViewGroup.LayoutParams.WRAP_CONTENT));
-        marker.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
-        marker.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
-        marker.buildDrawingCache();
-        Bitmap bitmap = Bitmap.createBitmap(marker.getMeasuredWidth(), marker.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        marker.draw(canvas);
-        return bitmap;
-    }
-
+         final TextView txt_name = (TextView) marker.findViewById(R.id.name);
+         TextView text_mob = (TextView) marker.findViewById(R.id.mobno);
+         TextView txt_id = (TextView) marker.findViewById(R.id.empid);
+         text_mob.setText(mobno);
+         txt_name.setText(_name);
+         txt_id.setText(id);
+         if (resource == null) {
+             markerImage.setImageResource(jihuzurblanklogo);
+ //                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
+         } else {
+             Glide.with(marker.getContext()).load(img_strs).into(markerImage);
+         }
+         DisplayMetrics displayMetrics = new DisplayMetrics();
+         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+         marker.setLayoutParams(new ViewGroup.LayoutParams(52, ViewGroup.LayoutParams.WRAP_CONTENT));
+         marker.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
+         marker.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
+         marker.buildDrawingCache();
+         Bitmap bitmap = Bitmap.createBitmap(marker.getMeasuredWidth(), marker.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+         Canvas canvas = new Canvas(bitmap);
+         marker.draw(canvas);
+         return bitmap;
+     }
+ */
     private void CustomerProfileGet() {
         try {
             result = new AdminHelper.GetProfileForShow().execute(cusID).get();
@@ -318,13 +327,42 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                     img_str = dataProfileCustomer.getImage();
                     empid = dataProfileCustomer.getID();
 
+                    String cusimag = AppConfig.BASE_URL + img_str;
+                    customerDetails.setText(name);
+                    if (img_str != null) {
+                        Glide.with(EmployeeLocationActivity.this).load(cusimag).into(customerimage);
+                    } else {
+                        customerimage.setImageResource(R.drawable.jihuzurblanklogo);
+                    }
+                    call.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mobno));
+                            if (ActivityCompat.checkSelfPermission(EmployeeLocationActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                // TODO: Consider calling
+                                //    ActivityCompat#requestPermissions
+                                // here to request the missing permissions, and then overriding
+                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                //                                          int[] grantResults)
+                                // to handle the case where the user grants the permission. See the documentation
+                                // for ActivityCompat#requestPermissions for more details.
+                                return;
+                            }
+                            startActivity(intent);
+                        }
+                    });
+
                     //                    LatLng customMarkerLocationOne = new LatLng(28.583911, 77.319116);
                     place2 = new MarkerOptions().position(new LatLng(Double.parseDouble(String.valueOf(dataProfileCustomer.getLat())), Double.parseDouble(String.valueOf(dataProfileCustomer.getLong())))).title("Location 1");
+                    int height = 100;
+                    int width = 100;
+                    BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.redpin);
+                    Bitmap b = bitmapdraw.getBitmap();
+                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
 
 
                     mGoogleMap.addMarker(new MarkerOptions().position(latLng).
-                            icon(BitmapDescriptorFactory.fromBitmap(
-                                    createCustomMarker(EmployeeLocationActivity.this, img_str, name, mobno, empid, mGoogleMap)))).setTitle(name + "," + empid + "," + img_str);
+                            icon(BitmapDescriptorFactory.fromBitmap(smallMarker))).setTitle(name + "," + empid + "," + img_str);
                     try {
                         new FetchURL(EmployeeLocationActivity.this).execute(getUrl(mylocation.getPosition(), place2.getPosition(), "driving"), "driving");
                     } catch (Exception e) {
@@ -431,7 +469,6 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         // Building the url to the web service
         String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + getString(R.string.google_maps_api_key);
         return url;
-
 
     }
 
@@ -548,11 +585,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         Toast.makeText(this, jsonbody.Message, Toast.LENGTH_SHORT).show();
 
         if (!result.equals(null)) {
-
-
         }
-
-
     }
 
     @Override
@@ -702,15 +735,15 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         int permissionState2 = ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION);
 
-        return permissionState1 == PackageManager.PERMISSION_GRANTED && permissionState2 == PackageManager.PERMISSION_GRANTED;
 
+
+        return permissionState1 == PackageManager.PERMISSION_GRANTED && permissionState2 == PackageManager.PERMISSION_GRANTED;
     }
 
     /**
      * Start permissions requests.
      */
     private void requestPermissions() {
-
         boolean shouldProvideRationale =
                 ActivityCompat.shouldShowRequestPermissionRationale(this,
                         android.Manifest.permission.ACCESS_FINE_LOCATION);
@@ -718,7 +751,6 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         boolean shouldProvideRationale2 =
                 ActivityCompat.shouldShowRequestPermissionRationale(this,
                         Manifest.permission.ACCESS_COARSE_LOCATION);
-
 
         // Provide an additional rationale to the img_user. This would happen if the img_user denied the
         // request previously, but didn't check the "Don't ask again" checkbox.
@@ -740,7 +772,15 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
             // sets the permission in a given state or the img_user denied the permission
             // previously and checked "Never ask again".
             ActivityCompat.requestPermissions(EmployeeLocationActivity.this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    REQUEST_PERMISSIONS_REQUEST_CODE);
+            ActivityCompat.requestPermissions(EmployeeLocationActivity.this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.CALL_PHONE,
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.CAMERA,
+                            Manifest.permission.ACCESS_COARSE_LOCATION},
                     REQUEST_PERMISSIONS_REQUEST_CODE);
         }
     }

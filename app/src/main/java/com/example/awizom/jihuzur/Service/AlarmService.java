@@ -1,5 +1,6 @@
 package com.example.awizom.jihuzur.Service;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -8,9 +9,8 @@ import android.graphics.Color;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.widget.Toast;
 
-import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerCurrentOrderAdapter;
-import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
 import com.google.firebase.firestore.DocumentReference;
@@ -27,55 +27,75 @@ import static com.example.awizom.jihuzur.App.CHANNEL_ID;
 public class AlarmService extends Service {
 
     FirebaseFirestore db;
+    int i = 60;
+    Intent intentalarm;
+    PendingIntent pendingIntent;
+    AlarmManager alarmManager;
+
     //boolean check=true;
     @Override
     public void onCreate() {
         super.onCreate();
         db = FirebaseFirestore.getInstance();
-
+         intentalarm = new Intent(this, MyBroadcastReceiver.class);
+         pendingIntent = PendingIntent.getBroadcast( this.getApplicationContext(), 0, intentalarm, 0);
+         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(final Intent intent, int flags, int startId) {
+
         String input = intent.getStringExtra("inputExtra");
         String orderid = intent.getStringExtra("orderId");
         final DocumentReference docRef = db.collection("Order").document(orderid);
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot, @javax.annotation.Nullable FirebaseFirestoreException e) {
-                if (!String.valueOf( documentSnapshot.get("endTime")).equals("0")) {
-                   // AlarmService.super.onDestroy();
-                 //   check=false;
+                if (!String.valueOf(documentSnapshot.get("endTime")).equals("0")) {
+                    // AlarmService.super.onDestroy();
+                    //   check=false;
                     stopSelf();
+                    stopalert();
                 }
-
             }
         });
 
-       // if(check==true) {
-            Intent notificationIntent = new Intent(AlarmService.this, MyBokingsActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this,
-                    0, notificationIntent, 0);
+        // if(check==true) {
 
-            Date currentTime = Calendar.getInstance().getTime();
-            Long setthewn = System.currentTimeMillis();
+        Intent notificationIntent = new Intent(AlarmService.this, MyBokingsActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                0, notificationIntent, 0);
 
-            Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setContentTitle(input)
-                    .setContentText("Order is Started")
-                    .setColor(Color.parseColor("#F5360C"))
-                    .setWhen(setthewn)  // the time stamp, you will probably use System.currentTimeMillis() for most scenarios
-                    .setUsesChronometer(true)
-                    .setSmallIcon(R.drawable.jihuzurapplogo)
-                    .setContentIntent(pendingIntent)
-                    .build();
+        Date currentTime = Calendar.getInstance().getTime();
+        Long setthewn = System.currentTimeMillis();
 
-            startForeground(1, notification);
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle(input)
+                .setContentText("Order is Started")
+                .setColor(Color.parseColor("#F5360C"))
+                .setWhen(setthewn)  // the time stamp, you will probably use System.currentTimeMillis() for most scenarios
+                .setUsesChronometer(true)
+                .setSmallIcon(R.drawable.shopping)
+                .setContentIntent(pendingIntent)
+                .build();
 
-            //do heavy work on a background thread
-            //stopSelf();
-      //  }
+        startAlert();
+        startForeground(2, notification);
         return START_NOT_STICKY;
+    }
+
+    private void startAlert() {
+
+          alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), (i * 1000), pendingIntent);
+     /*   alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
+                + (i * 1000), pendingIntent);
+*/
+        Toast.makeText(this, "Alarm set in " + i + " seconds", Toast.LENGTH_LONG).show();
+    }
+    private void stopalert() {
+
+        alarmManager.cancel(pendingIntent);
+
     }
 
     @Override

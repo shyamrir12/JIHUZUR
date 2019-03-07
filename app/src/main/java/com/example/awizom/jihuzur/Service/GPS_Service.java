@@ -57,7 +57,6 @@ public class GPS_Service extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
