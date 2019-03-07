@@ -47,7 +47,6 @@ import static com.firebase.ui.auth.ui.email.RegisterEmailFragment.TAG;
 
 public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCurrentOrderAdapter.OrderItemViewHolder> {
 
-
     List<Service> serviceList;
     private Context mCtx;
     private List<Order> orderitemList;
@@ -68,7 +67,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
         View view = inflater.inflate(R.layout.display_employee_current_order_item, null);
         return new EmployeeCurrentOrderAdapter.OrderItemViewHolder(view, mCtx, orderitemList);
     }
-
 
     @Override
     public void onBindViewHolder(@NonNull final EmployeeCurrentOrderAdapter.OrderItemViewHolder holder, int position) {
@@ -107,7 +105,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                 holder.pricingterm.setVisibility(View.VISIBLE);
                 holder.priceUpdateBtn.setVisibility(View.VISIBLE);
             }
-
             if (order.getDiscountName() != null) {
                 // holder.linearLayout.setVisibility(View.VISIBLE);
                 holder.disctName.setVisibility(View.VISIBLE);
@@ -129,11 +126,8 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 //                holder.stopBtn.setVisibility(View.GONE);
             }
 
-
             db=FirebaseFirestore.getInstance();
             getServiceList(holder.catlgId.getText().toString());
-
-
             holder.discountUpdateBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -141,7 +135,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                     LayoutInflater inflater = LayoutInflater.from(v.getRootView().getContext());
                     final View dialogView = inflater.inflate(R.layout.discount_layout_alert, null);
                     dialogBuilder.setView(dialogView);
-
                     final EditText dicountText = dialogView.findViewById(R.id.distName);
                     Button submitButn = dialogView.findViewById(R.id.submitBtn);
                     dicountText.setText(holder.disctName.getText().toString());
@@ -152,12 +145,10 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 
                         dicountText.setError("Enter a valid value");
                         dicountText.requestFocus();
-
                     }
                     submitButn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
                             try {
                                 result = new AdminHelper.EditPostDiscount().execute(orderId, dicountText.getText().toString()).get();
                                 Gson gson = new Gson();
@@ -170,7 +161,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                     });
                 }
             });
-
 
             holder.priceUpdateBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -197,23 +187,18 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                 }
             });
 
-
         } catch (Exception E) {
             E.printStackTrace();
         }
     }
 
     private void getServiceList(String s) {
-
-
         try {
-
             result = new ServicesHelper.GETServiceList().execute(s).get();
             Gson gson = new Gson();
             Type listType = new TypeToken<List<Service>>() {
             }.getType();
             serviceList = new Gson().fromJson(result, listType);
-
             for (int i = 0; i < serviceList.size(); i++) {
                 displayType = serviceList.get(i).getDisplayType();
             }
@@ -311,12 +296,10 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                         ResultModel resultModel = new Gson().fromJson(result, getType);
                         if (resultModel.getMessage().contains("Order End")) {
 
-                            Intent serviceIntent = new Intent(mCtx, AlarmService.class);
+                         /*   Intent serviceIntent = new Intent(mCtx, AlarmService.class);
                             serviceIntent.putExtra("inputExtra", "Order End");
                             serviceIntent.putExtra("orderId", orderId);
-
-                            mCtx.stopService(serviceIntent);
-
+                            ContextCompat.startForegroundService(mCtx, serviceIntent);*/
 
                             String employeeid=resultModel.getEmployeeID().toString();
                             Map<String, Object> profile = new HashMap<>();

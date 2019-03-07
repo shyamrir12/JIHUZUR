@@ -88,10 +88,8 @@ public class CustomerHomePage extends AppCompatActivity
                     break;
 
                 case R.id.navigation_booking:
-
                     intent=new Intent(CustomerHomePage.this,MyBokingsActivity.class);
                     startActivity(intent);
-
                     break;
 
                 case R.id.navigation_helpCenter:

@@ -24,7 +24,6 @@ public class MyBokingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_mybooking);
-
         initview();
     }
 
