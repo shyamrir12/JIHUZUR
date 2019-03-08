@@ -2,8 +2,10 @@ package com.example.awizom.jihuzur.Service;
 
 import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.IBinder;
@@ -31,7 +33,6 @@ public class AlarmService extends Service {
     Intent intentalarm;
     PendingIntent pendingIntent;
     AlarmManager alarmManager;
-
     //boolean check=true;
     @Override
     public void onCreate() {
@@ -39,12 +40,10 @@ public class AlarmService extends Service {
         db = FirebaseFirestore.getInstance();
          intentalarm = new Intent(this, MyBroadcastReceiver.class);
          pendingIntent = PendingIntent.getBroadcast( this.getApplicationContext(), 0, intentalarm, 0);
-         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-    }
+         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);    }
 
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
-
         String input = intent.getStringExtra("inputExtra");
         String orderid = intent.getStringExtra("orderId");
         final DocumentReference docRef = db.collection("Order").document(orderid);
@@ -59,16 +58,15 @@ public class AlarmService extends Service {
                 }
             }
         });
-
         // if(check==true) {
-
         Intent notificationIntent = new Intent(AlarmService.this, MyBokingsActivity.class);
+
+
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
-                0, notificationIntent, 0);
+                Integer.parseInt(String.valueOf(orderid)), notificationIntent, 0);
 
         Date currentTime = Calendar.getInstance().getTime();
         Long setthewn = System.currentTimeMillis();
-
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle(input)
                 .setContentText("Order is Started")
@@ -78,14 +76,16 @@ public class AlarmService extends Service {
                 .setSmallIcon(R.drawable.shopping)
                 .setContentIntent(pendingIntent)
                 .build();
-
+        NotificationManager mNotificationManager =
+                (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        //Id allows you to update the notification later on.
+        mNotificationManager.notify(Integer.parseInt(String.valueOf(orderid)), notification);
         startAlert();
-        startForeground(2, notification);
+
         return START_NOT_STICKY;
     }
 
     private void startAlert() {
-
           alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), (i * 1000), pendingIntent);
      /*   alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
                 + (i * 1000), pendingIntent);
@@ -93,9 +93,7 @@ public class AlarmService extends Service {
         Toast.makeText(this, "Alarm set in " + i + " seconds", Toast.LENGTH_LONG).show();
     }
     private void stopalert() {
-
         alarmManager.cancel(pendingIntent);
-
     }
 
     @Override

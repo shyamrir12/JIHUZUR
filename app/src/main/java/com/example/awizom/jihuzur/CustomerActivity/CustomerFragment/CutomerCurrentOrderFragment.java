@@ -37,21 +37,16 @@ public class CutomerCurrentOrderFragment extends Fragment {
         View view = inflater.inflate(R.layout.customer_current_list, container, false);
         initView(view);
         return view;
-
     }
 
     private void initView(View view) {
+
         userId= SharedPrefManager.getInstance(getContext()).getUser().getID();
-
         mSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-
         relativeLayout = view.findViewById(R.id.textRelate);
         recyclerView = view.findViewById(R.id.recyclerView);
-
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -69,7 +64,6 @@ public class CutomerCurrentOrderFragment extends Fragment {
             e.printStackTrace();
             relativeLayout.setVisibility(View.VISIBLE);
         }
-
         relativeLayout.setVisibility(View.GONE);
     }
     private void getMyOrderRunning() {
@@ -91,5 +85,5 @@ public class CutomerCurrentOrderFragment extends Fragment {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
+     }
 }

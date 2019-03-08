@@ -1,17 +1,11 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -22,18 +16,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerCommentAdapter;
-import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.Reply;
 import com.example.awizom.jihuzur.Model.Result;
-import com.example.awizom.jihuzur.Model.ResultModel;
 import com.example.awizom.jihuzur.Model.Review;
 import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
-import com.example.awizom.jihuzur.Service.AlarmService;
-import com.example.awizom.jihuzur.Service.LocationMonitoringNotificationService;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -43,22 +33,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
-
-import static com.firebase.ui.auth.ui.email.RegisterEmailFragment.TAG;
 
 public class CustomerCommentActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
 
@@ -124,7 +106,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         serviceNAme = findViewById(R.id.serviceName);
 
 
-        commentButtonn = findViewById(R.id.commentBtn);
+        commentButtonn = findViewById(R.id.viewDetail);
         ratingBar = findViewById(R.id.rating);
         review = findViewById(R.id.review);
         txtRatingValue = findViewById(R.id.txtRatingValue);
@@ -208,7 +190,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
                 }
 
                 break;
-            case R.id.commentBtn:
+            case R.id.viewDetail:
                 getreviewByOrder();
                 break;
 

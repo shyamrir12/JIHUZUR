@@ -34,6 +34,12 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
+                        <Chronometer
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_access_alarms_black_24dp"
+                           android:text="Running Order"
+                            android:id="@+id/chronometer"/>
                         <TextView
                             android:id="@+id/cusName"
                             android:layout_width="match_parent"
@@ -266,7 +272,7 @@
                             android:layout_height="match_parent"
                             android:background="@color/white" />
                         <Button
-                            android:id="@+id/commentBtn"
+                            android:id="@+id/viewDetail"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
                             android:layout_weight="1"

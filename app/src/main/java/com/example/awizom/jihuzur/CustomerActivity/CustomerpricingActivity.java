@@ -3,6 +3,7 @@ package com.example.awizom.jihuzur.CustomerActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerPricingAdapter;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
@@ -26,6 +29,7 @@ import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,10 +48,11 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     private Button postPricingBtn;
     private Intent intent;
     private String result = "", serviceID = "", description = "", serviceName = "",
-            displayType = "", btn = "", orderID = "", priceID = "0",data="",pricingId="";
+            displayType = "", btn = "", orderID = "", priceID = "0", data = "", pricingId = "";
 
-    private String empId="",priceIDs="",selectedEmpId;
-    private String priceIds="";
+    private String empId = "",
+            priceIDs = "", selectedEmpId;
+    private String priceIds = "";
     private ArrayList<LatLng> latlngs = new ArrayList<>();
     private ArrayList<String> empID = new ArrayList<>();
     private ArrayList<String> empMobile = new ArrayList<>();
@@ -75,8 +80,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         btn = getIntent().getStringExtra("button");
         orderID = getIntent().getStringExtra("orderId");
         priceID = getIntent().getStringExtra("priceId");
-
-
         getSupportActionBar().setTitle(serviceName);
         mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView = findViewById(R.id.recyclerView);
@@ -86,7 +89,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         nextButton.setOnClickListener(this);
         postPricingBtn = findViewById(R.id.postOrderPriceBtn);
         postPricingBtn.setOnClickListener(this);
-
 
         if (btn.equals("empBtn")) {
             nextButton.setVisibility(View.GONE);
@@ -109,14 +111,12 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                 try {
                     getMyOrderRunning();
                     employeeProfileGet();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
-
     }
-
 
     private void getMyOrderRunning() {
         try {
@@ -142,8 +142,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         switch (v.getId()) {
             case R.id.buttonNext:
                 method();
-              break;
-
+                break;
             case R.id.postOrderPriceBtn:
 
                 int j = SharedPrefManager.getInstance(CustomerpricingActivity.this).getPricingID().PricingID;
@@ -154,11 +153,8 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                     Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     e.printStackTrace();
-
                 }
                 break;
-
-
         }
     }
 
@@ -168,8 +164,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         for (int p = 0; p < stList.size(); p++) {
             PricingView pricingView = stList.get(p);
             if (pricingView.isSelected() == true) {
-
-                data = data  + pricingView.getPricingID()+ ",";
+                data = data + pricingView.getPricingID() + ",";
                 /*
                  * Toast.makeText( CardViewActivity.this, " " +
                  * singleStudent.getName() + " " +
@@ -178,32 +173,26 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                  * Toast.LENGTH_SHORT).show();
                  */
             }
-
         }
 
         Toast.makeText(CustomerpricingActivity.this,
                 data, Toast.LENGTH_LONG)
                 .show();
 
+        if (data != null) {
+            priceID = data;
 
-
-
-
-         if(data != null){
-             priceID = data;
-
-             showTheAlertOrderDailogue();
+            showTheAlertOrderDailogue();
 //             intent = new Intent(this, LocationActivity.class);
 //             intent.putExtra("PricingID", data);
 //             startActivity(intent);
-         }else {
-           int i = SharedPrefManager.getInstance(CustomerpricingActivity.this).getPricingID().PricingID;
-             priceIDs = String.valueOf(i);
+        } else {
+            int i = SharedPrefManager.getInstance(CustomerpricingActivity.this).getPricingID().PricingID;
+            priceIDs = String.valueOf(i);
 //             intent = new Intent(this, LocationActivity.class);
 //             intent.putExtra("PricingIDS", i);
 //             startActivity(intent);
-         }
-
+        }
     }
 
     private void showTheAlertOrderDailogue() {
@@ -211,41 +200,47 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         alertbox.setMessage("Do you want to place this order");
         alertbox.setTitle("Order");
         alertbox.setIcon(R.drawable.ic_dashboard_black_24dp);
-
         alertbox.setNeutralButton("Yes",
                 new DialogInterface.OnClickListener() {
                     Class fragmentClass = null;
 
                     public void onClick(DialogInterface arg0,
                                         int arg1) {
-
                         postOderCreate();
                     }
-
-
                 });
         alertbox.setPositiveButton("No", null);
-
         alertbox.show();
     }
 
     private void postOderCreate() {
         String date = new SimpleDateFormat("MM/dd/yy", Locale.getDefault()).format(new Date());
-
         String customerid = SharedPrefManager.getInstance(getApplicationContext()).getUser().getID();
         String empId = selectedEmpId;
         String orderDate = String.valueOf(date);
-        String catalogId = String.valueOf(2);
-        if(priceID.equals(null)) {
+        String catalogId = String.valueOf(serviceID);
+        if (priceID.equals(null)) {
             priceIds = priceIDs;
-        }else {
+        } else {
             priceIds = priceID;
         }
         try {
-            result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId,priceIds).get();
-            if (!result.equals(null)) {
+            result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId, priceIds).get();
+            if (!result.equals("")) {
                 intent = new Intent(this, MyBokingsActivity.class);
                 startActivity(intent);
+            } else {
+                Toast toast = Toast.makeText(CustomerpricingActivity.this, "Sorry Our Employee's are Busy on another Order please try after sometime", Toast.LENGTH_LONG);
+                View view = toast.getView();
+                //To change the Background of Toast
+                view.setBackgroundColor(Color.BLACK);
+                TextView text = (TextView) view.findViewById(android.R.id.message);
+                //Shadow of the Of the Text Color
+                text.setTextSize(17);
+
+                text.setShadowLayer(0, 0, 0, Color.TRANSPARENT);
+                text.setTextColor(Color.WHITE);
+                toast.show();
             }
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -256,28 +251,21 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
             Gson gson = new Gson();
             UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
             Toast.makeText(this, jsonbody.Message, Toast.LENGTH_SHORT).show();
-
             if (!result.equals(null)) {
-
                 intent = new Intent(this, MyBokingsActivity.class);
                 startActivity(intent);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
+
     private void employeeProfileGet() {
-
         try {
-
             result = new EmployeeOrderHelper.GetEmployeeProfileForShow().execute().get();
-
             Type listType = new TypeToken<List<EmployeeProfileModel>>() {
             }.getType();
             employeeProfileModelList = new Gson().fromJson(result.toString(), listType);
-
             empNameList = new String[employeeProfileModelList.size()];
             empLat = new String[employeeProfileModelList.size()];
             empLong = new String[employeeProfileModelList.size()];
@@ -285,18 +273,12 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                 empNameList[i] = String.valueOf(employeeProfileModelList.get(i).getName());
                 empLat[i] = String.valueOf(employeeProfileModelList.get(i).getLat());
                 empLong[i] = String.valueOf(employeeProfileModelList.get(i).getLong());
-                latlngs.add(new LatLng(Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLat())),
-                        Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLong()))));
-
+                latlngs.add(new LatLng(Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLat())), Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLong()))));
                 empID.add(employeeProfileModelList.get(i).getID());
                 empMobile.add(employeeProfileModelList.get(i).getMobileNo());
                 empName.add(employeeProfileModelList.get(i).getName());
                 selectedEmpId = employeeProfileModelList.get(i).getID();
-
             }
-
-
-
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {

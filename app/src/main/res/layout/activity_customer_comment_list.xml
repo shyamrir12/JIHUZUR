@@ -280,7 +280,7 @@
 
 
                     <Button
-                        android:id="@+id/commentBtn"
+                        android:id="@+id/viewDetail"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:background="@color/halfgrey"

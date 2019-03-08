@@ -255,7 +255,7 @@
                             android:layout_height="match_parent"
                             android:background="@color/white" />
                         <Button
-                            android:id="@+id/commentBtn"
+                            android:id="@+id/viewDetail"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
                             android:layout_weight="1"
