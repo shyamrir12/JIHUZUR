@@ -2,6 +2,7 @@ package com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -54,6 +55,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
     private String orderId = "", otpCode = "", result = "", empId = "", displayType = "", priceid = "";
     private Intent intent;
     FirebaseFirestore db;
+    String checkpay="";
 
     public EmployeeCurrentOrderAdapter(Context employeeCurrentOrderFragment, List<Order> orderList) {
         this.mCtx = employeeCurrentOrderFragment;
@@ -142,7 +144,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                     final android.support.v7.app.AlertDialog b = dialogBuilder.create();
                     b.show();
                     if (dicountText.getText().toString().isEmpty()) {
-
                         dicountText.setError("Enter a valid value");
                         dicountText.requestFocus();
                     }
@@ -227,7 +228,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             this.mCtx = mCtx;
             this.orderitemList = orderitemList;
             itemView.setOnClickListener(this);
-
             customerName = itemView.findViewById(R.id.cusName);
             cusId = itemView.findViewById(R.id.cusID);
             startTime = itemView.findViewById(R.id.starttime);
@@ -242,8 +242,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             stopBtn = itemView.findViewById(R.id.stopBtn);
             acceptPaymentBtn = itemView.findViewById(R.id.acceptPaymentBtn);
             linerButtonSide = itemView.findViewById(R.id.l6);
-
-
             catagryName = itemView.findViewById(R.id.catagoryName);
             pricingterms = itemView.findViewById(R.id.pricingterm);
             serviceID = itemView.findViewById(R.id.serviceID);
@@ -251,26 +249,21 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             catlgId = itemView.findViewById(R.id.catalogID);
             disctName = itemView.findViewById(R.id.discountName);
             linearLayout = itemView.findViewById(R.id.l5);
-
             genrateBtn.setOnClickListener(this);
            // trackinBtn.setOnClickListener(this);
             stopBtn.setOnClickListener(this);
             acceptPaymentBtn.setOnClickListener(this);
-
-
             priceUpdateBtn = itemView.findViewById(R.id.priceupdateBtn);
             priceUpdateBtn.setOnClickListener(this);
             discountUpdateBtn = itemView.findViewById(R.id.dicupdateBtn);
             discountUpdateBtn.setOnClickListener(this);
         }
 
-
         @Override
         public void onClick(final View v) {
 
             switch (v.getId()) {
                 case R.id.genOtpBtn:
-
                     try {
                         result = new EmployeeOrderHelper.GenerateOtp().execute(orderId).get();
                         Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
@@ -288,61 +281,81 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 //                    break;
                 case R.id.stopBtn:
 
-                    try {
-                        result = new EmployeeOrderHelper.StopOrder().execute(orderId).get();
-                        Gson gson = new Gson();
-                        Type getType = new TypeToken<ResultModel>() {
-                        }.getType();
-                        ResultModel resultModel = new Gson().fromJson(result, getType);
-                        if (resultModel.getMessage().contains("Order End")) {
+
+                    if(checkpay.equals("accept")) {
+                        try {
+                            result = new EmployeeOrderHelper.StopOrder().execute(orderId).get();
+                            Gson gson = new Gson();
+                            Type getType = new TypeToken<ResultModel>() {
+                            }.getType();
+                            ResultModel resultModel = new Gson().fromJson(result, getType);
+                            if (resultModel.getMessage().contains("Order End")) {
 
                          /*   Intent serviceIntent = new Intent(mCtx, AlarmService.class);
                             serviceIntent.putExtra("inputExtra", "Order End");
                             serviceIntent.putExtra("orderId", orderId);
                             ContextCompat.startForegroundService(mCtx, serviceIntent);*/
 
-                            String employeeid=resultModel.getEmployeeID().toString();
-                            Map<String, Object> profile = new HashMap<>();
-                            profile.put("busystatus",false);
+                                String employeeid = resultModel.getEmployeeID().toString();
+                                Map<String, Object> profile = new HashMap<>();
+                                profile.put("busystatus", false);
 
-                            db.collection("Profile").document(employeeid).update(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "DocumentSnapshot successfully written!");
-                                }
-                            })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w(TAG, "Error writing document", e);
-                                        }
-                                    });
-                            Date today = new Date();
-                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
-                            String dateToStr = format.format(today);
-                            Map<String, Object> order = new HashMap<>();
-                            order.put("endTime", dateToStr);
+                                db.collection("Profile").document(employeeid).update(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error writing document", e);
+                                            }
+                                        });
+                                Date today = new Date();
+                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+                                String dateToStr = format.format(today);
+                                Map<String, Object> order = new HashMap<>();
+                                order.put("endTime", dateToStr);
 
-                            db.collection("Order").document(orderId).update(order).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "DocumentSnapshot successfully written!");
-                                }
-                            })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w(TAG, "Error writing document", e);
-                                        }
-                                    });
+                                db.collection("Order").document(orderId).update(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error writing document", e);
+                                            }
+                                        });
+
+                                intent =new Intent(mCtx,EmployeeHomePage.class);
+                                mCtx.startActivity(intent);
+
+                            }
+
+
+                            Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
-
-
-                        Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    }
+                    else {
+                        Toast toast = Toast.makeText(mCtx, "First Complete Your Payment", Toast.LENGTH_LONG);
+                        View view = toast.getView();
+                        //To change the Background of Toast
+                        view.setBackgroundColor(Color.BLACK);
+                        TextView text = (TextView) view.findViewById(android.R.id.message);
+                        //Shadow of the Of the Text Color
+                        text.setTextSize(17);
+                        text.setShadowLayer(0, 0, 0, Color.TRANSPARENT);
+                        text.setTextColor(Color.WHITE);
+                        toast.show();
+                        //Toast.makeText(mCtx,"First Complete Your Payment",Toast.LENGTH_LONG).show();
                     }
 
                     break;
@@ -350,6 +363,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 
                     try {
                         result = new EmployeeOrderHelper.AcceptPayment().execute(orderId, empId).get();
+                        checkpay="accept";
                         Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                     } catch (ExecutionException e) {
                         e.printStackTrace();

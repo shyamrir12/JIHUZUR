@@ -49,7 +49,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     private Intent intent;
     private String result = "", serviceID = "", description = "", serviceName = "",
             displayType = "", btn = "", orderID = "", priceID = "0", data = "", pricingId = "";
-
     private String empId = "",
             priceIDs = "", selectedEmpId;
     private String priceIds = "";
@@ -57,7 +56,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     private ArrayList<String> empID = new ArrayList<>();
     private ArrayList<String> empMobile = new ArrayList<>();
     private ArrayList<String> empName = new ArrayList<>();
-
     List<EmployeeProfileModel> employeeProfileModelList;
     private EmployeeProfileModel employeeProfileModel;
     private String[] empNameList, empLat, empLong;
@@ -71,7 +69,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     }
 
     private void initView() {
-
 
         serviceID = getIntent().getStringExtra("serviceID");
         description = getIntent().getStringExtra("description");
@@ -89,7 +86,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         nextButton.setOnClickListener(this);
         postPricingBtn = findViewById(R.id.postOrderPriceBtn);
         postPricingBtn.setOnClickListener(this);
-
         if (btn.equals("empBtn")) {
             nextButton.setVisibility(View.GONE);
         } else if (btn.equals("serBtn")) {
@@ -104,7 +100,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 
         getMyOrderRunning();
         employeeProfileGet();
-
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -181,7 +176,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 
         if (data != null) {
             priceID = data;
-
             showTheAlertOrderDailogue();
 //             intent = new Intent(this, LocationActivity.class);
 //             intent.putExtra("PricingID", data);
@@ -203,7 +197,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         alertbox.setNeutralButton("Yes",
                 new DialogInterface.OnClickListener() {
                     Class fragmentClass = null;
-
                     public void onClick(DialogInterface arg0,
                                         int arg1) {
                         postOderCreate();
@@ -237,7 +230,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                 TextView text = (TextView) view.findViewById(android.R.id.message);
                 //Shadow of the Of the Text Color
                 text.setTextSize(17);
-
                 text.setShadowLayer(0, 0, 0, Color.TRANSPARENT);
                 text.setTextColor(Color.WHITE);
                 toast.show();

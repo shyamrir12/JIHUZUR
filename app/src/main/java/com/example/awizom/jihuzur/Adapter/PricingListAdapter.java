@@ -1,36 +1,26 @@
 package com.example.awizom.jihuzur.Adapter;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.awizom.jihuzur.AdminActivity.AdminPricingActivity;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
-import com.example.awizom.jihuzur.Model.Catalog;
-import com.example.awizom.jihuzur.Model.Pricing;
 import com.example.awizom.jihuzur.Model.PricingView;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.R;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 
 public class PricingListAdapter extends
@@ -116,7 +106,7 @@ public class PricingListAdapter extends
         noOfItems.setVisibility(View.GONE);
 
 
-        final Button buttonAddCatalog = (Button) dialogView.findViewById(R.id.buttonAddCatalog);
+        final Button buttonAddCatalog = (Button) dialogView.findViewById(R.id.buttonAddPricing);
         final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
 
         dialogBuilder.setTitle("Add Pricing");

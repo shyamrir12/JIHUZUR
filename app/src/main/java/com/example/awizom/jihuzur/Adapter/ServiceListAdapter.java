@@ -30,8 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ServiceListAdapter extends
-        RecyclerView.Adapter<ServiceListAdapter.MyViewHolder> {
+public class ServiceListAdapter extends  RecyclerView.Adapter<ServiceListAdapter.MyViewHolder> {
 
     String uri;
     Intent intent;
@@ -39,17 +38,14 @@ public class ServiceListAdapter extends
     String catalogName;
     AutoCompleteTextView editServicename, editDescription;
     Spinner displayType;
-    String result = "",empskills="";
+    String result = "", empskills = "";
     private List<Service> serviceList;
     private Context mCtx;
-
 
     public ServiceListAdapter(Context baseContext, List<Service> serviceList, String empskill) {
         this.serviceList = serviceList;
         this.mCtx = baseContext;
-        this.empskills=empskill;
-
-
+        this.empskills = empskill;
     }
 
     @Override
@@ -60,103 +56,77 @@ public class ServiceListAdapter extends
         holder.serviceID.setText(String.valueOf(c.getServiceID()));
         holder.dType.setText(c.getDisplayType());
         holder.catalogID.setText(String.valueOf(c.getCatalogID()));
-
         final String servicename = holder.serviceName.getText().toString();
         final String description = holder.description.getText().toString();
         final String displaytype = String.valueOf(holder.dType.getText());
         final String serviceID = String.valueOf(holder.serviceID.getText());
         final String catalogiD = String.valueOf(holder.serviceID.getText());
 
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-try {
-    if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Admin")) {
-
-        intent = new Intent(mCtx, AdminPricingActivity.class);
-        intent.putExtra("serviceName", holder.serviceName.getText());
-        intent.putExtra("description", holder.description.getText());
-        intent.putExtra("serviceID", holder.serviceID.getText());
-        intent.putExtra("displayType", holder.dType.getText());
-        mCtx.startActivity(intent);
-
-        Toast.makeText(mCtx, "" + position, Toast.LENGTH_SHORT).show();
-
-    } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Employee")) {
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String employeeid = SharedPrefManager.getInstance(mCtx).getUser().getID();
 
                 try {
-                    result = new EmployeeOrderHelper.EmployeePOSTSkill().execute(employeeid, serviceID).get();
-                    Gson gson = new Gson();
-                    final Result jsonbodyres = gson.fromJson(result, Result.class);
-                    Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                    if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Admin")) {
+                        intent = new Intent(mCtx, AdminPricingActivity.class);
+                        intent.putExtra("serviceName", holder.serviceName.getText());
+                        intent.putExtra("description", holder.description.getText());
+                        intent.putExtra("serviceID", holder.serviceID.getText());
+                        intent.putExtra("displayType", holder.dType.getText());
+                        mCtx.startActivity(intent);
+                        Toast.makeText(mCtx, "" + position, Toast.LENGTH_SHORT).show();
 
-                    if (!result.equals(null)) {
-                        intent = new Intent(mCtx, EmployeeSkillActivity.class);
+                    } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Employee")) {
+                        holder.itemView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String employeeid = SharedPrefManager.getInstance(mCtx).getUser().getID();
+                                try {
+                                    result = new EmployeeOrderHelper.EmployeePOSTSkill().execute(employeeid, serviceID).get();
+                                    Gson gson = new Gson();
+                                    final Result jsonbodyres = gson.fromJson(result, Result.class);
+                                    Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    if (!result.equals(null)) {
+                                        intent = new Intent(mCtx, EmployeeSkillActivity.class);
+                                        mCtx.startActivity(intent);
+                                    }
+
+                                } catch (Exception e) {
+                                }
+                            }
+                        });
+                    } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Customer")) {
+
+                        intent = new Intent(mCtx, CustomerpricingActivity.class);
+                        intent.putExtra("serviceName", holder.serviceName.getText());
+                        intent.putExtra("description", holder.description.getText());
+                        intent.putExtra("serviceID", holder.serviceID.getText());
+                        intent.putExtra("DisplayType", holder.dType.getText());
+                        intent.putExtra("button", "serBtn");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mCtx.startActivity(intent);
                     }
-
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
-
             }
         });
 
-
-//                        intent = new Intent(mCtx, CustomerpricingActivity.class);
-//                        intent.putExtra("serviceName", holder.serviceName.getText());
-//                        intent.putExtra("description", holder.description.getText());
-//                        intent.putExtra("serviceID", holder.serviceID.getText());
-//                        intent.putExtra("DisplayType", holder.dType.getText());
-//                        intent.putExtra("button", "serBtn");
-//                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        mCtx.startActivity(intent);
-
-
-    } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Customer")) {
-
-        intent = new Intent(mCtx, CustomerpricingActivity.class);
-        intent.putExtra("serviceName", holder.serviceName.getText());
-        intent.putExtra("description", holder.description.getText());
-        intent.putExtra("serviceID", holder.serviceID.getText());
-        intent.putExtra("DisplayType", holder.dType.getText());
-        intent.putExtra("button", "serBtn");
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mCtx.startActivity(intent);
-    }
-
-}catch (Exception e)
-{e.printStackTrace();}
+        try {
+            if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Admin")) {
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        showEditServiceDialogue(servicename, description, serviceID, catalogiD, displaytype);
+                        return true;
+                    }
+                });
+            } else {
             }
-        });
-
-try {
-
-
-    if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Admin")) {
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-
-                showEditServiceDialogue(servicename, description, serviceID, catalogiD, displaytype);
-                return true;
-            }
-        });
-    } else {
-    }
-}
-catch (Exception e)
-{
-    e.printStackTrace();
-}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void showEditServiceDialogue(final String servicename, final String description, final String serviceid, final String catalogId, String displaytype) {
@@ -190,6 +160,7 @@ catch (Exception e)
         final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
 
         dialogBuilder.setTitle("Edit Service");
+        dialogBuilder.setIcon(R.drawable.icon_services);
         final AlertDialog b = dialogBuilder.create();
         b.show();
 
@@ -197,35 +168,30 @@ catch (Exception e)
         buttonAddCatalog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (validation()) {
+                    String service = editServicename.getText().toString().trim();
+                    String descriptions = editDescription.getText().toString().trim();
+                    String displaytype = displayType.getSelectedItem().toString();
+                    if (displaytype == "Range") {
+                        displaytype = "";
+                    }
 
+                    try {
 
-                String service = editServicename.getText().toString().trim();
-                String descriptions = editDescription.getText().toString().trim();
-                String displaytype = displayType.getSelectedItem().toString();
-                if (displaytype == "Range") {
-                    displaytype = "";
+                        result = new AdminHelper.POSTService().execute(serviceid, catalogId, service, descriptions, displaytype).get();
+                        Gson gson = new Gson();
+                        final Result jsonbodyres = gson.fromJson(result, Result.class);
+                        Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                        ((SelectServices) mCtx).getServiceList();
 
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(mCtx, "Error: " + e, Toast.LENGTH_SHORT).show();
+                        // System.out.println("Error: " + e);
+                    }
+                    b.dismiss();
                 }
-
-                try {
-
-                    result = new AdminHelper.POSTService().execute(serviceid, catalogId, service, descriptions, displaytype).get();
-                    Gson gson = new Gson();
-                    final Result jsonbodyres = gson.fromJson(result, Result.class);
-                    Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-                    ((SelectServices) mCtx).getServiceList();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                    Toast.makeText(mCtx, "Error: " + e, Toast.LENGTH_SHORT).show();
-                    // System.out.println("Error: " + e);
-                }
-                b.dismiss();
-
             }
-
-
         });
 
 
@@ -233,12 +199,23 @@ catch (Exception e)
             @Override
             public void onClick(View view) {
                 b.dismiss();
-                /*
-                 * we will code this method to delete the artist
-                 * */
-
             }
         });
+    }
+
+    private boolean validation() {
+
+        if (editServicename.getText().toString().isEmpty()) {
+            editServicename.setError("Enter valid Service Name");
+            editServicename.requestFocus();
+            return false;
+        }
+        if (editDescription.getText().toString().isEmpty()) {
+            editDescription.setError("Enter valid Description");
+            editDescription.requestFocus();
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -259,7 +236,6 @@ catch (Exception e)
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView serviceName, description, serviceID, dType, catalogID;
-
 
         public MyViewHolder(View view) {
             super(view);

@@ -14,6 +14,7 @@ import com.example.awizom.jihuzur.MainActivity;
 import com.example.awizom.jihuzur.R;
 
 import static com.example.awizom.jihuzur.App.CHANNEL_ID;
+
 public class LocationMonitoringNotificationService extends Service {
 
     @Override
@@ -33,7 +34,7 @@ public class LocationMonitoringNotificationService extends Service {
                 .setContentTitle(input)
                 .setContentText("Employee's' Location Service is Enabled for Customer Tracking in Google Maps")
                 .setColor(Color.parseColor("#F5360C"))
-                .setSmallIcon( R.drawable.ic_add_location_green_24dp)
+                .setSmallIcon(R.drawable.ic_add_location_green_24dp)
                 .setContentIntent(pendingIntent)
                 .build();
 

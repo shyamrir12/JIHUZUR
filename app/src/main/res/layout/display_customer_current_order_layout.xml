@@ -34,11 +34,13 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <Chronometer
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/ic_access_alarms_black_24dp"
-                           android:text="Running Order"
+                            android:text="Running Order"
+                            android:textStyle="italic"
+                            android:textColor="@color/colorBlack"
                             android:id="@+id/chronometer"/>
                         <TextView
                             android:id="@+id/cusName"

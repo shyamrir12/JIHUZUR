@@ -44,6 +44,7 @@ tools:context=".AdminActivity.AdminDiscountActivity">
     app:srcCompat="@android:drawable/ic_input_add"
     tools:layout_editor_absoluteX="328dp"
     tools:layout_editor_absoluteY="448dp" />
+<!--
 
 <TextView
     android:id="@+id/tv1"
@@ -54,6 +55,7 @@ tools:context=".AdminActivity.AdminDiscountActivity">
     android:text="Discount List"
     android:textColor="@color/colorBlack"
     android:textSize="25sp" />
+-->
 
 
 </RelativeLayout>

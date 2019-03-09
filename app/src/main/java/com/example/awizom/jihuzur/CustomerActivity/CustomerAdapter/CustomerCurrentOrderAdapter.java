@@ -65,6 +65,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     private String orderId = "", otpCode = "", result = "";
     private Intent intent;
     FirebaseFirestore db;
+
     public CustomerCurrentOrderAdapter(Context currentOrderActivity, List<Order> orderList) {
         this.mCtx = currentOrderActivity;
         this.orderitemList = orderList;
@@ -107,15 +108,14 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             holder.servicName.setText(order.getServiceName());
             holder.pricingterm.setText(order.getPricingTerms());
             holder.dctName.setText(order.getDiscountName());
+
             final DocumentReference docRef = db.collection("Order").document(ordid);
             docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot, @javax.annotation.Nullable FirebaseFirestoreException e) {
-                    if (documentSnapshot.getData()!=null) {
-
+                    if (documentSnapshot.getData() != null) {
                         holder.acceptBtn.setVisibility(View.GONE);
                         holder.chronometer.setVisibility(View.VISIBLE);
-                        holder.chronometer.start();
 
                     } else {
                         holder.acceptBtn.setVisibility(View.VISIBLE);
@@ -195,7 +195,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                                         order.put("startTime", dateToStr);
                                         order.put("endTime", 00);
 
-                                        db.collection("Order").document(orderId).set(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        db.collection("Order").document(ordid).set(order).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 Log.d(TAG, "DocumentSnapshot successfully written!");
@@ -247,7 +247,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context mCtx;
-        private Chronometer chronometer;
+        private TextView chronometer;
         private TextView startTime, endtime, empName, timercount, empContAct, catagryName, servicName, pricingterm, dctName;
         private Button acceptBtn, trackinBtn, canclBtn, viewdetail;
         private List<Order> orderitemList;
@@ -275,7 +275,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             acceptBtn = itemView.findViewById(R.id.acceptOtpBtn);
             trackinBtn = itemView.findViewById(R.id.trackBtn);
             canclBtn = itemView.findViewById(R.id.cancelBtn);
-            chronometer=itemView.findViewById(R.id.chronometer);
+            chronometer = itemView.findViewById(R.id.chronometer);
             chronometer.setVisibility(View.GONE);
             empContAct = itemView.findViewById(R.id.empMobile);
             catagryName = itemView.findViewById(R.id.catagoryName);
@@ -284,9 +284,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             dctName = itemView.findViewById(R.id.discountName);
             viewdetail = itemView.findViewById(R.id.viewDetail);
             linearLayout = itemView.findViewById(R.id.l4);
-
             db = FirebaseFirestore.getInstance();
-
             acceptBtn.setOnClickListener(this);
             trackinBtn.setOnClickListener(this);
             canclBtn.setOnClickListener(this);

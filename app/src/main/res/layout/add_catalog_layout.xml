@@ -112,7 +112,7 @@
 
 
         <Button
-            android:id="@+id/buttonAddCatalog"
+            android:id="@+id/buttonAddPricing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

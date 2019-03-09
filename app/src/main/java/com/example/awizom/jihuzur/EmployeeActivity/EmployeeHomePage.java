@@ -86,10 +86,9 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
                     getSupportActionBar().setTitle("Employee Home");
                     intent = new Intent(EmployeeHomePage.this, EmployeeHomePage.class);
                     startActivity(intent);
-
                     break;
-                case R.id.navigation_booking:
 
+                case R.id.navigation_booking:
                     intent = new Intent(EmployeeHomePage.this, EmployeeBookingsActivity.class);
                     startActivity(intent);
                     break;
@@ -108,7 +107,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             return false;
         }
     };
@@ -120,7 +118,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             broadcastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-
                     textView.append("\n" + intent.getExtras().get("coordinates"));
                     //Log.d("myTag", "\n" +intent.getExtras().get("coordinates"));
                 }
@@ -141,12 +138,10 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         initView();
     }
 
     private void initView() {
-
         // searchFragment = new SearchFragment();
 
         setContentView(R.layout.activity_employee_home_page);
@@ -155,17 +150,13 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         btn_start = findViewById(R.id.button);
         btn_stop = findViewById(R.id.button2);
         textView = (TextView) findViewById(R.id.textView);
-
         tabLayout = findViewById(R.id.tablayout);
         outGoing = findViewById(R.id.outgoing);
         history = findViewById(R.id.history);
-
         viewPager = findViewById(R.id.viewPager);
-
         pageAdapter = new EmployeePageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -198,7 +189,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             }
         });
 
-
         if (!runtime_permissions())
             enable_buttons();
         BottomNavigationView navigation = findViewById(R.id.navigation);
@@ -209,10 +199,8 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         toggle.syncState();
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
         View headerview = navigationView.getHeaderView(0);
         imageView = headerview.findViewById(R.id.imageView);
-
         img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();
         {
             try {
@@ -302,10 +290,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
             return true;
         }
-
-
-
-
         return false;
     }
 

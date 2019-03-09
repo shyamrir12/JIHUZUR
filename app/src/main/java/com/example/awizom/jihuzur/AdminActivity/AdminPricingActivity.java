@@ -50,7 +50,8 @@ public class AdminPricingActivity extends AppCompatActivity {
     TextView tv;
     String result = "";
     android.support.v7.widget.Toolbar toolbar;
-    SwipeRefreshLayout mSwipeRefreshLayout;;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    AutoCompleteTextView editdescription, addpricingterms, editamount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +87,6 @@ public class AdminPricingActivity extends AppCompatActivity {
                     getPricing();
                 } catch (Exception e) {
                     e.printStackTrace();
-
                 }
             }
         });
@@ -103,10 +103,6 @@ public class AdminPricingActivity extends AppCompatActivity {
 
     public void getPricing() {
 
-
-//            mSwipeRefreshLayout.setRefreshing(true);
-
-
         try {
             mSwipeRefreshLayout.setRefreshing(true);
             result = new AdminHelper.GETPricingList().execute(String.valueOf(serviceID)).get();
@@ -119,23 +115,16 @@ public class AdminPricingActivity extends AppCompatActivity {
                 Type listType = new TypeToken<List<PricingView>>() {
                 }.getType();
                 pricingList = new Gson().fromJson(result, listType);
-
                 pricinglistString = new String[pricingList.size()];
                 for (int i = 0; i < pricingList.size(); i++) {
                     pricinglistString[i] = String.valueOf(pricingList.get(i).getPricingEnd());
                     tv = new TextView(AdminPricingActivity.this);
-
                     tv.setLayoutParams(lparams);
                     tv.setTextColor(Color.parseColor("#000000"));
                     tv.setTextSize(20);
                     tv.setText(pricinglistString[i] + "->");
-
-
                     layout.addView(tv);
-
-
                 }
-
 
                 adapterPricingList = new PricingListAdapter(AdminPricingActivity.this, pricingList, displayType);
                 recyclerView.setAdapter(adapterPricingList);
@@ -143,43 +132,28 @@ public class AdminPricingActivity extends AppCompatActivity {
                 pricingList.get(0).getServiceName();
                 serviceName = pricingList.get(0).getServiceName();
                 servicename.setText(serviceName + " Pricing");
-//                    toolbar.setTitle(serviceName + " Pricing");
                 checkValue = pricingList.size();
-
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
-
     private void showAddPricingDialog() {
-
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.add_pricing_layout, null);
         dialogBuilder.setView(dialogView);
-
-        final AutoCompleteTextView editdescription = (AutoCompleteTextView) dialogView.findViewById(R.id.editDescription);
-        final AutoCompleteTextView addpricingterms = (AutoCompleteTextView) dialogView.findViewById(R.id.addPricingTerms);
-        final AutoCompleteTextView editamount = (AutoCompleteTextView) dialogView.findViewById(R.id.editAmount);
+        editdescription = (AutoCompleteTextView) dialogView.findViewById(R.id.editDescription);
+        addpricingterms = (AutoCompleteTextView) dialogView.findViewById(R.id.addPricingTerms);
+        editamount = (AutoCompleteTextView) dialogView.findViewById(R.id.editAmount);
         final AutoCompleteTextView noOfItems = (AutoCompleteTextView) dialogView.findViewById(R.id.numberItems);
         final AutoCompleteTextView pricingEndSlot = (AutoCompleteTextView) dialogView.findViewById(R.id.prizingEndSlot);
         pricingEndSlot.setVisibility(View.GONE);
-
-
         noOfItems.setVisibility(View.GONE);
         final Spinner pricingslot = (Spinner) dialogView.findViewById(R.id.pricingslot);
         pricingslot.setVisibility(View.GONE);
-
-
-        pricingslot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-
-        {
+        pricingslot.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // On selecting a spinner item
@@ -188,25 +162,19 @@ public class AdminPricingActivity extends AppCompatActivity {
                     pricingSlots = item.split(" ")[0];
                     pricingEndSlot.setVisibility(View.GONE);
                     // Showing selected spinner item
-                    Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+                    /*  Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();*/
 
                 } else {
                     pricingSlots = "0";
                     pricingEndSlot.setVisibility(View.VISIBLE);
-
                     // Showing selected spinner item
-                    Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
-
+                    /*   Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();*/
                 }
-
-
             }
-
             public void onNothingSelected(AdapterView<?> arg0) {
                 // TODO Auto-generated method stub
             }
         });
-
 
         if (checkValue == null) {
             List<String> PricingSlot = new ArrayList<String>();
@@ -216,16 +184,11 @@ public class AdminPricingActivity extends AppCompatActivity {
             PricingSlot.add("2.0 hour");
             PricingSlot.add("2.5 hour");
             PricingSlot.add("3.0 hour");
-
             pricingendSlot = "0";
-
-
             // Creating adapter for spinner
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, PricingSlot);
-
             // Drop down layout style - list view with radio button
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
             // attaching data adapter to spinner
             pricingslot.setAdapter(dataAdapter);
         }
@@ -240,18 +203,13 @@ public class AdminPricingActivity extends AppCompatActivity {
             PricingSlot.add("2.5 hour");
             PricingSlot.add("3.0 hour");
             PricingSlot.add("end");
-
-
-            // Creating adapter for spinner
+            // Creating adaptr for spinner
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, PricingSlot);
-
             // Drop down layout style - list view with radio button
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
             // attaching data adapter to spinner
             pricingslot.setAdapter(dataAdapter);
         }
-
 
         if (displayType.equals("")) {
 
@@ -266,58 +224,55 @@ public class AdminPricingActivity extends AppCompatActivity {
             pricingendSlot = "0.0";
         }
 
-        final Button buttonAddCatalog = (Button) dialogView.findViewById(R.id.buttonAddCatalog);
+        final Button buttonAddPricing = (Button) dialogView.findViewById(R.id.buttonAddPricing);
         final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
 
         dialogBuilder.setTitle("Add Pricing");
+        dialogBuilder.setIcon(R.drawable.dollarmoney);
         final AlertDialog b = dialogBuilder.create();
         b.show();
 
-        buttonAddCatalog.setOnClickListener(new View.OnClickListener() {
+        buttonAddPricing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String description = editdescription.getText().toString().trim();
-                String pricing = addpricingterms.getText().toString().trim();
-                String amount = editamount.getText().toString().trim();
-                pricingendSlot = pricingEndSlot.getText().toString();
-                String pricingid = "0";
-                if (pricingType == "Fix") {
-                    pricingSlots = noOfItems.getText().toString();
-
-                } else {
-                }
-
-                try {
-                    //String res="";
-                    progressDialog.setMessage("loading...");
-                    progressDialog.show();
-                    result = new AdminHelper.POSTPricing().execute(description, pricing, amount, serviceID, pricingSlots, pricingType, pricingendSlot, pricingid).get();
-
-                    if (result.isEmpty()) {
-
-                        progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
+                if (validation()) {
+                    String description = editdescription.getText().toString().trim();
+                    String pricing = addpricingterms.getText().toString().trim();
+                    String amount = editamount.getText().toString().trim();
+                    pricingendSlot = pricingEndSlot.getText().toString();
+                    String pricingid = "0";
+                    if (pricingType == "Fix") {
+                        pricingSlots = noOfItems.getText().toString();
                     } else {
-                        //System.out.println("CONTENIDO:  " + result);
-                        Gson gson = new Gson();
-                        final Result jsonbodyres = gson.fromJson(result, Result.class);
-                        Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-                        getPricing();
-                        progressDialog.dismiss();
                     }
+                    try {
+                        //String res="";
+                        progressDialog.setMessage("loading...");
+                        progressDialog.show();
+                        result = new AdminHelper.POSTPricing().execute(description, pricing, amount, serviceID, pricingSlots, pricingType, pricingendSlot, pricingid).get();
 
+                        if (result.isEmpty()) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
+                        } else {
+                            //System.out.println("CONTENIDO:  " + result);
+                            Gson gson = new Gson();
+                            final Result jsonbodyres = gson.fromJson(result, Result.class);
+                            Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                            getPricing();
+                            progressDialog.dismiss();
+                        }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
-                    // System.out.println("Error: " + e);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+                        // System.out.println("Error: " + e);
+                    }
+                    b.dismiss();
                 }
-                b.dismiss();
-
             }
-
 
         });
 
@@ -329,9 +284,28 @@ public class AdminPricingActivity extends AppCompatActivity {
                 /*
                  * we will code this method to delete the artist
                  * */
-
             }
         });
+    }
+
+    private boolean validation() {
+
+        if (addpricingterms.getText().toString().isEmpty()) {
+            addpricingterms.setError("Enter valid Pricing Terms");
+            addpricingterms.requestFocus();
+            return false;
+        }
+        if (editdescription.getText().toString().isEmpty()) {
+            editdescription.setError("Enter valid description about pricing");
+            editdescription.requestFocus();
+            return false;
+        }
+        if (editamount.getText().toString().isEmpty()) {
+            editamount.setError("Please Enter Amount");
+            editamount.requestFocus();
+            return false;
+        }
+        return true;
     }
 
 

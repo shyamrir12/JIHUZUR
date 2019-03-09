@@ -188,14 +188,11 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     startActivity(intent);
                     break;
 
-                case R.id.navigation_booking:
-                    getSupportActionBar().setTitle("My Booking");
-                    fragment = myBookingFragment;
-                    framentClass = MyBookingFragment.class;
-/*
-                    intent = new Intent(AdminHomePage.this, AdminPricingActivity.class);
-                    startActivity(intent);*/
+                case R.id.navigation_master:
+                    intent = new Intent(AdminHomePage.this, AdminMasterActivity.class);
+                    startActivity(intent);
                     break;
+
                 case R.id.navigation_helpCenter:
                     getSupportActionBar().setTitle("Help Center");
                     fragment = helpCenterFragment;
@@ -992,13 +989,10 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         //This method will executed only once.
 
         if (!mAlreadyStartedService && mMsgView != null) {
-
             mMsgView.setText(R.string.msg_location_service_started);
-
             //Start location sharing service to app server.........
             Intent intent = new Intent(this, LocationMonitoringService.class);
             startService(intent);
-
             mAlreadyStartedService = true;
             //Ends................................................
         }
@@ -1028,9 +1022,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 
         int permissionState2 = ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION);
-
         return permissionState1 == PackageManager.PERMISSION_GRANTED && permissionState2 == PackageManager.PERMISSION_GRANTED;
-
     }
 
     /**

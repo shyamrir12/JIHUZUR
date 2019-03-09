@@ -44,11 +44,8 @@ public class AdminDiscountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_discount);
-
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-
-        toolbar.setTitle(" Discount offer");
-
+        toolbar.setTitle("Discount Offer");
         toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
@@ -58,12 +55,10 @@ public class AdminDiscountActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
         addDiscount = (FloatingActionButton) findViewById(R.id.adddiscount);
         progressDialog = new ProgressDialog(this);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         getPricingList();
         addDiscount.setOnClickListener(new View.OnClickListener() {
@@ -72,21 +67,15 @@ public class AdminDiscountActivity extends AppCompatActivity {
                 showAddDiscount();
             }
         });
-
-
     }
-
 
     private void getPricingList() {
 
         try {
-
-
             result = new AdminHelper.GETDiscountList().execute().get();
             if (result.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
             } else {
-
                 Gson gson = new Gson();
                 Type listType = new TypeToken<List<DiscountView>>() {
                 }.getType();
@@ -105,48 +94,41 @@ public class AdminDiscountActivity extends AppCompatActivity {
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.add_discount_alertlayout, null);
         dialogBuilder.setView(dialogView);
-
-
         editDiscountName = (AutoCompleteTextView) dialogView.findViewById(R.id.editDiscountName);
         editDiscountType = (AutoCompleteTextView) dialogView.findViewById(R.id.editDiscountType);
         editDiscountAmount = (AutoCompleteTextView) dialogView.findViewById(R.id.editDiscountAmount);
-
-
         final Button buttonAddDiscount = (Button) dialogView.findViewById(R.id.buttonAddDiscount);
         final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
-
         dialogBuilder.setTitle("Add Discount");
+        dialogBuilder.setIcon(R.drawable.coupons);
         final AlertDialog b = dialogBuilder.create();
         b.show();
-
 
         buttonAddDiscount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String discountName = editDiscountName.getText().toString();
-                String discounttype = editDiscountType.getText().toString().trim();
-                String discountamount = editDiscountAmount.getText().toString().trim();
+                if (validation()) {
+                    String discountName = editDiscountName.getText().toString();
+                    String discounttype = editDiscountType.getText().toString().trim();
+                    String discountamount = editDiscountAmount.getText().toString().trim();
 
+                    try {
+                        //String res="";
+                        progressDialog.setMessage("loading...");
+                        progressDialog.show();
+                        new AdminDiscountActivity.POSTDiscount().execute(discountName, discounttype, discountamount);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+                        // System.out.println("Error: " + e);
+                    }
 
-                try {
-                    //String res="";
-                    progressDialog.setMessage("loading...");
-                    progressDialog.show();
-                    new AdminDiscountActivity.POSTDiscount().execute(discountName, discounttype, discountamount);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
-                    // System.out.println("Error: " + e);
                 }
                 b.dismiss();
-
             }
-
-
         });
-
 
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,22 +136,38 @@ public class AdminDiscountActivity extends AppCompatActivity {
                 b.dismiss();
                 /*
                  * we will code this method to delete the artist
-                 * */
-
+                 */
             }
         });
+    }
+
+    private boolean validation() {
+
+        if (editDiscountName.getText().toString().isEmpty()) {
+            editDiscountName.setError("Enter a valid Discount Name");
+            editDiscountName.requestFocus();
+            return false;
+        }
+        if (editDiscountType.getText().toString().isEmpty()) {
+            editDiscountType.setError("Enter a valid Discount Type");
+            editDiscountType.requestFocus();
+            return false;
+        }
+        if (editDiscountAmount.getText().toString().isEmpty()) {
+            editDiscountAmount.setError("Enter a valid Discount Amount");
+            editDiscountAmount.requestFocus();
+            return false;
+        }
+        return true;
     }
 
     private class POSTDiscount extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
-
             //     InputStream inputStream
             String discountname = params[0];
             String discounttype = params[1];
             String discountamount = params[2];
-
-
             String json = "";
             try {
 
@@ -179,22 +177,15 @@ public class AdminDiscountActivity extends AppCompatActivity {
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
                 //builder.addHeader("Authorization", "Bearer " + accesstoken);
-
                 FormBody.Builder parameters = new FormBody.Builder();
                 parameters.add("DiscountID", "0");
                 parameters.add("DiscountName", discountname);
                 parameters.add("DiscountType", discounttype);
                 parameters.add("Discount1", discountamount);
-
                 builder.post(parameters.build());
-
-
                 okhttp3.Response response = client.newCall(builder.build()).execute();
-
                 if (response.isSuccessful()) {
                     json = response.body().string();
-
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -206,7 +197,6 @@ public class AdminDiscountActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(String result) {
-
             if (result.isEmpty()) {
                 progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
@@ -214,12 +204,10 @@ public class AdminDiscountActivity extends AppCompatActivity {
                 //System.out.println("CONTENIDO:  " + result);
                 Gson gson = new Gson();
                 final Result jsonbodyres = gson.fromJson(result, Result.class);
+                getPricingList();
                 Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
-
-
         }
-
     }
 }

@@ -86,8 +86,6 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
             }
         });
         addCategory.setOnClickListener(this);
-
-
         gridView = (GridView) findViewById(R.id.gridview);
         getCategoryList();
 
@@ -144,6 +142,7 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
         final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
 
         dialogBuilder.setTitle("Add Category");
+        dialogBuilder.setIcon(R.drawable.category);
         final AlertDialog b = dialogBuilder.create();
         b.show();
 
@@ -151,48 +150,49 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
         buttonAddCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (validation()) {
+                    progressDialog = new ProgressDialog(AdminCategoryActivity.this);
+                    progressDialog.setMessage("Loading..."); // Setting Message
+                    progressDialog.setTitle("ProgressDialog"); // Setting Title
+                    progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
+                    progressDialog.show(); // Display Progress Dialog
+                    progressDialog.setCancelable(false);
 
+                    String categoryName = categoryNames.getText().toString().trim();
 
-                progressDialog = new ProgressDialog(AdminCategoryActivity.this);
-                progressDialog.setMessage("Loading..."); // Setting Message
-                progressDialog.setTitle("ProgressDialog"); // Setting Title
-                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
-                progressDialog.show(); // Display Progress Dialog
-                progressDialog.setCancelable(false);
+                    imageView.buildDrawingCache();
+                    Bitmap bitmap = imageView.getDrawingCache();
 
-                String categoryName = categoryNames.getText().toString().trim();
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
+                    byte[] image = stream.toByteArray();
+                    System.out.println("byte array:" + image);
 
-                imageView.buildDrawingCache();
-                Bitmap bitmap = imageView.getDrawingCache();
+                    String img_str = Base64.encodeToString(image, 0);
+                    String catalogID;
+                    if (cetlogId != null) {
+                        catalogID = cetlogId;
+                    } else {
+                        catalogID = "0";
+                    }
 
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
-                byte[] image = stream.toByteArray();
-                System.out.println("byte array:" + image);
+                    try {
+                        result = new AdminHelper.POSTCategory().execute(catalogName, catalogID, categoryName, img_str).get();
+                        Gson gson = new Gson();
+                        final Result jsonbodyres = gson.fromJson(result, Result.class);
+                        Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                        getCategoryList();
+                        progressDialog.dismiss();
+                    } catch (Exception e) {
 
-                String img_str = Base64.encodeToString(image, 0);
-                String catalogID;
-                if (cetlogId != null) {
-                    catalogID = cetlogId;
-                } else {
-                    catalogID = "0";
+                    }
+
+                    b.dismiss();
+
                 }
 
-                try {
-                    result = new AdminHelper.POSTCategory().execute(catalogName, catalogID, categoryName, img_str).get();
-                    Gson gson = new Gson();
-                    final Result jsonbodyres = gson.fromJson(result, Result.class);
-                    Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-                    getCategoryList();
-                    progressDialog.dismiss();
-                } catch (Exception e) {
-
-                }
-
-                b.dismiss();
 
             }
-
 
         });
 
@@ -207,6 +207,16 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
 
             }
         });
+    }
+
+    private boolean validation() {
+
+        if (categoryNames.getText().toString().isEmpty()) {
+            categoryNames.setError("Enter a valid Category Name");
+            categoryNames.requestFocus();
+            return false;
+        }
+        return true;
     }
 
     public void openGallery() {

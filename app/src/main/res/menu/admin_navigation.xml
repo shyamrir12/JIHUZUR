@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="@string/Search" />
+
+    <item
+        android:id="@+id/navigation_master"
+        android:icon="@drawable/ic_border_color_black_24dp"
+        android:title="@string/Master" />
+
+    <item
+        android:id="@+id/navigation_helpCenter"
+        android:icon="@drawable/ic_help_black_24dp"
+        android:title="@string/Help_Center" />
+    <!--<item-->
+    <!--android:id="@+id/navigation_Profile"-->
+    <!--android:icon="@drawable/ic_account_circle_black_24dp"-->
+    <!--android:title="@string/DataProfile" />-->
+
+
+</menu>

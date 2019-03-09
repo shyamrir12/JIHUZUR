@@ -118,7 +118,7 @@ public class AdminCatalogActivity extends AppCompatActivity {
         final AutoCompleteTextView description = (AutoCompleteTextView) dialogView.findViewById(R.id.description);
 
 
-        final Button buttonAddCatalog = (Button) dialogView.findViewById(R.id.buttonAddCatalog);
+        final Button buttonAddCatalog = (Button) dialogView.findViewById(R.id.buttonAddPricing);
         final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
 
         dialogBuilder.setTitle("Add Catalog");

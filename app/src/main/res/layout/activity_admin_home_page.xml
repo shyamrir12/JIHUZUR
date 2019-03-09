@@ -95,7 +95,7 @@
             android:layout_alignParentBottom="true"
             android:itemBackground="@color/colorPrimary"
             android:background="#ffffff"
-            app:menu="@menu/navigation"
+            app:menu="@menu/admin_navigation"
             app:itemTextColor="@color/colorPrimary" />
     </RelativeLayout>
 

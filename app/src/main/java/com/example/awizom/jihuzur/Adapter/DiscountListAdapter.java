@@ -21,13 +21,11 @@ import com.example.awizom.jihuzur.R;
 import java.util.List;
 
 
-public class DiscountListAdapter extends
-        RecyclerView.Adapter<DiscountListAdapter.MyViewHolder> implements View.OnTouchListener {
+public class DiscountListAdapter extends  RecyclerView.Adapter<DiscountListAdapter.MyViewHolder> implements View.OnTouchListener {
 
     private List<DiscountView> discountlist;
     private Context mCtx;
     private int position;
-
     public DiscountListAdapter(Context baseContext, List<DiscountView> discountlist) {
         this.discountlist = discountlist;
         this.mCtx = baseContext;
@@ -47,9 +45,7 @@ public class DiscountListAdapter extends
         holder.discountAmount.setText(String.valueOf("Rs " + c.getDiscount()));
         holder.discountType.setText(c.getDiscountType());
         holder.discountName.setTextAppearance(mCtx, R.style.fontForNotificationLandingPage);
-
-
-    }
+        }
 
     @Override
     public int getItemCount() {
@@ -57,8 +53,7 @@ public class DiscountListAdapter extends
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) { View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.adapter_discountlist, parent, false);
         return new MyViewHolder(v);
     }
@@ -70,7 +65,6 @@ public class DiscountListAdapter extends
         public TextView discountName;
         public TextView discountType;
         public TextView discountAmount;
-
 
         public MyViewHolder(View view) {
             super(view);

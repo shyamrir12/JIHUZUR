@@ -12,7 +12,7 @@
             android:id="@+id/nav_master"
             android:icon="@drawable/ic_history_black_24dp"
             android:title="@string/master" />
-        <item
+      <!--  <item
             android:id="@+id/nav_catalogName"
             android:icon="@drawable/ic_shopping_cart_black_24dp"
             android:title="@string/catalog" />
@@ -20,7 +20,7 @@
             android:id="@+id/nav_catalogpricing"
             android:icon="@drawable/ic_monetization_on_black_24dp"
             android:title="@string/catalogPricing" />
-
+-->
         <item
             android:id="@+id/nav_complaintReply"
             android:icon="@drawable/ic_reply_black_24dp"
