@@ -115,7 +115,6 @@ import static java.lang.System.load;
 
 public class EmployeeLocationActivity extends AppCompatActivity implements OnMapReadyCallback, TaskLoadedCallback, GoogleMap.OnMarkerClickListener {
 
-
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     String latl, long1, namemark, img_strmark, idmark;
     de.hdodenhof.circleimageview.CircleImageView customerimage;
@@ -155,6 +154,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
     private Polyline currentPolyline;
     private DataProfile dataProfileCustomer;
     private String names, mobnos, img_strs, empids;
+
     private GoogleMap.OnMyLocationButtonClickListener onMyLocationButtonClickListener =
             new GoogleMap.OnMyLocationButtonClickListener() {
                 @Override
@@ -170,7 +170,6 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                 public void onMyLocationClick(@NonNull Location location) {
 
                     mGoogleMap.setMinZoomPreference(12);
-
                     CircleOptions circleOptions = new CircleOptions();
                     circleOptions.center(new LatLng(location.getLatitude(),
                             location.getLongitude()));
@@ -186,9 +185,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_location);
         checksomething();
-        ActivityCompat.requestPermissions(EmployeeLocationActivity.this,
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                1);
+        ActivityCompat.requestPermissions(EmployeeLocationActivity.this,  new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
         mMsgView = (TextView) findViewById(R.id.msgView);
         customerimage = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.customer_dp);
         call = (ImageView) findViewById(R.id.call);
@@ -200,14 +197,13 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                     public void onReceive(Context context, Intent intent) {
                         String latitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LATITUDE);
                         String longitude = intent.getStringExtra(LocationMonitoringService.EXTRA_LONGITUDE);
-
                         if (latitude != null && longitude != null) {
                             int height = 100;
                             int width = 100;
                             BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.greenmappin);
                             Bitmap b = bitmapdraw.getBitmap();
                             Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
-                            mylocation = new MarkerOptions().position(new LatLng(Double.valueOf(latitude), Double.valueOf(longitude))).title("Location 1").icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                            mylocation = new MarkerOptions().position(new LatLng(Double.valueOf(latitude), Double.valueOf(longitude))).title("My Location").icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
                             mMsgView.setText(getString(R.string.msg_location_service_started) + "\n Latitude : " + latitude + "\n Longitude: " + longitude);
                         }
                     }
@@ -217,8 +213,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         InitView();
     }
 
-    private boolean checksomething()
-    {
+    private boolean checksomething() {
         String permission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
         int res = this.checkCallingOrSelfPermission(permission);
         return (res == PackageManager.PERMISSION_GRANTED);
@@ -239,41 +234,6 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
 
     }
 
-
-    /* public static Bitmap createCustomMarker(final Context context, String resource, final String _name, String mobno, String id, GoogleMap googleMap) {
-
-         View marker = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_marker_layout, null);
-         final de.hdodenhof.circleimageview.CircleImageView markerImage = (de.hdodenhof.circleimageview.CircleImageView) marker.findViewById(R.id.user_dp);
-         RelativeLayout relativeLayout = (RelativeLayout) marker.findViewById(R.id.custom_marker_view);
-
-         String img_strs = AppConfig.BASE_URL + resource;
- //        markerImage.setImageResource(resource);
-
-
-         final TextView txt_name = (TextView) marker.findViewById(R.id.name);
-         TextView text_mob = (TextView) marker.findViewById(R.id.mobno);
-         TextView txt_id = (TextView) marker.findViewById(R.id.empid);
-         text_mob.setText(mobno);
-         txt_name.setText(_name);
-         txt_id.setText(id);
-         if (resource == null) {
-             markerImage.setImageResource(jihuzurblanklogo);
- //                 Glide.with(context).load("http://192.168.1.103:7096/Images/Category/1.png").into(markerImage);
-         } else {
-             Glide.with(marker.getContext()).load(img_strs).into(markerImage);
-         }
-         DisplayMetrics displayMetrics = new DisplayMetrics();
-         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-         marker.setLayoutParams(new ViewGroup.LayoutParams(52, ViewGroup.LayoutParams.WRAP_CONTENT));
-         marker.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
-         marker.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
-         marker.buildDrawingCache();
-         Bitmap bitmap = Bitmap.createBitmap(marker.getMeasuredWidth(), marker.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-         Canvas canvas = new Canvas(bitmap);
-         marker.draw(canvas);
-         return bitmap;
-     }
- */
     private void CustomerProfileGet() {
         try {
             result = new AdminHelper.GetProfileForShow().execute(cusID).get();
@@ -368,49 +328,60 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+
                     mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                         @Override
                         public boolean onMarkerClick(Marker marker) {
+                            namemark = null;
                             latl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[0];
                             long1 = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[1].split(Pattern.quote(")"))[0];
                             place2 = new MarkerOptions().position(new LatLng(Double.valueOf(latl), Double.valueOf(long1))).title("Location 1");
-                            idmark = marker.getTitle().split(",")[1];
-                            namemark = marker.getTitle().split(",")[0];
-                            img_strmark = marker.getTitle().split(",")[2];
+                            try {
+                                idmark = marker.getTitle().split(",")[1];
+                                namemark = marker.getTitle().split(",")[0];
+                                img_strmark = marker.getTitle().split(",")[2];
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                             new FetchURL(EmployeeLocationActivity.this).execute(getUrl(mylocation.getPosition(), place2.getPosition(), "driving"), "driving");
-                            final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EmployeeLocationActivity.this);
-                            alertDialogBuilder.setMessage("Do You Want To Call " + namemark);
-                            alertDialogBuilder.setPositiveButton("yes",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface arg0, int arg1) {
-                                            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mobno));
-                                            if (ActivityCompat.checkSelfPermission(EmployeeLocationActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                                                // TODO: Consider calling
-                                                //    ActivityCompat#requestPermissions
-                                                // here to request the missing permissions, and then overriding
-                                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                                //                                          int[] grantResults)
-                                                // to handle the case where the user grants the permission. See the documentation
-                                                // for ActivityCompat#requestPermissions for more details.
+
+                            if (namemark != null) {
+                                final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EmployeeLocationActivity.this);
+                                alertDialogBuilder.setMessage("Do You Want To Call " + namemark);
+                                alertDialogBuilder.setPositiveButton("yes",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface arg0, int arg1) {
+                                                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mobno));
+                                                if (ActivityCompat.checkSelfPermission(EmployeeLocationActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                                    // TODO: Consider calling
+                                                    //    ActivityCompat#requestPermissions
+                                                    // here to request the missing permissions, and then overriding
+                                                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                                    //                                          int[] grantResults)
+                                                    // to handle the case where the user grants the permission. See the documentation
+                                                    // for ActivityCompat#requestPermissions for more details.
+
+                                                }
+                                                startActivity(intent);
 
                                             }
-                                            startActivity(intent);
+                                        });
+                                alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        alertDialogBuilder.setCancelable(true);
+                                    }
+                                });
 
-                                        }
-                                    });
-                            alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    alertDialogBuilder.setCancelable(true);
-                                }
-                            });
-
-                            AlertDialog alertDialog = alertDialogBuilder.create();
-                            alertDialog.show();
+                                AlertDialog alertDialog = alertDialogBuilder.create();
+                                alertDialog.show();
+                            }
                             return false;
                         }
                     });
+
                     getDirection.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -734,7 +705,6 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
 
         int permissionState2 = ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION);
-
 
 
         return permissionState1 == PackageManager.PERMISSION_GRANTED && permissionState2 == PackageManager.PERMISSION_GRANTED;

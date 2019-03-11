@@ -85,10 +85,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
         try {
             order = orderitemList.get(position);
             orderId = String.valueOf(order.getOrderID());
-//            holder.servicesName.setText(order.getServiceName());
-//           holder.bookingAccepted.setText(order.getEmpMob());
-//            holder.description.setText(order.getCatalogName());
-//            holder.timing.setText(order.getOrderStartTime());
 
             final String ordid = String.valueOf(order.getOrderID());
             final String cusid = order.getCustomerID();
@@ -116,7 +112,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                     if (documentSnapshot.getData() != null) {
                         holder.acceptBtn.setVisibility(View.GONE);
                         holder.chronometer.setVisibility(View.VISIBLE);
-
                     } else {
                         holder.acceptBtn.setVisibility(View.VISIBLE);
                         holder.chronometer.setVisibility(View.GONE);
@@ -155,7 +150,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                     final android.support.v7.app.AlertDialog b = dialogBuilder.create();
                     b.show();
                     if (enterOtp.getText().toString().isEmpty()) {
-
                         enterOtp.setError("Enter a valid value");
                         enterOtp.requestFocus();
                     }
@@ -171,7 +165,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                                 ResultModel resultModel = new Gson().fromJson(result, getType);
                                 try {
                                     if (resultModel.getMessage().contains("Order Started")) {
-
                                         holder.acceptBtn.setVisibility(View.GONE);
                                         String employeeid = resultModel.getEmployeeID().toString();
                                         Map<String, Object> profile = new HashMap<>();
