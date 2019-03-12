@@ -90,7 +90,6 @@ public class PricingListAdapter extends
         final AutoCompleteTextView editdescription = (AutoCompleteTextView) dialogView.findViewById(R.id.editDescription);
         editdescription.setText(description);
         final AutoCompleteTextView addpricingterms = (AutoCompleteTextView) dialogView.findViewById(R.id.addPricingTerms);
-
         addpricingterms.setText(pricingterms);
         final AutoCompleteTextView editamount = (AutoCompleteTextView) dialogView.findViewById(R.id.editAmount);
         editamount.setText(amount);
@@ -98,18 +97,12 @@ public class PricingListAdapter extends
         noOfItems.setText("0");
         final AutoCompleteTextView pricingEndSlot = (AutoCompleteTextView) dialogView.findViewById(R.id.prizingEndSlot);
         pricingEndSlot.setText("0");
-
-
         pricingEndSlot.setVisibility(View.GONE);
-
-
         noOfItems.setVisibility(View.GONE);
-
-
         final Button buttonAddCatalog = (Button) dialogView.findViewById(R.id.buttonAddPricing);
         final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
-
-        dialogBuilder.setTitle("Add Pricing");
+        dialogBuilder.setTitle("Edit Pricing");
+        dialogBuilder.setIcon(R.drawable.dollarmoney);
         final AlertDialog b = dialogBuilder.create();
         b.show();
 
@@ -120,17 +113,12 @@ public class PricingListAdapter extends
                 String description = editdescription.getText().toString().trim();
                 String pricing = addpricingterms.getText().toString().trim();
                 String amount = editamount.getText().toString().split(" ")[1];
-
                 pricingendSlot = pricingEndSlot.getText().toString();
-
 
                 try {
                     //String res="";
-
                     result = new AdminHelper.POSTPricing().execute(description, pricing, amount, catalogid, pricingSlots, pricingType, pricingendSlot, pricingId).get();
-
                     if (result.isEmpty()) {
-
                         Toast.makeText(mCtx, "Invalid request", Toast.LENGTH_SHORT).show();
                     } else {
                         //System.out.println("CONTENIDO:  " + result);
@@ -140,10 +128,8 @@ public class PricingListAdapter extends
                         ((AdminPricingActivity) mCtx).getPricing();
                     }
 
-
                 } catch (Exception e) {
                     e.printStackTrace();
-
                     Toast.makeText(mCtx, "Error: " + e, Toast.LENGTH_SHORT).show();
                     // System.out.println("Error: " + e);
                 }

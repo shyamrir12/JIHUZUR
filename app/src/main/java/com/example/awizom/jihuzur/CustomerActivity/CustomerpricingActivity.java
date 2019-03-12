@@ -1,10 +1,14 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +30,7 @@ import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -43,14 +48,14 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     List<PricingView> pricingViewsList;
     CustomerPricingAdapter repairAndServiceAdapter;
     RecyclerView recyclerView;
+    private LocationManager locationManager;
+    private LocationListener locationListener;
     RelativeLayout relativeLayout;
     private Button nextButton;
     private Button postPricingBtn;
     private Intent intent;
-    private String result = "", serviceID = "", description = "", serviceName = "",
-            displayType = "", btn = "", orderID = "", priceID = "0", data = "", pricingId = "";
-    private String empId = "",
-            priceIDs = "", selectedEmpId;
+    private String result = "", serviceID = "", description = "", serviceName = "",  displayType = "", btn = "", orderID = "", priceID = "0", data = "", pricingId = "";
+    private String empId = "", priceIDs = "", selectedEmpId;
     private String priceIds = "";
     private ArrayList<LatLng> latlngs = new ArrayList<>();
     private ArrayList<String> empID = new ArrayList<>();
@@ -91,7 +96,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         } else if (btn.equals("serBtn")) {
             nextButton.setVisibility(View.VISIBLE);
         }
-
         if (btn.equals("empBtn")) {
             postPricingBtn.setVisibility(View.VISIBLE);
         } else if (btn.equals("serBtn")) {

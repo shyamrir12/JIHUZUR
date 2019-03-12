@@ -26,8 +26,18 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_below="@+id/rvToolbar"
-            android:layout_weight="1" />
+            android:layout_weight="1">
 
+            <ImageView
+                android:id="@+id/getRefresh"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="left|bottom|top|center_vertical"
+                android:padding="10dp"
+                android:paddingRight="10dp"
+                android:src="@drawable/refresh_ico"
+                android:text="Refresh Map" />
+        </fragment>
 
         <LinearLayout
             android:id="@+id/mapview"
@@ -47,20 +57,14 @@
                 android:src="@drawable/circle"
                 app:civ_border_color="#fff" />
 
-
             <ImageView
                 android:id="@+id/call"
                 android:layout_width="42dp"
                 android:layout_height="46dp"
                 android:layout_marginLeft="200dp"
+                android:layout_weight="1"
                 android:src="@drawable/ic_phone_black_24dp" />
 
-            <ImageView
-                android:id="@+id/getRefresh"
-                android:layout_width="42dp"
-                android:layout_height="46dp"
-                android:src="@drawable/ic_refresh_black_24dp"
-                android:text="Refresh Map" />
         </LinearLayout>
 
         <TextView

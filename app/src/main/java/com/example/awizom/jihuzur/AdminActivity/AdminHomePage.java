@@ -141,7 +141,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
     String namesForMap;
     String result = "";
     Intent intent;
-
     de.hdodenhof.circleimageview.CircleImageView profileImages;
     TextView userName, identityNo, identityType;
     List<DataProfile> listtype;
@@ -476,7 +475,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         return bitmap;
     }
 
-
     private void employeeProfileGet() {
         try {
             result = new EmployeeOrderHelper.GetEmployeeProfileForShow().execute().get();
@@ -535,9 +533,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             e.printStackTrace();
         }
     }
-
     // Fetches data from url passed
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
 

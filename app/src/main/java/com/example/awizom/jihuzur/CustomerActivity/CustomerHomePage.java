@@ -48,8 +48,12 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 
-public class CustomerHomePage extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+
+/**
+ * Created by Ravi on 07/01/2019.
+ */
+
+public class CustomerHomePage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     String TAG;
     private Fragment fragment = null;
@@ -60,22 +64,17 @@ public class CustomerHomePage extends AppCompatActivity
     String Url;
     Boolean active = false;
     View header;
-    private CardView homeCleaningCardView,appliancecardView,movingTruckCardViewTwo,
-            washingCardViewThree1,tutorcardViewThree,ringcardViewTwo;
+    private CardView homeCleaningCardView,appliancecardView,movingTruckCardViewTwo, washingCardViewThree1,tutorcardViewThree,ringcardViewTwo;
     private ImageView homecleaning;
     private TextView homeCleaningTextView;
     DatabaseReference datauserprofile;
     private Intent intent;
     TextView userName, identityNo, identityType, userContact;
-
     ImageView imageView;
     String img_str;
 
     //bottom navigation drawer started
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         //bottom navigation Button Onclick
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -107,7 +106,6 @@ public class CustomerHomePage extends AppCompatActivity
                 e.printStackTrace();
             }
 
-
             return false;
         }
     };
@@ -121,18 +119,15 @@ public class CustomerHomePage extends AppCompatActivity
 
     private void initView() {
 
-
         searchFragment = new SearchFragment();
         myBookingFragment= new MyBookingFragment();
         catalogFragment = new CatalogFragment();
-
         setContentView(R.layout.activity_customer_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         homeCleaningCardView = findViewById(R.id.homecleaningCardViewOne);
         homeCleaningCardView.setOnClickListener(this);
         appliancecardView = findViewById(R.id.appliancesCardViewOne1);
         appliancecardView.setOnClickListener(this);
-
         movingTruckCardViewTwo = findViewById(R.id.movingTruckLoaderCardViewTwo);
         movingTruckCardViewTwo.setOnClickListener(this);
         washingCardViewThree1 = findViewById(R.id.washingMachineCardViewThree1);
@@ -141,25 +136,17 @@ public class CustomerHomePage extends AppCompatActivity
         tutorcardViewThree.setOnClickListener(this);
         ringcardViewTwo = findViewById(R.id.ringCardViewTwo1);
         ringcardViewTwo.setOnClickListener(this);
-
         homecleaning = findViewById(R.id.homecleaning);
-
-
         homeCleaningTextView = findViewById(R.id.homecleaningTextView);
         setSupportActionBar(toolbar);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
         View headerview = navigationView.getHeaderView(0);
         imageView=headerview.findViewById(R.id.imageView);
         img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();
@@ -184,7 +171,6 @@ public class CustomerHomePage extends AppCompatActivity
         userContact =headerview.findViewById(R.id.cusContact);
         try{
         String uname=SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getName().toString();
-
         String ucontact=SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getMobileNo().toString();
         userContact.setText(ucontact);
 /**/
@@ -349,7 +335,6 @@ public class CustomerHomePage extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
     @Override
     public void onClick(View v) {

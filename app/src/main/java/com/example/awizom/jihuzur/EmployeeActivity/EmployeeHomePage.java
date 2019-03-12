@@ -50,6 +50,10 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 
+/**
+ * Created by Ravi on 07/01/2019.
+ */
+
 public class EmployeeHomePage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     String result = "";
@@ -73,9 +77,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
     private TextView textView;
     private BroadcastReceiver broadcastReceiver;
     //bottom navigation drawer started
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         //bottom navigation Button Onclick
         @Override
