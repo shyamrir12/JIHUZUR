@@ -5,7 +5,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -15,38 +14,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.awizom.jihuzur.CustomerActivity.CustomerCommentActivity;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.CustomerActivity.TrackActivity;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Model.Order;
 import com.example.awizom.jihuzur.Model.ResultModel;
-import com.example.awizom.jihuzur.Model.Service;
 import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Service.AlarmService;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import org.joda.time.DateTime;
-
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -54,7 +43,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-
 import static com.firebase.ui.auth.ui.email.RegisterEmailFragment.TAG;
 
 public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCurrentOrderAdapter.OrderItemViewHolder> {
@@ -85,7 +73,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
         try {
             order = orderitemList.get(position);
             orderId = String.valueOf(order.getOrderID());
-
             final String ordid = String.valueOf(order.getOrderID());
             final String cusid = order.getCustomerID();
             final String empid = order.getEmployeeID();
@@ -140,10 +127,8 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                 public void onClick(View v) {
                     final android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(v.getRootView().getContext());
                     LayoutInflater inflater = LayoutInflater.from(v.getRootView().getContext());
-
                     final View dialogView = inflater.inflate(R.layout.accept_otp_for_order_layout, null);
                     dialogBuilder.setView(dialogView);
-
                     final EditText enterOtp = dialogView.findViewById(R.id.editTextOtp);
                     Button verify = dialogView.findViewById(R.id.buttonVerify);
                     dialogBuilder.setTitle("Accept Otp");

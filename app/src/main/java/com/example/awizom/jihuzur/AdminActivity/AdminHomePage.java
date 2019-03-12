@@ -129,7 +129,7 @@ import com.example.awizom.jihuzur.SettingsActivity;
 public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallback, TaskLoadedCallback, GoogleMap.OnMarkerClickListener, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     FirebaseFirestore db;
-    LinearLayout mapviewLayout;
+    LinearLayout mapviewLayout,getdrctlayout;
     String img_str;
     String idmark;
     String namemark;
@@ -229,6 +229,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         setContentView(R.layout.activity_admin_home_page);
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         mapviewLayout=(LinearLayout)findViewById(R.id.mapview);
+        getdrctlayout=(LinearLayout)findViewById(R.id.getdrct);
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             //      Toast.makeText(this, "GPS is Enabled in your devide", Toast.LENGTH_SHORT).show();
         } else {
@@ -616,7 +617,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                         @Override
                         public boolean onMarkerClick(Marker marker) {
-
                             mapviewLayout.setVisibility(View.VISIBLE);
                             mapviewLayout.setAlpha(0.0f);
                             mapviewLayout
@@ -627,11 +627,10 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                         @Override
                                         public void onAnimationEnd(Animator animation) {
                                             super.onAnimationEnd(animation);
-
                                             mapviewLayout.animate().setListener(null);
                                         }
-                                    })
-                            ;
+                                    });
+                            getdrctlayout.setVisibility(View.VISIBLE);
                             latl = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[0];
                             long1 = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[1].split(Pattern.quote(")"))[0];
                             place2 = new MarkerOptions().position(new LatLng(Double.valueOf(latl), Double.valueOf(long1))).title("Location 1");

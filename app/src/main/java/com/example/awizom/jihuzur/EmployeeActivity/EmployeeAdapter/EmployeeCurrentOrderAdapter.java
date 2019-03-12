@@ -118,7 +118,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 //            holder.discountUpdateBtn.setVisibility(View.VISIBLE);
 //            holder.priceUpdateBtn.setVisibility(View.VISIBLE);
 
-
             if (order.getOrderStartTime() != null) {
                 holder.genrateBtn.setVisibility(View.GONE);
 

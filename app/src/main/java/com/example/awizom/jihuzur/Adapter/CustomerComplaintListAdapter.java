@@ -1,7 +1,7 @@
 package com.example.awizom.jihuzur.Adapter;
 
-
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,63 +22,59 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.List;
-
-
-public class CustomerComplaintListAdapter extends
-        RecyclerView.Adapter<CustomerComplaintListAdapter.MyViewHolder> {
-
+public class CustomerComplaintListAdapter extends RecyclerView.Adapter<CustomerComplaintListAdapter.MyViewHolder>
+{
     TextView editComplaintreply;
     String result = "", active, status;
     private List<Complaint> complaintList;
     private List<ComplaintCustomer> complaintcustomer;
     private Context mCtx;
-
+    String loyal;
 
     public CustomerComplaintListAdapter(Context baseContext, List<Complaint> complaintlist) {
         this.complaintList = complaintlist;
         this.mCtx = baseContext;
-
-
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+
         Complaint c = complaintList.get(position);
+        if (c.isActive()) {
+            loyal = "char";
+        } else {
+            loyal = null;
+        }
+        if (loyal != null) {
+            holder.constra.setVisibility(View.VISIBLE);
+            holder.complaintid.setText(Integer.toString(c.getComplaintID()));
+            holder.Complaint.setText(String.valueOf(c.getComplaint()));
+            holder.customerID.setText(String.valueOf(c.getCustomerID()));
+            holder.complaintDate.setText(String.valueOf(c.getComplaintDate()).split("T")[0]);
 
-        holder.complaintid.setText(Integer.toString(c.getComplaintID()));
-        holder.Complaint.setText(String.valueOf(c.getComplaint()));
-        holder.customerID.setText(String.valueOf(c.getCustomerID()));
-
-//                holder.Status.setText(c.getStatus());
-        holder.complaintDate.setText(String.valueOf(c.getComplaintDate()).split("T")[0]);
-
-        final String complaintId = holder.complaintid.getText().toString();
-        final String status = holder.Status.getText().toString();
-        final String customerId = holder.customerID.getText().toString();
-        final String complaint = holder.Complaint.getText().toString();
-        final String active;
-        holder.viewComplaintReply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getcomplaintreply(complaintId);
-                showReplyDialog();
-            }
-        });
-
+            final String complaintId = holder.complaintid.getText().toString();
+            final String status = holder.Status.getText().toString();
+            final String customerId = holder.customerID.getText().toString();
+            final String complaint = holder.Complaint.getText().toString();
+            final String active;
+            holder.viewComplaintReply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getcomplaintreply(complaintId);
+                    showReplyDialog();
+                }
+            });
+        }
 
     }
 
     private void getcomplaintreply(String complaintId) {
-
-
         try {
             result = new CustomerOrderHelper.GETCustomerComplaintReply().execute(complaintId).get();
             Gson gson = new Gson();
             Type listType = new TypeToken<List<ComplaintCustomer>>() {
             }.getType();
             complaintcustomer = new Gson().fromJson(result, listType);
-
-
             //            adminComplaintReplyAdapter = new AdminComplaintReplyAdapter(AdminComplaintReply.this, complaintlist);
 //            recyclerView.setAdapter(adminComplaintReplyAdapter);
         } catch (Exception e) {
@@ -92,13 +88,10 @@ public class CustomerComplaintListAdapter extends
         LayoutInflater inflater = LayoutInflater.from(mCtx);
         final View dialogView = inflater.inflate(R.layout.customer_viewreplyadapter, null);
         dialogBuilder.setView(dialogView);
-
         final LinearLayout rl = (LinearLayout) dialogView.findViewById(R.id.ll1);
         final TextView[] tv = new TextView[10];
-
         if (complaintcustomer.size() > 0) {
             for (int i = 0; i < complaintcustomer.size(); i++) {
-
                 tv[i] = new TextView(mCtx);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams
                         ((int) LinearLayout.LayoutParams.WRAP_CONTENT, (int) LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -109,32 +102,22 @@ public class CustomerComplaintListAdapter extends
                 tv[i].setPadding(20, 50, 20, 50);
                 tv[i].setLayoutParams(params);
                 rl.addView(tv[i]);
-
             }
-
         }
-
 
         final Button buttonAddCategory = (Button) dialogView.findViewById(R.id.buttonAddCategory);
         buttonAddCategory.setVisibility(View.GONE);
         final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
-
         dialogBuilder.setTitle("Reply By Admin for Your Complaint");
         final AlertDialog b = dialogBuilder.create();
         b.show();
 
-
         buttonAddCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 b.dismiss();
-
             }
-
-
         });
-
 
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +126,6 @@ public class CustomerComplaintListAdapter extends
                 /*
                  * we will code this method to delete the artist
                  * */
-
             }
         });
     }
@@ -169,7 +151,7 @@ public class CustomerComplaintListAdapter extends
         public ToggleButton activeToggle;
         public TextView Status;
         public ImageButton viewComplaintReply;
-
+        public ConstraintLayout constra;
 
         public MyViewHolder(View view) {
             super(view);
@@ -180,7 +162,8 @@ public class CustomerComplaintListAdapter extends
             customerID = (TextView) view.findViewById(R.id.customerid);
             viewComplaintReply = (ImageButton) view.findViewById(R.id.viewComplaintReply);
             complaintDate = (TextView) view.findViewById(R.id.complaintDate);
-
+            constra = view.findViewById(R.id.constra);
+            constra.setVisibility(View.GONE);
 
         }
     }

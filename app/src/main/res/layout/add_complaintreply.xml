@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/dialog_bg"
     android:orientation="vertical"
     android:padding="@dimen/activity_horizontal_margin">
 
@@ -11,34 +12,35 @@
         android:orientation="vertical">
 
 
-
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_complaintreply"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_weight="1"
             android:hint="Complaint Reply">
+
             <AutoCompleteTextView
                 android:id="@+id/editComplaintreply"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="                              "
-                android:textSize="15sp"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textSize="15sp" />
         </android.support.design.widget.TextInputLayout>
 
 
         <CheckBox
+            android:id="@+id/resolved"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Resloved"
-            android:id="@+id/resolved"/>
+            android:text="Resloved" />
+
         <CheckBox
+            android:id="@+id/hide"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="HIde"
-            android:id="@+id/hide"/>
+            android:text="HIde" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_complaintID"
@@ -46,28 +48,19 @@
             android:layout_height="60dp"
             android:layout_weight="1"
             android:hint="Complaint ID">
+
             <AutoCompleteTextView
                 android:id="@+id/editcomplaintID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="                              "
-                android:textSize="15sp"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textSize="15sp" />
         </android.support.design.widget.TextInputLayout>
 
 
-
     </LinearLayout>
-
-
-
-
-
-
-
-
-
 
 
     <LinearLayout
@@ -81,6 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_add_circle_black_24dp"
             android:text="Add" />
 
         <Button
@@ -88,6 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_cancel_black_24dp"
             android:text="Cancel" />
 
     </LinearLayout>
