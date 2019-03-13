@@ -3,6 +3,7 @@ package com.example.awizom.jihuzur.AdminActivity;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -35,6 +36,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,7 +131,7 @@ import com.example.awizom.jihuzur.SettingsActivity;
 public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallback, TaskLoadedCallback, GoogleMap.OnMarkerClickListener, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     FirebaseFirestore db;
-    LinearLayout mapviewLayout,getdrctlayout;
+    LinearLayout mapviewLayout, getdrctlayout;
     String img_str;
     String idmark;
     String namemark;
@@ -221,6 +223,36 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         }
     };
 
+    /* For OnBackPRess in HomePage */
+    @SuppressLint("ResourceType")
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            AlertDialog.Builder alertbox = new AlertDialog.Builder(AdminHomePage.this);
+            alertbox.setIcon(R.drawable.exit);
+            alertbox.setIconAttribute(90);
+            alertbox.setTitle("Do You Want To Exit Programme?");
+            alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface arg0, int arg1) {
+                    // finish used for destroyed activity
+                    finishAffinity();
+                    System.exit(0);
+
+
+                }
+            });
+
+            alertbox.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface arg0, int arg1) {
+                    // Nothing will be happened when clicked on no button
+                    // of Dialog
+                }
+            });
+            alertbox.show();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
     //layout declaration
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -228,8 +260,8 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_home_page);
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        mapviewLayout=(LinearLayout)findViewById(R.id.mapview);
-        getdrctlayout=(LinearLayout)findViewById(R.id.getdrct);
+        mapviewLayout = (LinearLayout) findViewById(R.id.mapview);
+        getdrctlayout = (LinearLayout) findViewById(R.id.getdrct);
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             //      Toast.makeText(this, "GPS is Enabled in your devide", Toast.LENGTH_SHORT).show();
         } else {
@@ -237,8 +269,8 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         employeeImage = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.employee_dp);
-        call=(ImageView)findViewById(R.id.call);
-        customerDetails=(TextView)findViewById(R.id.customerdetails);
+        call = (ImageView) findViewById(R.id.call);
+        customerDetails = (TextView) findViewById(R.id.customerdetails);
         fragmentManager = getSupportFragmentManager();//Get Fragment Manager
         setSupportActionBar(toolbar);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -282,12 +314,15 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                 marker[0] = mGoogleMap.addMarker(mylocation);
                             } else {
                                 //This is Employee Location
-                                marker[0] = mGoogleMap.addMarker(mylocation);
+                                try {
+                                    marker[0] = mGoogleMap.addMarker(mylocation);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }
-                }, new IntentFilter(LocationMonitoringService.ACTION_LOCATION_BROADCAST)
-        );
+                }, new IntentFilter(LocationMonitoringService.ACTION_LOCATION_BROADCAST));
 
         try {
             initView();
@@ -476,6 +511,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         return bitmap;
     }
 
+
     private void employeeProfileGet() {
         try {
             result = new EmployeeOrderHelper.GetEmployeeProfileForShow().execute().get();
@@ -534,6 +570,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             e.printStackTrace();
         }
     }
+
     // Fetches data from url passed
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -588,7 +625,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                                             Bitmap b = bitmapdraw.getBitmap();
                                                             Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
                                                             mGoogleMap.addMarker(new MarkerOptions().position(latLng).
-                                                                    icon(BitmapDescriptorFactory.fromBitmap(smallMarker))).setTitle(name + "," + empid + "," + img_str+","+mobno );                                                    //LatLngBound will cover all your marker on Google Maps
+                                                                    icon(BitmapDescriptorFactory.fromBitmap(smallMarker))).setTitle(name + "," + empid + "," + img_str + "," + mobno);                                                    //LatLngBound will cover all your marker on Google Maps
                                                         } catch (Exception e) {
                                                             e.printStackTrace();
                                                             Toast.makeText(getApplicationContext(), "index arew not match for firebase and sql databse", Toast.LENGTH_SHORT).show();
@@ -638,15 +675,12 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                             idmark = marker.getTitle().split(",")[1];
                             namemark = marker.getTitle().split(",")[0];
                             img_strmark = marker.getTitle().split(",")[2];
-                            mobnomark=marker.getTitle().split(",")[3];
-                            String employeeprofimage=AppConfig.BASE_URL+img_strmark;
+                            mobnomark = marker.getTitle().split(",")[3];
+                            String employeeprofimage = AppConfig.BASE_URL + img_strmark;
                             customerDetails.setText(namemark);
-                            if(img_strmark!=null)
-                            {
+                            if (img_strmark != null) {
                                 Glide.with(AdminHomePage.this).load(employeeprofimage).into(employeeImage);
-                                 }
-                                 else
-                            {
+                            } else {
                                 employeeImage.setImageResource(R.drawable.jihuzurblanklogo);
                             }
 
@@ -771,6 +805,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         mGoogleMap.getMinZoomLevel();
         //   mGoogleMap.setMinZoomPreference(11);
     }
+
 
     private String getUrl(LatLng origin, LatLng dest, String directionMode) {
         // Origin of route
@@ -1125,7 +1160,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 
         if (id == R.id.nav_employee) {
             // Handle the camera action
-            intent = new Intent(AdminHomePage.this, AdminsEmployeeListActivity.class);
+            intent = new Intent(AdminHomePage.this, AdminMyEmployeeActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_master) {
             intent = new Intent(AdminHomePage.this, AdminMasterActivity.class);

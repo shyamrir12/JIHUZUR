@@ -17,8 +17,7 @@ public class AdminHelper extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             String json = "";
-            String catalogNameOne = params[0];
-
+           String catalogNameOne = params[0];
 
             try {
                 OkHttpClient client = new OkHttpClient();
@@ -34,6 +33,89 @@ public class AdminHelper extends AppCompatActivity {
                 builder.post(parameters.build());
 
 
+                okhttp3.Response response = client.newCall(builder.build()).execute();
+                if (response.isSuccessful()) {
+                    json = response.body().string();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+            return json;
+        }
+
+        protected void onPostExecute(String result) {
+
+            try {
+                if (result.isEmpty()) {
+
+                } else {
+                    super.onPostExecute(result);
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+    public static final class GetMyEmployeeList extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+
+            String json = "";
+
+            try {
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                builder.url(AppConfig.BASE_URL_API_Admin + "GetEmployeeList");
+
+
+                okhttp3.Response response = client.newCall(builder.build()).execute();
+                if (response.isSuccessful()) {
+                    json = response.body().string();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+            return json;
+        }
+
+        protected void onPostExecute(String result) {
+
+            try {
+                if (result.isEmpty()) {
+
+                } else {
+                    super.onPostExecute(result);
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+    public static final class SubmitEmployeeActive extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+
+            String id=params[0];
+            String active=params[1];
+
+            String json = "";
+
+            try {
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                builder.url(AppConfig.BASE_URL_API_Admin + "SubmitEmployeeActive/"+id+"/"+active);
+                FormBody.Builder parameters = new FormBody.Builder();
+                builder.post(parameters.build());
                 okhttp3.Response response = client.newCall(builder.build()).execute();
                 if (response.isSuccessful()) {
                     json = response.body().string();

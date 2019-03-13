@@ -1,23 +1,11 @@
 package com.example.awizom.jihuzur.Model;
 
-import java.util.Date;
-import java.util.List;
-
-public class DataProfile {
-
+public class MyEmployeeListModel {
 
     public String ID;
     public String Name;
     public String Lat;
     public String Long;
-    public boolean Active;
-    public String Role;
-    public String MobileNo;
-    public String Image;
-    public String IdentityImage;
-    public boolean BusyStatus;
-    public String CreatedDate;
-
 
     public String getID() {
         return ID;
@@ -35,7 +23,7 @@ public class DataProfile {
         Name = name;
     }
 
-    public Object getLat() {
+    public String getLat() {
         return Lat;
     }
 
@@ -43,7 +31,7 @@ public class DataProfile {
         Lat = lat;
     }
 
-    public Object getLong() {
+    public String getLong() {
         return Long;
     }
 
@@ -51,12 +39,12 @@ public class DataProfile {
         Long = aLong;
     }
 
-    public String getIdentityImage() {
-        return IdentityImage;
+    public boolean isActive() {
+        return Active;
     }
 
-    public void setIdentityImage(String identityImage) {
-        IdentityImage = identityImage;
+    public void setActive(boolean active) {
+        Active = active;
     }
 
     public String getRole() {
@@ -83,13 +71,12 @@ public class DataProfile {
         Image = image;
     }
 
-
-    public boolean isActive() {
-        return Active;
+    public String getIdentityImage() {
+        return IdentityImage;
     }
 
-    public void setActive(boolean active) {
-        Active = active;
+    public void setIdentityImage(String identityImage) {
+        IdentityImage = identityImage;
     }
 
     public boolean isBusyStatus() {
@@ -107,4 +94,14 @@ public class DataProfile {
     public void setCreatedDate(String createdDate) {
         CreatedDate = createdDate;
     }
+
+    public boolean Active;
+    public String Role;
+    public String MobileNo;
+    public String Image;
+    public String IdentityImage;
+    public boolean BusyStatus;
+    public String CreatedDate;
+
+
 }

@@ -1,6 +1,8 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +28,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.awizom.jihuzur.AdminActivity.AdminHomePage;
 import com.example.awizom.jihuzur.ComplaintActivity;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.DrawingActivity;
@@ -213,6 +217,34 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /* For OnBackPRess in HomePage */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            AlertDialog.Builder alertbox = new AlertDialog.Builder(CustomerHomePage.this);
+            alertbox.setIcon(R.drawable.exit);
+            alertbox.setTitle("Do You Want To Exit Programme?");
+            alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface arg0, int arg1) {
+                    // finish used for destroyed activity
+                    finishAffinity();
+                    System.exit(0);
+
+
+                }
+            });
+
+            alertbox.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface arg0, int arg1) {
+                    // Nothing will be happened when clicked on no button
+                    // of Dialog
+                }
+            });
+            alertbox.show();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
