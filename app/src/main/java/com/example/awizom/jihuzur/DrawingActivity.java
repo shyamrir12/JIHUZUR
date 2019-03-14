@@ -169,7 +169,6 @@ public class DrawingActivity extends AppCompatActivity {
 
                 try {
 
-
                     if (SharedPrefManager.getInstance(DrawingActivity.this).getUser().getRole().equals("Employee")) {
                         identityImage.buildDrawingCache();
                         Bitmap bitmap1 = identityImage.getDrawingCache();

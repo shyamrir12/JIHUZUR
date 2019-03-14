@@ -71,39 +71,39 @@ public class MyEmployeeListAdapter extends RecyclerView.Adapter<MyEmployeeListAd
         {
             holder.employeeName.setText("No Name");
         }
-
         holder.mobileNo.setText(String.valueOf(c.getMobileNo()));
-         id=String.valueOf(c.getID());
+        holder.employeeid.setText(c.getID());
 
         if (c.isActive()) {
             holder.Activeemployee.setText("Deactivate");
-            holder.Activeemployee.setChecked(true);
+
 
         } else {
             holder.Activeemployee.setText("Activate");
-            holder.Activeemployee.setChecked(false);
-        }
-        holder.Activeemployee.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked==true)
-                {
-                    active="true";
-                }
-                else {
-                    active="false";
 
-                }
-               getEmployeeActive();
-            }
-        });
+        }
+      holder.Activeemployee.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              if(holder.Activeemployee.getText().equals("Activate"))
+              {
+                  active="true";
+                  id=holder.employeeid.getText().toString();
+                  }
+                  else {
+                  active="false";
+                  id=holder.employeeid.getText().toString();
+
+              }
+              getEmployeeActive();
+          }
+
+      });
     }
 
 
     private void getEmployeeActive() {
-
         try {
-
             result = new AdminHelper.SubmitEmployeeActive().execute(id,active).get();
             ((AdminMyEmployeeActivity)mCtx).getMyEmployeeList();
 
@@ -111,7 +111,6 @@ public class MyEmployeeListAdapter extends RecyclerView.Adapter<MyEmployeeListAd
             e.printStackTrace();
         }
     }
-
 
     @Override
     public int getItemCount() {
@@ -126,15 +125,14 @@ public class MyEmployeeListAdapter extends RecyclerView.Adapter<MyEmployeeListAd
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView employeeName, mobileNo;
-        Switch Activeemployee;
-
+        TextView employeeName, mobileNo,employeeid;
+        Button Activeemployee;
         public MyViewHolder(View view) {
             super(view);
             employeeName = view.findViewById(R.id.employeeName);
             mobileNo = view.findViewById(R.id.mobileNumber);
             Activeemployee = view.findViewById(R.id.true_false);
-
+            employeeid=view.findViewById(R.id.empid);
         }
 
 

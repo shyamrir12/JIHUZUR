@@ -416,7 +416,11 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 Type listType = new TypeToken<DataProfile>() {
                 }.getType();
                 DataProfile dataProfile = new Gson().fromJson(result, listType);
-                userName.setText(dataProfile.getName().toString());
+                try {
+                    userName.setText(dataProfile.getName().toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 if (dataProfile != null) {
                     DataProfile dataProfile1 = new DataProfile();
                     dataProfile1.Image = dataProfile.Image;
@@ -621,7 +625,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                                             empid = employeeProfileModelList.get(i).getID();
                                                             int height = 100;
                                                             int width = 100;
-                                                            BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.imagesemp);
+                                                            BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.electricians);
                                                             Bitmap b = bitmapdraw.getBitmap();
                                                             Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
                                                             mGoogleMap.addMarker(new MarkerOptions().position(latLng).

@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.example.awizom.jihuzur.Adapter.CategoryListAdapter;
 import com.example.awizom.jihuzur.Adapter.MyEmployeeListAdapter;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Model.Catalog;
@@ -22,10 +21,11 @@ import java.util.List;
 public class AdminMyEmployeeActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    String result="";
-    List<MyEmployeeListModel>myEmployeeListModels;
+    String result = "";
+    List<MyEmployeeListModel> myEmployeeListModels;
     SwipeRefreshLayout mSwipeRefreshLayout;
     MyEmployeeListAdapter myEmployeeListAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,10 +71,12 @@ public class AdminMyEmployeeActivity extends AppCompatActivity {
             Gson gson = new Gson();
             Type listType = new TypeToken<List<MyEmployeeListModel>>() {
             }.getType();
+
             myEmployeeListModels = new Gson().fromJson(result, listType);
             myEmployeeListAdapter = new MyEmployeeListAdapter(AdminMyEmployeeActivity.this, myEmployeeListModels);
             mSwipeRefreshLayout.setRefreshing(false);
             recyclerView.setAdapter(myEmployeeListAdapter);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

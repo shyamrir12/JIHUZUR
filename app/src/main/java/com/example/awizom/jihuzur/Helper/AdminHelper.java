@@ -71,8 +71,6 @@ public class AdminHelper extends AppCompatActivity {
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
                 builder.url(AppConfig.BASE_URL_API_Admin + "GetEmployeeList");
-
-
                 okhttp3.Response response = client.newCall(builder.build()).execute();
                 if (response.isSuccessful()) {
                     json = response.body().string();
@@ -905,9 +903,7 @@ public class AdminHelper extends AppCompatActivity {
 
             } else {
                 super.onPostExecute(result);
-//
-            }
-
+     }
 
         }
 

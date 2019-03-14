@@ -56,7 +56,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/skillid"
+                    android:id="@+id/empid"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -65,11 +65,11 @@
                     android:textColor="@color/colorBlack"
                     android:visibility="gone" />
 
-                <Switch
+                <Button
                     android:id="@+id/true_false"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:text="activate"
+                    android:background="@color/halfwhite"
                     android:layout_weight="1.7"
                     android:padding="15dp"
                     android:src="@drawable/ic_delete_forever_black_24dp" />
