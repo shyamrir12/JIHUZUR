@@ -34,11 +34,12 @@ import java.util.Map;
 public class GPS_Service extends Service {
     private LocationListener listener;
     private LocationManager locationManager;
-    String result="";
+    String result = "";
 
     private BroadcastReceiver broadcastReceiver;
     private MediaPlayer player;
     FirebaseFirestore db;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -51,7 +52,7 @@ public class GPS_Service extends Service {
         Log.d("myTag", "app_removed");
         //Intent i = new Intent("app_removed");
         //sendBroadcast(i);
-        super.onTaskRemoved( rootIntent );
+        super.onTaskRemoved(rootIntent);
     }
 
     @Override
@@ -60,16 +61,16 @@ public class GPS_Service extends Service {
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                db=FirebaseFirestore.getInstance();
-                String ID=SharedPrefManager.getInstance(getApplicationContext()).getUser().getID();
+                db = FirebaseFirestore.getInstance();
+                String ID = SharedPrefManager.getInstance(getApplicationContext()).getUser().getID();
                 try {
                    /* result = new AdminHelper.POSTProfileLatLong().execute( SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(),String.valueOf(location.getLatitude()).toString(),String.valueOf(location.getLongitude()).toString()).get();
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                   */
                     Map<String, Object> profile = new HashMap<>();
-
-                /*    profile.put("busystatus", false);*/
+//test
+                    /*    profile.put("busystatus", false);*/
                     profile.put("lat", location.getLatitude());
                     profile.put("long", location.getLongitude());
 
@@ -92,7 +93,7 @@ public class GPS_Service extends Service {
                             });
 
                     //Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.d("myTag", "\n" + " "+location.getLongitude() + " " + location.getLatitude());
+                    Log.d("myTag", "\n" + " " + location.getLongitude() + " " + location.getLatitude());
 
                 } catch (Exception e) {
                 }
@@ -102,6 +103,7 @@ public class GPS_Service extends Service {
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {
             }
+
             @Override
             public void onProviderEnabled(String s) {
 
@@ -109,16 +111,16 @@ public class GPS_Service extends Service {
 
             @Override
             public void onProviderDisabled(String s) {
-                Intent i = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS );
-                i.setFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
-                startActivity( i );
+                Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
             }
         };
 
-        locationManager = (LocationManager) getApplicationContext().getSystemService( Context.LOCATION_SERVICE );
+        locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
         //noinspection MissingPermission
-        if (ActivityCompat.checkSelfPermission( this, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission( this, Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -128,7 +130,7 @@ public class GPS_Service extends Service {
             // for ActivityCompat#requestPermissions for more details.
             return START_NOT_STICKY;
         }
-        locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 3000, 0, listener );
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, listener);
 
         return START_NOT_STICKY;
     }
@@ -139,9 +141,9 @@ public class GPS_Service extends Service {
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                Intent i = new Intent( "location_update" );
-                i.putExtra( "coordinates", location.getLongitude() + " " + location.getLatitude() );
-                sendBroadcast( i );
+                Intent i = new Intent("location_update");
+                i.putExtra("coordinates", location.getLongitude() + " " + location.getLatitude());
+                sendBroadcast(i);
             }
 
             @Override
@@ -156,16 +158,16 @@ public class GPS_Service extends Service {
 
             @Override
             public void onProviderDisabled(String s) {
-                Intent i = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS );
-                i.setFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
-                startActivity( i );
+                Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
             }
         };
 
-        locationManager = (LocationManager) getApplicationContext().getSystemService( Context.LOCATION_SERVICE );
+        locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
         //noinspection MissingPermission
-        if (ActivityCompat.checkSelfPermission( this, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission( this, Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -175,14 +177,14 @@ public class GPS_Service extends Service {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 3000, 0, listener );
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, listener);
 
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(locationManager != null){
+        if (locationManager != null) {
             //noinspection MissingPermission
             locationManager.removeUpdates(listener);
         }
