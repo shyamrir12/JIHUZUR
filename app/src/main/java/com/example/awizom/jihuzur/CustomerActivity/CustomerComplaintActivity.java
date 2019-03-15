@@ -39,6 +39,7 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
     CustomerComplaintListAdapter customerComplainAdapetr;
     String[] SPINNERLIST = {"Active Complaint", "Create Complaint", "Solved Complaint"};
 
+    //test
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +56,8 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {                ActivityOptions options = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.fui_slide_out_left, R.anim.fui_slide_in_right);
+            public void onClick(View v) {
+                ActivityOptions options = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.fui_slide_out_left, R.anim.fui_slide_in_right);
                 onBackPressed();
             }
         });
@@ -89,6 +91,7 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
                     getComplaintList(status);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -153,7 +156,7 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
                 b.dismiss();
                 /*
                  * we will code this method to delete the artist
-                * */
+                 * */
             }
         });
     }
