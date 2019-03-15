@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.example.awizom.jihuzur.AdminActivity.AdminHomePage;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
+import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.LoginHelper;
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.ProfileFirebase;
@@ -198,6 +199,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                             dataProfile.Name = jsonbody.dataProfile.Name;
                             dataProfile.MobileNo = jsonbody.dataProfile.MobileNo;
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
+     result = String.valueOf(new AdminHelper.POSTProfileLatLong().execute( SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(),String.valueOf("21.22"),String.valueOf("80.66")));
+
 
                             //20/02/2019 ravi
                             if (jsonbody.dataProfile.Role.equals("Employee")) {

@@ -75,6 +75,7 @@ public class CustomerHistoryFragment extends Fragment {
             }
         });
         getHistoryList();
+        relativeLayout.setVisibility(View.GONE);
     }
 
     private void getHistoryList() {
