@@ -121,7 +121,8 @@
             android:parentActivityName=".CustomerActivity.CustomerHomePage" />
         <activity android:name=".CustomerActivity.CustomerpricingActivity" />
         <activity android:name=".AddAddressActivity" />
-        <activity android:name=".LoginRegistrationActivity.VerifyPhoneActivity" />
+        <activity android:name=".LoginRegistrationActivity.VerifyPhoneActivity"
+            android:parentActivityName=".CustomerActivity.CustomerHomePage" />
         <activity
             android:name=".EmployeeActivity.EmployeeBookingsActivity"
             android:parentActivityName=".EmployeeActivity.EmployeeHomePage" />

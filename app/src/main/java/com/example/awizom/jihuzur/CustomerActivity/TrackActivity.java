@@ -148,7 +148,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
     private void getEmployeeProfileGet() {
 
-        String id = SharedPrefManager.getInstance(this).getUser().getID();
 
         try {
             result = new AdminHelper.GetProfileForShow().execute(employeeID).get();
@@ -178,6 +177,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                     String name = dataProfileEmployee.getName();
                     final String mobileNo = dataProfileEmployee.getMobileNo();
                     employeeDetails.setText(name + " ," + mobileNo);
+
                     empLatLng = new LatLng(Double.valueOf(String.valueOf(dataProfileEmployee.getLat())),
                             Double.valueOf(String.valueOf(dataProfileEmployee.getLong())));
                     call.setOnClickListener(new View.OnClickListener() {

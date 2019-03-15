@@ -269,7 +269,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                 empNameList[i] = String.valueOf(employeeProfileModelList.get(i).getName());
                 empLat[i] = String.valueOf(employeeProfileModelList.get(i).getLat());
                 empLong[i] = String.valueOf(employeeProfileModelList.get(i).getLong());
-                latlngs.add(new LatLng(Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLat())), Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLong()))));
+         //       latlngs.add(new LatLng(Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLat())), Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLong()))));
                 empID.add(employeeProfileModelList.get(i).getID());
                 empMobile.add(employeeProfileModelList.get(i).getMobileNo());
                 empName.add(employeeProfileModelList.get(i).getName());

@@ -1,5 +1,6 @@
 package com.example.awizom.jihuzur.CustomerActivity.CustomerFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,11 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerHistoryAdapter;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Model.Order;
+import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.gson.Gson;
@@ -31,6 +34,7 @@ public class CustomerHistoryFragment extends Fragment {
     RecyclerView recyclerView;
     RelativeLayout relativeLayout;
     SwipeRefreshLayout mSwipeRefreshLayout;
+    Button goNow;
 
 
     @Override
@@ -48,6 +52,14 @@ public class CustomerHistoryFragment extends Fragment {
         relativeLayout = view.findViewById(R.id.textRelate);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         recyclerView = view.findViewById(R.id.recyclerView);
+        goNow = view.findViewById(R.id.goNow);
+        goNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), MyBokingsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -74,7 +86,7 @@ public class CustomerHistoryFragment extends Fragment {
             Type listType = new TypeToken<List<Order>>() {
             }.getType();
             orderList = new Gson().fromJson(result, listType);
-            if(orderList.equals(null)){
+            if(!orderList.equals(null)){
                 relativeLayout.setVisibility(View.VISIBLE);
             }
             currentOrderAdapter = new CustomerHistoryAdapter(getContext(), orderList);

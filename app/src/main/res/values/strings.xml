@@ -65,10 +65,10 @@
     <string name="massage"><![CDATA[Appliance & Repairs]]></string>
     <string name="appliance"><![CDATA[Appliance & Repair]]></string>
     <string name="truck"><![CDATA[Truck loader Transportation]]></string>
-    <string name="ring"><![CDATA[Gold & Silver Platinum Jwellary]]></string>
+    <string name="ring"><![CDATA[Gold,Silver & Platinum Jewellary]]></string>
     <string name="teacher"><![CDATA[Home Tutorial & Online Tutorial]]></string>
     <string name="washing"><![CDATA[Washing Machine repairs]]></string>
-    <string name="complaint">Complaint</string>
+    <string name="complaint">Complain</string>
     <string name="title_activity_form_filling">FormFilling</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_settings">Settings</string>

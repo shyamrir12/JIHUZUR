@@ -33,7 +33,6 @@ public class VerifyPhoneActivityEmployee extends AppCompatActivity {
     //These are the objects needed
     //It is the verification id that will be sent to the user
     private String mVerificationId;
-
     //The edittext to input the code
     private EditText editTextCode;
     DatabaseReference datauserprofile;
@@ -139,13 +138,8 @@ public class VerifyPhoneActivityEmployee extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
                             addEmployeeProfile();
-
-
                             finish();
-
-
                             //verification successful we will start the profile activity
                             Intent intent = new Intent(VerifyPhoneActivityEmployee.this, EmployeeHomePage.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

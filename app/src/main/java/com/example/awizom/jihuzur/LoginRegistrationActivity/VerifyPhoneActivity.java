@@ -38,6 +38,10 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
     }
     /*For Initialization */
     private void initView() {
+
+        getSupportActionBar().setTitle("Verification");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         otpEditText = findViewById(R.id.editTextOtp);
         verifyOtpBtn = findViewById(R.id.buttonVerify);
         verifyOtpBtn.setOnClickListener(this);
@@ -83,8 +87,6 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
                 if(!result.equals(null)){
 
                    if(jsonbody.isStatus()) {
-
-
                        DataProfile dataProfile = new DataProfile();
                        dataProfile.ID = userId;
                        dataProfile.Active = Boolean.valueOf( active );

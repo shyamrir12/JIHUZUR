@@ -64,7 +64,7 @@ public class CutomerCurrentOrderFragment extends Fragment {
             e.printStackTrace();
             relativeLayout.setVisibility(View.VISIBLE);
         }
-        relativeLayout.setVisibility(View.GONE);
+//        relativeLayout.setVisibility(View.GONE);
     }
     private void getMyOrderRunning() {
         try {
@@ -75,9 +75,9 @@ public class CutomerCurrentOrderFragment extends Fragment {
             Type listType = new TypeToken<List<Order>>() {
             }.getType();
             orderList = new Gson().fromJson(result, listType);
-//            if(orderList.equals(null)){
-//                relativeLayout.setVisibility(View.VISIBLE);
-//            }
+            if(!orderList.equals(null)){
+                relativeLayout.setVisibility(View.VISIBLE);
+            }
             currentOrderAdapter = new CustomerCurrentOrderAdapter(getContext(), orderList);
             recyclerView.setAdapter(currentOrderAdapter);
         } catch (ExecutionException e) {

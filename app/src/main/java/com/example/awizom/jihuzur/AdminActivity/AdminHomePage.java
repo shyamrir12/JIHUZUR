@@ -536,12 +536,17 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                             firelat = new String[employeeProfileModelList.size()];
                                             firelong = new String[employeeProfileModelList.size()];
                                             for (int i = 0; i < task.getResult().size(); i++) {
-                                                if (task.getResult().getDocuments().get(i).get("busystatus").equals(false)) {
-                                                    fireid[i] = task.getResult().getDocuments().get(i).getId();
-                                                    firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
-                                                    firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
-                                                    latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
-                                                            Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
+                                                try {
+                                                    if (task.getResult().getDocuments().get(i).get("busystatus").equals(false)) {
+                                                        fireid[i] = task.getResult().getDocuments().get(i).getId();
+                                                        firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
+                                                        firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
+                                                        latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
+                                                                Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
+                                                    }
+
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
                                                 }
                                             }
                                             Log.d(TAG, document.getId() + " => " + document.getData());
@@ -612,29 +617,32 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                                 firelat = new String[employeeProfileModelList.size()];
                                                 firelong = new String[employeeProfileModelList.size()];
                                                 for (int i = 0; i < task.getResult().size(); i++) {
-                                                    if (task.getResult().getDocuments().get(i).get("busystatus").equals(false)) {
-                                                        try {
-                                                            fireid[i] = task.getResult().getDocuments().get(i).getId();
-                                                            firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
-                                                            firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
-                                                            latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
-                                                                    Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
-                                                            name = employeeProfileModelList.get(i).getName();
-                                                            mobno = employeeProfileModelList.get(i).getMobileNo();
-                                                            img_str = employeeProfileModelList.get(i).getImage();
-                                                            empid = employeeProfileModelList.get(i).getID();
-                                                            int height = 100;
-                                                            int width = 100;
-                                                            BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.electricians);
-                                                            Bitmap b = bitmapdraw.getBitmap();
-                                                            Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
-                                                            mGoogleMap.addMarker(new MarkerOptions().position(latLng).
-                                                                    icon(BitmapDescriptorFactory.fromBitmap(smallMarker))).setTitle(name + "," + empid + "," + img_str + "," + mobno);                                                    //LatLngBound will cover all your marker on Google Maps
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
-                                                            Toast.makeText(getApplicationContext(), "index arew not match for firebase and sql databse", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    }
+                                                   try {
+                                                       if (task.getResult().getDocuments().get(i).get("busystatus").equals(false)) {
+                                                           try {
+                                                               fireid[i] = task.getResult().getDocuments().get(i).getId();
+                                                               firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
+                                                               firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
+                                                               latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
+                                                                       Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
+                                                               name = employeeProfileModelList.get(i).getName();
+                                                               mobno = employeeProfileModelList.get(i).getMobileNo();
+                                                               img_str = employeeProfileModelList.get(i).getImage();
+                                                               empid = employeeProfileModelList.get(i).getID();
+                                                               int height = 100;
+                                                               int width = 100;
+                                                               BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.electricians);
+                                                               Bitmap b = bitmapdraw.getBitmap();
+                                                               Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                                                               mGoogleMap.addMarker(new MarkerOptions().position(latLng).
+                                                                       icon(BitmapDescriptorFactory.fromBitmap(smallMarker))).setTitle(name + "," + empid + "," + img_str + "," + mobno);                                                    //LatLngBound will cover all your marker on Google Maps
+                                                           } catch (Exception e) {
+                                                               e.printStackTrace();
+                                                               Toast.makeText(getApplicationContext(), "index arew not match for firebase and sql databse", Toast.LENGTH_SHORT).show();
+                                                           }
+                                                       }
+                                                   }catch (Exception e)
+                                                   {e.printStackTrace();}
                                                     LatLngBounds.Builder builder = new LatLngBounds.Builder();
                                                     builder.include(latLng);
                                                     LatLngBounds bounds = builder.build();

@@ -15,9 +15,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
     private EditText editTextMobile;
-    private TextView empsign,skiplogin;
-    private Button butonContinue,createuser;
-    private String mobileNumber="",mobile="";
+    private TextView empsign, skiplogin;
+    private Button butonContinue, createuser;
+    private String mobileNumber = "", mobile = "";
     Intent intent;
 
     @Override
@@ -26,19 +26,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         initView();
 
-        }
+    }
 
     private void initView() {
 
 
         editTextMobile = findViewById(R.id.editTextMobile);
-        empsign=findViewById(R.id.empsignin);
-        butonContinue=findViewById(R.id.buttonContinue);
-        skiplogin=findViewById(R.id.skiplogin);
+        empsign = findViewById(R.id.empsignin);
+        butonContinue = findViewById(R.id.buttonContinue);
+        skiplogin = findViewById(R.id.skiplogin);
         butonContinue.setOnClickListener(this);
         skiplogin.setOnClickListener(this);
         empsign.setOnClickListener(this);
-        createuser=findViewById(R.id.signUp);
+        createuser = findViewById(R.id.signUp);
         createuser.setOnClickListener(this);
 
 
@@ -51,10 +51,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 editTextMobile.requestFocus();
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
 
 
     }
@@ -62,35 +61,34 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-      switch (v.getId())
-      {
-          case R.id.buttonContinue:
-              redirectPage();
-              break;
+        switch (v.getId()) {
+            case R.id.buttonContinue:
+                redirectPage();
+                break;
 
 
-          case R.id.empsignin:
-              redirectPage();
-              break;
+            case R.id.empsignin:
+                redirectPage();
+                break;
 
-          case R.id.skiplogin:
-              intent = new Intent(LoginActivity.this, CustomerHomePage.class);
-              startActivity(intent);
-              break;
+            case R.id.skiplogin:
+                intent = new Intent(LoginActivity.this, CustomerHomePage.class);
+                startActivity(intent);
+                break;
 
-          case R.id.signUp:
-               intent = new Intent(LoginActivity.this, RegistrationActivity.class);
-               startActivity(intent);
-              break;
-      }
+            case R.id.signUp:
+                intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+                startActivity(intent);
+                break;
+        }
 
 
-      }
+    }
 
     private void redirectPage() {
-        mobile= editTextMobile.getText().toString();
+        mobile = editTextMobile.getText().toString();
 
-         if(editTextMobile.getText().toString().equals(mobileNumber)){
+        if (editTextMobile.getText().toString().equals(mobileNumber)) {
 
             intent = new Intent(LoginActivity.this, CustomerHomePage.class);
             intent.putExtra("mobile", mobile);
@@ -102,7 +100,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //            intent.putExtra("mobile", mobile);
 //            startActivity(intent);
 
-        }else {
+        } else {
 
             intent = new Intent(LoginActivity.this, LoginActivity.class);
             startActivity(intent);

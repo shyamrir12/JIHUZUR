@@ -55,6 +55,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener {
+
     private EditText editTextMobile;
     private TextView skiplogin;
     private Button butonContinue;
@@ -83,12 +84,10 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     /*For Initialization */
     private void initView() {
-
         //19/02/2019 comment for not login
         db = FirebaseFirestore.getInstance();
         coordinatorLayout = (LinearLayout) findViewById(R.id.coordinator);
-        snackbar = Snackbar
-                .make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
+        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
                 .setAction("RETRY", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -100,7 +99,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(Color.YELLOW);
         checkInternet();
-
         editTextMobile = findViewById(R.id.editTextMobile);
         butonContinue = findViewById(R.id.buttonContinue);
         skiplogin = findViewById(R.id.skiplogin);
@@ -118,8 +116,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private void checkAppPermission() {
 
         ActivityCompat.requestPermissions(RegistrationActivity.this,
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.CALL_PHONE,Manifest.permission.READ_CONTACTS},
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CALL_PHONE, Manifest.permission.READ_CONTACTS},
                 1);
     }
 
@@ -149,7 +147,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 }
                 return;
             }
-            }
+        }
 
     }
 
@@ -201,7 +199,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                             dataProfile.MobileNo = jsonbody.dataProfile.MobileNo;
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
 
-//20/02/2019 ravi
+                            //20/02/2019 ravi
                             if (jsonbody.dataProfile.Role.equals("Employee")) {
                                 /*Start for load data into firestore for employee*/
                                 Map<String, Object> profile = new HashMap<>();
