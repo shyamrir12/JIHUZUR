@@ -1,29 +1,24 @@
 package com.example.awizom.jihuzur.LoginRegistrationActivity;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,21 +29,14 @@ import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.LoginHelper;
 import com.example.awizom.jihuzur.Model.DataProfile;
-import com.example.awizom.jihuzur.Model.ProfileFirebase;
 import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
-import com.example.awizom.jihuzur.settings.Constants;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -73,6 +61,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     Snackbar snackbar;
     FirebaseFirestore db;
     boolean check = false;
+    private static int TIMER = 300;
 
     /*For layout binding */
     @Override
@@ -88,6 +77,11 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         //19/02/2019 comment for not login
         db = FirebaseFirestore.getInstance();
         coordinatorLayout = (LinearLayout) findViewById(R.id.coordinator);
+
+        //progress bar on
+        progressDialog = new ProgressDialog(RegistrationActivity.this);
+
+
         snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
                 .setAction("RETRY", new View.OnClickListener() {
                     @Override
@@ -111,7 +105,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, userrole);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
         role.setAdapter(spinnerArrayAdapter);
-        progressDialog = new ProgressDialog(this);
+
+
     }
 
     private void checkAppPermission() {
@@ -155,14 +150,27 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     /*For Event Listeners*/
     @Override
     public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.buttonContinue:
+                progressDialog.setMessage("Login in progress ...");
+                progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
+                progressDialog.show();
 
-        if (v.getId() == butonContinue.getId()) {
-            createuser();
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        createuser();
+                    }}, TIMER);
+                break;
+            case R.id.skiplogin:
+                intent = new Intent(RegistrationActivity.this, CustomerHomePage.class);
+                startActivity(intent);
+                break;
         }
-        if (v.getId() == skiplogin.getId()) {
-            intent = new Intent(RegistrationActivity.this, CustomerHomePage.class);
-            startActivity(intent);
-        }
+
+
+
     }
 
     /*For Validation */
@@ -184,11 +192,14 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             if (role != null)
                 ur = role.getSelectedItem().toString().trim();
             try {
+
                 result = new LoginHelper.GetLogin().execute(editTextMobile.getText().toString().trim(), "Jihuzur@123", "Jihuzur@123", ur).get();
+                progressDialog.dismiss();
                 Gson gson = new Gson();
                 UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
                 try {
                     if (jsonbody.isStatus()) {
+                        progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
                         if (jsonbody.OtpCode.equals("mobile already verified")) {
                             DataProfile dataProfile = new DataProfile();

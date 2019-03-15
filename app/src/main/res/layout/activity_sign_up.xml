@@ -53,8 +53,8 @@
                     android:letterSpacing="0.1"
                     android:textSize="16dp"
                     android:inputType="number"
-
-                    />
+                    android:maxLength="10"
+                    android:text="8103994539"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -83,7 +83,8 @@
             android:layout_gravity="bottom"
             android:padding="16dp"
             android:layout_marginBottom="50dp"
-            android:letterSpacing="0.2"/>
+            android:letterSpacing="0.2"
+            android:onClick="onClick"/>
         <TextView
             android:id="@+id/skiplogin"
             android:layout_width="match_parent"
@@ -99,7 +100,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/linear"
             android:orientation="vertical"
-            android:id="@+id/coordinator"></LinearLayout>
+            android:id="@+id/coordinator">
+
+        </LinearLayout>
 
 
     </LinearLayout>

@@ -1,7 +1,9 @@
 package com.example.awizom.jihuzur.LoginRegistrationActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +29,8 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
     private String result,userId="",otp="",role="",image="";
     boolean active=false;
     private Intent intent;
+    private ProgressDialog progressDialog;
+    private static int TIMER = 300;
 
     /*For layout binding */
     @Override
@@ -45,6 +49,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
         otpEditText = findViewById(R.id.editTextOtp);
         verifyOtpBtn = findViewById(R.id.buttonVerify);
         verifyOtpBtn.setOnClickListener(this);
+        progressDialog = new ProgressDialog(VerifyPhoneActivity.this);
 
 
         otp = getIntent().getExtras().getString("OTP","");
@@ -58,15 +63,37 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
 
-        if(v.getId() == verifyOtpBtn.getId()){
-            if(otp.equals(otpEditText.getText().toString())) {
-                verifyPostOtp();
-            }
-            {
-                Toast.makeText(getApplicationContext(),"Entered OTP is Wrong",Toast.LENGTH_LONG).show();
 
-            }
+        switch (v.getId()){
+            case R.id.buttonVerify:
+                progressDialog.setMessage("Login in progress ...");
+                progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
+                progressDialog.show();
+
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if(otp.equals(otpEditText.getText().toString())) {
+                            verifyPostOtp();
+                        }
+                        {
+                            Toast.makeText(getApplicationContext(),"Entered OTP is Wrong",Toast.LENGTH_LONG).show();
+
+                        }
+                    }}, TIMER);
+                break;
         }
+
+//        if(v.getId() == verifyOtpBtn.getId()){
+//            if(otp.equals(otpEditText.getText().toString())) {
+//                verifyPostOtp();
+//            }
+//            {
+//                Toast.makeText(getApplicationContext(),"Entered OTP is Wrong",Toast.LENGTH_LONG).show();
+//
+//            }
+//        }
     }
 
     /*For Validation */
@@ -86,6 +113,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
 
             try {
                 result   = new LoginHelper.PostVerifyMobile().execute(userId,otp.toString().trim()).get();
+                progressDialog.dismiss();
                 Gson gson = new Gson();
                 UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
                 Toast.makeText(getApplicationContext(),jsonbody.Message,Toast.LENGTH_SHORT).show();
