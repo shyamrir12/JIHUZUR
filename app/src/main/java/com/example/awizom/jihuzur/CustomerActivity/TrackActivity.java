@@ -105,7 +105,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         employeeImage = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.employee_dp);
         call = (ImageView) findViewById(R.id.call);
         getEmployeeProfileGet();
-
         mMsgView = (TextView) findViewById(R.id.msgView);
         distancefor = (TextView) findViewById(R.id.distance);
 
@@ -136,7 +135,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                     cusLatLng = new LatLng(Double.valueOf(String.valueOf(dataProfileCustomer.Lat)),
                             Double.valueOf(String.valueOf(dataProfileCustomer.Long)));
                     place1 = new MarkerOptions().position(new LatLng(Double.valueOf(String.valueOf(dataProfileCustomer.Lat)),
-                            Double.valueOf(String.valueOf(dataProfileCustomer.Long)))).title("Employee Location");
+                            Double.valueOf(String.valueOf(dataProfileCustomer.Long)))).title("Customer Location");
 
                     getMapvalue();
                 }
@@ -147,8 +146,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     }
 
     private void getEmployeeProfileGet() {
-
-
         try {
             result = new AdminHelper.GetProfileForShow().execute(employeeID).get();
             if (result.isEmpty()) {

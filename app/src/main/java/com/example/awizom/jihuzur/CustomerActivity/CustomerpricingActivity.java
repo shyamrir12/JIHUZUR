@@ -2,10 +2,12 @@ package com.example.awizom.jihuzur.CustomerActivity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -13,6 +15,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -43,7 +46,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
-public class CustomerpricingActivity extends AppCompatActivity implements View.OnClickListener {
+public class CustomerpricingActivity extends AppCompatActivity implements LocationListener,View.OnClickListener {
 
     List<PricingView> pricingViewsList;
     CustomerPricingAdapter repairAndServiceAdapter;
@@ -54,7 +57,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     private Button nextButton;
     private Button postPricingBtn;
     private Intent intent;
-    private String result = "", serviceID = "", description = "", serviceName = "",  displayType = "", btn = "", orderID = "", priceID = "0", data = "", pricingId = "";
+    private String result = "", serviceID = "", description = "", serviceName = "", displayType = "", btn = "", orderID = "", priceID = "0", data = "", pricingId = "";
     private String empId = "", priceIDs = "", selectedEmpId;
     private String priceIds = "";
     private ArrayList<LatLng> latlngs = new ArrayList<>();
@@ -65,6 +68,13 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     private EmployeeProfileModel employeeProfileModel;
     private String[] empNameList, empLat, empLong;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+
+    protected Context context;
+    TextView txtLat;
+    String lat;
+    String provider;
+    protected String latitude, longitude;
+    protected boolean gps_enabled, network_enabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +92,18 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         btn = getIntent().getStringExtra("button");
         orderID = getIntent().getStringExtra("orderId");
         priceID = getIntent().getStringExtra("priceId");
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (android.location.LocationListener) this);
         getSupportActionBar().setTitle(serviceName);
         mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView = findViewById(R.id.recyclerView);
@@ -223,6 +245,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         }
         try {
             result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId, priceIds).get();
+
             if (!result.equals("")) {
                 intent = new Intent(this, MyBokingsActivity.class);
                 startActivity(intent);
@@ -281,5 +304,21 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+        try {
+            result = new AdminHelper.POSTProfileLatLong().execute( SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(),String.valueOf(location.getLatitude()).toString(),String.valueOf(location.getLongitude()).toString()).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        txtLat.setText("Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude());
+    }
+
+
 }
 
