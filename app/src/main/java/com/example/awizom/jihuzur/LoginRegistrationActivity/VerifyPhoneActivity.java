@@ -66,6 +66,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
 
         switch (v.getId()){
             case R.id.buttonVerify:
+                if(otp.equals(otpEditText.getText().toString())) {
                 progressDialog.setMessage("Login in progress ...");
                 progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
                 progressDialog.show();
@@ -74,14 +75,15 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
 
                     @Override
                     public void run() {
-                        if(otp.equals(otpEditText.getText().toString())) {
-                            verifyPostOtp();
-                        }
-                        {
-                            Toast.makeText(getApplicationContext(),"Entered OTP is Wrong",Toast.LENGTH_LONG).show();
 
-                        }
+                            verifyPostOtp();
+
                     }}, TIMER);
+                }
+            {
+                Toast.makeText(getApplicationContext(),"Entered OTP is Wrong",Toast.LENGTH_LONG).show();
+
+            }
                 break;
         }
 
