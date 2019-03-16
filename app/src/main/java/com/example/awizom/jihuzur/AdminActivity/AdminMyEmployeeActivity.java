@@ -1,5 +1,6 @@
 package com.example.awizom.jihuzur.AdminActivity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.view.View;
 
 import com.example.awizom.jihuzur.Adapter.MyEmployeeListAdapter;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
+import com.example.awizom.jihuzur.LoginRegistrationActivity.RegistrationActivity;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.MyEmployeeListModel;
 import com.example.awizom.jihuzur.R;
@@ -25,6 +27,7 @@ public class AdminMyEmployeeActivity extends AppCompatActivity {
     List<MyEmployeeListModel> myEmployeeListModels;
     SwipeRefreshLayout mSwipeRefreshLayout;
     MyEmployeeListAdapter myEmployeeListAdapter;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +53,15 @@ public class AdminMyEmployeeActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         getMyEmployeeList();
+
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 try {
+
                     getMyEmployeeList();
                 } catch (Exception e) {
                     e.printStackTrace();
-
                 }
             }
         });
@@ -76,7 +80,7 @@ public class AdminMyEmployeeActivity extends AppCompatActivity {
             myEmployeeListAdapter = new MyEmployeeListAdapter(AdminMyEmployeeActivity.this, myEmployeeListModels);
             mSwipeRefreshLayout.setRefreshing(false);
             recyclerView.setAdapter(myEmployeeListAdapter);
-
+            progressDialog.dismiss();
         } catch (Exception e) {
             e.printStackTrace();
         }

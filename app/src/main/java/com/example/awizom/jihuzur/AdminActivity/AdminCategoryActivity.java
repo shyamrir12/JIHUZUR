@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -26,6 +27,7 @@ import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.R;
+import com.example.awizom.jihuzur.ViewDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -49,7 +51,7 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
     ImageView imageView;
     private String[] categoryList;
     SwipeRefreshLayout mSwipeRefreshLayout;
-
+    ViewDialog viewDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +59,7 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         catalogName = getIntent().getStringExtra("CatalogName");
         toolbar.setTitle(catalogName + "'s" + " Category");
-
+        viewDialog = new ViewDialog(this);
         toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
 
@@ -78,6 +80,7 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onRefresh() {
                 try {
+
                     getCategoryList();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -90,10 +93,25 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
         getCategoryList();
 
     }
+    public void showCustomLoadingDialog(View view) {
 
+        //..show gif
+        viewDialog.showDialog();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //...here i'm waiting 5 seconds before hiding the custom dialog
+                //...you can do whenever you want or whenever your work is done
+                viewDialog.hideDialog();
+            }
+        }, 1000);
+    }
     private void getCategoryList() {
 
         try {
+
             mSwipeRefreshLayout.setRefreshing(true);
             result = new AdminHelper.GETCategoryList().execute(catalogName.toString()).get();
             Gson gson = new Gson();

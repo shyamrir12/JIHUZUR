@@ -25,7 +25,6 @@ public class LocationMonitoringNotificationService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         String input = intent.getStringExtra("inputExtra");
-
         Intent notificationIntent = new Intent(this, EmployeeHomePage.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);

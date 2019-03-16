@@ -76,11 +76,11 @@ public class MyEmployeeListAdapter extends RecyclerView.Adapter<MyEmployeeListAd
 
         if (c.isActive()) {
             holder.Activeemployee.setText("Deactivate");
-
+            holder.Activeemployee.setChecked(true);
 
         } else {
             holder.Activeemployee.setText("Activate");
-
+            holder.Activeemployee.setChecked(false);
         }
       holder.Activeemployee.setOnClickListener(new View.OnClickListener() {
           @Override
@@ -93,7 +93,6 @@ public class MyEmployeeListAdapter extends RecyclerView.Adapter<MyEmployeeListAd
                   else {
                   active="false";
                   id=holder.employeeid.getText().toString();
-
               }
               getEmployeeActive();
           }
@@ -126,7 +125,7 @@ public class MyEmployeeListAdapter extends RecyclerView.Adapter<MyEmployeeListAd
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView employeeName, mobileNo,employeeid;
-        Button Activeemployee;
+        Switch Activeemployee;
         public MyViewHolder(View view) {
             super(view);
             employeeName = view.findViewById(R.id.employeeName);

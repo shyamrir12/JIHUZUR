@@ -1,7 +1,9 @@
 package com.example.awizom.jihuzur.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.awizom.jihuzur.AdminActivity.AdminPricingActivity;
+import com.example.awizom.jihuzur.CustomerActivity.SingleShotLocationProvider;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeSkillActivity;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
@@ -24,6 +27,7 @@ import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerpricingActivity;
 import com.example.awizom.jihuzur.SelectServices;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
+import com.example.awizom.jihuzur.ViewDialog;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -41,6 +45,7 @@ public class ServiceListAdapter extends  RecyclerView.Adapter<ServiceListAdapter
     String result = "", empskills = "";
     private List<Service> serviceList;
     private Context mCtx;
+    ViewDialog viewDialog;
 
     public ServiceListAdapter(Context baseContext, List<Service> serviceList, String empskill) {
         this.serviceList = serviceList;
@@ -50,6 +55,8 @@ public class ServiceListAdapter extends  RecyclerView.Adapter<ServiceListAdapter
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
+
+        viewDialog = new ViewDialog((Activity) mCtx);
         Service c = serviceList.get(position);
         holder.serviceName.setText(c.getServiceName());
         holder.description.setText(c.getDescription());
@@ -68,14 +75,17 @@ public class ServiceListAdapter extends  RecyclerView.Adapter<ServiceListAdapter
 
                 try {
                     if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Admin")) {
+                        showCustomLoadingDialog(v);
                         intent = new Intent(mCtx, AdminPricingActivity.class);
                         intent.putExtra("serviceName", holder.serviceName.getText());
                         intent.putExtra("description", holder.description.getText());
                         intent.putExtra("serviceID", holder.serviceID.getText());
                         intent.putExtra("displayType", holder.dType.getText());
+                        Intent i = new Intent(mCtx, SingleShotLocationProvider.class);
+                        mCtx.startService(i);
                         mCtx.startActivity(intent);
-                        Toast.makeText(mCtx, "" + position, Toast.LENGTH_SHORT).show();
-
+                    /*    Toast.makeText(mCtx, "" + position, Toast.LENGTH_SHORT).show();
+*/
                     } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Employee")) {
                         holder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -128,7 +138,21 @@ public class ServiceListAdapter extends  RecyclerView.Adapter<ServiceListAdapter
             e.printStackTrace();
         }
     }
+    public void showCustomLoadingDialog(View view) {
 
+        //..show gif
+        viewDialog.showDialog();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //...here i'm waiting 5 seconds before hiding the custom dialog
+                //...you can do whenever you want or whenever your work is done
+                viewDialog.hideDialog();
+            }
+        }, 1000);
+    }
     private void showEditServiceDialogue(final String servicename, final String description, final String serviceid, final String catalogId, String displaytype) {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mCtx);

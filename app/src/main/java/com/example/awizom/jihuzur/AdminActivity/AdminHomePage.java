@@ -82,6 +82,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -617,38 +618,33 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                                 firelat = new String[employeeProfileModelList.size()];
                                                 firelong = new String[employeeProfileModelList.size()];
                                                 for (int i = 0; i < task.getResult().size(); i++) {
-                                                   try {
-                                                       if (task.getResult().getDocuments().get(i).get("busystatus").equals(false)) {
-                                                           try {
-                                                               fireid[i] = task.getResult().getDocuments().get(i).getId();
-                                                               firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
-                                                               firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
-                                                               latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
-                                                                       Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
-                                                               name = employeeProfileModelList.get(i).getName();
-                                                               mobno = employeeProfileModelList.get(i).getMobileNo();
-                                                               img_str = employeeProfileModelList.get(i).getImage();
-                                                               empid = employeeProfileModelList.get(i).getID();
-                                                               int height = 100;
-                                                               int width = 100;
-                                                               BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.electricians);
-                                                               Bitmap b = bitmapdraw.getBitmap();
-                                                               Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
-                                                               mGoogleMap.addMarker(new MarkerOptions().position(latLng).
-                                                                       icon(BitmapDescriptorFactory.fromBitmap(smallMarker))).setTitle(name + "," + empid + "," + img_str + "," + mobno);                                                    //LatLngBound will cover all your marker on Google Maps
-                                                           } catch (Exception e) {
-                                                               e.printStackTrace();
-                                                               Toast.makeText(getApplicationContext(), "index arew not match for firebase and sql databse", Toast.LENGTH_SHORT).show();
-                                                           }
-                                                       }
-                                                   }catch (Exception e)
-                                                   {e.printStackTrace();}
-                                                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                                                    builder.include(latLng);
-                                                    LatLngBounds bounds = builder.build();
-                                                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
-                                                    mGoogleMap.moveCamera(cu);
-                                                    mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
+                                                    try {
+                                                        if (task.getResult().getDocuments().get(i).get("busystatus").equals(false)) {
+                                                            try {
+                                                                fireid[i] = task.getResult().getDocuments().get(i).getId();
+                                                                firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
+                                                                firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
+                                                                latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
+                                                                        Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
+                                                                name = employeeProfileModelList.get(i).getName();
+                                                                mobno = employeeProfileModelList.get(i).getMobileNo();
+                                                                img_str = employeeProfileModelList.get(i).getImage();
+                                                                empid = employeeProfileModelList.get(i).getID();
+                                                                int height = 100;
+                                                                int width = 100;
+                                                                BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.electricians);
+                                                                Bitmap b = bitmapdraw.getBitmap();
+                                                                Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                                                                mGoogleMap.addMarker(new MarkerOptions().position(latLng).
+                                                                        icon(BitmapDescriptorFactory.fromBitmap(smallMarker))).setTitle(name + "," + empid + "," + img_str + "," + mobno);                                                    //LatLngBound will cover all your marker on Google Maps
+                                                            } catch (Exception e) {
+                                                                e.printStackTrace();
+                                                                Toast.makeText(getApplicationContext(), "index arew not match for firebase and sql databse", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                    }
                                                 }
                                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                             }
@@ -662,6 +658,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 
                         e.printStackTrace();
                     }
+
 
                     mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                         @Override
@@ -813,11 +810,20 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         mGoogleMap.setOnMyLocationClickListener(onMyLocationClickListener);
         enableMyLocationIfPermitted();
         mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        LatLng latLngs = new LatLng(21.2514, 81.6296);
+        builder.include(latLngs);
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(latLngs)
+                .zoom(11)
+                .bearing(90)
+                .tilt(30)
+                .build();
+        mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+/* set zoom position by this value */
         mGoogleMap.getMaxZoomLevel();
         mGoogleMap.getMinZoomLevel();
-        //   mGoogleMap.setMinZoomPreference(11);
     }
-
 
     private String getUrl(LatLng origin, LatLng dest, String directionMode) {
         // Origin of route

@@ -2,17 +2,22 @@ package com.example.awizom.jihuzur.CustomerActivity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -29,6 +34,7 @@ import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
+import com.example.awizom.jihuzur.Service.GPS_Service;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.model.LatLng;
@@ -45,7 +51,7 @@ import java.util.concurrent.ExecutionException;
 
 public class CustomerpricingActivity extends AppCompatActivity implements View.OnClickListener {
 
-     String mprovider;
+    String mprovider;
     List<PricingView> pricingViewsList;
     CustomerPricingAdapter repairAndServiceAdapter;
     RecyclerView recyclerView;
@@ -71,11 +77,13 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repair_service);
+
         initView();
     }
 
     private void initView() {
-
+        if (!runtime_permissions())
+        {enable_buttons();}
         serviceID = getIntent().getStringExtra("serviceID");
         description = getIntent().getStringExtra("description");
         serviceName = getIntent().getStringExtra("serviceName");
@@ -83,7 +91,9 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         btn = getIntent().getStringExtra("button");
         orderID = getIntent().getStringExtra("orderId");
         priceID = getIntent().getStringExtra("priceId");
+
         getSupportActionBar().setTitle(serviceName);
+
         mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -92,6 +102,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         nextButton.setOnClickListener(this);
         postPricingBtn = findViewById(R.id.postOrderPriceBtn);
         postPricingBtn.setOnClickListener(this);
+
         if (btn.equals("empBtn")) {
             nextButton.setVisibility(View.GONE);
         } else if (btn.equals("serBtn")) {
@@ -118,6 +129,34 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         });
     }
 
+
+
+    private void enable_buttons() {
+
+        Intent i = new Intent(getApplicationContext(), SingleShotLocationProvider.class);
+        startService(i);
+    }
+
+    private boolean runtime_permissions() {
+        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 100) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                enable_buttons();
+            } else {
+                runtime_permissions();
+            }
+        }
+    }
+
     private void getMyOrderRunning() {
         try {
             mSwipeRefreshLayout.setRefreshing(true);
@@ -141,6 +180,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonNext:
+
                 method();
                 break;
             case R.id.postOrderPriceBtn:

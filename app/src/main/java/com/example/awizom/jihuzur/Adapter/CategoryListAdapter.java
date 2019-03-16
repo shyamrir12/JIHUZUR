@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +31,7 @@ import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.SelectServices;
+import com.example.awizom.jihuzur.ViewDialog;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
@@ -54,6 +56,7 @@ public class CategoryListAdapter extends
     AutoCompleteTextView categoryNames;
     ImageView imageView;
     String result = "";
+    ViewDialog viewDialog;
     int[] gridViewImageId = new int[]{
             R.drawable.home_cleaning
 
@@ -70,6 +73,22 @@ public class CategoryListAdapter extends
 
     }
 
+    public void showCustomLoadingDialog(View view) {
+
+        //..show gif
+        viewDialog.showDialog();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //...here i'm waiting 5 seconds before hiding the custom dialog
+                //...you can do whenever you want or whenever your work is done
+                viewDialog.hideDialog();
+            }
+        }, 1000);
+    }
+
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         Catalog c = categorylist.get(position);
@@ -77,7 +96,7 @@ public class CategoryListAdapter extends
         holder.catalogid.setText(String.valueOf(c.getCatalogID()));
         imagestr = AppConfig.BASE_URL + c.getImage();
         holder.catalogname.setText(c.getCatalogName());
-
+        viewDialog = new ViewDialog((Activity) mCtx);
         try {
             if (c.getImage() == null) {
                 holder.categoryImage.setImageResource(R.drawable.jihuzurblanklogo);
@@ -89,7 +108,7 @@ public class CategoryListAdapter extends
                         .skipMemoryCache(true)
                         .into(holder.categoryImage);
 
-               // Glide.with(mCtx).load(imagestr).into(holder.categoryImage);
+                // Glide.with(mCtx).load(imagestr).into(holder.categoryImage);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,7 +120,7 @@ public class CategoryListAdapter extends
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showCustomLoadingDialog(v);
                 intent = new Intent(mCtx, SelectServices.class);
                 intent.putExtra("CategoryName", holder.category.getText());
                 intent.putExtra("CatalogID", holder.catalogid.getText());

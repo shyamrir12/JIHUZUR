@@ -69,10 +69,7 @@
             android:name=".CustomerActivity.CustomerHomePage"
             android:label="@string/title_activity_customer_home_page"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".DrawingActivity"
@@ -92,10 +89,10 @@
         <activity
             android:name=".SplashActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity
@@ -150,6 +147,9 @@
 
         <service
             android:name=".Service.GPS_Service"
+            android:enabled="true" />
+        <service
+            android:name=".CustomerActivity.SingleShotLocationProvider"
             android:enabled="true" />
 
         <meta-data
