@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,19 +21,15 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.awizom.jihuzur.AdminActivity.AdminHomePage;
-import com.example.awizom.jihuzur.ComplaintActivity;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.DrawingActivity;
-import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
 import com.example.awizom.jihuzur.Fragment.CatalogFragment;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
 import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
@@ -45,7 +42,6 @@ import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.LoginRegistrationActivity.RegistrationActivity;
 import com.example.awizom.jihuzur.SettingsActivity;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -68,7 +64,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     String Url;
     Boolean active = false;
     View header;
-    private CardView homeCleaningCardView,appliancecardView,movingTruckCardViewTwo, washingCardViewThree1,tutorcardViewThree,ringcardViewTwo;
+    private CardView electricianCardView,appliancecardView,movingTruckCardViewTwo, washingCardViewThree1,tutorcardViewThree,ringcardViewTwo;
     private ImageView homecleaning;
     private TextView homeCleaningTextView;
     DatabaseReference datauserprofile;
@@ -76,6 +72,8 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     TextView userName, identityNo, identityType, userContact;
     ImageView imageView;
     String img_str;
+    boolean check = false;
+    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -128,8 +126,8 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         catalogFragment = new CatalogFragment();
         setContentView(R.layout.activity_customer_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        homeCleaningCardView = findViewById(R.id.homecleaningCardViewOne);
-        homeCleaningCardView.setOnClickListener(this);
+        electricianCardView = findViewById(R.id.homecleaningCardViewOne);
+        electricianCardView.setOnClickListener(this);
         appliancecardView = findViewById(R.id.appliancesCardViewOne1);
         appliancecardView.setOnClickListener(this);
         movingTruckCardViewTwo = findViewById(R.id.movingTruckLoaderCardViewTwo);
@@ -176,7 +174,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         try{
         String uname=SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getName().toString();
         String ucontact=SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getMobileNo().toString();
-        userContact.setText(ucontact);
+
 /**/
         }
         catch (Exception e)
@@ -206,11 +204,13 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 }.getType();
                 DataProfile dataProfile = new Gson().fromJson(result, listType);
                 userName.setText(dataProfile.getName().toString());
+                userContact.setText(dataProfile.MobileNo);
                 if (dataProfile != null) {
                     DataProfile dataProfile1 = new DataProfile();
                     dataProfile1.Image = dataProfile.Image;
                     dataProfile1.Name = dataProfile.Name;
-//                        SharedPrefManager.getInstance(this).userLogin(dataProfile1);
+                    dataProfile1.MobileNo = dataProfile.MobileNo;
+                    SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile1);
 
                 }
             }
@@ -370,9 +370,13 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 
     @Override
     public void onClick(View v) {
-
+        v.startAnimation(buttonClick);
         switch (v.getId()){
+
             case R.id.homecleaningCardViewOne:
+//                check = true;
+//                electricianCardView.setBackgroundColor(Color.WHITE);
+
                 intent=new Intent(CustomerHomePage.this,MenuActivity.class);
                 intent.putExtra("CategoryName",5);
                 startActivity(intent);

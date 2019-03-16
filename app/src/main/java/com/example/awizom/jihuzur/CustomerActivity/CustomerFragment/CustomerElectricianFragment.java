@@ -1,4 +1,4 @@
-package com.example.awizom.jihuzur.Fragment;
+package com.example.awizom.jihuzur.CustomerActivity.CustomerFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,10 +21,10 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class ApplianceFragment extends Fragment {
+public class CustomerElectricianFragment extends Fragment {
 
     Intent intent;
-    private String result="",catalogName="Appliance & Repairs";
+    private String result="",catalogName="Home Cleaning & Repairs";
     List<Catalog> categorylist;
     RecyclerView recyclerView;
     RelativeLayout relativeLayout;
@@ -48,7 +48,7 @@ public class ApplianceFragment extends Fragment {
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        getcatagoryList();
+
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -59,26 +59,29 @@ public class ApplianceFragment extends Fragment {
                 }
             }
         });
+        getcatagoryList();
     }
 
     private void getcatagoryList() {
 
         try {
             mSwipeRefreshLayout.setRefreshing(true);
-            result = new CustomerOrderHelper.GETCustomerCategoryList().execute(catalogName).get();
+           result = new CustomerOrderHelper.GETCustomerCategoryList().execute(catalogName).get();
             mSwipeRefreshLayout.setRefreshing(false);
-            if(result != null){
+           if(result != null){
 
-                Gson gson = new Gson();
-                Type listType = new TypeToken<List<Catalog>>() {
-                }.getType();
-                categorylist = new Gson().fromJson(result, listType);
-                customerCatagoryAdapter = new CustomerCatagoryAdapter(getContext(),categorylist);
-                recyclerView.setAdapter(customerCatagoryAdapter);
-            }
+               Gson gson = new Gson();
+               Type listType = new TypeToken<List<Catalog>>() {
+               }.getType();
+               categorylist = new Gson().fromJson(result, listType);
+               customerCatagoryAdapter = new CustomerCatagoryAdapter(getContext(),categorylist);
+               recyclerView.setAdapter(customerCatagoryAdapter);
+           }
         }catch (Exception e){
             e.printStackTrace();
         }
 
     }
+
+
 }

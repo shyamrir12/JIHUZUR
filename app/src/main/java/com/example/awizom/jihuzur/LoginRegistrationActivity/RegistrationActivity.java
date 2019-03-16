@@ -150,7 +150,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     /*For Event Listeners*/
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.buttonContinue:
                 progressDialog.setMessage("Login in progress ...");
                 progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
@@ -161,14 +161,14 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                     @Override
                     public void run() {
                         createuser();
-                    }}, TIMER);
+                    }
+                }, TIMER);
                 break;
             case R.id.skiplogin:
                 intent = new Intent(RegistrationActivity.this, CustomerHomePage.class);
                 startActivity(intent);
                 break;
         }
-
 
 
     }
@@ -210,7 +210,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                             dataProfile.Name = jsonbody.dataProfile.Name;
                             dataProfile.MobileNo = jsonbody.dataProfile.MobileNo;
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
-     result = String.valueOf(new AdminHelper.POSTProfileLatLong().execute( SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(),String.valueOf("21.22"),String.valueOf("80.66")));
+                            result = String.valueOf(new AdminHelper.POSTProfileLatLong().execute(SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(), String.valueOf("21.22"), String.valueOf("80.66")));
 
 
                             //20/02/2019 ravi

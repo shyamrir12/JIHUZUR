@@ -82,7 +82,8 @@
         android:layout_marginEnd="22dp"
         app:srcCompat="@android:drawable/ic_input_add"
         tools:layout_editor_absoluteX="328dp"
-        tools:layout_editor_absoluteY="448dp" />
+        tools:layout_editor_absoluteY="448dp"
+        android:visibility="gone"/>
 
 
 </RelativeLayout>

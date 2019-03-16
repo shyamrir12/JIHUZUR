@@ -38,11 +38,11 @@ public class SearchFragment extends Fragment {
 
 
 
-        appliance = view.findViewById(R.id.HomeServices);
-        massage = view.findViewById(R.id.Appliance);
-        homecleaning = view.findViewById(R.id.HomeCleaning);
+        appliance = view.findViewById(R.id.Electrician);
+        massage = view.findViewById(R.id.Carpenter);
+        homecleaning = view.findViewById(R.id.Plumber);
 
-        painting  = view.findViewById(R.id.Painting);
+        painting  = view.findViewById(R.id.Ac_repair);
         tutors  = view.findViewById(R.id.Tutor);
         movingHome  = view.findViewById(R.id.Moving);
 

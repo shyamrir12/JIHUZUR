@@ -22,31 +22,31 @@
             app:tabMaxWidth="40dp">
 
             <android.support.design.widget.TabItem
-                android:id="@+id/HomeServices"
+                android:id="@+id/Electrician"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="HomeServices"
+                android:text="@string/electrician"
                 android:textAlignment="center"/>
 
             <android.support.design.widget.TabItem
-                android:id="@+id/Appliance"
+                android:id="@+id/Carpenter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Appliance"
+                android:text="@string/carpainter"
                 android:textAlignment="center"/>
 
             <android.support.design.widget.TabItem
-                android:id="@+id/HomeCleaning"
+                android:id="@+id/Plumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="HomeCleaning"
+                android:text="@string/plumber"
                 android:textAlignment="center"/>
 
             <android.support.design.widget.TabItem
-                android:id="@+id/Painting"
+                android:id="@+id/Ac_repair"
                 android:layout_width="500dp"
                 android:layout_height="wrap_content"
-                android:text="Painting"
+                android:text="@string/Ac_repair"
                 android:textAlignment="center"/>
 
             <android.support.design.widget.TabItem
@@ -54,14 +54,16 @@
                 android:layout_width="500dp"
                 android:layout_height="wrap_content"
                 android:text="Moving"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                android:visibility="gone"/>
 
             <android.support.design.widget.TabItem
                 android:id="@+id/Tutor"
                 android:layout_width="500dp"
                 android:layout_height="wrap_content"
                 android:text="Tutor"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                android:visibility="gone"/>
 
 
         </android.support.design.widget.TabLayout>

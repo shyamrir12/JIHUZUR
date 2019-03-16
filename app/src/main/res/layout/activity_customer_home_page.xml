@@ -68,15 +68,15 @@
                             android:layout_width="30dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center_horizontal"
-                            android:src="@mipmap/homecleaning" />
+                            android:src="@mipmap/electrician" />
 
                         <TextView
                             android:id="@+id/homecleaningTextView"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
                             android:gravity="center"
-                            android:text="@string/homecleaning"
+                            android:text="@string/electrician"
                             android:textColor="@color/colorPrimary"
                             android:textSize="10sp"
                             android:textStyle="bold" />
@@ -102,12 +102,12 @@
                             android:layout_width="30dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center_horizontal"
-                            android:src="@mipmap/massage" />
+                            android:src="@mipmap/plumber"/>
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/massage"
+                            android:text="@string/plumber"
                             android:layout_gravity="bottom"
                             android:gravity="center"
                             android:textSize="10sp"
@@ -140,12 +140,12 @@
                             android:layout_width="30dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center_horizontal"
-                            android:src="@mipmap/movingtruck" />
+                           android:src="@mipmap/carpainter" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/truck"
+                            android:text="@string/carpainter"
                             android:layout_gravity="bottom"
                             android:gravity="center"
                             android:textSize="10sp"
@@ -173,12 +173,12 @@
                             android:layout_width="30dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center_horizontal"
-                            android:src="@mipmap/rings" />
+                            android:src="@mipmap/ac" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/ring"
+                            android:text="@string/Ac_repair"
                             android:layout_gravity="bottom"
                             android:gravity="center"
                             android:textSize="10sp"
@@ -194,7 +194,8 @@
                     android:text="Test"
                     android:orientation="horizontal"
                     android:layout_below="@+id/l2"
-                    android:layout_marginTop="20dp">
+                    android:layout_marginTop="20dp"
+                    android:visibility="gone">
 
                     <android.support.v7.widget.CardView
                         android:id="@+id/tutorCardViewThree"

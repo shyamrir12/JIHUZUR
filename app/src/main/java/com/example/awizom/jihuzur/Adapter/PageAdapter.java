@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.awizom.jihuzur.CustomerActivity.CustomerFragment.CustomerHomeServiceFragment;
-import com.example.awizom.jihuzur.Fragment.ApplianceFragment;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerFragment.CustomerElectricianFragment;
+import com.example.awizom.jihuzur.Fragment.CustomerCarpenterFragment;
 import com.example.awizom.jihuzur.Fragment.PaintingFragment;
 
 public class PageAdapter extends FragmentPagerAdapter {
@@ -25,17 +25,17 @@ public class PageAdapter extends FragmentPagerAdapter {
         switch (position) {
 
             case 0:
-                return new CustomerHomeServiceFragment();
+                return new CustomerElectricianFragment();
             case 1:
-                return new ApplianceFragment();
+                return new CustomerCarpenterFragment();
             case 2:
                 return new PaintingFragment();
             case 3:
                 return new PaintingFragment();
-            case 4:
-                return new PaintingFragment();
-            case 5:
-                return new PaintingFragment();
+//            case 4:
+//                return new PaintingFragment();
+//            case 5:
+//                return new PaintingFragment();
             default:
                 return null;
         }
@@ -52,17 +52,17 @@ public class PageAdapter extends FragmentPagerAdapter {
         switch (position) {
 
             case 0:
-                return "HomeServices";
+                return "Electrician";
             case 1:
-                return "Appliance";
+                return "Plumber";
             case 2:
-                return "HomeCleaning";
+                return "Carpenter";
             case 3:
-                return "Painting";
-            case 4:
-                return "Moving";
-            case 5:
-                return "Tutor";
+                return "Ac Repair & Fix";
+//            case 4:
+//                return "Moving";
+//            case 5:
+//                return "Tutor";
             default:
 
         }
