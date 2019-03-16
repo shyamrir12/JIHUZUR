@@ -2,7 +2,6 @@ package com.example.awizom.jihuzur;
 
 
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -11,14 +10,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.Adapter.CustomAdapter;
@@ -29,9 +26,7 @@ import com.example.awizom.jihuzur.Model.Service;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SelectServices extends AppCompatActivity implements View.OnClickListener {
@@ -66,6 +61,8 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
 
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Services");
+        toolbar.setTitleTextColor(Color.WHITE);
+
 
         toolbar.setSubtitleTextColor(Color.BLACK);
         setSupportActionBar(toolbar);

@@ -7,54 +7,75 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <LinearLayout
+        android:id="@+id/l1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textSize="20sp"
-        android:text="Services list"
-        android:layout_marginLeft="70dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:textColor="@color/colorBlack"
-        android:id="@+id/serviceName"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/repair" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="20sp"
+            android:text="Services list"
+            android:gravity="left|center_horizontal"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/serviceName"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/l2"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/l1">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical|center_horizontal"
+        android:gravity="left|center_horizontal"
         android:textSize="15sp"
+        android:layout_marginLeft="10dp"
         android:id="@+id/description"
         android:textStyle="italic"
-        android:layout_marginLeft="70dp" />
-
+        android:text="@string/electrician"/>
+    </LinearLayout>
         <TextView
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-    />
+            android:layout_width="match_parent"
+            android:layout_height="10dp"   />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="10dp"
             android:id="@+id/serviceID"
-            android:visibility="gone"
-            />
+            android:visibility="gone"  />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="10dp"
             android:id="@+id/displayTypes"
-            android:visibility="gone"
-            />
+            android:visibility="gone"    />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="10dp"
             android:id="@+id/catalogID"
-            android:visibility="gone"
-            />
+            android:visibility="gone"   />
 
-    </LinearLayout>
+    </RelativeLayout>
 </android.support.v7.widget.CardView>
 
 
