@@ -52,6 +52,7 @@ public class SplashActivity extends AppCompatActivity {
                         if (SharedPrefManager.getInstance(getApplicationContext()).getUser().isActive()) {
                             intent = new Intent(SplashActivity.this, EmployeeHomePage.class);
                             startActivity(intent);
+                            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                         } else {
                             getProfile();
 
@@ -60,19 +61,23 @@ public class SplashActivity extends AppCompatActivity {
 
                         intent = new Intent(SplashActivity.this, CustomerHomePage.class);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
                     } else if (SharedPrefManager.getInstance(getApplicationContext()).getUser().getRole().equals("Admin")) {
 
                         intent = new Intent(SplashActivity.this, AdminHomePage.class);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
                     } else {
                         Intent intent = new Intent(SplashActivity.this, RegistrationActivity.class);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                     }
                 } else {
                     Intent intent = new Intent(SplashActivity.this, RegistrationActivity.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                 }
                 // close this activity
                 finish();
@@ -100,6 +105,7 @@ public class SplashActivity extends AppCompatActivity {
                     if (dataProfile1.isActive()) {
                         intent = new Intent(SplashActivity.this, EmployeeHomePage.class);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                     } else {
                         Toast.makeText(getApplicationContext(), "Contact Your Admin", Toast.LENGTH_LONG).show();
                     }

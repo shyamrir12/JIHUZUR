@@ -167,6 +167,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             case R.id.skiplogin:
                 intent = new Intent(RegistrationActivity.this, CustomerHomePage.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                 break;
         }
 
@@ -242,14 +243,18 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                             if (jsonbody.dataProfile.Role.equals("Employee")) {
                                 intent = new Intent(RegistrationActivity.this, EmployeeHomePage.class);
                                 startActivity(intent);
+                                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
                             } else if (jsonbody.dataProfile.Role.equals("Customer")) {
                                 intent = new Intent(RegistrationActivity.this, CustomerHomePage.class);
                                 startActivity(intent);
+                                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
                             } else if (jsonbody.dataProfile.Role.equals("Admin")) {
                                 intent = new Intent(RegistrationActivity.this, AdminHomePage.class);
                                 startActivity(intent);
+                                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+
                             }
                         } else {
                             intent = new Intent(RegistrationActivity.this, VerifyPhoneActivity.class);
@@ -258,6 +263,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                             intent.putExtra("Role", jsonbody.dataProfile.Role);
                             intent.putExtra("Active", jsonbody.dataProfile.Active);
                             startActivity(intent);
+                            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                         }
                     }
 

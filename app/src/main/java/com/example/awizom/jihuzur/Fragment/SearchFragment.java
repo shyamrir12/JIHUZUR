@@ -23,7 +23,7 @@ public class SearchFragment extends Fragment {
     PageAdapter pageAdapter;
     TabItem appliance;
     TabItem massage;
-    TabItem homecleaning,painting,tutors,movingHome;;
+    TabItem homecleaning,painting;
     private String catagoryName="";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,8 +43,8 @@ public class SearchFragment extends Fragment {
         homecleaning = view.findViewById(R.id.Plumber);
 
         painting  = view.findViewById(R.id.Ac_repair);
-        tutors  = view.findViewById(R.id.Tutor);
-        movingHome  = view.findViewById(R.id.Moving);
+//        tutors  = view.findViewById(R.id.Tutor);
+//        movingHome  = view.findViewById(R.id.Moving);
 
 
 

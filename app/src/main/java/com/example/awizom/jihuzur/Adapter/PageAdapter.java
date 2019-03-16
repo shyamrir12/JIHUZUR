@@ -31,11 +31,11 @@ public class PageAdapter extends FragmentPagerAdapter {
             case 2:
                 return new PaintingFragment();
             case 3:
-                return new PaintingFragment();
+               return new PaintingFragment();
 //            case 4:
 //                return new PaintingFragment();
 //            case 5:
-//                return new PaintingFragment();
+//                //return new PaintingFragment();
             default:
                 return null;
         }
@@ -60,7 +60,7 @@ public class PageAdapter extends FragmentPagerAdapter {
             case 3:
                 return "Ac Repair & Fix";
 //            case 4:
-//                return "Moving";
+//                return "Carpenter";
 //            case 5:
 //                return "Tutor";
             default:

@@ -15,7 +15,7 @@ public class MenuActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;
     PageAdapter pageAdapter;
-    TabItem electrician, carpenter, plumber, ac_repair_fix,tutors,movingHome;
+    TabItem electrician, carpenter, plumber, ac_repair_fix;
 
 
     private String catagoryName="",employeeSkill="";
@@ -34,6 +34,7 @@ public class MenuActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+
         catagoryName = String.valueOf(getIntent().getIntExtra("CategoryName",0));
         employeeSkill = getIntent().getStringExtra("EmployeeSkill");
 
@@ -43,31 +44,21 @@ public class MenuActivity extends AppCompatActivity {
         plumber = findViewById(R.id.Plumber);
 
          ac_repair_fix = findViewById(R.id.Ac_repair);
-         tutors  = findViewById(R.id.Tutor);
-         movingHome  = findViewById(R.id.Moving);
+//         tutors  = findViewById(R.id.Tutor);
+//         movingHome  = findViewById(R.id.Moving);
 
         viewPager = findViewById(R.id.viewPager);
         pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-        if(catagoryName.contains("4")){
-            TabLayout.Tab tab = tabLayout.getTabAt(4);
-            tab.select();
-            tabLayout.setupWithViewPager(viewPager);
-            viewPager.setCurrentItem(tab.getPosition());
-        }else if(catagoryName.equals("5")){
-            TabLayout.Tab tab = tabLayout.getTabAt(5);
-            tab.select();
-            tabLayout.setupWithViewPager(viewPager);
-            viewPager.setCurrentItem(tab.getPosition());
-        } else if(catagoryName.equals("3")){
-            TabLayout.Tab tab = tabLayout.getTabAt(3);
-            tab.select();
-            tabLayout.setupWithViewPager(viewPager);
-            viewPager.setCurrentItem(tab.getPosition());
-        } else if(catagoryName.equals("2")){
+        if(catagoryName.contains("2")){
             TabLayout.Tab tab = tabLayout.getTabAt(2);
+            tab.select();
+            tabLayout.setupWithViewPager(viewPager);
+            viewPager.setCurrentItem(tab.getPosition());
+        }else if(catagoryName.equals("3")){
+            TabLayout.Tab tab = tabLayout.getTabAt(3);
             tab.select();
             tabLayout.setupWithViewPager(viewPager);
             viewPager.setCurrentItem(tab.getPosition());
@@ -76,12 +67,26 @@ public class MenuActivity extends AppCompatActivity {
             tab.select();
             tabLayout.setupWithViewPager(viewPager);
             viewPager.setCurrentItem(tab.getPosition());
-        } else if(catagoryName.equals("0")){
+        }
+        else if(catagoryName.equals("0")){
             TabLayout.Tab tab = tabLayout.getTabAt(0);
             tab.select();
             tabLayout.setupWithViewPager(viewPager);
             viewPager.setCurrentItem(tab.getPosition());
-        } else {
+        }
+//        else if(catagoryName.equals("1")){
+//            TabLayout.Tab tab = tabLayout.getTabAt(1);
+//            tab.select();
+//            tabLayout.setupWithViewPager(viewPager);
+//            viewPager.setCurrentItem(tab.getPosition());
+//        }
+//        else if(catagoryName.equals("0")){
+//            TabLayout.Tab tab = tabLayout.getTabAt(0);
+//            tab.select();
+//            tabLayout.setupWithViewPager(viewPager);
+//            viewPager.setCurrentItem(tab.getPosition());
+//        }
+        else {
             TabLayout.Tab tab = tabLayout.getTabAt(0);
             tab.select();
             tabLayout.setupWithViewPager(viewPager);

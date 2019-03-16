@@ -4,7 +4,6 @@ import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -126,17 +125,17 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         catalogFragment = new CatalogFragment();
         setContentView(R.layout.activity_customer_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        electricianCardView = findViewById(R.id.homecleaningCardViewOne);
+        electricianCardView = findViewById(R.id.electricianCardViewOne);
         electricianCardView.setOnClickListener(this);
-        appliancecardView = findViewById(R.id.appliancesCardViewOne1);
+        appliancecardView = findViewById(R.id.plumberCardViewOne1);
         appliancecardView.setOnClickListener(this);
-        movingTruckCardViewTwo = findViewById(R.id.movingTruckLoaderCardViewTwo);
+        movingTruckCardViewTwo = findViewById(R.id.carpenterCardViewTwo);
         movingTruckCardViewTwo.setOnClickListener(this);
         washingCardViewThree1 = findViewById(R.id.washingMachineCardViewThree1);
         washingCardViewThree1.setOnClickListener(this);
         tutorcardViewThree = findViewById(R.id.tutorCardViewThree);
         tutorcardViewThree.setOnClickListener(this);
-        ringcardViewTwo = findViewById(R.id.ringCardViewTwo1);
+        ringcardViewTwo = findViewById(R.id.acrepairFixCardViewTwo1);
         ringcardViewTwo.setOnClickListener(this);
         homecleaning = findViewById(R.id.homecleaning);
         homeCleaningTextView = findViewById(R.id.homecleaningTextView);
@@ -316,6 +315,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         if (id == R.id.nav_booking) {
             intent=new Intent(CustomerHomePage.this,MyBokingsActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
         }
        /* else if (id == R.id.nav_review) {
                    getSupportActionBar().setTitle("My Review");
@@ -327,6 +327,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 ActivityOptions startAnimation = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.fui_slide_out_left,R.anim.fui_slide_in_right);
 
             startActivity(intent,startAnimation.toBundle());
+            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
         }  else if (id == R.id.nav_logout) {
             SharedPrefManager.getInstance(this).logout();
             Intent login = new Intent(getApplicationContext(), RegistrationActivity.class);
@@ -342,6 +343,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
             sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
             startActivity(Intent.createChooser(sharingIntent, "Share via"));
+            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
         } else if (id == R.id.nav_send) {
 
@@ -349,6 +351,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + phoneNumber));
             intent.putExtra("sms_body", message);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
         } else if (id == R.id.profileImage) {
             Intent imageView = new Intent(CustomerHomePage.this, DrawingActivity.class);
@@ -373,39 +376,45 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         v.startAnimation(buttonClick);
         switch (v.getId()){
 
-            case R.id.homecleaningCardViewOne:
+            case R.id.electricianCardViewOne:
 //                check = true;
 //                electricianCardView.setBackgroundColor(Color.WHITE);
 
                 intent=new Intent(CustomerHomePage.this,MenuActivity.class);
-                intent.putExtra("CategoryName",5);
-                startActivity(intent);
-                break;
-            case R.id.appliancesCardViewOne1:
-                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
-                intent.putExtra("CategoryName",4);
-                startActivity(intent);
-                break;
-            case R.id.movingTruckLoaderCardViewTwo:
-                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
-                intent.putExtra("CategoryName",1);
-                startActivity(intent);
-                break;
-            case R.id.ringCardViewTwo1:
-                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
                 intent.putExtra("CategoryName",3);
                 startActivity(intent);
+                overridePendingTransition( R.anim.slide_out,R.anim.slide_in);
                 break;
-            case R.id.tutorCardViewThree:
-                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
-                intent.putExtra("CategoryName",0);
-                startActivity(intent);
-                break;
-            case R.id.washingMachineCardViewThree1:
+            case R.id.plumberCardViewOne1:
                 intent=new Intent(CustomerHomePage.this,MenuActivity.class);
                 intent.putExtra("CategoryName",2);
                 startActivity(intent);
+                overridePendingTransition( R.anim.slide_out,R.anim.slide_in);
                 break;
+            case R.id.carpenterCardViewTwo:
+                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
+                intent.putExtra("CategoryName",1);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                break;
+            case R.id.acrepairFixCardViewTwo1:
+                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
+                intent.putExtra("CategoryName",0);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                break;
+//            case R.id.tutorCardViewThree:
+//                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
+//                intent.putExtra("CategoryName",0);
+//                startActivity(intent);
+//                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+//                break;
+//            case R.id.washingMachineCardViewThree1:
+//                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
+//                intent.putExtra("CategoryName",1);
+//                startActivity(intent);
+//                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+//                break;
         }
 
     }
