@@ -45,13 +45,10 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
 
         getSupportActionBar().setTitle("Verification");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         otpEditText = findViewById(R.id.editTextOtp);
         verifyOtpBtn = findViewById(R.id.buttonVerify);
         verifyOtpBtn.setOnClickListener(this);
         progressDialog = new ProgressDialog(VerifyPhoneActivity.this);
-
-
         otp = getIntent().getExtras().getString("OTP","");
         userId = getIntent().getExtras().getString("Uid","");
         role = getIntent().getExtras().getString("Role","");

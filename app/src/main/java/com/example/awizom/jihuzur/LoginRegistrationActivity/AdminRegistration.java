@@ -1,5 +1,4 @@
-package com.example.awizom.jihuzur.CustomerActivity;
-
+package com.example.awizom.jihuzur.LoginRegistrationActivity;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -11,6 +10,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -23,45 +23,47 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.awizom.jihuzur.AdminActivity.AdminHomePage;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.LoginHelper;
-import com.example.awizom.jihuzur.LoginRegistrationActivity.VerifyPhoneActivity;
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-public class CustomerLoginRegActivity extends AppCompatActivity implements View.OnClickListener {
+public class AdminRegistration extends AppCompatActivity implements View.OnClickListener {
 
     private EditText editTextMobile;
     private TextView skiplogin;
     private Button butonContinue;
-    DatabaseReference datauserprofile;
-    private FirebaseAuth mAuth;
-    private String mobileNumber = "", mobile = "", ur = "User", result = "";
-    DataProfile customerDataProfile;
+    private String ur = "User", result = "";
     private ProgressDialog progressDialog;
     Intent intent;
-    private TextView role;
+    private TextView textRole;
     private LoginHelper loginHelper;
     boolean connected = false;
     LinearLayout coordinatorLayout;
     Snackbar snackbar;
     FirebaseFirestore db;
-    boolean check = false;
-    private static int TIMER = 300;
+    private static int TIMER = 10000;
 
     /*For layout binding */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.customer_login_layout);
+        setContentView(R.layout.registration_admin);
         checkAppPermission();
         initView();
     }
@@ -71,11 +73,7 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
         //19/02/2019 comment for not login
         db = FirebaseFirestore.getInstance();
         coordinatorLayout = (LinearLayout) findViewById(R.id.coordinator);
-
-        //progress bar on
-        progressDialog = new ProgressDialog(com.example.awizom.jihuzur.CustomerActivity.CustomerLoginRegActivity.this);
-
-
+        progressDialog = new ProgressDialog(AdminRegistration.this);
         snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
                 .setAction("RETRY", new View.OnClickListener() {
                     @Override
@@ -90,18 +88,14 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
         checkInternet();
         editTextMobile = findViewById(R.id.editTextMobile);
         butonContinue = findViewById(R.id.buttonContinue);
-        skiplogin = findViewById(R.id.skiplogin);
         butonContinue.setOnClickListener(this);
-        skiplogin.setOnClickListener(this);
         loginHelper = new LoginHelper();
-        role = findViewById(R.id.roleSpiner);
-
-
+        textRole = findViewById(R.id.roleSpiner);
     }
 
     private void checkAppPermission() {
 
-        ActivityCompat.requestPermissions(com.example.awizom.jihuzur.CustomerActivity.CustomerLoginRegActivity.this,
+        ActivityCompat.requestPermissions(AdminRegistration.this,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.CALL_PHONE, Manifest.permission.READ_CONTACTS},
                 1);
@@ -129,12 +123,11 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 } else {
-                    Toast.makeText(CustomerLoginRegActivity.this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminRegistration.this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
         }
-
     }
 
     /*For Event Listeners*/
@@ -145,9 +138,7 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                 progressDialog.setMessage("Login in progress ...");
                 progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
                 progressDialog.show();
-
                 new Handler().postDelayed(new Runnable() {
-
                     @Override
                     public void run() {
                         createuser();
@@ -155,18 +146,15 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                 }, TIMER);
                 break;
             case R.id.skiplogin:
-                intent = new Intent(CustomerLoginRegActivity.this, CustomerHomePage.class);
+                intent = new Intent(AdminRegistration.this, CustomerHomePage.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                 break;
         }
-
-
     }
 
     /*For Validation */
     private boolean validation() {
-
         if (editTextMobile.getText().toString().isEmpty() || editTextMobile.getText().toString().length() < 10) {
             editTextMobile.setError("Enter a valid mobile");
             editTextMobile.requestFocus();
@@ -179,11 +167,9 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
     private void createuser() {
 
         if (validation()) {
-
-            if (role != null)
-                ur = role.getText().toString().trim();
+            if (textRole != null)
+                ur = textRole.getText().toString().trim();
             try {
-
                 result = new LoginHelper.GetLogin().execute(editTextMobile.getText().toString().trim(), "Jihuzur@123", "Jihuzur@123", ur).get();
                 progressDialog.dismiss();
                 Gson gson = new Gson();
@@ -203,15 +189,15 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
                             result = String.valueOf(new AdminHelper.POSTProfileLatLong().execute(SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(), String.valueOf("21.22"), String.valueOf("80.66")));
 
-
-                            if (jsonbody.dataProfile.Role.equals("Customer")) {
-                                intent = new Intent(CustomerLoginRegActivity.this, CustomerHomePage.class);
+                            if (jsonbody.dataProfile.Role.equals("Admin")) {
+                                intent = new Intent(AdminRegistration.this, AdminHomePage.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-
                             }
-                        } else {
-                            intent = new Intent(CustomerLoginRegActivity.this, VerifyPhoneActivity.class);
+                        }
+
+                        else {
+                            intent = new Intent(AdminRegistration.this, VerifyPhoneActivity.class);
                             intent.putExtra("OTP", jsonbody.OtpCode);
                             intent.putExtra("Uid", jsonbody.dataProfile.ID);
                             intent.putExtra("Role", jsonbody.dataProfile.Role);
@@ -219,6 +205,7 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                             startActivity(intent);
                             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                         }
+
                     }
 
                 } catch (Exception e) {
@@ -232,7 +219,7 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
             }
         } else {
             Toast.makeText(getApplicationContext(), "Mobile No is not Valid", Toast.LENGTH_SHORT).show();
-            progressDialog.dismiss();
+
         }
 
     }

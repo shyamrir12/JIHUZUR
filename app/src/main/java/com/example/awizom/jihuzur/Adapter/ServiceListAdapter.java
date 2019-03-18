@@ -106,7 +106,8 @@ public class ServiceListAdapter extends  RecyclerView.Adapter<ServiceListAdapter
                                 }
                             }
                         });
-                    } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Customer")) {
+                    }
+                    else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Customer")) {
 
                         intent = new Intent(mCtx, CustomerpricingActivity.class);
                         intent.putExtra("serviceName", holder.serviceName.getText());

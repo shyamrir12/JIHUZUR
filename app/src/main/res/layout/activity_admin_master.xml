@@ -24,7 +24,6 @@
         android:layout_width="match_parent"
         android:layout_height="567dp"
         android:orientation="vertical"
-
         tools:ignore="MissingConstraints">
 
         <LinearLayout
@@ -46,7 +45,6 @@
                     android:id="@+id/l0"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:orientation="horizontal"
                     android:text="Test">
 

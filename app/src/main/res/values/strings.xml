@@ -272,4 +272,5 @@
     <string name="plumber">Plumber</string>
     <string name="carpainter">Carpenter</string>
     <string name="Ac_repair"><![CDATA[Ac Repair & Fix]]></string>
+    <string name="title_customer_login">Customer Sign In</string>
 </resources>

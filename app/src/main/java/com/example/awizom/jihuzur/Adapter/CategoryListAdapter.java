@@ -1,6 +1,5 @@
 package com.example.awizom.jihuzur.Adapter;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -43,15 +42,11 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-
-public class CategoryListAdapter extends
-        RecyclerView.Adapter<CategoryListAdapter.MyViewHolder> {
-
+public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.MyViewHolder>
+{
     public static final int SELECT_PHOTO = 100;
     String imagestr;
     Intent intent;
-    int catalogID;
-    String categoryname;
     String catalogName;
     AutoCompleteTextView categoryNames;
     ImageView imageView;
@@ -63,13 +58,10 @@ public class CategoryListAdapter extends
     };
     private List<Catalog> categorylist;
     private Context mCtx;
-    private Catalog categorys;
-
 
     public CategoryListAdapter(Context baseContext, List<Catalog> categorylist) {
         this.categorylist = categorylist;
         this.mCtx = baseContext;
-
 
     }
 
@@ -94,6 +86,7 @@ public class CategoryListAdapter extends
         Catalog c = categorylist.get(position);
         holder.category.setText(c.getCategory());
         holder.catalogid.setText(String.valueOf(c.getCatalogID()));
+
         imagestr = AppConfig.BASE_URL + c.getImage();
         holder.catalogname.setText(c.getCatalogName());
         viewDialog = new ViewDialog((Activity) mCtx);
@@ -101,7 +94,6 @@ public class CategoryListAdapter extends
             if (c.getImage() == null) {
                 holder.categoryImage.setImageResource(R.drawable.jihuzurblanklogo);
             } else {
-
                 Glide.with(mCtx)
                         .load(imagestr)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -126,7 +118,6 @@ public class CategoryListAdapter extends
                 intent.putExtra("CatalogID", holder.catalogid.getText());
                 intent.putExtra("CatalogName", catalogName);
                 mCtx.startActivity(intent);
-
 
             }
         });
@@ -244,14 +235,15 @@ public class CategoryListAdapter extends
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView category, catalogid, catalogname;
-        public ImageView categoryImage;
+        public TextView category, seccategory, catalogid, catalogname;
+        public ImageView categoryImage, seccategoryImage;
         private List<Catalog> catalogList;
 
         public MyViewHolder(View view) {
             super(view);
 
             category = (TextView) view.findViewById(R.id.categoryName);
+
             categoryImage = (ImageView) view.findViewById(R.id.categoryImage);
             catalogname = (TextView) view.findViewById(R.id.catalogname);
             catalogid = (TextView) view.findViewById(R.id.catalogId);

@@ -12,6 +12,9 @@
         android:layout_centerHorizontal="true" />
 
 
+
+
+
     <ImageView
         android:id="@+id/img"
         android:layout_width="190dp"

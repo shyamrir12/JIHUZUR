@@ -202,7 +202,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     break;
 
                 case R.id.navigation_master:
-                    intent = new Intent(AdminHomePage.this, AdminMasterActivity.class);
+                    intent = new Intent(AdminHomePage.this, AdminCategoryActivity.class);
                     startActivity(intent);
                     break;
 
@@ -1181,7 +1181,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             intent = new Intent(AdminHomePage.this, AdminMyEmployeeActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_master) {
-            intent = new Intent(AdminHomePage.this, AdminMasterActivity.class);
+            intent = new Intent(AdminHomePage.this, AdminCategoryActivity.class);
             startActivity(intent);
         }/* else if (id == R.id.nav_catalogName) {
             intent = new Intent(AdminHomePage.this, AdminCatalogActivity.class);

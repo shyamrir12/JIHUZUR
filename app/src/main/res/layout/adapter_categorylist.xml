@@ -1,59 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/grdnt"
     android:orientation="horizontal">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/w1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/w1">
+        android:layout_height="wrap_content">
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
-
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
                 <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
                     android:id="@+id/categoryImage"
-                    />
+                    android:layout_width="70dp"
+                    android:layout_height="70dp" />
+            </android.support.v7.widget.CardView>
 
-
-
-                <TextView
-                    android:layout_marginLeft="60dp"
-                    android:id="@+id/categoryName"
-                    android:layout_width="match_parent"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="20sp" />
+            <TextView
+                android:id="@+id/categoryName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="60dp"
+                android:gravity="center_horizontal|center_vertical"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp" />
 
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/catalogId"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:id="@+id/catalogId"
             android:visibility="gone"
 
             />
+
         <TextView
+            android:id="@+id/catalogname"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:id="@+id/catalogname"
             android:visibility="gone"
 
             />
 
 
     </android.support.v7.widget.CardView>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="20dp"
