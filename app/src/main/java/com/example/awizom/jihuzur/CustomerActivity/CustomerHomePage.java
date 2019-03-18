@@ -14,7 +14,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -24,17 +25,18 @@ import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.Config.AppConfig;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerCatagoryAdapter;
 import com.example.awizom.jihuzur.DrawingActivity;
 import com.example.awizom.jihuzur.Fragment.CatalogFragment;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
 import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
-import com.example.awizom.jihuzur.MenuActivity;
+import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
+import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
@@ -46,6 +48,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.List;
 
 
 /**
@@ -57,22 +60,25 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     String TAG;
     private Fragment fragment = null;
     private Fragment searchFragment,myBookingFragment,helpCenterFragment,catalogFragment;
-    String result="";
+
     DatabaseReference datauser, datauserpro;
     String dUser,name,role;
     String Url;
     Boolean active = false;
     View header;
-    private CardView electricianCardView,appliancecardView,movingTruckCardViewTwo, washingCardViewThree1,tutorcardViewThree,ringcardViewTwo;
-    private ImageView homecleaning;
-    private TextView homeCleaningTextView;
-    DatabaseReference datauserprofile;
-    private Intent intent;
-    TextView userName, identityNo, identityType, userContact;
+    TextView userName,userContact;
     ImageView imageView;
     String img_str;
     boolean check = false;
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
+
+
+    Intent intent;
+    private String result="",catalogName="Home Cleaning & Repairs";
+    List<Catalog> categorylist;
+    RecyclerView recyclerView;
+
+    CustomerCatagoryAdapter customerCatagoryAdapter;
 
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -124,29 +130,17 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         myBookingFragment= new MyBookingFragment();
         catalogFragment = new CatalogFragment();
         setContentView(R.layout.activity_customer_home_page);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        electricianCardView = findViewById(R.id.electricianCardViewOne);
-        electricianCardView.setOnClickListener(this);
-        appliancecardView = findViewById(R.id.plumberCardViewOne1);
-        appliancecardView.setOnClickListener(this);
-        movingTruckCardViewTwo = findViewById(R.id.carpenterCardViewTwo);
-        movingTruckCardViewTwo.setOnClickListener(this);
-        washingCardViewThree1 = findViewById(R.id.washingMachineCardViewThree1);
-        washingCardViewThree1.setOnClickListener(this);
-        tutorcardViewThree = findViewById(R.id.tutorCardViewThree);
-        tutorcardViewThree.setOnClickListener(this);
-        ringcardViewTwo = findViewById(R.id.acrepairFixCardViewTwo1);
-        ringcardViewTwo.setOnClickListener(this);
-        homecleaning = findViewById(R.id.homecleaning);
-        homeCleaningTextView = findViewById(R.id.homecleaningTextView);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+
+
         setSupportActionBar(toolbar);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation =  findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView =  findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerview = navigationView.getHeaderView(0);
         imageView=headerview.findViewById(R.id.imageView);
@@ -156,7 +150,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 if (SharedPrefManager.getInstance(this).getUser().getImage() == null)
                 {
                     imageView.setImageResource(R.drawable.jihuzurblanklogo);
-                    //     Glide.with(mCtx).load("http://192.168.1.105:7096/Images/Category/1.png").into(holder.categoryImage);
                 } else {
                     Glide.with(CustomerHomePage.this)
                             .load(img_str)
@@ -189,8 +182,30 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             }
         });
         getProfile();
-    }
 
+
+
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        getcatagoryList();
+    }
+    private void getcatagoryList() {
+        try {
+            result = new CustomerOrderHelper.GETCustomerCategoryList().execute(catalogName).get();
+            if(result != null){
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<Catalog>>() {
+                }.getType();
+                categorylist = new Gson().fromJson(result, listType);
+                customerCatagoryAdapter = new CustomerCatagoryAdapter(getApplicationContext(),categorylist);
+                recyclerView.setAdapter(customerCatagoryAdapter);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     private void getProfile() {
         String id = SharedPrefManager.getInstance(this).getUser().getID();
         try {
@@ -376,45 +391,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         v.startAnimation(buttonClick);
         switch (v.getId()){
 
-            case R.id.electricianCardViewOne:
-//                check = true;
-//                electricianCardView.setBackgroundColor(Color.WHITE);
 
-                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
-                intent.putExtra("CategoryName",3);
-                startActivity(intent);
-                overridePendingTransition( R.anim.slide_out,R.anim.slide_in);
-                break;
-            case R.id.plumberCardViewOne1:
-                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
-                intent.putExtra("CategoryName",2);
-                startActivity(intent);
-                overridePendingTransition( R.anim.slide_out,R.anim.slide_in);
-                break;
-            case R.id.carpenterCardViewTwo:
-                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
-                intent.putExtra("CategoryName",1);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-                break;
-            case R.id.acrepairFixCardViewTwo1:
-                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
-                intent.putExtra("CategoryName",0);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-                break;
-//            case R.id.tutorCardViewThree:
-//                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
-//                intent.putExtra("CategoryName",0);
-//                startActivity(intent);
-//                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-//                break;
-//            case R.id.washingMachineCardViewThree1:
-//                intent=new Intent(CustomerHomePage.this,MenuActivity.class);
-//                intent.putExtra("CategoryName",1);
-//                startActivity(intent);
-//                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-//                break;
         }
 
     }
