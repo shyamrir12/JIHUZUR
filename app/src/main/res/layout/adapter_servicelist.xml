@@ -17,12 +17,13 @@
         android:orientation="horizontal"
         android:layout_marginTop="10dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="50dp"
+        <ImageView
+            android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
-            android:src="@mipmap/repair" />
+            android:src="@mipmap/temp"
+            android:background="@drawable/background_border_edittext"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

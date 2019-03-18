@@ -28,6 +28,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
+
                 android:id="@+id/categoryImage"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
