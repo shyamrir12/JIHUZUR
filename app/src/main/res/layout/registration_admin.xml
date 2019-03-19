@@ -21,17 +21,24 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="16dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_person_outline_black_24dp"
+                    android:layout_gravity="center"/>
                 <TextView
                     android:id="@+id/roleSpiner"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:text="Admin"
-                    android:drawableLeft="@drawable/ic_person_outline_black_24dp"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="17sp"
-                    android:gravity="left|center_vertical"
-                    android:paddingLeft="10dp"
-                    android:layout_below="@+id/tl1"/>
+                    android:layout_height="wrap_content"
+                    android:hint="Admin"
+                    android:textColorHint="#000000"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="15dp"
+                    android:background="#00000000"
+                    android:letterSpacing="0.1"
+                    android:inputType="number"
+                    android:maxLength="10"/>
 
             </LinearLayout>
             <LinearLayout

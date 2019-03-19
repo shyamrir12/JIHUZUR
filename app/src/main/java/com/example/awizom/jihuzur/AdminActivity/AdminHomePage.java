@@ -6,6 +6,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,6 +24,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -73,6 +75,7 @@ import com.example.awizom.jihuzur.Model.Review;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Service.LocationMonitoringService;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
+import com.example.awizom.jihuzur.ViewDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.internal.Constants;
@@ -144,6 +147,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
     String latl, long1;
     String namesForMap;
     String result = "";
+    ViewDialog viewDialog;
     Intent intent;
     de.hdodenhof.circleimageview.CircleImageView profileImages;
     TextView userName, identityNo, identityType;
@@ -272,6 +276,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         employeeImage = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.employee_dp);
         call = (ImageView) findViewById(R.id.call);
+        viewDialog = new ViewDialog(this);
         customerDetails = (TextView) findViewById(R.id.customerdetails);
         fragmentManager = getSupportFragmentManager();//Get Fragment Manager
         setSupportActionBar(toolbar);
@@ -1170,7 +1175,22 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         return super.onOptionsItemSelected(item);
     }
     //side navigation drwaer started onCLick
+    public void showCustomLoadingDialog() {
 
+        //..show gif
+        viewDialog.showDialog();
+
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //...here i'm waiting 5 seconds before hiding the custom dialog
+                //...you can do whenever you want or whenever your work is done
+                viewDialog.hideDialog();
+            }
+        }, 1000);
+    }
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -1179,8 +1199,12 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 
         if (id == R.id.nav_employee) {
             // Handle the camera action
+
+
             intent = new Intent(AdminHomePage.this, AdminMyEmployeeActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+
         } else if (id == R.id.nav_master) {
             intent = new Intent(AdminHomePage.this, AdminCategoryActivity.class);
             startActivity(intent);
