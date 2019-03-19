@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -82,6 +83,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             final String prictrm = order.getPricingTerms();
             final String empname = order.getEmpName();
             final String empmob = order.getEmpMob();
+
             holder.empName.setText(order.getServiceName());
             holder.empContAct.setText(order.getCatalogName());
             holder.timercount.setText(order.getTotalTime());
@@ -91,6 +93,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             holder.servicName.setText(order.getServiceName());
             holder.pricingterm.setText(order.getPricingTerms());
             holder.dctName.setText(order.getDiscountName());
+           // holder.orderIds.setText(order.getOrderID());
 
             final DocumentReference docRef = db.collection("Order").document(ordid);
             docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -118,6 +121,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                     intent.putExtra("PricingTerms", prictrm);
                     intent.putExtra("EmployeeName", empname);
                     intent.putExtra("EmployeeContact", empmob);
+                   // intent.putExtra("OrderIDs", holder.orderIds.getText().toString());
                     mCtx.startActivity(intent);
                 }
             });
@@ -225,11 +229,12 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context mCtx;
-        private TextView chronometer;
+        private TextView chronometer,orderIds;
         private TextView startTime, endtime, empName, timercount, empContAct, catagryName, servicName, pricingterm, dctName;
         private Button acceptBtn, trackinBtn, canclBtn, viewdetail;
         private List<Order> orderitemList;
         private LinearLayout linearLayout;
+        private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
 //        private TextView servicesName,bookingAccepted,description,timing;
 //        private Button viewBtn;
@@ -262,6 +267,8 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             dctName = itemView.findViewById(R.id.discountName);
             viewdetail = itemView.findViewById(R.id.viewDetail);
             linearLayout = itemView.findViewById(R.id.l4);
+
+            orderIds= itemView.findViewById(R.id.orderId);
             db = FirebaseFirestore.getInstance();
             acceptBtn.setOnClickListener(this);
             trackinBtn.setOnClickListener(this);
@@ -271,7 +278,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
 
         @Override
         public void onClick(final View v) {
-
+            v.startAnimation(buttonClick);
             switch (v.getId()) {
 
                 case R.id.trackBtn:

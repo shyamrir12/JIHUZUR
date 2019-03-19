@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,12 +47,14 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
 
 
     FirebaseFirestore db;
-
+    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
     private ImageButton sendBtn, backBtn;
     private AutoCompleteTextView receiverName;
     private EditText messageCommentText, review;
     private Intent intent;
-    private String orderID = "", cusID = "", empID = "", orderStartTime = "", orderEndtime = "", catagoryName = "", serviceName = "", pricingterm = "", employeeName = "", employeeContact = "", result = "", serviceId = "";
+    private String orderID = "", cusID = "", empID = "", orderStartTime = "", orderEndtime = "",
+            catagoryName = "", serviceName = "", pricingterm = "", employeeName = "",
+            employeeContact = "", result = "", serviceId = "",  ordid="";
     private TextView arrowBack, cancel, empName, empMobile, serviceNAme, txtRatingValue;
     private CustomerCommentAdapter customerCommentAdapter;
 
@@ -84,6 +87,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
     private void initView() {
 
         employeeID = getIntent().getStringExtra("EmployeeID");
+       // ordid =  getIntent().getStringExtra("OrderIDs");
         db=FirebaseFirestore.getInstance();
 //        sendBtn = findViewById(R.id.sendBtn);
 //        receiverName = findViewById(R.id.receverName);
@@ -122,7 +126,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         buttonAddCategory.setOnClickListener(this);
         buttonCancel.setOnClickListener(this);
 
-
+        try {
         // orderID = getIntent().getStringExtra("OrderID");
         orderID = String.valueOf(getIntent().getStringExtra("OrderID"));
         cusID = getIntent().getStringExtra("CustomerID");
@@ -136,10 +140,9 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         orderStartTime = getIntent().getStringExtra("OrderStartTime");
         serviceId = String.valueOf(getIntent().getIntExtra("ServiceID", 0));
 
-        try {
-            empName.setText(employeeName.toString());
-            empMobile.setText(employeeContact.toString());
-            serviceNAme.setText(serviceName.toString());
+        empName.setText(employeeName.toString());
+        empMobile.setText(employeeContact.toString());
+        serviceNAme.setText(serviceName.toString());
 
         }
       catch (Exception e)
@@ -155,10 +158,17 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
             }
         });
 
+        try {
         getreviewByOrder();
 
         getCustomerProfileGet();
         getEmployeeProfileGet();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+
+        }
 
 //        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 //            @Override
@@ -179,6 +189,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View v) {
+        v.startAnimation(buttonClick);
         switch (v.getId()) {
             case R.id.backArrow:
                 intent = new Intent(CustomerCommentActivity.this, MyBokingsActivity.class);
