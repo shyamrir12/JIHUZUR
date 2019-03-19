@@ -60,7 +60,7 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
       /*  catalogName = getIntent().getStringExtra("CatalogName");*/
 
         catalogName="Home Cleaning & Repairs";
-        toolbar.setTitle(catalogName + "'s" + " Category");
+        toolbar.setTitle("Category's");
         viewDialog = new ViewDialog(this);
         toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);

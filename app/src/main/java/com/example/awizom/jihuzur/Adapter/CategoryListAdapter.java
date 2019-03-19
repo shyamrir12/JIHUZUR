@@ -42,8 +42,7 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.MyViewHolder>
-{
+public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.MyViewHolder> {
     public static final int SELECT_PHOTO = 100;
     String imagestr;
     Intent intent;
@@ -99,6 +98,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(holder.categoryImage);
+                holder.imglinkurl.setText(imagestr);
 
                 // Glide.with(mCtx).load(imagestr).into(holder.categoryImage);
             }
@@ -114,6 +114,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             public void onClick(View v) {
                 showCustomLoadingDialog(v);
                 intent = new Intent(mCtx, SelectServices.class);
+                intent.putExtra("Image", holder.imglinkurl.getText().toString());
                 intent.putExtra("CategoryName", holder.category.getText());
                 intent.putExtra("CatalogID", holder.catalogid.getText());
                 intent.putExtra("CatalogName", catalogName);
@@ -235,7 +236,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView category, seccategory, catalogid, catalogname;
+        public TextView category, seccategory, catalogid, catalogname,imglinkurl;
         public ImageView categoryImage, seccategoryImage;
         private List<Catalog> catalogList;
 
@@ -243,7 +244,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             super(view);
 
             category = (TextView) view.findViewById(R.id.categoryName);
-
+            imglinkurl=(TextView)view.findViewById(R.id.imgLink);
             categoryImage = (ImageView) view.findViewById(R.id.categoryImage);
             catalogname = (TextView) view.findViewById(R.id.catalogname);
             catalogid = (TextView) view.findViewById(R.id.catalogId);
