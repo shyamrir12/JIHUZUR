@@ -193,7 +193,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 Type listType = new TypeToken<List<Catalog>>() {
                 }.getType();
                 categorylist = new Gson().fromJson(result, listType);
-                customerCatagoryAdapter = new CustomerCatagoryAdapter(getApplicationContext(), categorylist);
+                customerCatagoryAdapter = new CustomerCatagoryAdapter(CustomerHomePage.this, categorylist);
                 recyclerView.setAdapter(customerCatagoryAdapter);
             }
         } catch (Exception e) {
@@ -219,6 +219,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                     dataProfile1.Image = dataProfile.Image;
                     dataProfile1.Name = dataProfile.Name;
                     dataProfile1.MobileNo = dataProfile.MobileNo;
+                    dataProfile1.Role = dataProfile.Role;
                     SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile1);
 
                 }

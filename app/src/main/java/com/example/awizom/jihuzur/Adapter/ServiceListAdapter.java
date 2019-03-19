@@ -12,10 +12,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.AdminActivity.AdminPricingActivity;
 import com.example.awizom.jihuzur.CustomerActivity.SingleShotLocationProvider;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeSkillActivity;
@@ -42,15 +45,16 @@ public class ServiceListAdapter extends  RecyclerView.Adapter<ServiceListAdapter
     String catalogName;
     AutoCompleteTextView editServicename, editDescription;
     Spinner displayType;
-    String result = "", empskills = "";
+    String result = "", empskills = "",imageLink="";
     private List<Service> serviceList;
     private Context mCtx;
     ViewDialog viewDialog;
 
-    public ServiceListAdapter(Context baseContext, List<Service> serviceList, String empskill) {
+    public ServiceListAdapter(Context baseContext, List<Service> serviceList, String empskill, String imageLink) {
         this.serviceList = serviceList;
         this.mCtx = baseContext;
         this.empskills = empskill;
+        this.imageLink = imageLink;
     }
 
     @Override
@@ -63,6 +67,15 @@ public class ServiceListAdapter extends  RecyclerView.Adapter<ServiceListAdapter
         holder.serviceID.setText(String.valueOf(c.getServiceID()));
         holder.dType.setText(c.getDisplayType());
         holder.catalogID.setText(String.valueOf(c.getCatalogID()));
+
+        if (imageLink != null) {
+            Glide.with(mCtx)
+                    .load(imageLink)
+                    .placeholder(R.mipmap.temp).dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(holder.imageLink);
+        }
+
         final String servicename = holder.serviceName.getText().toString();
         final String description = holder.description.getText().toString();
         final String displaytype = String.valueOf(holder.dType.getText());
@@ -261,6 +274,7 @@ public class ServiceListAdapter extends  RecyclerView.Adapter<ServiceListAdapter
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView serviceName, description, serviceID, dType, catalogID;
+        public ImageView imageLink;
 
         public MyViewHolder(View view) {
             super(view);
@@ -270,6 +284,7 @@ public class ServiceListAdapter extends  RecyclerView.Adapter<ServiceListAdapter
             serviceID = view.findViewById(R.id.serviceID);
             dType = view.findViewById(R.id.displayTypes);
             catalogID = view.findViewById(R.id.catalogID);
+            imageLink = view.findViewById(R.id.image);
 
 
         }

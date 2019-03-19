@@ -15,6 +15,8 @@ import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.SelectServices;
+import com.example.awizom.jihuzur.Util.SharedPrefManager;
+
 import java.util.List;
 
 public class CustomerCatagoryAdapter extends RecyclerView.Adapter<CustomerCatagoryAdapter.catalogListItemViewHolder> {
@@ -65,9 +67,9 @@ public class CustomerCatagoryAdapter extends RecyclerView.Adapter<CustomerCatago
             public void onClick(View v) {
 
                 intent = new Intent(mCtx, SelectServices.class);
-                intent.putExtra("CategoryName",holder.catalogoryName.getText().toString());
+
                 intent.putExtra("CatalogID", holder.catalogid.getText().toString());
-                intent.putExtra("CatalogName", holder.catagory.getText().toString());
+                intent.putExtra("CategoryName", holder.catagory.getText().toString());
                 intent.putExtra("Image", holder.imglinkurl.getText().toString());
                 intent.putExtra("EmployeeSkill","EmployeeSkill");
                 mCtx.startActivity(intent);
@@ -94,12 +96,13 @@ public class CustomerCatagoryAdapter extends RecyclerView.Adapter<CustomerCatago
             super(view);
             this.mCtx = mCtx;
             this.catalogList = catalogList;
-
+            String role= SharedPrefManager.getInstance(mCtx).getUser().getRole();
             catagory =  view.findViewById(R.id.categoryName);
             catalogoryName =  view.findViewById(R.id.catalogoryName);
             catalogid = view.findViewById(R.id.catalogId);
             imageViewList = view.findViewById(R.id.categoryImage);
             imglinkurl = view.findViewById(R.id.imgLink);
+
 
 
         }
