@@ -66,6 +66,7 @@ import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Locationhelper.FetchURL;
 import com.example.awizom.jihuzur.Locationhelper.TaskLoadedCallback;
+import com.example.awizom.jihuzur.LoginRegistrationActivity.AdminRegistration;
 import com.example.awizom.jihuzur.Model.EmployeeProfileModel;
 import com.example.awizom.jihuzur.Model.Order;
 import com.example.awizom.jihuzur.Model.Review;
@@ -1202,7 +1203,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
             SharedPrefManager.getInstance(this).logout();
-            Intent login = new Intent(getApplicationContext(), RegistrationActivity.class);
+            Intent login = new Intent(getApplicationContext(), AdminRegistration.class);
             startActivity(login);
             finish();
         } else if (id == R.id.nav_share) {

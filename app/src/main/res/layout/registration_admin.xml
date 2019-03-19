@@ -26,6 +26,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:text="Admin"
+                    android:drawableLeft="@drawable/ic_person_outline_black_24dp"
                     android:textColor="@color/colorBlack"
                     android:textSize="17sp"
                     android:gravity="left|center_vertical"

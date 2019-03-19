@@ -41,6 +41,7 @@ import com.example.awizom.jihuzur.DrawingActivity;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeePageAdapter;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
+import com.example.awizom.jihuzur.LoginRegistrationActivity.EmployeeRegistration;
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.LoginRegistrationActivity.RegistrationActivity;
@@ -396,7 +397,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         } else if (id == R.id.nav_logout) {
 
             SharedPrefManager.getInstance(this).logout();
-            Intent login = new Intent(getApplicationContext(), RegistrationActivity.class);
+            Intent login = new Intent(getApplicationContext(), EmployeeRegistration.class);
             startActivity(login);
             finish();
 

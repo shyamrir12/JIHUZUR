@@ -64,7 +64,6 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
         viewDialog = new ViewDialog(this);
         toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
-
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
