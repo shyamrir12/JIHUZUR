@@ -82,6 +82,8 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     }
 
     private void initView() {
+
+
         if (!runtime_permissions())
         {enable_buttons();}
         serviceID = getIntent().getStringExtra("serviceID");
@@ -93,6 +95,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         priceID = getIntent().getStringExtra("priceId");
 
         getSupportActionBar().setTitle(serviceName);
+
 
         mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView = findViewById(R.id.recyclerView);

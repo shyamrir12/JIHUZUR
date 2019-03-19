@@ -26,7 +26,8 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
 
     private EditText otpEditText;
     private Button verifyOtpBtn;
-    private String result,userId="",otp="",role="",image="";
+    private String result,userId="",otp="",role="",image="",mobile="",name="";
+
     boolean active=false;
     private Intent intent;
     private ProgressDialog progressDialog;
@@ -53,7 +54,8 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
         userId = getIntent().getExtras().getString("Uid","");
         role = getIntent().getExtras().getString("Role","");
         active = getIntent().getExtras().getBoolean("Active",false);
-
+        mobile = getIntent().getExtras().getString("Mobile");
+        name = getIntent().getExtras().getString("Name");
     }
 
     /*For Event Listeners */
@@ -125,6 +127,8 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
                        dataProfile.Active = Boolean.valueOf( active );
                        dataProfile.Role = role;
                        dataProfile.Image = image;
+                       dataProfile.MobileNo =mobile;
+                       dataProfile.Name = name;
                        SharedPrefManager.getInstance( getApplicationContext() ).userLogin( dataProfile );
                        role = SharedPrefManager.getInstance( VerifyPhoneActivity.this ).getUser().Role;
                         if (role.equals( "Customer" )) {

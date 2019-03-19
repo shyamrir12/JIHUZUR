@@ -216,6 +216,8 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                             intent.putExtra("Uid", jsonbody.dataProfile.ID);
                             intent.putExtra("Role", jsonbody.dataProfile.Role);
                             intent.putExtra("Active", jsonbody.dataProfile.Active);
+                            intent.putExtra("Mobile",jsonbody.dataProfile.MobileNo);
+                            intent.putExtra("Name",jsonbody.dataProfile.Name);
                             startActivity(intent);
                             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                         }

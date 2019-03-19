@@ -335,7 +335,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
         } else if (id == R.id.nav_logout) {
             SharedPrefManager.getInstance(this).logout();
-            Intent login = new Intent(getApplicationContext(), RegistrationActivity.class);
+            Intent login = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
             startActivity(login);
             finish();
         } else if (id == R.id.nav_manage) {

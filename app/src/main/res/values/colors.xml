@@ -21,6 +21,8 @@
     <color name="lightreder">#eca2a1</color>
     <color name="lightreders">#e78b8b</color>
     <color name="lightrederes">#ec7f7f</color>
+    <color name="gree_dark">#195926</color>
+    <color name="orange_dark">#be6b14</color>
 <color name="greyhint">#1877a3</color>
     <color name="halfwhite">#f3f6f7</color>
 </resources>
