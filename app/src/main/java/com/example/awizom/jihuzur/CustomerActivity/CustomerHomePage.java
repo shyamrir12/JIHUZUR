@@ -61,7 +61,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     String TAG;
     private Fragment fragment = null;
     private Fragment searchFragment, myBookingFragment, helpCenterFragment, catalogFragment;
-
     DatabaseReference datauser, datauserpro;
     String dUser, name, role;
     String Url;
@@ -129,8 +128,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         catalogFragment = new CatalogFragment();
         setContentView(R.layout.activity_customer_home_page);
         Toolbar toolbar = findViewById(R.id.toolbar);
-
-
         setSupportActionBar(toolbar);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -163,7 +160,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         try {
             String uname = SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getName().toString();
             String ucontact = SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getMobileNo().toString();
-
             /**/
         } catch (Exception e) {
             e.printStackTrace();
@@ -177,8 +173,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             }
         });
         getProfile();
-
-
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -221,7 +215,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                     dataProfile1.MobileNo = dataProfile.MobileNo;
                     dataProfile1.Role = dataProfile.Role;
                     SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile1);
-
                 }
             }
         } catch (Exception e) {
@@ -241,7 +234,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                     // finish used for destroyed activity
                     finishAffinity();
                     System.exit(0);
-
 
                 }
             });

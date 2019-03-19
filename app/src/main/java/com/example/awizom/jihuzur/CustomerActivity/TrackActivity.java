@@ -114,14 +114,12 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
             public void onClick(View view) {
             }
         });*/
-        MapFragment mapFragment = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.map);
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
     private void getCustomerProfileGet() {
 
-        String id = SharedPrefManager.getInstance(this).getUser().getID();
         try {
             result = new AdminHelper.GetProfileForShow().execute(customerID).get();
             if (result.isEmpty()) {

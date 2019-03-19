@@ -104,8 +104,6 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         empName = findViewById(R.id.empName);
         empMobile = findViewById(R.id.contactNumber);
         serviceNAme = findViewById(R.id.serviceName);
-
-
         commentButtonn = findViewById(R.id.viewDetail);
         ratingBar = findViewById(R.id.rating);
         review = findViewById(R.id.review);
@@ -126,7 +124,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
 
 
         // orderID = getIntent().getStringExtra("OrderID");
-        orderID = String.valueOf(getIntent().getIntExtra("OrderID", 0));
+        orderID = String.valueOf(getIntent().getStringExtra("OrderID"));
         cusID = getIntent().getStringExtra("CustomerID");
         empID = getIntent().getStringExtra("EmployeeID");
         orderEndtime = getIntent().getStringExtra("OrderEndTime");
@@ -138,10 +136,17 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         orderStartTime = getIntent().getStringExtra("OrderStartTime");
         serviceId = String.valueOf(getIntent().getIntExtra("ServiceID", 0));
 
-        empName.setText(employeeName.toString());
-        empMobile.setText(employeeContact.toString());
-        serviceNAme.setText(serviceName.toString());
+        try {
+            empName.setText(employeeName.toString());
+            empMobile.setText(employeeContact.toString());
+            serviceNAme.setText(serviceName.toString());
 
+        }
+      catch (Exception e)
+      {
+          e.printStackTrace();
+
+      }
         txtRatingValue.setText("3.0");
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -215,96 +220,96 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         }
     }
 
-  /*  public void acceptotp(View v) {
+    /*  public void acceptotp(View v) {
 
-        final android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(v.getRootView().getContext());
-        LayoutInflater inflater = LayoutInflater.from(v.getRootView().getContext());
-
-
-        final View dialogView = inflater.inflate(R.layout.accept_otp_for_order_layout, null);
-        dialogBuilder.setView(dialogView);
-
-        final EditText enterOtp = dialogView.findViewById(R.id.editTextOtp);
-        Button verify = dialogView.findViewById(R.id.buttonVerify);
-
-        dialogBuilder.setTitle("Accept Otp");
-        final android.support.v7.app.AlertDialog b = dialogBuilder.create();
-        b.show();
-        if (enterOtp.getText().toString().isEmpty()) {
-
-            enterOtp.setError("Enter a valid value");
-            enterOtp.requestFocus();
-        }
-        verify.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("NewApi")
-            @Override
-            public void onClick(final View v) {
-                try {
-                    result = new CustomerOrderHelper.AcceptOtp().execute(orderID, enterOtp.getText().toString()).get();
-                    Gson gson = new Gson();
-                    Type getType = new TypeToken<ResultModel>() {
-                    }.getType();
-                    ResultModel resultModel = new Gson().fromJson(result, getType);
-                    if (resultModel.getMessage().contains("Order Started")) {
-                        Intent serviceIntent = new Intent(CustomerCommentActivity.this, AlarmService.class);
-                        serviceIntent.putExtra("inputExtra", "Order Is Started");
-                        ContextCompat.startForegroundService(CustomerCommentActivity.this, serviceIntent);
-
-                        String employeeid = resultModel.getEmployeeID().toString();
-                        Map<String, Object> profile = new HashMap<>();
-                        profile.put("busystatus", true);
-                        db.collection("Profile").document(employeeid).update(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "DocumentSnapshot successfully written!");
-                            }
-                        })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.w(TAG, "Error writing document", e);
-                                    }
-                                });
-
-                        Date today = new Date();
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
-                        String dateToStr = format.format(today);
-                        Map<String, Object> order = new HashMap<>();
-                        order.put("startTime", dateToStr);
-                        order.put("endTime", 00);
-
-                        db.collection("Order").document(orderID).set(order).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "DocumentSnapshot successfully written!");
-                            }
-                        })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.w(TAG, "Error writing document", e);
-                                    }
-                                });
+          final android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(v.getRootView().getContext());
+          LayoutInflater inflater = LayoutInflater.from(v.getRootView().getContext());
 
 
-                    }
-                    //   canclBtn.setVisibility(View.GONE);
+          final View dialogView = inflater.inflate(R.layout.accept_otp_for_order_layout, null);
+          dialogBuilder.setView(dialogView);
 
-                    Toast.makeText(getApplicationContext(), result.toString(), Toast.LENGTH_SHORT).show();
-                    Log.d("result", result.toString());
-                    Intent intent = new Intent(CustomerCommentActivity.this, CustomerHomePage.class);
-                    startActivity(intent);
+          final EditText enterOtp = dialogView.findViewById(R.id.editTextOtp);
+          Button verify = dialogView.findViewById(R.id.buttonVerify);
 
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+          dialogBuilder.setTitle("Accept Otp");
+          final android.support.v7.app.AlertDialog b = dialogBuilder.create();
+          b.show();
+          if (enterOtp.getText().toString().isEmpty()) {
 
-    }
-*/
+              enterOtp.setError("Enter a valid value");
+              enterOtp.requestFocus();
+          }
+          verify.setOnClickListener(new View.OnClickListener() {
+              @SuppressLint("NewApi")
+              @Override
+              public void onClick(final View v) {
+                  try {
+                      result = new CustomerOrderHelper.AcceptOtp().execute(orderID, enterOtp.getText().toString()).get();
+                      Gson gson = new Gson();
+                      Type getType = new TypeToken<ResultModel>() {
+                      }.getType();
+                      ResultModel resultModel = new Gson().fromJson(result, getType);
+                      if (resultModel.getMessage().contains("Order Started")) {
+                          Intent serviceIntent = new Intent(CustomerCommentActivity.this, AlarmService.class);
+                          serviceIntent.putExtra("inputExtra", "Order Is Started");
+                          ContextCompat.startForegroundService(CustomerCommentActivity.this, serviceIntent);
+
+                          String employeeid = resultModel.getEmployeeID().toString();
+                          Map<String, Object> profile = new HashMap<>();
+                          profile.put("busystatus", true);
+                          db.collection("Profile").document(employeeid).update(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
+                              @Override
+                              public void onSuccess(Void aVoid) {
+                                  Log.d(TAG, "DocumentSnapshot successfully written!");
+                              }
+                          })
+                                  .addOnFailureListener(new OnFailureListener() {
+                                      @Override
+                                      public void onFailure(@NonNull Exception e) {
+                                          Log.w(TAG, "Error writing document", e);
+                                      }
+                                  });
+
+                          Date today = new Date();
+                          SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+                          String dateToStr = format.format(today);
+                          Map<String, Object> order = new HashMap<>();
+                          order.put("startTime", dateToStr);
+                          order.put("endTime", 00);
+
+                          db.collection("Order").document(orderID).set(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+                              @Override
+                              public void onSuccess(Void aVoid) {
+                                  Log.d(TAG, "DocumentSnapshot successfully written!");
+                              }
+                          })
+                                  .addOnFailureListener(new OnFailureListener() {
+                                      @Override
+                                      public void onFailure(@NonNull Exception e) {
+                                          Log.w(TAG, "Error writing document", e);
+                                      }
+                                  });
+
+
+                      }
+                      //   canclBtn.setVisibility(View.GONE);
+
+                      Toast.makeText(getApplicationContext(), result.toString(), Toast.LENGTH_SHORT).show();
+                      Log.d("result", result.toString());
+                      Intent intent = new Intent(CustomerCommentActivity.this, CustomerHomePage.class);
+                      startActivity(intent);
+
+                  } catch (ExecutionException e) {
+                      e.printStackTrace();
+                  } catch (InterruptedException e) {
+                      e.printStackTrace();
+                  }
+              }
+          });
+
+      }
+  */
     private void getreviewByOrder() {
         try {
 //            mSwipeRefreshLayout.setRefreshing(true);

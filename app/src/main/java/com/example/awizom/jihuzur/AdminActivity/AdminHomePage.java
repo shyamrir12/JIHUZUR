@@ -694,7 +694,15 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                             String employeeprofimage = AppConfig.BASE_URL + img_strmark;
                             customerDetails.setText(namemark);
                             if (img_strmark != null) {
-                                Glide.with(AdminHomePage.this).load(employeeprofimage).into(employeeImage);
+
+                                Glide.with(AdminHomePage.this)
+                                        .load(employeeprofimage)
+                                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                        .skipMemoryCache(true)
+                                        .into(employeeImage);
+
+
+                                //   Glide.with(AdminHomePage.this).load(employeeprofimage).into(employeeImage);
                             } else {
                                 employeeImage.setImageResource(R.drawable.jihuzurblanklogo);
                             }
@@ -826,7 +834,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 .tilt(30)
                 .build();
         mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-/* set zoom position by this value */
+        /* set zoom position by this value */
         mGoogleMap.getMaxZoomLevel();
         mGoogleMap.getMinZoomLevel();
     }
@@ -1174,13 +1182,12 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         }
         return super.onOptionsItemSelected(item);
     }
+
     //side navigation drwaer started onCLick
     public void showCustomLoadingDialog() {
 
         //..show gif
         viewDialog.showDialog();
-
-
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -1191,6 +1198,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             }
         }, 1000);
     }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -1199,8 +1207,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 
         if (id == R.id.nav_employee) {
             // Handle the camera action
-
-
+            showCustomLoadingDialog();
             intent = new Intent(AdminHomePage.this, AdminMyEmployeeActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);

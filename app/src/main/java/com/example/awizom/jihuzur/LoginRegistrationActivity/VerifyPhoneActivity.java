@@ -126,7 +126,6 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
                        dataProfile.Role = role;
                        dataProfile.Image = image;
                        SharedPrefManager.getInstance( getApplicationContext() ).userLogin( dataProfile );
-
                        role = SharedPrefManager.getInstance( VerifyPhoneActivity.this ).getUser().Role;
                         if (role.equals( "Customer" )) {
                            intent = new Intent( VerifyPhoneActivity.this, CustomerHomePage.class );
@@ -157,8 +156,6 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
             Toast.makeText(getApplicationContext(),"Invalid",Toast.LENGTH_SHORT).show();
 
         }
-
-
     }
 
 }
