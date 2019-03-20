@@ -63,7 +63,8 @@ public class CustomerHistoryFragment extends Fragment {
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        getHistoryList();
+        relativeLayout.setVisibility(View.GONE);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -74,8 +75,8 @@ public class CustomerHistoryFragment extends Fragment {
                 }
             }
         });
-        getHistoryList();
-        relativeLayout.setVisibility(View.GONE);
+
+
     }
 
     private void getHistoryList() {
@@ -87,7 +88,7 @@ public class CustomerHistoryFragment extends Fragment {
             Type listType = new TypeToken<List<Order>>() {
             }.getType();
             orderList = new Gson().fromJson(result, listType);
-            if(!orderList.equals(null)){
+            if(orderList.equals(null)){
                 relativeLayout.setVisibility(View.VISIBLE);
             }
             currentOrderAdapter = new CustomerHistoryAdapter(getContext(), orderList);

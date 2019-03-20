@@ -86,15 +86,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
                 break;
         }
 
-//        if(v.getId() == verifyOtpBtn.getId()){
-//            if(otp.equals(otpEditText.getText().toString())) {
-//                verifyPostOtp();
-//            }
-//            {
-//                Toast.makeText(getApplicationContext(),"Entered OTP is Wrong",Toast.LENGTH_LONG).show();
-//
-//            }
-//        }
+
     }
 
     /*For Validation */

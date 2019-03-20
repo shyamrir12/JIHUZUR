@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:hint="Otp"
-                android:padding="10dp"
+                android:paddingLeft="10dp"
                 android:background="@drawable/background_border_edittext" />
         </android.support.design.widget.TextInputLayout>
 
@@ -32,7 +32,7 @@
             android:id="@+id/buttonVerify"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#000000"
+            android:background="#093854"
             android:text="Verify"
             android:textColor="#FFFFFF"
             android:textStyle="bold"

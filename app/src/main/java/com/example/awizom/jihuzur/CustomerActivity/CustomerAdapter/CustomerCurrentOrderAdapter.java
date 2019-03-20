@@ -1,10 +1,12 @@
 package com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -28,6 +30,7 @@ import com.example.awizom.jihuzur.Model.ResultModel;
 import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Service.AlarmService;
+import com.example.awizom.jihuzur.ViewDialog;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -54,6 +57,8 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     private String orderId = "", otpCode = "", result = "";
     private Intent intent;
     FirebaseFirestore db;
+    ViewDialog viewDialog;
+
 
     public CustomerCurrentOrderAdapter(Context currentOrderActivity, List<Order> orderList) {
         this.mCtx = currentOrderActivity;
@@ -84,6 +89,8 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             final String empname = order.getEmpName();
             final String empmob = order.getEmpMob();
 
+            viewDialog = new ViewDialog((Activity) mCtx);
+
             holder.empName.setText(order.getServiceName());
             holder.empContAct.setText(order.getCatalogName());
             holder.timercount.setText(order.getTotalTime());
@@ -111,6 +118,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             holder.viewdetail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    showCustomLoadingDialog(v);
                     intent = new Intent(mCtx, CustomerCommentActivity.class);
                     intent.putExtra("OrderID", ordid);
                     intent.putExtra("CustomerID", cusid);
@@ -129,6 +137,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             holder.acceptBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    showCustomLoadingDialog(v);
                     final android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(v.getRootView().getContext());
                     LayoutInflater inflater = LayoutInflater.from(v.getRootView().getContext());
                     final View dialogView = inflater.inflate(R.layout.accept_otp_for_order_layout, null);
@@ -282,6 +291,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             switch (v.getId()) {
 
                 case R.id.trackBtn:
+                    showCustomLoadingDialog(v);
                     intent = new Intent(mCtx, TrackActivity.class);
                     intent.putExtra("CustomerID", order.getCustomerID());
                     intent.putExtra("EmployeeID", order.getEmployeeID());
@@ -350,5 +360,22 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                 (NotificationManager) mCtx.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(001, mBuilder.build());
     }
+
+    public void showCustomLoadingDialog(View view) {
+
+        //..show gif
+        viewDialog.showDialog();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //...here i'm waiting 5 seconds before hiding the custom dialog
+                //...you can do whenever you want or whenever your work is done
+                viewDialog.hideDialog();
+            }
+        }, 1000);
+    }
+
 
 }

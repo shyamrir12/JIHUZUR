@@ -1,11 +1,13 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -44,6 +46,7 @@ import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.LoginRegistrationActivity.RegistrationActivity;
 import com.example.awizom.jihuzur.SettingsActivity;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
+import com.example.awizom.jihuzur.ViewDialog;
 import com.google.firebase.database.DatabaseReference;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -76,6 +79,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     List<Catalog> categorylist;
     RecyclerView recyclerView;
     CustomerCatagoryAdapter customerCatagoryAdapter;
+    ViewDialog viewDialog;
 
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -138,6 +142,9 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerview = navigationView.getHeaderView(0);
+
+        viewDialog = new ViewDialog((Activity) CustomerHomePage.this);
+
         imageView = headerview.findViewById(R.id.imageView);
         img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();
         {
@@ -160,6 +167,8 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         try {
             String uname = SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getName().toString();
             String ucontact = SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getMobileNo().toString();
+            userName.setText(uname);
+            userContact.setText(ucontact);
             /**/
         } catch (Exception e) {
             e.printStackTrace();
@@ -193,6 +202,22 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void showCustomLoadingDialog() {
+
+        //..show gif
+        viewDialog.showDialog();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //...here i'm waiting 5 seconds before hiding the custom dialog
+                //...you can do whenever you want or whenever your work is done
+                viewDialog.hideDialog();
+            }
+        }, 1000);
     }
 
     private void getProfile() {
@@ -317,6 +342,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         int id = item.getItemId();
 
         if (id == R.id.nav_booking) {
+            showCustomLoadingDialog();
             intent = new Intent(CustomerHomePage.this, MyBokingsActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
@@ -328,6 +354,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 
           }*/
         else if (id == R.id.nav_complaint) {
+            showCustomLoadingDialog();
             intent = new Intent(CustomerHomePage.this, CustomerComplaintActivity.class);
             ActivityOptions startAnimation = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.fui_slide_out_left, R.anim.fui_slide_in_right);
 
