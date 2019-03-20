@@ -130,7 +130,6 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
                 return;
             }
         }
-
     }
 
     /*For Event Listeners*/
@@ -219,12 +218,7 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
                                         });
                             }
 
-                            if (jsonbody.dataProfile.Role.equals("Employee")) {
-                                intent = new Intent(EmployeeRegistration.this, EmployeeHomePage.class);
-                                startActivity(intent);
-                                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
-                            }
                         } else {
                             intent = new Intent(EmployeeRegistration.this, VerifyPhoneActivity.class);
                             intent.putExtra("OTP", jsonbody.OtpCode);

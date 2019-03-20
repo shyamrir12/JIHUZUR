@@ -8,6 +8,12 @@
             android:id="@+id/nav_employee"
             android:icon="@drawable/ic_person_outline_black_24dp"
             android:title="@string/myEmployee" />
+
+        <item
+            android:id="@+id/nav_orderPhoto"
+            android:visible="false"
+            android:icon="@drawable/ic_add_circle_black_24dp"
+            android:title="@string/ORderPhoto" />
         <item
             android:id="@+id/nav_master"
             android:icon="@drawable/ic_history_black_24dp"

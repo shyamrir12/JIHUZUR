@@ -257,6 +257,7 @@
     <string name="NickName">NICKNAME FOR ADDRESS</string>
     <string name="order">Order</string>
     <string name="myEmployee">My Employee</string>
+    <string name="ORderPhoto">Order Photo</string>
     <string name="master">Master</string>
     <string name="catalog">Catalog</string>
     <string name="catalogPricing">Catalog Pricing</string>
@@ -273,4 +274,5 @@
     <string name="carpainter">Carpenter</string>
     <string name="Ac_repair"><![CDATA[Ac Repair & Fix]]></string>
     <string name="title_customer_login">Customer Sign In</string>
+    <string name="title_activity_admin_employee_order_photo">AdminEmployeeOrderPhoto</string>
 </resources>

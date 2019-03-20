@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/empname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/orderID"
+            android:layout_marginStart="91dp"
+            android:text="employeename"
+            android:textColor="@color/colorBlack" />
+
+        <ImageView
+            android:id="@+id/orderphoto"
+            android:layout_width="match_parent"
+            android:layout_height="284dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="83dp" />
+
+        <TextView
+            android:id="@+id/orderID"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="17dp"
+            android:text="orderid"
+            android:textColor="@color/colorBlack" />
+
+        <TextView
+            android:id="@+id/customername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/orderID"
+            android:layout_marginEnd="66dp"
+            android:text="Customername"
+            android:textColor="@color/colorBlack" />
+
+        <TextView
+            android:id="@+id/empmob"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/empname"
+            android:layout_marginTop="49dp"
+            android:text="empmobno"
+            android:textColor="@color/colorBlack" />
+
+        <TextView
+            android:id="@+id/customermob"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/customername"
+            android:layout_alignTop="@+id/empmob"
+            android:text="customermob"
+            android:textColor="@color/colorBlack" />
+
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

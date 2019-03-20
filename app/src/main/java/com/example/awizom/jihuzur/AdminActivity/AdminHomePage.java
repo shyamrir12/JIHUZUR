@@ -1215,7 +1215,13 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         } else if (id == R.id.nav_master) {
             intent = new Intent(AdminHomePage.this, AdminCategoryActivity.class);
             startActivity(intent);
-        }/* else if (id == R.id.nav_catalogName) {
+        }
+        else if (id == R.id.nav_orderPhoto) {
+            intent = new Intent(AdminHomePage.this, AdminEmployeeOrderPhoto.class);
+            startActivity(intent);
+        }
+
+        /* else if (id == R.id.nav_catalogName) {
             intent = new Intent(AdminHomePage.this, AdminCatalogActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_catalogpricing) {
