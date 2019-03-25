@@ -15,6 +15,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,6 +57,8 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
     FirebaseFirestore db;
     boolean check = false;
     private static int TIMER = 300;
+    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
+
 
     /*For layout binding */
     @Override
@@ -140,6 +143,7 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
     /*For Event Listeners*/
     @Override
     public void onClick(View v) {
+        v.startAnimation(buttonClick);
         switch (v.getId()) {
             case R.id.buttonContinue:
                 progressDialog.setMessage("Login in progress ...");

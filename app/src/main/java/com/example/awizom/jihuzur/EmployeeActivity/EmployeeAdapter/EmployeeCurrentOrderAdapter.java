@@ -136,6 +136,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                public void onClick(View v) {
                    intent = new Intent(mCtx,SendOrderPhoto.class);
                    intent.putExtra("OrderID",orderId);
+                   intent.putExtra("ServiceName",holder.serviceName.getText().toString());
                    mCtx.startActivity(intent);
                }
            });

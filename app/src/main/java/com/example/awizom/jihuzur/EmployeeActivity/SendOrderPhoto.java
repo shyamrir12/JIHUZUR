@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.awizom.jihuzur.AdminActivity.AdminCategoryActivity;
@@ -32,8 +33,9 @@ public class SendOrderPhoto extends AppCompatActivity implements View.OnClickLis
     ImageView imageView;
     Intent intent;
     Button postorderimage;
-    String img_str, orderid, result = "";
+    String img_str, orderid, result = "",serviceName="";
     public static final int RequestPermissionCode = 1;
+    private TextView orderName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +55,11 @@ public class SendOrderPhoto extends AppCompatActivity implements View.OnClickLis
         });
         imageView = (ImageView) findViewById(R.id.imageView);
         postorderimage = (Button) findViewById(R.id.postorderimage);
+        orderName = findViewById(R.id.OrderName);
         postorderimage.setOnClickListener(this);
         orderid = getIntent().getStringExtra("OrderID");
+        serviceName = getIntent().getStringExtra("ServiceName");
+        orderName.setText(serviceName);
         EnableRuntimePermission();
         openCAmera();
     }

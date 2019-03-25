@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-    >
+    <LinearLayout
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
 
                 <TextView
                     android:id="@+id/pricingTerms"
@@ -17,7 +17,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="Pricing terms"
-
+                    android:paddingLeft="10dp"
                     android:textColor="@color/colorBlack"
                     android:textStyle="bold" />
 
@@ -25,31 +25,28 @@
                     android:id="@+id/amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:gravity="end"
                     android:layout_weight="1"
                     android:background="@drawable/back"
                     android:hint="Amount"
-
                     android:textColor="@color/colorBlack"
                     android:textStyle="bold" />
+
             </LinearLayout>
 
     <LinearLayout
-
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-
-        >
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
         <TextView
             android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-android:text="description"
+            android:text="description"
             android:layout_weight="1"
             android:hint="Description"
             android:textColor="@color/colorBlack"
@@ -66,21 +63,17 @@ android:text="description"
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:textColor="@color/colorBlack" />
 
             <TextView
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
-
                 android:layout_weight="1"
-
                 android:textColor="@color/colorBlack"
                 android:textStyle="bold" />
-            <TextView
 
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
@@ -90,8 +83,8 @@ android:text="description"
                 android:id="@+id/pricingID"
                 android:textColor="@color/colorBlack"
                 android:textStyle="bold" />
-            <TextView
 
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
@@ -106,5 +99,6 @@ android:text="description"
 
 
     </LinearLayout>
+
         </LinearLayout>
 
