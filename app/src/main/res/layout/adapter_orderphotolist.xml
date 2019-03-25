@@ -52,7 +52,6 @@
                     android:textColor="@color/colorBlack"
                     android:textStyle="bold"/>
 
-
                 <TextView
                     android:id="@+id/customermob"
                     android:layout_width="match_parent"
