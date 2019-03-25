@@ -26,7 +26,6 @@ import java.util.List;
 public class AdminEmployeeOrderPhoto extends AppCompatActivity {
 
     RecyclerView recyclerView;
-
     String result="";
     List<OrderPhoto> orderPhotoList;
     AdminOrderPhotoAdapter adminOrderPhotoAdapter;

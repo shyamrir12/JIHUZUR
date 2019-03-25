@@ -117,7 +117,6 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
 
-
         </activity>
         <activity
             android:name=".AdminActivity.AdminHomePage"
@@ -204,7 +203,9 @@
 
         <receiver android:name=".Service.MyBroadcastReceiver" />
 
-        <activity android:name=".EmployeeActivity.SendOrderPhoto"></activity>
+        <activity android:name=".EmployeeActivity.SendOrderPhoto"
+            android:theme="@style/AppTheme.NoActionBar"
+            ></activity>
     </application>
 
 </manifest>

@@ -17,7 +17,7 @@ public class AdminHelper extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             String json = "";
-           String catalogNameOne = params[0];
+            String catalogNameOne = params[0];
 
             try {
                 OkHttpClient client = new OkHttpClient();
@@ -61,6 +61,7 @@ public class AdminHelper extends AppCompatActivity {
 
 
     }
+
     public static final class GetMyEmployeeList extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
@@ -99,19 +100,20 @@ public class AdminHelper extends AppCompatActivity {
 
 
     }
+
     public static final class SubmitEmployeeActive extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
 
-            String id=params[0];
-            String active=params[1];
+            String id = params[0];
+            String active = params[1];
 
             String json = "";
 
             try {
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Admin + "SubmitEmployeeActive/"+id+"/"+active);
+                builder.url(AppConfig.BASE_URL_API_Admin + "SubmitEmployeeActive/" + id + "/" + active);
                 FormBody.Builder parameters = new FormBody.Builder();
                 builder.post(parameters.build());
                 okhttp3.Response response = client.newCall(builder.build()).execute();
@@ -643,6 +645,7 @@ public class AdminHelper extends AppCompatActivity {
 
 
     }
+
     public static final class GetOrderPhoto extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
@@ -946,7 +949,7 @@ public class AdminHelper extends AppCompatActivity {
 
             } else {
                 super.onPostExecute(result);
-     }
+            }
 
         }
 
@@ -1048,6 +1051,5 @@ public class AdminHelper extends AppCompatActivity {
         }
 
     }
-
 
 }

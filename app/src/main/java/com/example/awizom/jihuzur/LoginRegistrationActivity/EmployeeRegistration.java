@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -222,6 +223,7 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
                         } else {
                             intent = new Intent(EmployeeRegistration.this, VerifyPhoneActivity.class);
                             intent.putExtra("OTP", jsonbody.OtpCode);
+                            Log.d("OtpEmployee", jsonbody.OtpCode);
                             intent.putExtra("Uid", jsonbody.dataProfile.ID);
                             intent.putExtra("Role", jsonbody.dataProfile.Role);
                             intent.putExtra("Active", jsonbody.dataProfile.Active);

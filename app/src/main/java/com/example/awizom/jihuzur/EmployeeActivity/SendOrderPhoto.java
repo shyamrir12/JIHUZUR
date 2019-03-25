@@ -22,6 +22,7 @@ import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.R;
+import com.example.awizom.jihuzur.ViewDialog;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
@@ -38,6 +39,18 @@ public class SendOrderPhoto extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_order_photo);
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+
+        toolbar.setTitle("Send Order Photo");
+             toolbar.setTitleTextColor(0xFFFFFFFF);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         imageView = (ImageView) findViewById(R.id.imageView);
         postorderimage = (Button) findViewById(R.id.postorderimage);
         postorderimage.setOnClickListener(this);
