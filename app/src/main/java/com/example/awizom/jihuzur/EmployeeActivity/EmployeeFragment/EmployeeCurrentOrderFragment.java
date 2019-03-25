@@ -1,5 +1,6 @@
 package com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class EmployeeCurrentOrderFragment extends Fragment implements View.OnClickListener {
+
     List<Order> orderList;
     EmployeeCurrentOrderAdapter employeeCurrentOrderAdapter;
     RecyclerView recyclerView;
@@ -34,9 +36,9 @@ public class EmployeeCurrentOrderFragment extends Fragment implements View.OnCli
     private ImageView reloadBtn;
     SwipeRefreshLayout mSwipeRefreshLayout;
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.employee_current_list, container, false);
         try {
             empid = getArguments().getString("EmployeeID");
@@ -50,6 +52,7 @@ public class EmployeeCurrentOrderFragment extends Fragment implements View.OnCli
     private void initView(View view) {
 
         empId = SharedPrefManager.getInstance(getContext()).getUser().getID();
+
         relativeLayout = view.findViewById(R.id.textRelate);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         recyclerView = view.findViewById(R.id.recyclerView);

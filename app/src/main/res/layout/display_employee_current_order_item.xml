@@ -78,7 +78,6 @@
                             android:id="@+id/sendPhoto"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
-                            android:text="Track"
                             android:layout_marginTop="8dp"
                             android:tint="#093854"
                             android:layout_weight="1"

@@ -2,6 +2,7 @@ package com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerpricingActivity;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeLocationActivity;
+import com.example.awizom.jihuzur.EmployeeActivity.SendOrderPhoto;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Helper.ServicesHelper;
@@ -55,7 +58,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
     private String orderId = "", otpCode = "", result = "", empId = "", displayType = "", priceid = "";
     private Intent intent;
     FirebaseFirestore db;
-    String checkpay="";
+    String checkpay = "";
 
     public EmployeeCurrentOrderAdapter(Context employeeCurrentOrderFragment, List<Order> orderList) {
         this.mCtx = employeeCurrentOrderFragment;
@@ -87,6 +90,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             holder.serviceName.setText(order.getServiceName());
             holder.totalTime.setText(order.getTotalTime());
             holder.cusId.setText(order.getCustomerID());
+
             if (order.getDiscountName() != null) {
                 holder.disctName.setText(order.getDiscountName());
             } else {
@@ -98,7 +102,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             holder.serviceID.setText(String.valueOf(order.getServiceID()));
             holder.pricingterms.setText(order.getPricingTerms());
 
-            if(SharedPrefManager.getInstance(mCtx).getUser().Role.contains("Admin")){
+            if (SharedPrefManager.getInstance(mCtx).getUser().Role.contains("Admin")) {
                 holder.linerButtonSide.setVisibility(View.GONE);
             }
 
@@ -115,8 +119,8 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             //   holder.linearLayout.setVisibility(View.VISIBLE);
             holder.disctName.setVisibility(View.VISIBLE);
             holder.discountUpdateBtn.setVisibility(View.VISIBLE);
-//            holder.discountUpdateBtn.setVisibility(View.VISIBLE);
-//            holder.priceUpdateBtn.setVisibility(View.VISIBLE);
+          //     holder.discountUpdateBtn.setVisibility(View.VISIBLE);
+            //            holder.priceUpdateBtn.setVisibility(View.VISIBLE);
 
             if (order.getOrderStartTime() != null) {
                 holder.genrateBtn.setVisibility(View.GONE);
@@ -127,7 +131,19 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 //                holder.stopBtn.setVisibility(View.GONE);
             }
 
-            db=FirebaseFirestore.getInstance();
+           holder.sendphoto.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   intent = new Intent(mCtx,SendOrderPhoto.class);
+                   intent.putExtra("OrderID",orderId);
+                   mCtx.startActivity(intent);
+               }
+           });
+
+
+
+
+            db = FirebaseFirestore.getInstance();
             getServiceList(holder.catlgId.getText().toString());
             holder.discountUpdateBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -192,6 +208,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
         }
     }
 
+
     private void getServiceList(String s) {
         try {
             result = new ServicesHelper.GETServiceList().execute(s).get();
@@ -216,17 +233,21 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 
         private Context mCtx;
         private TextView startTime, endtime, customerName, customerContact, catagoryName, serviceName, totalTime, pricingterm,
-                disctName, catlgId, catagryName, catlgName, pricingterms, serviceID,cusId;
+                disctName, catlgId, catagryName, catlgName, pricingterms, serviceID, cusId;
         private Button genrateBtn, trackinBtn, stopBtn, acceptPaymentBtn, priceUpdateBtn, discountUpdateBtn;
-        private LinearLayout linearLayout,linerButtonSide;
+        private LinearLayout linearLayout, linerButtonSide;
         private List<Order> orderitemList;
+        private ImageView sendphoto;
 
 
-        public OrderItemViewHolder(View view, Context mCtx, List<Order> orderitemList) {
+        public OrderItemViewHolder(View view, final Context mCtx, List<Order> orderitemList) {
             super(view);
             this.mCtx = mCtx;
             this.orderitemList = orderitemList;
             itemView.setOnClickListener(this);
+            sendphoto = itemView.findViewById(R.id.sendPhoto);
+            sendphoto.setOnClickListener(this);
+
             customerName = itemView.findViewById(R.id.cusName);
             cusId = itemView.findViewById(R.id.cusID);
             startTime = itemView.findViewById(R.id.starttime);
@@ -249,7 +270,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             disctName = itemView.findViewById(R.id.discountName);
             linearLayout = itemView.findViewById(R.id.l5);
             genrateBtn.setOnClickListener(this);
-           // trackinBtn.setOnClickListener(this);
+            // trackinBtn.setOnClickListener(this);
             stopBtn.setOnClickListener(this);
             acceptPaymentBtn.setOnClickListener(this);
             priceUpdateBtn = itemView.findViewById(R.id.priceupdateBtn);
@@ -279,9 +300,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 //
 //                    break;
                 case R.id.stopBtn:
-
-
-                    if(checkpay.equals("accept")) {
+                    if (checkpay.equals("accept")) {
                         try {
                             result = new EmployeeOrderHelper.StopOrder().execute(orderId).get();
                             Gson gson = new Gson();
@@ -330,7 +349,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                                             }
                                         });
 
-                                intent =new Intent(mCtx,EmployeeHomePage.class);
+                                intent = new Intent(mCtx, EmployeeHomePage.class);
                                 mCtx.startActivity(intent);
 
                             }
@@ -342,8 +361,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                    }
-                    else {
+                    } else {
                         Toast toast = Toast.makeText(mCtx, "First Complete Your Payment", Toast.LENGTH_LONG);
                         View view = toast.getView();
                         //To change the Background of Toast
@@ -362,7 +380,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 
                     try {
                         result = new EmployeeOrderHelper.AcceptPayment().execute(orderId, empId).get();
-                        checkpay="accept";
+                        checkpay = "accept";
                         Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
@@ -370,11 +388,11 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                         e.printStackTrace();
                     }
                     break;
+
             }
         }
 
 
     }
-
 
 }

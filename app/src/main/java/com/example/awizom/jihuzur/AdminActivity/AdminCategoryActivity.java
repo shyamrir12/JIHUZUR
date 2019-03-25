@@ -52,14 +52,15 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
     private String[] categoryList;
     SwipeRefreshLayout mSwipeRefreshLayout;
     ViewDialog viewDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_category);
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-      /*  catalogName = getIntent().getStringExtra("CatalogName");*/
+        /*  catalogName = getIntent().getStringExtra("CatalogName");*/
 
-        catalogName="Home Cleaning & Repairs";
+        catalogName = "Home Cleaning & Repairs";
         toolbar.setTitle("Category's");
         viewDialog = new ViewDialog(this);
         toolbar.setTitleTextColor(0xFFFFFFFF);
@@ -93,6 +94,7 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
         getCategoryList();
 
     }
+
     public void showCustomLoadingDialog(View view) {
 
         //..show gif
@@ -108,6 +110,7 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
             }
         }, 1000);
     }
+
     private void getCategoryList() {
 
         try {
@@ -251,10 +254,7 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
                 if (resultCode == RESULT_OK) {
                     Uri selectedImage = data.getData();
                     if (selectedImage != null) {
-
-
                         imageView.setImageURI(selectedImage);
-
                     }
                 }
         }

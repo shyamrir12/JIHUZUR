@@ -11,7 +11,6 @@
 
         <item
             android:id="@+id/nav_orderPhoto"
-            android:visible="false"
             android:icon="@drawable/ic_add_circle_black_24dp"
             android:title="@string/ORderPhoto" />
         <item

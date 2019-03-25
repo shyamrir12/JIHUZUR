@@ -243,8 +243,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     // finish used for destroyed activity
                     finishAffinity();
                     System.exit(0);
-
-
                 }
             });
 
@@ -544,13 +542,11 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                             firelong = new String[employeeProfileModelList.size()];
                                             for (int i = 0; i < task.getResult().size(); i++) {
                                                 try {
-                                                    if (task.getResult().getDocuments().get(i).get("busystatus").equals(false)) {
-                                                        fireid[i] = task.getResult().getDocuments().get(i).getId();
-                                                        firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
-                                                        firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
-                                                        latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
-                                                                Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
-                                                    }
+                                                    fireid[i] = task.getResult().getDocuments().get(i).getId();
+                                                    firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
+                                                    firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
+                                                    latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
+                                                            Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
 
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
@@ -624,33 +620,32 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                                 firelat = new String[employeeProfileModelList.size()];
                                                 firelong = new String[employeeProfileModelList.size()];
                                                 for (int i = 0; i < task.getResult().size(); i++) {
+
+
                                                     try {
-                                                        if (task.getResult().getDocuments().get(i).get("busystatus").equals(false)) {
-                                                            try {
-                                                                fireid[i] = task.getResult().getDocuments().get(i).getId();
-                                                                firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
-                                                                firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
-                                                                latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
-                                                                        Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
-                                                                name = employeeProfileModelList.get(i).getName();
-                                                                mobno = employeeProfileModelList.get(i).getMobileNo();
-                                                                img_str = employeeProfileModelList.get(i).getImage();
-                                                                empid = employeeProfileModelList.get(i).getID();
-                                                                int height = 100;
-                                                                int width = 100;
-                                                                BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.electricians);
-                                                                Bitmap b = bitmapdraw.getBitmap();
-                                                                Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
-                                                                mGoogleMap.addMarker(new MarkerOptions().position(latLng).
-                                                                        icon(BitmapDescriptorFactory.fromBitmap(smallMarker))).setTitle(name + "," + empid + "," + img_str + "," + mobno);                                                    //LatLngBound will cover all your marker on Google Maps
-                                                            } catch (Exception e) {
-                                                                e.printStackTrace();
-                                                                Toast.makeText(getApplicationContext(), "index arew not match for firebase and sql databse", Toast.LENGTH_SHORT).show();
-                                                            }
-                                                        }
+                                                        fireid[i] = task.getResult().getDocuments().get(i).getId();
+                                                        firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
+                                                        firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
+                                                        latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
+                                                                Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
+                                                        name = employeeProfileModelList.get(i).getName();
+                                                        mobno = employeeProfileModelList.get(i).getMobileNo();
+                                                        img_str = employeeProfileModelList.get(i).getImage();
+                                                        empid = employeeProfileModelList.get(i).getID();
+                                                        int height = 100;
+                                                        int width = 100;
+                                                        BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.electricians);
+                                                        Bitmap b = bitmapdraw.getBitmap();
+                                                        Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                                                        mGoogleMap.addMarker(new MarkerOptions().position(latLng).
+                                                                icon(BitmapDescriptorFactory.fromBitmap(smallMarker))).setTitle(name + "," + empid + "," + img_str + "," + mobno);
+                                                        //LatLngBound will cover all your marker on Google Maps
                                                     } catch (Exception e) {
                                                         e.printStackTrace();
+                                                        Toast.makeText(getApplicationContext(), "index are not match for firebase and sql databse", Toast.LENGTH_SHORT).show();
                                                     }
+
+
                                                 }
                                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                             }
@@ -1215,8 +1210,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         } else if (id == R.id.nav_master) {
             intent = new Intent(AdminHomePage.this, AdminCategoryActivity.class);
             startActivity(intent);
-        }
-        else if (id == R.id.nav_orderPhoto) {
+        } else if (id == R.id.nav_orderPhoto) {
             intent = new Intent(AdminHomePage.this, AdminEmployeeOrderPhoto.class);
             startActivity(intent);
         }
@@ -1227,7 +1221,8 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         } else if (id == R.id.nav_catalogpricing) {
             intent = new Intent(AdminHomePage.this, AdminPricingActivity.class);
             startActivity(intent);
-        }*/ else if (id == R.id.nav_complaintReply) {
+        }*/
+        else if (id == R.id.nav_complaintReply) {
             intent = new Intent(AdminHomePage.this, AdminComplaintReply.class);
             startActivity(intent);
         }
