@@ -1,49 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
         android:background="@drawable/discountoffer"
-     >
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp">
+        <LinearLayout
+            android:id="@+id/l1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="35dp">
+            <TextView
+                android:id="@+id/discountName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Discount Name"
+                android:layout_weight="1"
+                android:textColor="@color/lightred"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/l2"
+            android:layout_below="@+id/l1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="50dp">
+            <TextView
+                android:id="@+id/discounttype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:hint="Discount type"
+                android:textColor="@color/greyhint"
+                android:textStyle="bold"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/discountAmount"
+                android:layout_width="121dp"
+                android:layout_height="wrap_content"
+                android:hint="Discount Amount"
+                android:textColor="@color/greyhint"
+                android:textStyle="bold"
+                android:gravity="left"
+                android:layout_marginTop="10dp"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/discountName"
-            android:layout_width="193dp"
-            android:layout_height="45dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="45dp"
-            android:hint="Discount Name"
-            android:textColor="@color/colorBlack"
-            android:textStyle="bold"
-            android:layout_marginStart="64dp" />
-
-    <TextView
-        android:id="@+id/discounttype"
-        android:layout_width="98dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/discountAmount"
-        android:layout_centerVertical="true"
-        android:gravity="end"
-        android:hint="Discount type"
-        android:textColor="@color/colorBlack"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/discountAmount"
-        android:layout_width="121dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="124dp"
-        android:hint="Discount Amount"
-        android:textColor="@color/colorBlack"
-        android:textStyle="bold" />
+</RelativeLayout>
 
 
-
-
-
-    </RelativeLayout>
+    </LinearLayout>
 

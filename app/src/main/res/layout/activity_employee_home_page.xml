@@ -21,7 +21,7 @@
     <LinearLayout
         android:id="@+id/layout_order_tabitem"
         android:layout_width="match_parent"
-        android:layout_height="405dp"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <android.support.design.widget.TabLayout

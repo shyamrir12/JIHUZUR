@@ -24,7 +24,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:hint="Otp"
-                android:paddingLeft="10dp"
+                android:paddingLeft="15dp"
+                android:letterSpacing="0.1"
                 android:background="@drawable/background_border_edittext" />
         </android.support.design.widget.TextInputLayout>
 

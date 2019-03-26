@@ -44,7 +44,7 @@ public class DiscountListAdapter extends  RecyclerView.Adapter<DiscountListAdapt
         holder.discountName.setText((c.getDiscountName()));
         holder.discountAmount.setText(String.valueOf("Rs " + c.getDiscount()));
         holder.discountType.setText(c.getDiscountType());
-        holder.discountName.setTextAppearance(mCtx, R.style.fontForNotificationLandingPage);
+       // holder.discountName.setTextAppearance(mCtx, R.style.fontForNotificationLandingPage);
         }
 
     @Override
