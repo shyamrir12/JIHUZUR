@@ -197,7 +197,15 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         });
 
         if (!runtime_permissions())
+
+        try {
             enable_buttons();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -243,6 +251,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
                 startActivity(intent);
             }
         });
+
     }
 
     private void getProfile() {
@@ -296,7 +305,19 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         return super.onKeyDown(keyCode, event);
     }
 
-    private void enable_buttons() {
+    public void enable_buttons() {
+        try {
+          /*  Intent serviceIntent = new Intent(EmployeeHomePage.this, LocationMonitoringNotificationService.class);
+            serviceIntent.putExtra("inputExtra", "Location Service Enabled");
+            ContextCompat.startForegroundService(EmployeeHomePage.this, serviceIntent);*/
+            Intent i = new Intent(getApplicationContext(), GPS_Service.class);
+            startService(i);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

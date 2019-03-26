@@ -42,7 +42,6 @@ public class SendOrderPhoto extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_order_photo);
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-
         toolbar.setTitle("Send Order Photo");
              toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
@@ -68,7 +67,8 @@ public class SendOrderPhoto extends AppCompatActivity implements View.OnClickLis
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(SendOrderPhoto.this,
                 Manifest.permission.CAMERA)) {
-            Toast.makeText(SendOrderPhoto.this, "CAMERA permission allows us to Access CAMERA app", Toast.LENGTH_LONG).show();
+       /*     Toast.makeText(SendOrderPhoto.this, "CAMERA permission allows us to Access CAMERA app", Toast.LENGTH_LONG).show();
+     */
         } else {
             ActivityCompat.requestPermissions(SendOrderPhoto.this, new String[]{
                     Manifest.permission.CAMERA}, RequestPermissionCode);
