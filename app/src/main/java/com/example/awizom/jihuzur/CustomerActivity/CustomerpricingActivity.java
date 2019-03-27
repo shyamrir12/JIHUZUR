@@ -77,13 +77,10 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repair_service);
-
         initView();
     }
 
     private void initView() {
-
-
         if (!runtime_permissions())
         {enable_buttons();}
         serviceID = getIntent().getStringExtra("serviceID");
@@ -93,10 +90,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         btn = getIntent().getStringExtra("button");
         orderID = getIntent().getStringExtra("orderId");
         priceID = getIntent().getStringExtra("priceId");
-
         getSupportActionBar().setTitle(serviceName);
-
-
         mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -105,7 +99,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         nextButton.setOnClickListener(this);
         postPricingBtn = findViewById(R.id.postOrderPriceBtn);
         postPricingBtn.setOnClickListener(this);
-
         if (btn.equals("empBtn")) {
             nextButton.setVisibility(View.GONE);
         } else if (btn.equals("serBtn")) {
@@ -320,6 +313,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                 selectedEmpId = employeeProfileModelList.get(i).getID();
             }
         } catch (ExecutionException e) {
+
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();

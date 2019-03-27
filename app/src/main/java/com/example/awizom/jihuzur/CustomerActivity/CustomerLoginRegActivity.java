@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.ArrayAdapter;
@@ -204,6 +205,7 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                             dataProfile.Image = jsonbody.dataProfile.Image;
                             dataProfile.Name = jsonbody.dataProfile.Name;
                             dataProfile.MobileNo = jsonbody.dataProfile.MobileNo;
+
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
                             result = String.valueOf(new AdminHelper.POSTProfileLatLong().execute(SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(), String.valueOf("21.22"), String.valueOf("80.66")));
 
@@ -222,6 +224,7 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                             intent.putExtra("Active", jsonbody.dataProfile.Active);
                             intent.putExtra("Mobile",jsonbody.dataProfile.MobileNo);
                             intent.putExtra("Name",jsonbody.dataProfile.Name);
+                            Log.d("CustomerOTp",jsonbody.OtpCode);
                             startActivity(intent);
                             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                         }

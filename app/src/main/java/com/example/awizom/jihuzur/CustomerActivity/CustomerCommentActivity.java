@@ -3,9 +3,11 @@ package com.example.awizom.jihuzur.CustomerActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.AutoCompleteTextView;
@@ -22,6 +24,7 @@ import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.Reply;
 import com.example.awizom.jihuzur.Model.Result;
+import com.example.awizom.jihuzur.Model.ResultModel;
 import com.example.awizom.jihuzur.Model.Review;
 import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
@@ -34,14 +37,20 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+import static com.firebase.ui.auth.ui.email.RegisterEmailFragment.TAG;
 
 public class CustomerCommentActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
 
@@ -199,6 +208,30 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
                 try {
                     result = new CustomerOrderHelper.CancelOrder().execute(orderID).get();
                     Toast.makeText(CustomerCommentActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
+                    Gson gson = new Gson();
+                    Type getType = new TypeToken<ResultModel>() {
+                    }.getType();
+                    ResultModel resultModel = new Gson().fromJson(result, getType);
+                    if (resultModel.getStatus().equals("true")) {
+                        String employeeid = resultModel.getEmployeeID().toString();
+                        Map<String, Object> profile = new HashMap<>();
+                        profile.put("busystatus", false);
+
+                        db.collection("Profile").document(employeeid).update(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                            }
+                        })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+                        //   canclBtn.setVisibility(View.GONE);
+                    }
+
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {

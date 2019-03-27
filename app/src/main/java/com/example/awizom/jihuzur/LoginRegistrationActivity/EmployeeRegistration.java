@@ -194,9 +194,9 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
 
 
                             //20/02/2019 ravi
-                            if (jsonbody.dataProfile.Role.equals("Employee")) {
+
                                 /*Start for load data into firestore for employee*/
-                                Map<String, Object> profile = new HashMap<>();
+                               /* Map<String, Object> profile = new HashMap<>();
                                 profile.put("busystatus", false);
                                 profile.put("lat", 20.22);
                                 profile.put("long", 80.66);
@@ -216,11 +216,33 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
                                                 Toast.makeText(getApplicationContext(), "Failed!",
                                                         Toast.LENGTH_LONG).show();
                                             }
-                                        });
-                            }
+                                        });*/
+
 
 
                         } else {
+                            Map<String, Object> profile = new HashMap<>();
+                            profile.put("busystatus", false);
+                            profile.put("lat", 20.22);
+                            profile.put("long", 81.66);
+                            db.collection("Profile").document(jsonbody.dataProfile.ID)
+                                    .set(profile)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            //   Log.d(TAG, "DocumentSnapshot successfully written!");
+                                            Toast.makeText(getApplicationContext(), "Success!",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(getApplicationContext(), "Failed!",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+
                             intent = new Intent(EmployeeRegistration.this, VerifyPhoneActivity.class);
                             intent.putExtra("OTP", jsonbody.OtpCode);
                             Log.d("OtpEmployee", jsonbody.OtpCode);
