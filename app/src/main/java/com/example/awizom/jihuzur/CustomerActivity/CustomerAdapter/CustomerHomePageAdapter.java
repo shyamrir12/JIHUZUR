@@ -1,4 +1,4 @@
-package com.example.awizom.jihuzur.Adapter;
+package com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,23 +8,33 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.awizom.jihuzur.Config.AppConfig;
+import com.example.awizom.jihuzur.CustomerActivity.NewCustomerHome;
+import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.R;
 
-public class CatalogGridViewAdapter extends BaseAdapter {
+import java.util.List;
 
-    private final String[] catalogNameList;
-    private final int[] gridViewImageId;
+public class CustomerHomePageAdapter extends BaseAdapter {
+
+  //  private final String[] catalogNameList;
+    private List<Catalog> catalogNameList;
+
     private Context mContext;
 
-    public CatalogGridViewAdapter(Context context, String[] catalogNameList, int[] gridViewImageId) {
-        mContext = context;
-        this.gridViewImageId = gridViewImageId;
-        this.catalogNameList = catalogNameList;
+
+
+    public CustomerHomePageAdapter(NewCustomerHome newCustomerHome, List<Catalog> categorylist) {
+
+
+this.mContext=newCustomerHome;
+        this.catalogNameList = categorylist;
     }
 
     @Override
     public int getCount() {
-        return catalogNameList.length;
+        return catalogNameList.size();
     }
 
     @Override
@@ -48,8 +58,11 @@ public class CatalogGridViewAdapter extends BaseAdapter {
             gridViewAndroid = inflater.inflate(R.layout.catalogname_gridview, null);
             TextView textViewAndroid = (TextView) gridViewAndroid.findViewById(R.id.catalogName);
             ImageView imageViewAndroid = (ImageView) gridViewAndroid.findViewById(R.id.catalogImage);
-            textViewAndroid.setText(catalogNameList[i]);
-            imageViewAndroid.setImageResource(gridViewImageId[i]);
+            String imgstr= AppConfig.BASE_URL+catalogNameList.get(i).getImage().toString();
+
+            Glide.with(mContext).load(imgstr).placeholder(R.drawable.jihuzurblanklogo).into(imageViewAndroid);
+            textViewAndroid.setText(catalogNameList.get(i).getCategory());
+
         } else {
             gridViewAndroid = (View) convertView;
         }

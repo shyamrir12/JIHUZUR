@@ -67,7 +67,9 @@
         <activity
             android:name=".EmployeeActivity.EmployeeSkillActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AdminActivity.AdminCatalogActivity" />
+        <activity android:name=".AdminActivity.AdminCatalogActivity">
+
+        </activity>
         <activity
             android:name=".AdminActivity.AdminPricingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -77,9 +79,7 @@
         <activity
             android:name=".CustomerActivity.CustomerHomePage"
             android:label="@string/title_activity_customer_home_page"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".DrawingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -97,34 +97,20 @@
             android:parentActivityName=".CustomerActivity.CustomerpricingActivity" />
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity
             android:name=".SplashActivityEmployee"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity
             android:name=".CustomerActivity.CustomerLoginRegActivity"
             android:label="@string/title_activity_login"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity
             android:name=".CustomerActivity.CustomerSplashActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity
             android:name=".SplashActivityAdmin"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity
             android:name=".AdminActivity.AdminHomePage"
             android:label="@string/title_activity_admin_home_page"
@@ -206,15 +192,21 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EmployeeActivity.EmployeeLocationActivity"
-            android:parentActivityName=".EmployeeActivity.EmployeeBookingsActivity">
-
-        </activity>
+            android:parentActivityName=".EmployeeActivity.EmployeeBookingsActivity"></activity>
 
         <receiver android:name=".Service.MyBroadcastReceiver" />
 
-        <activity android:name=".EmployeeActivity.SendOrderPhoto"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".EmployeeActivity.SendOrderPhoto"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".CustomerActivity.NewCustomerHome"
+            android:label="@string/title_activity_new_customer_home">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

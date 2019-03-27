@@ -62,22 +62,18 @@ public class AdminCatalogActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
                 if (position >= 0) {
                     Toast.makeText(getApplicationContext(), ((TextView) view.findViewById(R.id.catalogName)).getText(), Toast.LENGTH_SHORT).show();
                     intent = new Intent(AdminCatalogActivity.this, AdminCategoryActivity.class);
                     intent.putExtra("Catalogname", ((TextView) view.findViewById(R.id.catalogName)).getText());
                     startActivity(intent);
-
-
-                }
+               }
 
             }
         });
         progressDialog = new ProgressDialog(this);
         getCatalogName();
 //        getCatalogList();
-
         addCatalog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,30 +102,20 @@ public class AdminCatalogActivity extends AppCompatActivity {
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.add_catalog_layout, null);
         dialogBuilder.setView(dialogView);
-
-
         editCatalogName = (AutoCompleteTextView) dialogView.findViewById(R.id.editCatalogName);
         editCatalogName.setAdapter(adapter);
-
         addCategory = (AutoCompleteTextView) dialogView.findViewById(R.id.addCategory);
-
-
         final AutoCompleteTextView serviceName = (AutoCompleteTextView) dialogView.findViewById(R.id.serviceName);
         final AutoCompleteTextView description = (AutoCompleteTextView) dialogView.findViewById(R.id.description);
-
-
         final Button buttonAddCatalog = (Button) dialogView.findViewById(R.id.buttonAddPricing);
         final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
-
         dialogBuilder.setTitle("Add Catalog");
         final AlertDialog b = dialogBuilder.create();
         b.show();
 
-
         editCatalogName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -142,8 +128,6 @@ public class AdminCatalogActivity extends AppCompatActivity {
                 ///getDesignList();
                 if (editCatalogName.getText().length() > 0) {
                     getCategory();
-
-
                 }
 
             }
@@ -257,12 +241,8 @@ public class AdminCatalogActivity extends AppCompatActivity {
                     }.getType();
                     catalogNameList = new Gson().fromJson(result, listType);
                     CatalogGridViewAdapter adaptercatalog = new CatalogGridViewAdapter(AdminCatalogActivity.this, catalogNameList, gridViewImageId);
-
                     gridview.setAdapter(adaptercatalog);
-
-
-                }
-
+               }
 
             } catch (Exception e) {
                 e.printStackTrace();
