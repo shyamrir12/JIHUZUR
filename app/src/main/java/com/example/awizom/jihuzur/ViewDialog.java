@@ -38,7 +38,7 @@ public class ViewDialog {
         //...now load that gif which we put inside the drawble folder here with the help of Glide
 
         Glide.with(activity)
-                .load(R.drawable.preloader)
+                .load(R.drawable.spinner_color)
                 .placeholder(R.drawable.spinner_color)
                 .centerCrop()
                 .crossFade()

@@ -3,15 +3,18 @@ package com.example.awizom.jihuzur.AdminActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.awizom.jihuzur.Adapter.CategoryGridViewAdapter;
@@ -52,7 +56,8 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
     private String[] categoryList;
     SwipeRefreshLayout mSwipeRefreshLayout;
     ViewDialog viewDialog;
-
+    SwipeController swipeController;
+    int minteger=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +98,9 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
         gridView = (GridView) findViewById(R.id.gridview);
         getCategoryList();
 
+
     }
+
 
     public void showCustomLoadingDialog(View view) {
 
@@ -124,9 +131,98 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
             adapterCategoryList = new CategoryListAdapter(AdminCategoryActivity.this, categorylist);
             mSwipeRefreshLayout.setRefreshing(false);
             recyclerView.setAdapter(adapterCategoryList);
+
+            swipeController = new SwipeController(new SwipeControllerActions() {
+                @Override
+                public void onRightClicked(int position) {
+                  String catalogid= String.valueOf(categorylist.get(position).getCatalogID());
+                    Toast.makeText(getApplicationContext(), position + "position", Toast.LENGTH_LONG).show();
+                    showindexchange(catalogid,position);
+
+
+
+
+                   /* mAdapter.players.remove(position);
+                    mAdapter.notifyItemRemoved(position);
+                    mAdapter.notifyItemRangeChanged(position, mAdapter.getItemCount());*/
+                }
+            });
+
+            ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+            itemTouchhelper.attachToRecyclerView(recyclerView);
+
+            recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+                @Override
+                public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                    swipeController.onDraw(c);
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void showindexchange(final String catalogid, final int position) {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(AdminCategoryActivity.this);
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.add_indexforcategory, null);
+        dialogBuilder.setView(dialogView);
+        final ImageView decrease = (ImageView) dialogView.findViewById(R.id.decrease);
+        final ImageView increase = (ImageView) dialogView.findViewById(R.id.increase);
+        final  TextView displayInteger = (TextView) dialogView.findViewById( R.id.integer_number);
+        final  TextView currentpos=(TextView)dialogView.findViewById(R.id.currentpos);
+        final Button changePositon=(Button)dialogView.findViewById(R.id.changePosition);
+        currentpos.setText(String.valueOf(position));
+        minteger= Integer.parseInt(currentpos.getText().toString());
+        displayInteger.setText(String.valueOf(minteger));
+        changePositon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            try {
+                result = new AdminHelper.ChangeCategoryIndex().execute(catalogid, String.valueOf(position), String.valueOf(minteger)).get();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            }
+        });
+        increase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                minteger++;
+             try {
+                 displayInteger.setText(String.valueOf(minteger));
+             }
+             catch (Exception e)
+             {
+                 e.printStackTrace();
+             }
+            }
+        });
+        decrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                minteger--;
+                try {
+                    displayInteger.setText(String.valueOf(minteger));
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        dialogBuilder.setTitle("Position Change");
+        dialogBuilder.setIcon(R.drawable.category);
+        final AlertDialog b = dialogBuilder.create();
+        b.show();
+    }
+
+    private void display(int number) {
+
     }
 
     @Override

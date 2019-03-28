@@ -10,7 +10,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
@@ -31,6 +33,7 @@ import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.MyEmployeeListModel;
 import com.example.awizom.jihuzur.Model.Result;
+import com.example.awizom.jihuzur.MyCustomDialog;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.SelectServices;
 import com.google.gson.Gson;
@@ -73,6 +76,8 @@ public class MyEmployeeListAdapter extends RecyclerView.Adapter<MyEmployeeListAd
         }
         holder.mobileNo.setText(String.valueOf(c.getMobileNo()));
         holder.employeeid.setText(c.getID());
+
+
 
         if (c.isActive()) {
             holder.Activeemployee.setText("Deactivate");

@@ -6,17 +6,22 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -123,6 +128,8 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             }
         });
 
+
+
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -226,6 +233,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         return categorylist.size();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
@@ -240,6 +248,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         public ImageView categoryImage, seccategoryImage;
         private List<Catalog> catalogList;
 
+        @RequiresApi(api = Build.VERSION_CODES.M)
         public MyViewHolder(View view) {
             super(view);
 
@@ -248,6 +257,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             categoryImage = (ImageView) view.findViewById(R.id.categoryImage);
             catalogname = (TextView) view.findViewById(R.id.catalogname);
             catalogid = (TextView) view.findViewById(R.id.catalogId);
+
 
         }
 
