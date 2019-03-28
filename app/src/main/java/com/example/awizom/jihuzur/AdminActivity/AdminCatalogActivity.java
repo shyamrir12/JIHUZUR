@@ -190,7 +190,6 @@ public class AdminCatalogActivity extends AppCompatActivity {
 
     private void getCategory() {
 
-
         try {
 //            mSwipeRefreshLayout.setRefreshing(true);
             new GETCategoryList().execute(editCatalogName.getText().toString());
