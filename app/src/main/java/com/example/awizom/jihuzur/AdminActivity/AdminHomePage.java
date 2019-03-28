@@ -1208,9 +1208,11 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
         } else if (id == R.id.nav_master) {
+            showCustomLoadingDialog();
             intent = new Intent(AdminHomePage.this, AdminCategoryActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_orderPhoto) {
+            showCustomLoadingDialog();
             intent = new Intent(AdminHomePage.this, AdminEmployeeOrderPhoto.class);
             startActivity(intent);
         }
@@ -1223,6 +1225,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             startActivity(intent);
         }*/
         else if (id == R.id.nav_complaintReply) {
+            showCustomLoadingDialog();
             intent = new Intent(AdminHomePage.this, AdminComplaintReply.class);
             startActivity(intent);
         }
@@ -1231,6 +1234,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 //            startActivity(intent);
 //        }
         else if (id == R.id.nav_discount) {
+            showCustomLoadingDialog();
             intent = new Intent(AdminHomePage.this, AdminDiscountActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
