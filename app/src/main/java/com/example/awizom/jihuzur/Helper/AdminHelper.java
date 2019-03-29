@@ -212,8 +212,6 @@ public class AdminHelper extends AppCompatActivity {
             String oldindex = params[1];
             String newindex = params[2];
 
-
-
             String json = "";
             try {
 
@@ -225,11 +223,7 @@ public class AdminHelper extends AppCompatActivity {
                 //builder.addHeader("Authorization", "Bearer " + accesstoken);
 
                 FormBody.Builder parameters = new FormBody.Builder();
-
-
                 builder.post(parameters.build());
-
-
                 okhttp3.Response response = client.newCall(builder.build()).execute();
 
                 if (response.isSuccessful()) {

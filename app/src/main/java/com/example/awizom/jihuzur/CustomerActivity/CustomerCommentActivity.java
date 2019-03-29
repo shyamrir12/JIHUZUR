@@ -212,7 +212,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
                     Type getType = new TypeToken<ResultModel>() {
                     }.getType();
                     ResultModel resultModel = new Gson().fromJson(result, getType);
-                    if (resultModel.getStatus().equals("true")) {
+                    if (resultModel.getStatus().equals(true)) {
                         String employeeid = resultModel.getEmployeeID().toString();
                         Map<String, Object> profile = new HashMap<>();
                         profile.put("busystatus", false);

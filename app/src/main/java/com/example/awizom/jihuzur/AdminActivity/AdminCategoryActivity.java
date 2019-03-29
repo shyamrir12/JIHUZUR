@@ -27,9 +27,11 @@ import android.widget.Toast;
 
 import com.example.awizom.jihuzur.Adapter.CategoryGridViewAdapter;
 import com.example.awizom.jihuzur.Adapter.CategoryListAdapter;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerCommentActivity;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.Result;
+import com.example.awizom.jihuzur.Model.ResultModel;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.ViewDialog;
 import com.google.gson.Gson;
@@ -138,14 +140,18 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
                   String catalogid= String.valueOf(categorylist.get(position).getCatalogID());
                     Toast.makeText(getApplicationContext(), position + "position", Toast.LENGTH_LONG).show();
                     showindexchange(catalogid,position);
-
-
-
-
                    /* mAdapter.players.remove(position);
                     mAdapter.notifyItemRemoved(position);
                     mAdapter.notifyItemRangeChanged(position, mAdapter.getItemCount());*/
                 }
+                @Override
+                public void onLeftClicked(int position) {
+                    super.onLeftClicked(position);
+                    Intent intent=new Intent(AdminCategoryActivity.this,AdminHomePage.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                }
+
             });
 
             ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
@@ -181,6 +187,16 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
             public void onClick(View v) {
             try {
                 result = new AdminHelper.ChangeCategoryIndex().execute(catalogid, String.valueOf(position), String.valueOf(minteger)).get();
+             //   Toast.makeText(AdminCategoryActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
+                Gson gson = new Gson();
+                Type getType = new TypeToken<ResultModel>() {
+                }.getType();
+                ResultModel resultModel = new Gson().fromJson(result, getType);
+                if (resultModel.getStatus().equals(true)) {
+                    Toast.makeText(AdminCategoryActivity.this, "True", Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(AdminCategoryActivity.this,AdminCategoryActivity.class);
+                    startActivity(intent);
+                }
             }
             catch (Exception e)
             {
