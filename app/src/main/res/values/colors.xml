@@ -2,8 +2,18 @@
 <resources>
     <!--<color name="colorPrimary">#3F51B5</color>-->
     <!--<color name="colorPrimaryDark">#303F9F</color>-->
-    <color name="colorPrimary">#093854</color>
-    <color name="colorPrimaryDark">#093854</color>
+    <!--<color name="colorPrimary">#093854</color>-->
+    <!--<color name="colorPrimaryDark">#093854</color>-->
+    <!--<color name="colorPrimary">#093854 #bf9674</color>-->
+    <!--<color name="colorPrimaryDark">#093854</color>-->
+    <!--<color name="colorPrimary">#2e1805</color>-->
+    <!--<color name="colorPrimaryDark">#2e1805</color>-->
+
+    <!--<color name="colorPrimary">#145278</color>-->
+    <!--<color name="colorPrimaryDark">#093854</color>-->
+
+    <color name="colorPrimary">#174d18</color>
+    <color name="colorPrimaryDark">#113812</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#fff</color>
     <color name="colorBlack">#140806</color>
@@ -30,4 +40,6 @@
     <color name="orange_dark">#cc3e0f</color>
 <color name="greyhint">#1877a3</color>
     <color name="halfwhite">#f3f6f7</color>
+    <color name="transparent">#00000000</color>
+    <color name="transparency">#00000000</color>
 </resources>

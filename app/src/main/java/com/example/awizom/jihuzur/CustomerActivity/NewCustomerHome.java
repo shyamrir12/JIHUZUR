@@ -25,25 +25,25 @@ public class NewCustomerHome extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_customer_home);
         gridView=(GridView)findViewById(R.id.gridview);
-        getCategoryList();
+       //getCategoryList();
 
     }
 
-    private void getCategoryList() {
-        String catalogname="Home Cleaning & Repairs";
-        try {
-            result = new CustomerOrderHelper.GETCustomerCategoryList().execute(catalogname).get();
-            if (result != null) {
-                Gson gson = new Gson();
-                Type listType = new TypeToken<List<Catalog>>() {
-                }.getType();
-                categorylist = new Gson().fromJson(result, listType);
-               CustomerHomePageAdapter customerCatagoryAdapter = new CustomerHomePageAdapter(NewCustomerHome.this, categorylist);
-                gridView.setAdapter(customerCatagoryAdapter);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    private void getCategoryList() {
+//        String catalogname="Home Cleaning & Repairs";
+//        try {
+//            result = new CustomerOrderHelper.GETCustomerCategoryList().execute(catalogname).get();
+//            if (result != null) {
+//                Gson gson = new Gson();
+//                Type listType = new TypeToken<List<Catalog>>() {
+//                }.getType();
+//                categorylist = new Gson().fromJson(result, listType);
+//               CustomerHomePageAdapter customerCatagoryAdapter = new CustomerHomePageAdapter(NewCustomerHome.this, categorylist);
+//                gridView.setAdapter(customerCatagoryAdapter);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }

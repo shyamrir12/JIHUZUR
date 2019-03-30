@@ -236,7 +236,8 @@
                             android:text="Accept Otp"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            android:textSize="14sp"
+                            android:textSize="13sp"
+                            android:fontFamily="monospace"
                             android:visibility="visible"/>
 
                         <view
@@ -254,7 +255,8 @@
                             android:text="Track"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            android:textSize="14sp" />
+                            android:textSize="13sp"
+                            android:fontFamily="monospace"/>
 
                         <view
                             class="android.support.v7.app.AlertController$RecycleListView"
@@ -271,7 +273,8 @@
                             android:text="Cancel"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            android:textSize="14sp"
+                            android:textSize="13sp"
+                            android:fontFamily="monospace"
                             android:visibility="gone" />
                         <view
                             class="android.support.v7.app.AlertController$RecycleListView"
@@ -287,8 +290,9 @@
                             android:text="View Detail"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            android:textSize="14sp"
-                            android:visibility="visible" />
+                            android:textSize="13sp"
+                            android:visibility="visible"
+                            android:fontFamily="monospace"/>
 
                     </LinearLayout>
                 </RelativeLayout>

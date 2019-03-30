@@ -33,6 +33,8 @@ public class MenuActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Home Services");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
+        toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
 
 
         catagoryName = String.valueOf(getIntent().getIntExtra("CategoryName",0));

@@ -67,6 +67,10 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
 
 
         toolbar.setSubtitleTextColor(Color.BLACK);
+        toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
+        toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
+
+
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

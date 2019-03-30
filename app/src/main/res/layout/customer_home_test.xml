@@ -1,31 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AdminActivity.AdminCatalogActivity"
-    android:background="@mipmap/login3">
-
-
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:background="@mipmap/splash1"
+    android:orientation="vertical">
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@color/transparency"
-            android:layout_margin="20dp">
+            android:background="@color/transparency">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/transparency"
-                android:layout_marginTop="20dp">
+                android:background="@color/transparency">
                 <LinearLayout
                     android:id="@+id/l"
                     android:layout_width="match_parent"
@@ -52,27 +46,16 @@
                     </RelativeLayout>
                 </LinearLayout>
 
-                <GridView
-                    android:id="@+id/gridview"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:numColumns="auto_fit"
-                    android:columnWidth="150dp"
-                    android:horizontalSpacing="10dp"
-                    android:verticalSpacing="10dp"
-                    android:gravity="center"
-                    android:stretchMode="columnWidth"
-                    android:layout_below="@+id/l"
-                    android:layout_marginTop="20dp">
 
-                </GridView>
                 <LinearLayout
                     android:id="@+id/l3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:layout_marginTop="20dp"
-                    android:layout_below="@+id/gridview">
+                    android:layout_marginRight="50dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_below="@+id/l">
 
 
                     <LinearLayout
@@ -111,7 +94,7 @@
                                 android:text="@string/Jihuju_thought"
                                 android:textAlignment="viewStart"
                                 android:textColor="@color/white"
-                                android:textSize="18sp"
+                                android:textSize="20sp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -141,24 +124,4 @@
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
-
-
-
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/addCatalog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="27dp"
-        android:layout_marginEnd="22dp"
-        app:srcCompat="@android:drawable/ic_input_add"
-        tools:layout_editor_absoluteX="328dp"
-        tools:layout_editor_absoluteY="448dp" />
-
-
-
-
-</RelativeLayout>
+</LinearLayout>

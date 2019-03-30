@@ -91,6 +91,8 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         orderID = getIntent().getStringExtra("orderId");
         priceID = getIntent().getStringExtra("priceId");
         getSupportActionBar().setTitle(serviceName);
+
+
         mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);

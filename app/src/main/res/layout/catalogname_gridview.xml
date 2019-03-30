@@ -7,14 +7,7 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/catalogName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/homecleaning"
-        android:textSize="10sp"
-        android:textStyle="bold" />
+
 
     <android.support.v7.widget.CardView
         android:id="@+id/homeCleancardViewOne"
@@ -23,14 +16,40 @@
         android:layout_weight="1"
         card_view:cardCornerRadius="5dp"
         card_view:cardElevation="2dp"
-        card_view:contentPadding="16dp">
+        android:layout_gravity="center|center_horizontal">
+        <LinearLayout
+            android:layout_width="170dp"
+            android:layout_height="130dp"
+            android:orientation="vertical"
+            android:background="@mipmap/gridview"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/catalogName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/homecleaning"
+                android:textSize="17sp"
+                android:layout_gravity="center|center_horizontal"
+                android:gravity="center|center_horizontal"
+                android:textStyle="bold"
+                android:textColor="#145278"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/catalogImage"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:layout_gravity="center|center_horizontal"
+                android:gravity="center|center_horizontal"
+                android:src="@mipmap/homecleaning"
+                android:layout_marginBottom="10dp"/>
+            <TextView
+                android:id="@+id/imgLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+        </LinearLayout>
 
-        <ImageView
-            android:id="@+id/catalogImage"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@mipmap/homecleaning" />
+
 
 
     </android.support.v7.widget.CardView>

@@ -1,6 +1,7 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
 import android.app.ActivityOptions;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -51,7 +52,7 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
 
         android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("My Complaint's");
-        toolbar.setTitleTextColor(0xFFFFFFFF);
+
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -61,6 +62,11 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
                 onBackPressed();
             }
         });
+
+        toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
+        toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
+        toolbar.setTitleTextColor(Color.WHITE);
+
         addComplaint = findViewById(R.id.addComplaint);
         editcomplaint = findViewById(R.id.complaint);
         recyclerView = findViewById(R.id.recyclerView);

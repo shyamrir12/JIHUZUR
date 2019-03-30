@@ -75,8 +75,7 @@
                     android:background="@drawable/message_box_background"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1.6"
-                    android:padding="10dp"
-                 />
+                    android:padding="10dp"/>
 
 
             </LinearLayout>

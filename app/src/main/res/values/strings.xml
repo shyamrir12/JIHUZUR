@@ -3,7 +3,7 @@
 
     <string name="Order_history">Order History</string>
     <string name="current_order">Current Order</string>
-    <string name="app_name">JiHuzur</string>
+    <string name="app_name">JiHuzzur</string>
     <string name="title_home">Home</string>
     <string name="Search">Search</string>
     <string name="My_Booking">My Booking</string>
@@ -58,7 +58,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="title_activity_customer_home_page">Customer Home</string>
+    <string name="title_activity_customer_home_page">JiHuzzur</string>
     <string name="title_activity_admin_home_page">Admin Home</string>
     <string name="title_activity_employee_home_page">Employee Home</string>
     <string name="homecleaning"><![CDATA[Home Cleaning & Repairs]]></string>
@@ -147,9 +147,9 @@
     <string name="getHelp">Get help with all previous bookings</string>
     <string name="popular">Popular Solution</string>
     <string name="cancel_change">Cancel,change time of service or get help</string>
-    <string name="Jihuju_thought">JiHujur Insurance Protection Program</string>
+    <string name="Jihuju_thought">JiHuzzur Insurance Protection Program</string>
     <string name="upto">Upto Rs. 10.000 insurance protection with every service request</string>
-    <string name="learn_more">Learn More</string>
+    <string name="learn_more"><u>Learn More</u></string>
     <string name="account">Account Settings</string>
     <string name="change_mobile">Change your mobile number and email</string>
     <string name="faq">F.A.Q</string>
@@ -277,5 +277,5 @@
     <string name="title_activity_admin_employee_order_photo">AdminEmployeeOrderPhoto</string>
     <string name="title_activity_new_customer_home">NewCustomerHome</string>
     <string name="title_activity_quick_action">QuickAction</string>
-    <string name="title_activity_add_employee">AddEmployee</string>
+    <string name="skiplogin"><u>Skip Login</u></string>
 </resources>

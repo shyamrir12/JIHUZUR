@@ -4,7 +4,6 @@
 
     <item
         android:id="@+id/action_fitness"
-        android:icon="@drawable/massage"
-        android:title="Fitness"
+        android:icon="@drawable/ic_user_circle_black_24dp"
         app:showAsAction="ifRoom" />
 </menu>

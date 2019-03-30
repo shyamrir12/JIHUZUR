@@ -24,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerCatagoryAdapter;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerHomePageAdapter;
 import com.example.awizom.jihuzur.DrawingActivity;
 import com.example.awizom.jihuzur.Fragment.CatalogFragment;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
@@ -76,10 +78,13 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
     Intent intent;
     private String result = "", catalogName = "Home Cleaning & Repairs";
-    List<Catalog> categorylist;
     RecyclerView recyclerView;
     CustomerCatagoryAdapter customerCatagoryAdapter;
     ViewDialog viewDialog;
+
+
+    GridView gridView;
+    List<Catalog> categorylist;
 
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -89,26 +94,31 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             Class framentClass = null;
             switch (item.getItemId()) {
                 case R.id.navigation_search:
-                    getSupportActionBar().setTitle("Customer Home");
+                    getSupportActionBar().setTitle("JiHuzzur");
                     intent = new Intent(CustomerHomePage.this, CustomerHomePage.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+
                     break;
 
                 case R.id.navigation_booking:
                     intent = new Intent(CustomerHomePage.this, MyBokingsActivity.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+
                     break;
 
                 case R.id.navigation_helpCenter:
                     getSupportActionBar().setTitle("Help Center");
                     fragment = helpCenterFragment;
                     framentClass = HelpCenterFragment.class;
+                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                     break;
             }
             try {
                 fragment = (Fragment) framentClass.newInstance();
                 android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.home_container, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.home_container, fragment).addToBackStack(null).commit();
                 setTitle("");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -122,6 +132,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         initView();
     }
 
@@ -131,8 +142,15 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         myBookingFragment = new MyBookingFragment();
         catalogFragment = new CatalogFragment();
         setContentView(R.layout.activity_customer_home_page);
+        gridView=(GridView)findViewById(R.id.gridview);
+        getCategoryList();
+
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
+        toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
         setSupportActionBar(toolbar);
+
+
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -182,27 +200,44 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             }
         });
         getProfile();
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        getcatagoryList();
+//        recyclerView = findViewById(R.id.recyclerView);
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
     }
 
-    private void getcatagoryList() {
+    private void getCategoryList() {
+        String catalogname="Home Cleaning & Repairs";
         try {
-            result = new CustomerOrderHelper.GETCustomerCategoryList().execute(catalogName).get();
+            result = new CustomerOrderHelper.GETCustomerCategoryList().execute(catalogname).get();
             if (result != null) {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<List<Catalog>>() {
                 }.getType();
                 categorylist = new Gson().fromJson(result, listType);
-                customerCatagoryAdapter = new CustomerCatagoryAdapter(CustomerHomePage.this, categorylist);
-                recyclerView.setAdapter(customerCatagoryAdapter);
+                CustomerHomePageAdapter customerCatagoryAdapter = new CustomerHomePageAdapter(CustomerHomePage.this, categorylist);
+                gridView.setAdapter(customerCatagoryAdapter);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+//    private void getcatagoryList() {
+//        try {
+//            result = new CustomerOrderHelper.GETCustomerCategoryList().execute(catalogName).get();
+//            if (result != null) {
+//                Gson gson = new Gson();
+//                Type listType = new TypeToken<List<Catalog>>() {
+//                }.getType();
+//                categorylist = new Gson().fromJson(result, listType);
+//                customerCatagoryAdapter = new CustomerCatagoryAdapter(CustomerHomePage.this, categorylist);
+//                recyclerView.setAdapter(customerCatagoryAdapter);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public void showCustomLoadingDialog() {
 
@@ -363,6 +398,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         } else if (id == R.id.nav_logout) {
             SharedPrefManager.getInstance(this).logout();
             Intent login = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
+            login = login.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(login);
             finish();
         } else if (id == R.id.nav_manage) {
