@@ -20,6 +20,6 @@
         android:id="@+id/action_profile"
         android:orderInCategory="300"
         android:title="User"
-        android:icon="@drawable/boy"
+        android:icon="@drawable/useredit"
         app:showAsAction="ifRoom"></item>
 </menu>

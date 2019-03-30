@@ -90,7 +90,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         Catalog c = categorylist.get(position);
         holder.category.setText(c.getCategory());
         holder.catalogid.setText(String.valueOf(c.getCatalogID()));
-
+        holder.imglinkurl.setText(c.getImage());
         imagestr = AppConfig.BASE_URL + c.getImage();
         holder.catalogname.setText(c.getCatalogName());
         viewDialog = new ViewDialog((Activity) mCtx);
@@ -103,7 +103,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .into(holder.categoryImage);
-                holder.imglinkurl.setText(imagestr);
+
 
                 // Glide.with(mCtx).load(imagestr).into(holder.categoryImage);
             }
@@ -113,6 +113,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         final String categorynem = holder.category.getText().toString();
         final String cetlogId = holder.catalogid.getText().toString();
         final String cetlogName = holder.catalogname.getText().toString();
+        final String imglnk = AppConfig.BASE_URL+holder.imglinkurl.getText().toString();
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +136,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             public boolean onLongClick(View v) {
 
 
-                ((AdminCategoryActivity) mCtx).showAddCategoryDialog(categorynem, cetlogId, cetlogName);
+                ((AdminCategoryActivity) mCtx).showAddCategoryDialog(categorynem, cetlogId, cetlogName,imglnk);
 
 //                showEditCategoryDialog(categorynem, cetlogId, cetlogName);
 

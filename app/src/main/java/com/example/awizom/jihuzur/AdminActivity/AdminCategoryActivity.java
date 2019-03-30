@@ -25,6 +25,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.Adapter.CategoryGridViewAdapter;
 import com.example.awizom.jihuzur.Adapter.CategoryListAdapter;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerCommentActivity;
@@ -184,6 +186,8 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onClick(View v) {
             try {
+
+
                 result = new AdminHelper.ChangeCategoryIndex().execute(catalogid, String.valueOf(position), String.valueOf(minteger)).get();
              //   Toast.makeText(AdminCategoryActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
                 Gson gson = new Gson();
@@ -244,12 +248,12 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         if (v.getId() == addCategory.getId()) {
 
-            String categorynem = null, cetlogId = null, cetlogName = null;
-            showAddCategoryDialog(categorynem, cetlogId, cetlogName);
+            String categorynem = null, cetlogId = null, cetlogName = null,imgstr=null;
+            showAddCategoryDialog(categorynem, cetlogId, cetlogName,imgstr);
         }
     }
 
-    public void showAddCategoryDialog(String categorynem, final String cetlogId, String cetlogName) {
+    public void showAddCategoryDialog(String categorynem, final String cetlogId, String cetlogName,String imgstr ) {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -261,6 +265,8 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
         }
 
         imageView = (ImageView) dialogView.findViewById(R.id.imageView);
+        Glide.with(this).load(imgstr).placeholder(R.drawable.jihuzurblanklogo).diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true).into(imageView);
         Button chooseImage = (Button) dialogView.findViewById(R.id.addImage);
         chooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
