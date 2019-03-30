@@ -35,6 +35,8 @@ import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerCatagoryAdapter;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerHomePageAdapter;
 import com.example.awizom.jihuzur.DrawingActivity;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeMyProfileActivity;
 import com.example.awizom.jihuzur.Fragment.CatalogFragment;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
 import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
@@ -363,6 +365,13 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 
             return true;
         }
+        if (id == R.id.action_profile) {
+
+            Intent i = new Intent(CustomerHomePage.this, CustomerProfileActivity.class);
+            startActivity(i);
+            return true;
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -401,7 +410,10 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             login = login.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(login);
             finish();
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.profile) {
+            Intent i = new Intent(CustomerHomePage.this, CustomerProfileActivity.class);
+            startActivity(i);
+            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
         } else if (id == R.id.nav_share) {
 

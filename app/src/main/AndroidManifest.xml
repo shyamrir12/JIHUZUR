@@ -212,6 +212,11 @@
             android:label="@string/title_activity_new_customer_home">
 
         </activity>
+
+        <activity android:name=".CustomerActivity.CustomerProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".EmployeeActivity.EmployeeMyProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
