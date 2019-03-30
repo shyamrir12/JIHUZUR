@@ -78,9 +78,9 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
         name = getIntent().getExtras().getString("Name");
 
 
-        if(otp != null){
-            otpEditText.setText(otp.toString());
-        }
+//        if(otp != null){
+//            otpEditText.setText(otp.toString());
+//        }
     }
 
     /*For Event Listeners */

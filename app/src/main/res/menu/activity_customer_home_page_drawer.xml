@@ -16,11 +16,10 @@
             android:id="@+id/nav_complaint"
             android:icon="@drawable/ic_comment_black_24dp"
             android:title="@string/complaint" />
-        <!--<item-->
-            <!--android:id="@+id/nav_order"-->
-            <!--android:icon="@drawable/ic_shopping_cart_black_24dp"-->
-            <!--android:title="@string/order" />-->
-
+        <item
+            android:id="@+id/profile"
+            android:icon="@drawable/ic_user_circle_black_24dp"
+            android:title="@string/Profile" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_settings_power_black_24dp"
@@ -30,10 +29,7 @@
             android:icon="@drawable/ic_menu_manage"
             android:title="Tools" />
 
-        <item
-            android:id="@+id/profile"
-            android:icon="@drawable/ic_user_circle_black_24dp"
-            android:title="@string/Profile" />
+
     </group>
 
     <item android:title="Communicate">

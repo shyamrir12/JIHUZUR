@@ -166,8 +166,8 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         viewDialog = new ViewDialog((Activity) CustomerHomePage.this);
 
         imageView = headerview.findViewById(R.id.imageView);
-        img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();
-        {
+      /*  img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();*/
+       /* {
             try {
                 if (SharedPrefManager.getInstance(this).getUser().getImage() == null) {
                     imageView.setImageResource(R.drawable.jihuzurblanklogo);
@@ -181,7 +181,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        }*/
         userName = headerview.findViewById(R.id.profileName);
         userContact = headerview.findViewById(R.id.cusContact);
         try {
@@ -270,6 +270,8 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 DataProfile dataProfile = new Gson().fromJson(result, listType);
                 userName.setText(dataProfile.getName().toString());
                 userContact.setText(dataProfile.MobileNo);
+                String imgstr=dataProfile.getImage().toString();
+                Glide.with(this).load(imgstr).placeholder(R.drawable.user_icon).into(imageView);
                 if (dataProfile != null) {
                     DataProfile dataProfile1 = new DataProfile();
                     dataProfile1.Image = dataProfile.Image;
