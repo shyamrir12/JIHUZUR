@@ -68,7 +68,7 @@
         <activity
             android:name=".EmployeeActivity.EmployeeSkillActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AdminActivity.AdminCatalogActivity" />
+        <activity android:name=".AdminActivity.AdminCatalogActivity"></activity>
         <activity
             android:name=".AdminActivity.AdminPricingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -99,7 +99,14 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".SplashActivityEmployee"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity
+            android:name=".CustomerActivity.CustomerLoginRegActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".CustomerActivity.CustomerSplashActivity"
+            android:theme="@style/AppFullScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -107,15 +114,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CustomerActivity.CustomerLoginRegActivity"
-            android:label="@string/title_activity_login"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
-            android:name=".CustomerActivity.CustomerSplashActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
             android:name=".SplashActivityAdmin"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        </activity>
         <activity
             android:name=".AdminActivity.AdminHomePage"
             android:label="@string/title_activity_admin_home_page"
@@ -141,12 +143,13 @@
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
             android:name=".MyBokingsActivity"
-            android:parentActivityName=".CustomerActivity.CustomerHomePage" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".CustomerActivity.CustomerpricingActivity" />
         <activity android:name=".AddAddressActivity" />
         <activity
             android:name=".LoginRegistrationActivity.VerifyPhoneActivity"
-            android:parentActivityName=".CustomerActivity.CustomerHomePage" />
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity
             android:name=".EmployeeActivity.EmployeeBookingsActivity"
             android:parentActivityName=".EmployeeActivity.EmployeeHomePage" />
@@ -206,9 +209,14 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CustomerActivity.NewCustomerHome"
-            android:label="@string/title_activity_new_customer_home" />
+            android:label="@string/title_activity_new_customer_home">
+
+        </activity>
+
+        <activity android:name=".CustomerActivity.CustomerProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".EmployeeActivity.EmployeeMyProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
