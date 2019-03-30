@@ -381,21 +381,19 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_signout) {
-            FirebaseAuth fAuth = FirebaseAuth.getInstance();
-            fAuth.signOut();
-            return true;
-        }
-        if (id == R.id.action_customerHome) {
-            Intent i = new Intent(EmployeeHomePage.this, EmployeeHomePage.class);
-            startActivity(i);
-            return true;
-        }
+
         if (id == R.id.action_settings) {
             Intent i = new Intent(EmployeeHomePage.this, SettingsActivity.class);
             startActivity(i);
             return true;
         }
+        if (id == R.id.action_profile) {
+
+            Intent i = new Intent(EmployeeHomePage.this, EmployeeMyProfileActivity.class);
+            startActivity(i);
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

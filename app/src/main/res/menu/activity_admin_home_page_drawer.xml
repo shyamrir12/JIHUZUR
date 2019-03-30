@@ -17,6 +17,7 @@
             android:id="@+id/nav_master"
             android:icon="@drawable/ic_history_black_24dp"
             android:title="@string/master" />
+
       <!--  <item
             android:id="@+id/nav_catalogName"
             android:icon="@drawable/ic_shopping_cart_black_24dp"

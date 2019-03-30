@@ -58,6 +58,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.BuildConfig;
 import com.example.awizom.jihuzur.Config.AppConfig;
+import com.example.awizom.jihuzur.CustomerActivity.TrackActivity;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeCurrentOrderAdapter;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeHistoryAdapter;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeBookingsActivity;
@@ -100,6 +101,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -179,7 +181,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
     private ArrayList<LatLng> latlngs = new ArrayList<>();
     private ArrayList<String> empMobile = new ArrayList<>();
     private ArrayList<String> empName = new ArrayList<>();
-    private String[] empNameList, empLat, empLong, employeeid, fireid, firelat, firelong;
+    private String[] empNameList, empLat, empLong, employeeid, fireid, firelat, firelong, employeemobile, employeeimage;
     private String priceID = "", priceIDs = "", selectedEmpId;
     private String priceIds;
     private MarkerOptions place1, mylocation;
@@ -567,11 +569,15 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             empLat = new String[employeeProfileModelList.size()];
             empLong = new String[employeeProfileModelList.size()];
             employeeid = new String[employeeProfileModelList.size()];
+            employeemobile = new String[employeeProfileModelList.size()];
+            employeeimage = new String[employeeProfileModelList.size()];
             for (int i = 0; i < employeeProfileModelList.size(); i++) {
                 empNameList[i] = String.valueOf(employeeProfileModelList.get(i).getName());
                 empLat[i] = String.valueOf(employeeProfileModelList.get(i).getLat());
                 empLong[i] = String.valueOf(employeeProfileModelList.get(i).getLong());
                 employeeid[i] = String.valueOf(employeeProfileModelList.get(i).getID());
+                employeemobile[i] = String.valueOf(employeeProfileModelList.get(i).getMobileNo());
+                employeeimage[i] = String.valueOf(employeeProfileModelList.get(i).getImage());
                 empMobile.add(employeeProfileModelList.get(i).getMobileNo());
                 empName.add(employeeProfileModelList.get(i).getName());
             }
@@ -607,56 +613,47 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 for (int i = 0; i < employeeProfileModelList.size(); i++) {
 
                     //                    LatLng customMarkerLocationOne = new LatLng(28.583911, 77.319116);
+                    empid = employeeProfileModelList.get(i).getID();
+                    empNameList[i] = String.valueOf(employeeProfileModelList.get(i).getName());
+                    empLat[i] = String.valueOf(employeeProfileModelList.get(i).getLat());
+                    empLong[i] = String.valueOf(employeeProfileModelList.get(i).getLong());
+                    employeeid[i] = String.valueOf(employeeProfileModelList.get(i).getID());
+                    employeemobile[i] = String.valueOf(employeeProfileModelList.get(i).getMobileNo());
+                    employeeimage[i] = String.valueOf(employeeProfileModelList.get(i).getImage());
+                    empMobile.add(employeeProfileModelList.get(i).getMobileNo());
+                    empName.add(employeeProfileModelList.get(i).getName());
 
                     try {
-                        db.collection("Profile")
-                                .get()
-                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                                fireid = new String[employeeProfileModelList.size()];
-                                                firelat = new String[employeeProfileModelList.size()];
-                                                firelong = new String[employeeProfileModelList.size()];
-                                                for (int i = 0; i < task.getResult().size(); i++) {
+
+                          /*  name = dataProfileEmployee.getName();
+                            mobno = dataProfileEmployee.getMobileNo();
+                            img_str = dataProfileEmployee.getImage();*/
+
+                        final int finalI = i;
+                        final int finalI1 = i;
+                        final int finalI2 = i;
+                        db.collection("Profile").document(employeeid[i]).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().get("lat"))),
+                                        Double.valueOf(String.valueOf(task.getResult().get("long"))));
+                                int height = 100;
+                                int width = 100;
+                                BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.electricians);
+                                Bitmap b = bitmapdraw.getBitmap();
+                                Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+
+                                mGoogleMap.addMarker(new MarkerOptions().position(latLng).
+                                        icon(BitmapDescriptorFactory.fromBitmap(smallMarker))).setTitle(empNameList[finalI] + "," + employeeid[finalI1] + "," + employeeimage[finalI2] + "," + employeemobile[finalI2]);
 
 
-                                                    try {
-                                                        fireid[i] = task.getResult().getDocuments().get(i).getId();
-                                                        firelong[i] = String.valueOf(task.getResult().getDocuments().get(i).get("long"));
-                                                        firelat[i] = String.valueOf(task.getResult().getDocuments().get(i).get("lat"));
-                                                        latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("lat"))),
-                                                                Double.valueOf(String.valueOf(task.getResult().getDocuments().get(i).get("long"))));
-                                                        name = employeeProfileModelList.get(i).getName();
-                                                        mobno = employeeProfileModelList.get(i).getMobileNo();
-                                                        img_str = employeeProfileModelList.get(i).getImage();
-                                                        empid = employeeProfileModelList.get(i).getID();
-                                                        int height = 100;
-                                                        int width = 100;
-                                                        BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.electricians);
-                                                        Bitmap b = bitmapdraw.getBitmap();
-                                                        Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
-                                                        mGoogleMap.addMarker(new MarkerOptions().position(latLng).
-                                                                icon(BitmapDescriptorFactory.fromBitmap(smallMarker))).setTitle(name + "," + empid + "," + img_str + "," + mobno);
-                                                        //LatLngBound will cover all your marker on Google Maps
-                                                    } catch (Exception e) {
-                                                        e.printStackTrace();
-                                                        Toast.makeText(getApplicationContext(), "index are not match for firebase and sql databse", Toast.LENGTH_SHORT).show();
-                                                    }
+                            }
 
 
-                                                }
-                                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                            }
-                                        } else {
-                                            Log.d(TAG, "Error getting documents: ", task.getException());
-                                        }
-                                    }
-                                });
+                        });
+
+
                     } catch (Exception e) {
-                        Toast.makeText(getApplicationContext(), "sql and firebASE BUSYSTATUS NOT MATCHING", Toast.LENGTH_LONG).show();
-
                         e.printStackTrace();
                     }
 

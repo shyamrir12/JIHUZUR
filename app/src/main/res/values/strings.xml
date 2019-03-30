@@ -277,4 +277,5 @@
     <string name="title_activity_admin_employee_order_photo">AdminEmployeeOrderPhoto</string>
     <string name="title_activity_new_customer_home">NewCustomerHome</string>
     <string name="title_activity_quick_action">QuickAction</string>
+    <string name="title_activity_add_employee">AddEmployee</string>
 </resources>

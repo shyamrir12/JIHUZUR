@@ -17,6 +17,25 @@ public class DataProfile {
     public String IdentityImage;
     public boolean BusyStatus;
     public String CreatedDate;
+    public String Email;
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
+    }
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
+    }
+
+    public String Address;
 
 
     public String getID() {

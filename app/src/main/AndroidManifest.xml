@@ -68,7 +68,7 @@
         <activity
             android:name=".EmployeeActivity.EmployeeSkillActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AdminActivity.AdminCatalogActivity"></activity>
+        <activity android:name=".AdminActivity.AdminCatalogActivity" />
         <activity
             android:name=".AdminActivity.AdminPricingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -99,16 +99,6 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".SplashActivityEmployee"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
-        <activity
-            android:name=".CustomerActivity.CustomerLoginRegActivity"
-            android:label="@string/title_activity_login"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity
-            android:name=".CustomerActivity.CustomerSplashActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
-        <activity
-            android:name=".SplashActivityAdmin"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -116,6 +106,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".CustomerActivity.CustomerLoginRegActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".CustomerActivity.CustomerSplashActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".SplashActivityAdmin"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity
             android:name=".AdminActivity.AdminHomePage"
             android:label="@string/title_activity_admin_home_page"
@@ -206,7 +206,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CustomerActivity.NewCustomerHome"
-            android:label="@string/title_activity_new_customer_home"></activity>
+            android:label="@string/title_activity_new_customer_home" />
+        <activity android:name=".EmployeeActivity.EmployeeMyProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

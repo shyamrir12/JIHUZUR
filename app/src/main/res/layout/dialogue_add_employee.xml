@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_bg"
+    android:padding="@dimen/activity_horizontal_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_name"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:hint="Name">
+
+            <AutoCompleteTextView
+                android:id="@+id/Name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="                              "
+                android:inputType="text"
+                android:textSize="15sp" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_phonenumber"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:hint="PhoneNumber">
+
+            <AutoCompleteTextView
+                android:id="@+id/phonenumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="                              "
+                android:inputType="text"
+                android:textSize="15sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_email"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:hint="Email">
+
+            <AutoCompleteTextView
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="                              "
+                android:inputType="text"
+                android:textSize="15sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_address"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:hint="Address">
+
+            <AutoCompleteTextView
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="                              "
+                android:inputType="text"
+                android:textSize="15sp" />
+        </android.support.design.widget.TextInputLayout>
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonaddemployee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/halfwhite"
+            android:drawableLeft="@drawable/ic_add_circle_black_24dp"
+            android:text="Add" />
+
+        <Button
+            android:id="@+id/buttonCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/halfwhite"
+            android:drawableLeft="@drawable/ic_cancel_black_24dp"
+            android:text="Cancel" />
+
+    </LinearLayout>
+
+</LinearLayout>

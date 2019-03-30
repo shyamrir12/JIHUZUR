@@ -1003,6 +1003,63 @@ public class AdminHelper extends AppCompatActivity {
 
     }
 
+
+    public static final class POSTAddEmployee extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+
+            //     InputStream inputStream
+            String name = params[0];
+            String phonenumber = params[1];
+            String email = params[2];
+            String address = params[3];
+            String userName = params[4];
+            String password = params[5];
+            String ConfirmPassword=params[6];
+
+            String json = "";
+            try {
+
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                builder.url(AppConfig.BASE_URL_Account_API + "AddEmployee");
+                builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
+                builder.addHeader("Accept", "application/json");
+                //builder.addHeader("Authorization", "Bearer " + accesstoken);
+
+                FormBody.Builder parameters = new FormBody.Builder();
+                parameters.add("UserName", userName);
+                parameters.add("Name", name);
+                parameters.add("Email", email);
+                parameters.add("Address", address);
+                parameters.add("PhoneNumber", phonenumber);
+                parameters.add("Password", password);
+                parameters.add("ConfirmPassword", ConfirmPassword);
+
+                builder.post(parameters.build());
+                okhttp3.Response response = client.newCall(builder.build()).execute();
+                if (response.isSuccessful()) {
+                    json = response.body().string();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+            return json;
+        }
+
+        protected void onPostExecute(String result) {
+
+            if (result.isEmpty()) {
+
+            } else {
+                super.onPostExecute(result);
+            }
+
+        }
+
+    }
+
     public static final class GetProfileForShow extends AsyncTask<String, Void, String> {
 
         @Override
