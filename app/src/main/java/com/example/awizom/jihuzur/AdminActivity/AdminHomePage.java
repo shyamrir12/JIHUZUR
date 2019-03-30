@@ -209,6 +209,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     break;
 
                 case R.id.navigation_master:
+                    showCustomLoadingDialog();
                     intent = new Intent(AdminHomePage.this, AdminCategoryActivity.class);
                     startActivity(intent);
                     break;
@@ -341,7 +342,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         View headerview = navigationView.getHeaderView(0);
         profileImages = headerview.findViewById(R.id.profileImage);
         userName = headerview.findViewById(R.id.profileName);
-        getProfile();
+
 //        SharedPrefManager.getInstance(this).getUser().;
         //  userName.setText(SharedPrefManager.getInstance(this).getUser().getName());
         userName.setOnClickListener(this);
@@ -370,6 +371,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 startActivity(intent);
             }
         });
+        getProfile();
     }
 
     private void showGPSDisabledAlertToUser() {
@@ -423,11 +425,9 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 Type listType = new TypeToken<DataProfile>() {
                 }.getType();
                 DataProfile dataProfile = new Gson().fromJson(result, listType);
-                try {
+
                     userName.setText(dataProfile.getName().toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+
                 if (dataProfile != null) {
                     DataProfile dataProfile1 = new DataProfile();
                     dataProfile1.Image = dataProfile.Image;
@@ -639,15 +639,13 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                         Double.valueOf(String.valueOf(task.getResult().get("long"))));
                                 int height = 100;
                                 int width = 100;
-                                BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.electricians);
+                                BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.map_logo);
                                 Bitmap b = bitmapdraw.getBitmap();
                                 Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
 
                                 mGoogleMap.addMarker(new MarkerOptions().position(latLng).
                                         icon(BitmapDescriptorFactory.fromBitmap(smallMarker))).setTitle(empNameList[finalI] + "," + employeeid[finalI1] + "," + employeeimage[finalI2] + "," + employeemobile[finalI2]);
-
-
-                            }
+                                }
 
 
                         });
@@ -679,25 +677,29 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                             long1 = marker.getPosition().toString().split(Pattern.quote("("))[1].split(",")[1].split(Pattern.quote(")"))[0];
                             place2 = new MarkerOptions().position(new LatLng(Double.valueOf(latl), Double.valueOf(long1))).title("Location 1");
                             new FetchURL(AdminHomePage.this).execute(getUrl(mylocation.getPosition(), place2.getPosition(), "driving"), "driving");
-                            idmark = marker.getTitle().split(",")[1];
-                            namemark = marker.getTitle().split(",")[0];
-                            img_strmark = marker.getTitle().split(",")[2];
-                            mobnomark = marker.getTitle().split(",")[3];
-                            String employeeprofimage = AppConfig.BASE_URL + img_strmark;
-                            customerDetails.setText(namemark);
-                            if (img_strmark != null) {
 
-                                Glide.with(AdminHomePage.this)
-                                        .load(employeeprofimage)
-                                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                        .skipMemoryCache(true)
-                                        .into(employeeImage);
-
-
-                                //   Glide.with(AdminHomePage.this).load(employeeprofimage).into(employeeImage);
-                            } else {
-                                employeeImage.setImageResource(R.drawable.jihuzurblanklogo);
-                            }
+                             try {
+                                 idmark = marker.getTitle().split(",")[1];
+                                 namemark = marker.getTitle().split(",")[0];
+                                 img_strmark = marker.getTitle().split(",")[2];
+                                 mobnomark = marker.getTitle().split(",")[3];
+                                 String employeeprofimage = AppConfig.BASE_URL + img_strmark;
+                                 customerDetails.setText(namemark);
+                                 if (img_strmark != null) {
+                                     Glide.with(AdminHomePage.this)
+                                             .load(employeeprofimage)
+                                             .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                             .skipMemoryCache(true)
+                                             .into(employeeImage);
+                                     //   Glide.with(AdminHomePage.this).load(employeeprofimage).into(employeeImage);
+                                 } else {
+                                     employeeImage.setImageResource(R.drawable.jihuzurblanklogo);
+                                 }
+                             }
+                             catch (Exception e)
+                             {
+                                 e.printStackTrace();
+                             }
 
                             return true;
                         }

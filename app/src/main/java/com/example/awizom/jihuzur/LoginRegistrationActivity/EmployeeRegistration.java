@@ -192,31 +192,31 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
                             result = String.valueOf(new AdminHelper.POSTProfileLatLong().execute(SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(), String.valueOf("21.22"), String.valueOf("80.66")));
 
+                         /*   Map<String, Object> profile = new HashMap<>();
+                            profile.put("busystatus", false);
+                            profile.put("lat", 20.22);
+                            profile.put("long", 81.66);
+                            db.collection("Profile").document(jsonbody.dataProfile.ID)
+                                    .set(profile)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            //   Log.d(TAG, "DocumentSnapshot successfully written!");
+                                            Toast.makeText(getApplicationContext(), "Success!",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(getApplicationContext(), "Failed!",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                    });*/
 
                             //20/02/2019 ravi
 
-                                /*Start for load data into firestore for employee*/
-                               /* Map<String, Object> profile = new HashMap<>();
-                                profile.put("busystatus", false);
-                                profile.put("lat", 20.22);
-                                profile.put("long", 80.66);
-                                db.collection("Profile").document(jsonbody.dataProfile.ID)
-                                        .set(profile)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                //   Log.d(TAG, "DocumentSnapshot successfully written!");
-                                                Toast.makeText(getApplicationContext(), "Success!",
-                                                        Toast.LENGTH_LONG).show();
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(getApplicationContext(), "Failed!",
-                                                        Toast.LENGTH_LONG).show();
-                                            }
-                                        });*/
+
 
 
 

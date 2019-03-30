@@ -216,41 +216,19 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         navigationView.setNavigationItemSelectedListener(this);
         View headerview = navigationView.getHeaderView(0);
         imageView = headerview.findViewById(R.id.imageView);
-        img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();
-        {
-            try {
-                if (SharedPrefManager.getInstance(this).getUser().getImage() == null) {
-                    imageView.setImageResource(R.drawable.jihuzurblanklogo);
-                    //     Glide.with(mCtx).load("http://192.168.1.105:7096/Images/Category/1.png").into(holder.categoryImage);
-                } else {
-                    Glide.with(EmployeeHomePage.this)
-                            .load(img_str)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .skipMemoryCache(true)
-                            .into(imageView);
-                    //                    Glide.with(this).load(img_str).into(imageView);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
         userName = headerview.findViewById(R.id.profileName);
         userContact = headerview.findViewById(R.id.empContact);
-        String uname = SharedPrefManager.getInstance(EmployeeHomePage.this).getUser().getName().toString();
-        String ucontact = SharedPrefManager.getInstance(EmployeeHomePage.this).getUser().getMobileNo().toString();
-        userContact.setText(ucontact);
-//
         identityNo = headerview.findViewById(R.id.identityNo);
         identityType = headerview.findViewById(R.id.identityType);
 
-        getProfile();
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(EmployeeHomePage.this, DrawingActivity.class);
+                intent = new Intent(EmployeeHomePage.this, EmployeeMyProfileActivity.class);
                 startActivity(intent);
             }
         });
+        getProfile();
 
     }
 
@@ -265,7 +243,16 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
                 Type listType = new TypeToken<DataProfile>() {
                 }.getType();
                 DataProfile dataProfile = new Gson().fromJson(result, listType);
+                userContact.setText(dataProfile.getMobileNo().toString());
                 userName.setText(dataProfile.getName().toString());
+                img_str = AppConfig.BASE_URL + dataProfile.getImage();
+                            Glide.with(EmployeeHomePage.this)
+                                    .load(img_str).placeholder(R.drawable.jihuzurblanklogo)
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .skipMemoryCache(true)
+                                    .into(imageView);
+                            //                    Glide.with(this).load(img_str).into(imageView);
+
                 if (dataProfile != null) {
                     DataProfile dataProfile1 = new DataProfile();
                     dataProfile1.Image = dataProfile.Image;
