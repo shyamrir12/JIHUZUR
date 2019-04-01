@@ -27,11 +27,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/homecleaning"
-                android:textSize="17sp"
+                android:textSize="15sp"
                 android:layout_gravity="center|center_horizontal"
                 android:gravity="center|center_horizontal"
                 android:textStyle="bold"
-                android:textColor="#145278"/>
+                android:textColor="#145278"
+                android:fontFamily="serif"/>
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/catalogImage"
                 android:layout_width="match_parent"
