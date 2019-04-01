@@ -234,7 +234,7 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
         });
 
         dialogBuilder.setTitle("Position Change");
-        dialogBuilder.setNegativeButtonIcon(getDrawable(R.drawable.ic_cancel_black_24dp));
+        dialogBuilder.setNegativeButtonIcon(getDrawable(R.drawable.cancelbutton));
         dialogBuilder.setIcon(R.drawable.category);
         final AlertDialog b = dialogBuilder.create();
         b.show();

@@ -59,7 +59,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
-
 /**
  * Created by Ravi on 07/01/2019.
  */
@@ -84,8 +83,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     RecyclerView recyclerView;
     CustomerCatagoryAdapter customerCatagoryAdapter;
     ViewDialog viewDialog;
-
-
     GridView gridView;
     List<Catalog> categorylist;
 
@@ -138,7 +135,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         initView();
     }
 
@@ -155,8 +151,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
         toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
         setSupportActionBar(toolbar);
-
-
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -166,9 +160,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerview = navigationView.getHeaderView(0);
-
         viewDialog = new ViewDialog((Activity) CustomerHomePage.this);
-
         imageView = headerview.findViewById(R.id.imageView);
         /*  img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();*/
        /* {
@@ -362,7 +354,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-
             return true;
         }
         if (id == R.id.action_settings) {

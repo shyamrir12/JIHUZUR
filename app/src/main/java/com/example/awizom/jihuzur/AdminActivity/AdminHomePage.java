@@ -369,6 +369,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                             .load(img_str)
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
                             .skipMemoryCache(true)
+                            .placeholder(R.drawable.jihuzurblanklogo)
                             .into(profileImages);
                 }
             } catch (Exception e) {
@@ -437,7 +438,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 }.getType();
                 DataProfile dataProfile = new Gson().fromJson(result, listType);
 
-                    userName.setText(dataProfile.getName().toString());
+                userName.setText(dataProfile.getName().toString());
 
                 if (dataProfile != null) {
                     DataProfile dataProfile1 = new DataProfile();
@@ -656,16 +657,13 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 
                                 mGoogleMap.addMarker(new MarkerOptions().position(latLng).
                                         icon(BitmapDescriptorFactory.fromBitmap(smallMarker))).setTitle(empNameList[finalI] + "," + employeeid[finalI1] + "," + employeeimage[finalI2] + "," + employeemobile[finalI2]);
-                                }
-
+                            }
 
                         });
-
 
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
 
                     mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                         @Override
@@ -689,28 +687,27 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                             place2 = new MarkerOptions().position(new LatLng(Double.valueOf(latl), Double.valueOf(long1))).title("Location 1");
                             new FetchURL(AdminHomePage.this).execute(getUrl(mylocation.getPosition(), place2.getPosition(), "driving"), "driving");
 
-                             try {
-                                 idmark = marker.getTitle().split(",")[1];
-                                 namemark = marker.getTitle().split(",")[0];
-                                 img_strmark = marker.getTitle().split(",")[2];
-                                 mobnomark = marker.getTitle().split(",")[3];
-                                 String employeeprofimage = AppConfig.BASE_URL + img_strmark;
-                                 customerDetails.setText(namemark);
-                                 if (img_strmark != null) {
-                                     Glide.with(AdminHomePage.this)
-                                             .load(employeeprofimage)
-                                             .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                             .skipMemoryCache(true)
-                                             .into(employeeImage);
-                                     //   Glide.with(AdminHomePage.this).load(employeeprofimage).into(employeeImage);
-                                 } else {
-                                     employeeImage.setImageResource(R.drawable.jihuzurblanklogo);
-                                 }
-                             }
-                             catch (Exception e)
-                             {
-                                 e.printStackTrace();
-                             }
+                            try {
+                                idmark = marker.getTitle().split(",")[1];
+                                namemark = marker.getTitle().split(",")[0];
+                                img_strmark = marker.getTitle().split(",")[2];
+                                mobnomark = marker.getTitle().split(",")[3];
+                                String employeeprofimage = AppConfig.BASE_URL + img_strmark;
+                                customerDetails.setText(namemark);
+                                if (img_strmark != null) {
+                                    Glide.with(AdminHomePage.this)
+                                            .load(employeeprofimage)
+                                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                            .skipMemoryCache(true)
+                                            .placeholder(R.drawable.jihuzurblanklogo)
+                                            .into(employeeImage);
+                                    //   Glide.with(AdminHomePage.this).load(employeeprofimage).into(employeeImage);
+                                } else {
+                                    employeeImage.setImageResource(R.drawable.jihuzurblanklogo);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
 
                             return true;
                         }

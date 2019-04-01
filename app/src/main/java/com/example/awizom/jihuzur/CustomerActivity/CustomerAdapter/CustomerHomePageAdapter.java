@@ -59,7 +59,7 @@ public class CustomerHomePageAdapter extends BaseAdapter {
             gridViewAndroid = new View(mContext);
             gridViewAndroid = inflater.inflate(R.layout.catalogname_gridview, null);
             TextView textViewAndroid = (TextView) gridViewAndroid.findViewById(R.id.catalogName);
-            ImageView imageViewAndroid = (ImageView) gridViewAndroid.findViewById(R.id.catalogImage);
+            de.hdodenhof.circleimageview.CircleImageView imageViewAndroid = (de.hdodenhof.circleimageview.CircleImageView) gridViewAndroid.findViewById(R.id.catalogImage);
             final TextView imglinkurl = gridViewAndroid.findViewById(R.id.imgLink);
             viewDialog = new ViewDialog((Activity) mContext);
 

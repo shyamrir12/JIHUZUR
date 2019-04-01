@@ -316,7 +316,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                     place2 = new MarkerOptions().position(new LatLng(Double.parseDouble(String.valueOf(dataProfileCustomer.getLat())), Double.parseDouble(String.valueOf(dataProfileCustomer.getLong())))).title("Location 1");
                     int height = 100;
                     int width = 100;
-                    BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.redpin);
+                    BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.map_logo);
                     Bitmap b = bitmapdraw.getBitmap();
                     Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
 
