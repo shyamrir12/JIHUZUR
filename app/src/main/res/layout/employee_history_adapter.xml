@@ -41,7 +41,7 @@
                             android:gravity="left"
                             android:padding="10dp"
                             android:text="Employee Name"
-                            android:textSize="13sp"
+                            android:textSize="11sp"
                             android:fontFamily="serif"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold" />
@@ -52,9 +52,9 @@
                             android:layout_weight="1"
                             android:gravity="left"
                             android:padding="10dp"
-                            android:textSize="13sp"
+                            android:textSize="11sp"
                             android:fontFamily="serif"
-                            android:text="Employee Contact"
+                            android:text="Contact"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold" />
 
@@ -66,7 +66,7 @@
                             android:gravity="left"
                             android:padding="10dp"
                             android:text="00:00"
-                            android:textSize="13sp"
+                            android:textSize="11sp"
                             android:fontFamily="serif"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold" />
@@ -138,7 +138,7 @@
                             android:text="CatlogName"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"
-                            android:textSize="13sp"
+                            android:textSize="11sp"
                             android:fontFamily="serif"/>
                         <view
                             class="android.support.v7.app.AlertController$RecycleListView"
@@ -154,7 +154,7 @@
                             android:text="CatagoryName"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"
-                            android:textSize="13sp"
+                            android:textSize="11sp"
                             android:fontFamily="serif"/>
                         <view
                             class="android.support.v7.app.AlertController$RecycleListView"
@@ -170,7 +170,7 @@
                             android:text="Service Name"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"
-                            android:textSize="13sp"
+                            android:textSize="11sp"
                             android:fontFamily="serif"/>
 
                     </LinearLayout>
