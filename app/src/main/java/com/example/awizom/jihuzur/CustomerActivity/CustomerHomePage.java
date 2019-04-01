@@ -26,11 +26,13 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.awizom.jihuzur.App;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerCatagoryAdapter;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerHomePageAdapter;
@@ -255,8 +257,11 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         }, 1000);
     }
 
+
     private void getProfile() {
+
         String id = SharedPrefManager.getInstance(this).getUser().getID();
+
         try {
             result = new AdminHelper.GetProfileForShow().execute(id).get();
             if (result.isEmpty()) {
@@ -268,8 +273,13 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 DataProfile dataProfile = new Gson().fromJson(result, listType);
                 userName.setText(dataProfile.getName().toString());
                 userContact.setText(dataProfile.MobileNo);
-                String imgstr = dataProfile.getImage().toString();
-                Glide.with(this).load(imgstr).placeholder(R.drawable.user_icon).into(imageView);
+                String imgstr = AppConfig.BASE_URL+dataProfile.getImage().toString();
+                Glide.with(this).load(imgstr)
+                        .thumbnail(Glide.with(this).load(R.drawable.spinner_color))
+                        .fitCenter()
+                        .crossFade()
+                        .into(imageView);
+           //     Glide.with(this).load(imgstr).placeholder(R.drawable.user_icon).into(imageView);
                 if (dataProfile != null) {
                     DataProfile dataProfile1 = new DataProfile();
                     dataProfile1.ID = dataProfile.ID;

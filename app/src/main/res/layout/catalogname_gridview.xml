@@ -20,7 +20,8 @@
             android:layout_height="130dp"
             android:orientation="vertical"
             android:background="@mipmap/gridview"
-            android:gravity="center">
+            android:gravity="center|center_horizontal"
+            android:layout_gravity="center_horizontal|center">
             <TextView
                 android:id="@+id/catalogName"
                 android:layout_width="match_parent"
