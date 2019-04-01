@@ -1,7 +1,9 @@
 package com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import com.example.awizom.jihuzur.CustomerActivity.NewCustomerHome;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.SelectServices;
+import com.example.awizom.jihuzur.ViewDialog;
 
 import java.util.List;
 
@@ -25,15 +28,11 @@ public class CustomerHomePageAdapter extends BaseAdapter {
 
   //  private final String[] catalogNameList;
     private List<Catalog> catalogNameList;
-
+    ViewDialog viewDialog;
     private Context mContext;
-
-
-
     public CustomerHomePageAdapter(CustomerHomePage newCustomerHome, List<Catalog> categorylist) {
 
-
-this.mContext=newCustomerHome;
+        this.mContext=newCustomerHome;
         this.catalogNameList = categorylist;
     }
 
@@ -56,28 +55,25 @@ this.mContext=newCustomerHome;
     public View getView(final int i, final View convertView, ViewGroup parent) {
         View gridViewAndroid;
         LayoutInflater inflater = (LayoutInflater) mContext .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         if (convertView == null) {
-
             gridViewAndroid = new View(mContext);
             gridViewAndroid = inflater.inflate(R.layout.catalogname_gridview, null);
             TextView textViewAndroid = (TextView) gridViewAndroid.findViewById(R.id.catalogName);
             ImageView imageViewAndroid = (ImageView) gridViewAndroid.findViewById(R.id.catalogImage);
             final TextView imglinkurl = gridViewAndroid.findViewById(R.id.imgLink);
-
-            try {
+            viewDialog = new ViewDialog((Activity) mContext);
+         /*   try {*/
                 String imgstr= AppConfig.BASE_URL+catalogNameList.get(i).getImage().toString();
                 Glide.with(mContext).load(imgstr).placeholder(R.drawable.jihuzurblanklogo).into(imageViewAndroid);
                 textViewAndroid.setText(catalogNameList.get(i).getCategory());
-
                 if(catalogNameList.get(i).getImage().toString()!= null) {
                     imglinkurl.setText(imgstr.toString());
-
                 }
 
                 gridViewAndroid.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        showcustomloadingdialog();
                         Toast.makeText(mContext,convertView+"convert",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(mContext, SelectServices.class);
                         intent.putExtra("CatalogID",String.valueOf(catalogNameList.get(i).getCatalogID()));
@@ -89,14 +85,29 @@ this.mContext=newCustomerHome;
                 });
 
 
-            }catch (Exception e){
+           /* }catch (Exception e){
                 e.printStackTrace();
-            }
+            }*/
 
         } else {
             gridViewAndroid = (View) convertView;
         }
 
         return gridViewAndroid;
+    }
+
+    public void showcustomloadingdialog() {
+
+        //..show gif
+        viewDialog.showDialog();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //...here i'm waiting 5 seconds before hiding the custom dialog
+                //...you can do whenever you want or whenever your work is done
+                viewDialog.hideDialog();
+            }
+        }, 1000);
     }
 }
