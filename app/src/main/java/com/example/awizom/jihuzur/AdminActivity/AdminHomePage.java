@@ -206,18 +206,23 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                       framentClass = AdminHomePage.class;*/
                     intent = new Intent(AdminHomePage.this, AdminHomePage.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                     break;
 
                 case R.id.navigation_master:
                     showCustomLoadingDialog();
                     intent = new Intent(AdminHomePage.this, AdminCategoryActivity.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                     break;
 
                 case R.id.navigation_helpCenter:
-                    getSupportActionBar().setTitle("Help Center");
-                    fragment = helpCenterFragment;
-                    framentClass = HelpCenterFragment.class;
+                    intent = new Intent(AdminHomePage.this, AdminCategoryActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+//                    getSupportActionBar().setTitle("Help Center");
+//                    fragment = helpCenterFragment;
+//                    framentClass = HelpCenterFragment.class;
                     break;
             }
             try {
@@ -275,12 +280,18 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             showGPSDisabledAlertToUser();
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         employeeImage = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.employee_dp);
         call = (ImageView) findViewById(R.id.call);
         viewDialog = new ViewDialog(this);
         customerDetails = (TextView) findViewById(R.id.customerdetails);
         fragmentManager = getSupportFragmentManager();//Get Fragment Manager
+
+        toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
+        toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
+
         setSupportActionBar(toolbar);
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

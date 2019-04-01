@@ -62,14 +62,14 @@ public class CustomerHomePageAdapter extends BaseAdapter {
             ImageView imageViewAndroid = (ImageView) gridViewAndroid.findViewById(R.id.catalogImage);
             final TextView imglinkurl = gridViewAndroid.findViewById(R.id.imgLink);
             viewDialog = new ViewDialog((Activity) mContext);
-         /*   try {*/
+
                 String imgstr= AppConfig.BASE_URL+catalogNameList.get(i).getImage().toString();
                 Glide.with(mContext).load(imgstr).placeholder(R.drawable.jihuzurblanklogo).into(imageViewAndroid);
                 textViewAndroid.setText(catalogNameList.get(i).getCategory());
                 if(catalogNameList.get(i).getImage().toString()!= null) {
                     imglinkurl.setText(imgstr.toString());
                 }
-
+              try {
                 gridViewAndroid.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -85,9 +85,9 @@ public class CustomerHomePageAdapter extends BaseAdapter {
                 });
 
 
-           /* }catch (Exception e){
+            }catch (Exception e){
                 e.printStackTrace();
-            }*/
+            }
 
         } else {
             gridViewAndroid = (View) convertView;

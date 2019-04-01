@@ -28,14 +28,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="ReviewID"
-                            android:textColor="@color/colorBlack"/>
+                            android:textColor="@color/colorBlack"
+                            android:fontFamily="serif"/>
                         <TextView
                             android:layout_marginLeft="20dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/ReviewID"
                             android:textColor="@color/colorBlack"
-                            android:text="ReviewID"/>
+                            android:text="ReviewID"
+                            android:fontFamily="serif"/>
 
 
                         <TextView
@@ -66,7 +68,7 @@
                             android:id="@+id/complaint"
                             android:text="Complaint"
                             android:textColor="@color/colorBlack"
-                            />
+                            android:fontFamily="serif"/>
 
                     </LinearLayout>
                     <LinearLayout
@@ -81,12 +83,14 @@
                             android:visibility="gone"
                             android:layout_height="wrap_content"
                             android:textColor="@color/colorBlack"
-                            android:text="Active"/>
+                            android:text="Active"
+                            android:fontFamily="serif"/>
 
                         <ToggleButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/activeToggle"/>
+                            android:id="@+id/activeToggle"
+                            android:background="#fa4306"/>
 
 
                         <android.support.v7.widget.AppCompatImageButton

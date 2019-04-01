@@ -361,7 +361,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-
+            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
             return true;
         }
@@ -370,6 +370,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
 
             return true;
