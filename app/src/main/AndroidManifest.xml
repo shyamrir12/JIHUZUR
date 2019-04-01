@@ -217,6 +217,9 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".EmployeeActivity.EmployeeMyProfileActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".HelpCenterActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -28,12 +28,13 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginBottom="10dp"
-        android:background="#093854"
+        android:background="#fa4306"
         android:padding="16dp"
         android:text="Next ->"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
-        android:visibility="visible"/>
+        android:visibility="visible"
+        android:fontFamily="monospace"/>
 
 
     <Button

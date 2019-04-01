@@ -36,7 +36,8 @@
                     android:textStyle="bold"
                     android:layout_weight="1"
                     android:layout_centerHorizontal="true"
-                    android:padding="10dp" />
+                    android:padding="10dp"
+                    android:fontFamily="serif"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/l1"
@@ -75,7 +76,8 @@
                         android:layout_weight="1.2"
                         android:visibility="visible"
                         android:textColor="@color/colorBlack"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:fontFamily="serif"/>
 
                     <TextView
                         android:id="@+id/ServiceDesc"
@@ -87,7 +89,8 @@
                         android:layout_weight="1"
                         android:layout_centerHorizontal="true"
                         android:padding="10dp"
-                        android:visibility="visible"/>
+                        android:visibility="visible"
+                        android:fontFamily="serif"/>
                     <TextView
                         android:id="@+id/pID"
                         android:layout_width="match_parent"
@@ -107,7 +110,8 @@
                         android:textColor="@color/colorBlack"
                         android:layout_weight="1"
                         android:layout_centerHorizontal="true"
-                        android:padding="10dp" />
+                        android:padding="10dp"
+                        android:fontFamily="serif"/>
 
                 </LinearLayout>
 
@@ -139,7 +143,8 @@
                         android:textSize="14sp"
                         android:gravity="left"
                         android:layout_marginLeft="10dp"
-                        android:layout_centerHorizontal="true" />
+                        android:layout_centerHorizontal="true"
+                        android:fontFamily="serif"/>
 
 
                     <!--<TextView-->

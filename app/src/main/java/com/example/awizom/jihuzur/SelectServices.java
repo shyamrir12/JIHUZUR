@@ -86,7 +86,7 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
         categoryname = findViewById(R.id.categoryName);
         imageView = findViewById(R.id.backdrop);
 
-        categoryname.setText(  categoryName);
+        categoryname.setText( "    " +categoryName);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));

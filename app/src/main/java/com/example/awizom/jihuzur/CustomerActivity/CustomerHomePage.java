@@ -41,6 +41,7 @@ import com.example.awizom.jihuzur.Fragment.CatalogFragment;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
 import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
+import com.example.awizom.jihuzur.HelpCenterActivity;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Model.Catalog;
@@ -111,9 +112,12 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                     break;
 
                 case R.id.navigation_helpCenter:
-                    getSupportActionBar().setTitle("Help Center");
-                    fragment = helpCenterFragment;
-                    framentClass = HelpCenterFragment.class;
+                    intent = new Intent(CustomerHomePage.this, HelpCenterActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+//                    getSupportActionBar().setTitle("Help Center");
+//                    fragment = helpCenterFragment;
+//                    framentClass = HelpCenterFragment.class;
                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                     break;
             }
@@ -371,6 +375,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 
             Intent i = new Intent(CustomerHomePage.this, CustomerProfileActivity.class);
             startActivity(i);
+            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
             return true;
         }
 

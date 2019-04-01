@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/transparency">
+    android:background="@color/white">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay"/>
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -54,7 +60,7 @@
              android:text="@string/manage"
              android:textAlignment="viewStart"
              android:textColor="@color/colorBlack"
-             android:textSize="16sp"
+             android:textSize="15sp"
              android:textStyle="bold" />
 
          <TextView
@@ -64,7 +70,7 @@
              android:text="@string/getHelp"
              android:textAlignment="viewStart"
              android:textColor="@color/greydark"
-             android:textSize="13sp"
+             android:textSize="11sp"
              android:textStyle="normal" />
      </LinearLayout>
     <LinearLayout
@@ -87,7 +93,7 @@
         android:layout_height="wrap_content"
         android:text="@string/popular"
         android:textColor="@color/greydark"
-        android:textSize="17sp"
+        android:textSize="15sp"
         android:layout_below="@+id/layoutContainer1"
         android:background="@color/grey"
         android:padding="20dp"/>
@@ -129,7 +135,7 @@
                 android:text="@string/cancel"
                 android:textAlignment="viewStart"
                 android:textColor="@color/colorBlack"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -139,7 +145,7 @@
                 android:text="@string/cancel_change"
                 android:textAlignment="viewStart"
                 android:textColor="@color/greydark"
-                android:textSize="13sp"
+                android:textSize="11sp"
                 android:textStyle="normal" />
         </LinearLayout>
         <LinearLayout
@@ -200,7 +206,7 @@
                 android:text="@string/account"
                 android:textAlignment="viewStart"
                 android:textColor="@color/colorBlack"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -210,7 +216,7 @@
                 android:text="@string/change_mobile"
                 android:textAlignment="viewStart"
                 android:textColor="@color/greydark"
-                android:textSize="13sp"
+                android:textSize="11sp"
                 android:textStyle="normal" />
         </LinearLayout>
         <LinearLayout
@@ -233,7 +239,7 @@
         android:layout_height="wrap_content"
         android:text="@string/faq"
         android:textColor="@color/greydark"
-        android:textSize="17sp"
+        android:textSize="15sp"
         android:layout_below="@+id/layoutContainer3"
         android:padding="20dp"
         android:background="@color/grey"/>
@@ -262,7 +268,7 @@
                 android:text="@string/booking"
                 android:textAlignment="viewStart"
                 android:textColor="@color/colorBlack"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
 
 
@@ -306,7 +312,7 @@
                 android:text="@string/payment"
                 android:textAlignment="viewStart"
                 android:textColor="@color/colorBlack"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
         </LinearLayout>
         <LinearLayout
@@ -348,7 +354,7 @@
                 android:text="@string/Aguid"
                 android:textAlignment="viewStart"
                 android:textColor="@color/colorBlack"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
         </LinearLayout>
         <LinearLayout

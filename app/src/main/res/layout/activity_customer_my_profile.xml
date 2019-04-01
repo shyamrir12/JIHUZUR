@@ -52,7 +52,7 @@
             <EditText
                 android:id="@+id/name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:background="@drawable/background_layout"
                 android:drawableRight="@drawable/ic_create_black_24dp"
                 android:drawableTint="#892b0b"
@@ -60,12 +60,14 @@
                 android:fontFamily="serif-monospace"
                 android:hint="Name"
                 android:paddingLeft="10dp"
-                android:textSize="17sp" />
+                android:paddingRight="10dp"
+                android:textSize="17sp"
+                android:layout_marginTop="5dp"/>
 
             <EditText
                 android:id="@+id/Email"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:background="@drawable/background_layout"
                 android:drawableRight="@drawable/ic_create_black_24dp"
                 android:drawableTint="#892b0b"
@@ -73,13 +75,15 @@
                 android:fontFamily="serif-monospace"
                 android:hint="Email"
                 android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textSize="17sp"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress"
+                android:layout_marginTop="5dp"/>
 
             <EditText
                 android:id="@+id/Adress"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:background="@drawable/background_layout"
                 android:drawableRight="@drawable/ic_create_black_24dp"
                 android:drawableTint="#892b0b"
@@ -87,7 +91,9 @@
                 android:textColor="@color/colorBlack"
                 android:hint="Adreess"
                 android:paddingLeft="10dp"
-                android:textSize="17sp" />
+                android:paddingRight="10dp"
+                android:textSize="17sp"
+                android:layout_marginTop="5dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -101,7 +107,7 @@
                 android:layout_width="120dp"
                 android:layout_height="50dp"
                 android:layout_gravity="bottom"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:background="#fa4306"
                 android:fontFamily="monospace"
                 android:gravity="center"

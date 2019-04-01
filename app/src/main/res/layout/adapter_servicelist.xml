@@ -15,35 +15,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image"
             android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
             android:src="@mipmap/temp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:textSize="20sp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="17sp"
             android:text="Services list"
             android:gravity="left|center_horizontal"
             android:textColor="@color/colorBlack"
-            android:id="@+id/serviceName"/>
+            android:id="@+id/serviceName"
+            android:fontFamily="serif"/>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/l2"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@+id/l1">
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="50dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp" />
@@ -51,10 +55,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left|center_horizontal"
-        android:textSize="15sp"
+        android:textSize="13sp"
         android:layout_marginLeft="10dp"
         android:id="@+id/description"
-        android:textStyle="italic"
+        android:textStyle="normal"
+        android:fontFamily="serif"
         android:text="@string/electrician"/>
     </LinearLayout>
         <TextView
