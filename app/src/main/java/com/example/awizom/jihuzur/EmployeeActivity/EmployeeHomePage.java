@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -49,6 +50,7 @@ import com.example.awizom.jihuzur.Service.GPS_Service;
 import com.example.awizom.jihuzur.Service.LocationMonitoringNotificationService;
 import com.example.awizom.jihuzur.SettingsActivity;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
+import com.example.awizom.jihuzur.ViewDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -74,6 +76,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
     ViewPager viewPager;
     EmployeePageAdapter pageAdapter;
     TabItem outGoing, history;
+    ViewDialog viewDialog;
     private Fragment fragment = null;
     private Fragment helpCenterFragment;
     private Intent intent;
@@ -160,6 +163,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         tabLayout = findViewById(R.id.tablayout);
         outGoing = findViewById(R.id.outgoing);
         history = findViewById(R.id.history);
+        viewDialog = new ViewDialog(this);
         viewPager = findViewById(R.id.viewPager);
         pageAdapter = new EmployeePageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pageAdapter);
@@ -198,13 +202,11 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
 
         if (!runtime_permissions())
 
-        try {
-            enable_buttons();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+            try {
+                enable_buttons();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -246,12 +248,12 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
                 userContact.setText(dataProfile.getMobileNo().toString());
                 userName.setText(dataProfile.getName().toString());
                 img_str = AppConfig.BASE_URL + dataProfile.getImage();
-                            Glide.with(EmployeeHomePage.this)
-                                    .load(img_str).placeholder(R.drawable.jihuzurblanklogo)
-                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                    .skipMemoryCache(true)
-                                    .into(imageView);
-                            //                    Glide.with(this).load(img_str).into(imageView);
+                Glide.with(EmployeeHomePage.this)
+                        .load(img_str).placeholder(R.drawable.jihuzurblanklogo)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(imageView);
+                //                    Glide.with(this).load(img_str).into(imageView);
 
                 if (dataProfile != null) {
                     DataProfile dataProfile1 = new DataProfile();
@@ -264,6 +266,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             e.printStackTrace();
         }
     }
+
     /* For OnBackPRess in HomePage */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -299,9 +302,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             ContextCompat.startForegroundService(EmployeeHomePage.this, serviceIntent);*/
             Intent i = new Intent(getApplicationContext(), GPS_Service.class);
             startService(i);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -392,23 +393,26 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_profile) {
-            intent = new Intent(EmployeeHomePage.this, DrawingActivity.class);
+            showCustomLoadingDialog();
+            intent = new Intent(EmployeeHomePage.this, EmployeeMyProfileActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_booking) {
+           showCustomLoadingDialog();
             intent = new Intent(EmployeeHomePage.this, EmployeeBookingsActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_skill) {
+            showCustomLoadingDialog();
             intent = new Intent(EmployeeHomePage.this, EmployeeSkillActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
-
+            showCustomLoadingDialog();
             SharedPrefManager.getInstance(this).logout();
             Intent login = new Intent(getApplicationContext(), EmployeeRegistration.class);
             startActivity(login);
             finish();
 
         } else if (id == R.id.nav_share) {
-
+            showCustomLoadingDialog();
             Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
             sharingIntent.setType("text/plain");
             String shareBody = "Here is the share content body";
@@ -417,7 +421,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             startActivity(Intent.createChooser(sharingIntent, "Share via"));
 
         } else if (id == R.id.nav_send) {
-
+            showCustomLoadingDialog();
             String phoneNumber = "", message = "";
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + phoneNumber));
             intent.putExtra("sms_body", message);
@@ -428,6 +432,21 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void showCustomLoadingDialog() {
+
+        //..show gif
+        viewDialog.showDialog();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //...here i'm waiting 5 seconds before hiding the custom dialog
+                //...you can do whenever you want or whenever your work is done
+                viewDialog.hideDialog();
+            }
+        }, 1000);
     }
 
     @Override
