@@ -38,7 +38,8 @@
                 android:text="TextView"
                 android:textColor="@color/colorBlack"
                 android:textSize="13sp"
-                android:padding="15dp"/>
+                android:padding="15dp"
+                android:fontFamily="serif"/>
             <TextView
                 android:id="@+id/skillid"
                 android:layout_width="match_parent"

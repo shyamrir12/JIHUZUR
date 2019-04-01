@@ -11,6 +11,7 @@ import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.icu.text.UnicodeSetSpanner;
 import android.net.Uri;
 import android.os.Build;
@@ -82,7 +83,7 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
         upload = findViewById(R.id.upload);
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Profile");
-        toolbar.setTitleTextColor(0xFFFFFFFF);
+
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -91,6 +92,11 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
+        toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
+        toolbar.setTitleTextColor(Color.WHITE);
+
         pd = new ProgressDialog(this);
         pd.setMessage("Uploading....");
         yourname = (EditText) findViewById(R.id.name);

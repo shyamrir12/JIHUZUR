@@ -38,7 +38,8 @@
                             android:text="Customer Name"
                             android:textColor="@color/colorBlack"
                             android:layout_weight="1"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
+                            android:fontFamily="serif"
                             android:gravity="left"
                             android:padding="10dp"
                             android:textStyle="bold" />
@@ -48,7 +49,8 @@
                             android:layout_height="40dp"
                             android:textColor="@color/colorBlack"
                             android:layout_weight="1"
-                            android:textSize="16sp"
+                            android:textSize="14sp"
+                            android:fontFamily="serif"
                             android:gravity="left"
                             android:padding="10dp"
                             android:textStyle="bold"
@@ -61,6 +63,8 @@
                             android:gravity="left"
                             android:padding="10dp"
                             android:text="Customer Contact"
+                            android:textSize="12sp"
+                            android:fontFamily="serif"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold" />
 
@@ -72,6 +76,8 @@
                             android:gravity="left"
                             android:padding="10dp"
                             android:text="00:00"
+                            android:textSize="12sp"
+                            android:fontFamily="serif"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold" />
                         <ImageView
@@ -79,7 +85,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
                             android:layout_marginTop="8dp"
-                            android:tint="#093854"
+                            android:tint="#a34e2c"
                             android:layout_weight="1"
                             android:src="@drawable/ic_camera_black_24dp"/>
               </LinearLayout>
@@ -104,7 +110,8 @@
                             android:layout_height="40dp"
                             android:hint="Start Time"
                             android:textColor="@color/colorBlack"
-                            android:textSize="13sp"
+                            android:textSize="14sp"
+                            android:fontFamily="serif"
                             android:gravity="left"
                             android:padding="10dp"
                             android:textStyle="bold"
@@ -115,7 +122,8 @@
                             android:layout_height="40dp"
                             android:hint="End Time"
                             android:textColor="@color/colorBlack"
-                            android:textSize="13sp"
+                            android:textSize="14sp"
+                            android:fontFamily="serif"
                             android:gravity="left"
                             android:padding="10dp"
                             android:textStyle="bold"
@@ -143,6 +151,8 @@
                             android:layout_weight="1"
                             android:gravity="left"
                             android:text="CatagoryName"
+                            android:textSize="12sp"
+                            android:fontFamily="serif"
                             android:padding="10dp"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold" />
@@ -155,6 +165,8 @@
                             android:gravity="left"
                             android:text="Service Name"
                             android:padding="10dp"
+                            android:textSize="12sp"
+                            android:fontFamily="serif"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold" />
 
@@ -183,6 +195,8 @@
                             android:padding="10dp"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"
+                            android:textSize="14sp"
+                            android:fontFamily="serif"
                             android:visibility="visible"/>
                         <Button
                             android:id="@+id/priceupdateBtn"
@@ -194,6 +208,8 @@
                             android:background="@drawable/background_btn_item"
                             android:textColor="@color/white"
                             android:textStyle="bold"
+                            android:textSize="14sp"
+                            android:fontFamily="serif"
                             android:visibility="gone"/>
 
                         <TextView
@@ -206,6 +222,8 @@
                             android:padding="10dp"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"
+                            android:textSize="14sp"
+                            android:fontFamily="serif"
                             android:visibility="gone"/>
                         <TextView
                             android:id="@+id/catalogID"
@@ -214,6 +232,8 @@
                             android:layout_weight="1"
                             android:text="catalog ID"
                             android:padding="10dp"
+                            android:textSize="14sp"
+                            android:fontFamily="serif"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"
                             android:visibility="gone"/>
@@ -281,7 +301,8 @@
                             android:layout_weight="1"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            android:textSize="14sp"
+                            android:textSize="13sp"
+                            android:fontFamily="monospace"
                             android:background="@drawable/adapter_btn_background"
                             android:visibility="visible"/>
                         <view
@@ -296,7 +317,8 @@
                             android:text="Stop"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            android:textSize="14sp"
+                            android:textSize="13sp"
+                            android:fontFamily="monospace"
                             android:layout_weight="1"
                             android:background="@drawable/adapter_btn_background"
                             android:visibility="visible"/>
@@ -312,7 +334,8 @@
                             android:textColor="@color/white"
                             android:text="Payment"
                             android:textAllCaps="false"
-                            android:textSize="14sp"
+                            android:textSize="13sp"
+                            android:fontFamily="monospace"
                             android:layout_weight="1"
                             android:background="@drawable/adapter_btn_background"/>
 
@@ -328,7 +351,8 @@
                             android:textColor="@color/white"
                             android:text="Track"
                             android:textAllCaps="false"
-                            android:textSize="14sp"
+                            android:textSize="13sp"
+                            android:fontFamily="monospace"
                             android:layout_weight="1"
                             android:background="@drawable/adapter_btn_background"/>
 

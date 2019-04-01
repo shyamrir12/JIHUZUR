@@ -1,6 +1,7 @@
 package com.example.awizom.jihuzur.EmployeeActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -55,10 +56,7 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
 
         String employeeNmae = SharedPrefManager.getInstance(EmployeeSkillActivity.this).getUser().getName();
         toolbar.setTitle("Select Skill");
-
-        toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
-
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -67,6 +65,11 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
                 onBackPressed();
             }
         });
+
+        toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
+        toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
+        toolbar.setTitleTextColor(Color.WHITE);
+
         intitView();
     }
 

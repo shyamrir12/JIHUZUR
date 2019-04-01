@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.DrawingActivity;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeePageAdapter;
 import com.example.awizom.jihuzur.Fragment.HelpCenterFragment;
+import com.example.awizom.jihuzur.HelpCenterActivity;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.LoginRegistrationActivity.EmployeeRegistration;
 import com.example.awizom.jihuzur.Model.DataProfile;
@@ -96,17 +98,22 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
                     getSupportActionBar().setTitle("Employee Home");
                     intent = new Intent(EmployeeHomePage.this, EmployeeHomePage.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                     break;
 
                 case R.id.navigation_booking:
                     intent = new Intent(EmployeeHomePage.this, EmployeeBookingsActivity.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                     break;
 
                 case R.id.navigation_helpCenter:
-                    getSupportActionBar().setTitle("Help Center");
-                    fragment = helpCenterFragment;
-                    framentClass = HelpCenterFragment.class;
+                    intent = new Intent(EmployeeHomePage.this, HelpCenterActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+//                    getSupportActionBar().setTitle("Help Center");
+//                    fragment = helpCenterFragment;
+//                    framentClass = HelpCenterFragment.class;
                     break;
             }
             try {
@@ -156,7 +163,13 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
 
         setContentView(R.layout.activity_employee_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
+        toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
+        toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
+
+
+
         btn_start = findViewById(R.id.button);
         btn_stop = findViewById(R.id.button2);
         textView = (TextView) findViewById(R.id.textView);
