@@ -1,6 +1,7 @@
 package com.example.awizom.jihuzur.AdminActivity;
 
 import android.app.ActivityOptions;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -43,9 +44,7 @@ AdminComplaintReply extends AppCompatActivity {
     private void initView() {
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
 
-        toolbar.setTitle("Admin's ComplaintReply");
-
-        toolbar.setTitleTextColor(0xFFFFFFFF);
+        toolbar.setTitle("Complain Reply");
         setSupportActionBar(toolbar);
 
 
@@ -60,6 +59,10 @@ AdminComplaintReply extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
+        toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
+        toolbar.setTitleTextColor(Color.WHITE);
+
         addComplaintreply = (FloatingActionButton) findViewById(R.id.addComplaintReply);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
