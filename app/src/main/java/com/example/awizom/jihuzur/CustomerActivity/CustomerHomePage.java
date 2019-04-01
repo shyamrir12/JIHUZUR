@@ -201,8 +201,10 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(CustomerHomePage.this, DrawingActivity.class);
+                intent = new Intent(CustomerHomePage.this, CustomerProfileActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+
             }
         });
         getProfile();
@@ -441,8 +443,10 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
         } else if (id == R.id.profileImage) {
-            Intent imageView = new Intent(CustomerHomePage.this, DrawingActivity.class);
+            Intent imageView = new Intent(CustomerHomePage.this, CustomerProfileActivity.class);
             startActivity(imageView);
+            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+
         }
         try {
             fragment = (Fragment) framentClass.newInstance();
