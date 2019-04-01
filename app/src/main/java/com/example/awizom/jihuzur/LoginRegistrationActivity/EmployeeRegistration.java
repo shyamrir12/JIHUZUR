@@ -149,8 +149,6 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
                 }, TIMER);
                 break;
         }
-
-
     }
 
     /*For Validation */

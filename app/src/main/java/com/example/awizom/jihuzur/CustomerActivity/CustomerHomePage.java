@@ -148,12 +148,12 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         myBookingFragment = new MyBookingFragment();
         catalogFragment = new CatalogFragment();
         setContentView(R.layout.activity_customer_home_page);
-        gridView=(GridView)findViewById(R.id.gridview);
+        gridView = (GridView) findViewById(R.id.gridview);
         getCategoryList();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
-        toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
+        toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
+        toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
         setSupportActionBar(toolbar);
 
 
@@ -170,7 +170,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         viewDialog = new ViewDialog((Activity) CustomerHomePage.this);
 
         imageView = headerview.findViewById(R.id.imageView);
-      /*  img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();*/
+        /*  img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();*/
        /* {
             try {
                 if (SharedPrefManager.getInstance(this).getUser().getImage() == null) {
@@ -215,7 +215,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     }
 
     private void getCategoryList() {
-        String catalogname="Home Cleaning & Repairs";
+        String catalogname = "Home Cleaning & Repairs";
         try {
             result = new CustomerOrderHelper.GETCustomerCategoryList().execute(catalogname).get();
             if (result != null) {
@@ -276,10 +276,11 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 DataProfile dataProfile = new Gson().fromJson(result, listType);
                 userName.setText(dataProfile.getName().toString());
                 userContact.setText(dataProfile.MobileNo);
-                String imgstr=dataProfile.getImage().toString();
+                String imgstr = dataProfile.getImage().toString();
                 Glide.with(this).load(imgstr).placeholder(R.drawable.user_icon).into(imageView);
                 if (dataProfile != null) {
                     DataProfile dataProfile1 = new DataProfile();
+                    dataProfile1.ID = dataProfile.ID;
                     dataProfile1.Image = dataProfile.Image;
                     dataProfile1.Name = dataProfile.Name;
                     dataProfile1.MobileNo = dataProfile.MobileNo;
