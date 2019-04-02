@@ -9,11 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.CustomerActivity.NewCustomerHome;
@@ -61,10 +65,30 @@ public class CustomerHomePageAdapter extends BaseAdapter {
             TextView textViewAndroid = (TextView) gridViewAndroid.findViewById(R.id.catalogName);
             de.hdodenhof.circleimageview.CircleImageView imageViewAndroid = (de.hdodenhof.circleimageview.CircleImageView) gridViewAndroid.findViewById(R.id.catalogImage);
             final TextView imglinkurl = gridViewAndroid.findViewById(R.id.imgLink);
+          //  final ProgressBar progressBar = gridViewAndroid.findViewById(R.id.homeprogress);
             viewDialog = new ViewDialog((Activity) mContext);
 
                 String imgstr= AppConfig.BASE_URL+catalogNameList.get(i).getImage().toString();
+
                 Glide.with(mContext).load(imgstr).placeholder(R.drawable.jihuzurblanklogo).into(imageViewAndroid);
+
+//                Glide.with(mContext).load(imgstr).placeholder(R.drawable.jihuzurblanklogo)
+//                        .listener(new RequestListener<String, GlideDrawable>() {
+//                            @Override
+//                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+//                                progressBar.setVisibility(View.GONE);
+//                                return false;
+//                            }
+//
+//                            @Override
+//                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+//                                progressBar.setVisibility(View.GONE);
+//                                return false;
+//                            }
+//                        })
+//                .into(imageViewAndroid);
+
+
                 textViewAndroid.setText(catalogNameList.get(i).getCategory());
                 if(catalogNameList.get(i).getImage().toString()!= null) {
                     imglinkurl.setText(imgstr.toString());
@@ -74,7 +98,6 @@ public class CustomerHomePageAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         showcustomloadingdialog();
-                        Toast.makeText(mContext,convertView+"convert",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(mContext, SelectServices.class);
                         intent.putExtra("CatalogID",String.valueOf(catalogNameList.get(i).getCatalogID()));
                         intent.putExtra("CategoryName", catalogNameList.get(i).getCategory().toString());

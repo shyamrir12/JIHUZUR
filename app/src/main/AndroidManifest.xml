@@ -145,7 +145,8 @@
         <activity
             android:name=".MyBokingsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CustomerActivity.CustomerpricingActivity" />
+        <activity android:name=".CustomerActivity.CustomerpricingActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".AddAddressActivity" />
         <activity
             android:name=".LoginRegistrationActivity.VerifyPhoneActivity"

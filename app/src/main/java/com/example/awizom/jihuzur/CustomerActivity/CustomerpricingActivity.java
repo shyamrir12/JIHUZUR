@@ -1,6 +1,7 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
 import android.Manifest;
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -90,8 +91,24 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         btn = getIntent().getStringExtra("button");
         orderID = getIntent().getStringExtra("orderId");
         priceID = getIntent().getStringExtra("priceId");
-        getSupportActionBar().setTitle(serviceName);
+//        getSupportActionBar().setTitle(serviceName);
 
+        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(serviceName);
+
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityOptions options = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.fui_slide_out_left, R.anim.fui_slide_in_right);
+                onBackPressed();
+            }
+        });
+
+        toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
+        toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
+        toolbar.setTitleTextColor(Color.WHITE);
 
         mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView = findViewById(R.id.recyclerView);
