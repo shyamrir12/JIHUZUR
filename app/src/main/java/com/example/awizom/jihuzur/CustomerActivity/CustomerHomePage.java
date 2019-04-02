@@ -151,9 +151,11 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         getCategoryList();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setLogo(R.mipmap.final_logo);
         toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
         toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
         setSupportActionBar(toolbar);
+
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

@@ -177,6 +177,8 @@ public class CustomerProfileActivity extends AppCompatActivity {
                     /*   SharedPrefManager.getInstance(DrawingActivity.this).getUser().setName(String.valueOf(yourname.getText()));*/
                     if (SharedPrefManager.getInstance(CustomerProfileActivity.this).getUser().getImage() != null) {
                         Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
+                        intent = new Intent(CustomerProfileActivity.this,CustomerHomePage.class);
+                        startActivity(intent);
                     }
                     {
                         intent = new Intent(CustomerProfileActivity.this, CustomerHomePage.class);

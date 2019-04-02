@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -49,6 +50,7 @@ public class ServiceListAdapter extends  RecyclerView.Adapter<ServiceListAdapter
     private List<Service> serviceList;
     private Context mCtx;
     ViewDialog viewDialog;
+    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
     public ServiceListAdapter(Context baseContext, List<Service> serviceList, String empskill, String imageLink) {
         this.serviceList = serviceList;
@@ -85,6 +87,7 @@ public class ServiceListAdapter extends  RecyclerView.Adapter<ServiceListAdapter
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(buttonClick);
 
                 try {
                     if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Admin")) {
@@ -121,7 +124,7 @@ public class ServiceListAdapter extends  RecyclerView.Adapter<ServiceListAdapter
                         });
                     }
                     else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Customer")) {
-
+                        showCustomLoadingDialog(v);
                         intent = new Intent(mCtx, CustomerpricingActivity.class);
                         intent.putExtra("serviceName", holder.serviceName.getText());
                         intent.putExtra("description", holder.description.getText());
