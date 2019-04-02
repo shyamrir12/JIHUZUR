@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.awizom.jihuzur.CustomerActivity.CustomerCommentActivity;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.CustomerActivity.TrackActivity;
@@ -40,6 +41,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,6 +49,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
 import static com.firebase.ui.auth.ui.email.RegisterEmailFragment.TAG;
 
 public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCurrentOrderAdapter.OrderItemViewHolder> {
@@ -100,7 +103,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             holder.servicName.setText(order.getServiceName());
             holder.pricingterm.setText(order.getPricingTerms());
             holder.dctName.setText(order.getDiscountName());
-           // holder.orderIds.setText(order.getOrderID());
+            // holder.orderIds.setText(order.getOrderID());
 
             final DocumentReference docRef = db.collection("Order").document(ordid);
             docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -129,7 +132,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                     intent.putExtra("PricingTerms", prictrm);
                     intent.putExtra("EmployeeName", empname);
                     intent.putExtra("EmployeeContact", empmob);
-                   // intent.putExtra("OrderIDs", holder.orderIds.getText().toString());
+                    // intent.putExtra("OrderIDs", holder.orderIds.getText().toString());
                     mCtx.startActivity(intent);
                 }
             });
@@ -202,19 +205,16 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                                         Intent serviceIntent = new Intent(mCtx, AlarmService.class);
                                         serviceIntent.putExtra("inputExtra", servicnam + " Your Order Is Started");
                                         serviceIntent.putExtra("orderId", ordid);
-
                                         ContextCompat.startForegroundService(mCtx, serviceIntent);
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                                 //   canclBtn.setVisibility(View.GONE);
-
                                 Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                                 Log.d("result", result.toString());
                                 Intent intent = new Intent(mCtx, MyBokingsActivity.class);
                                 mCtx.startActivity(intent);
-
                             } catch (ExecutionException e) {
                                 e.printStackTrace();
                             } catch (InterruptedException e) {
@@ -238,7 +238,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context mCtx;
-        private TextView chronometer,orderIds;
+        private TextView chronometer, orderIds;
         private TextView startTime, endtime, empName, timercount, empContAct, catagryName, servicName, pricingterm, dctName;
         private Button acceptBtn, trackinBtn, canclBtn, viewdetail;
         private List<Order> orderitemList;
@@ -277,7 +277,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             viewdetail = itemView.findViewById(R.id.viewDetail);
             linearLayout = itemView.findViewById(R.id.l4);
 
-            orderIds= itemView.findViewById(R.id.orderId);
+            orderIds = itemView.findViewById(R.id.orderId);
             db = FirebaseFirestore.getInstance();
             acceptBtn.setOnClickListener(this);
             trackinBtn.setOnClickListener(this);

@@ -101,7 +101,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             holder.catlgId.setText(String.valueOf(order.getCatalogID()));
             holder.serviceID.setText(String.valueOf(order.getServiceID()));
             holder.pricingterms.setText(order.getPricingTerms());
-
             if (SharedPrefManager.getInstance(mCtx).getUser().Role.contains("Admin")) {
                 holder.linerButtonSide.setVisibility(View.GONE);
             }

@@ -6,6 +6,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -31,6 +34,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -65,6 +69,7 @@ import com.example.awizom.jihuzur.EmployeeActivity.EmployeeBookingsActivity;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment.EmployeeCurrentOrderFragment;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment.EmployeeHistoryCurrentFragment;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeLocationActivity;
+import com.example.awizom.jihuzur.HelpCenterActivity;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Locationhelper.FetchURL;
@@ -110,6 +115,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -217,9 +223,11 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     break;
 
                 case R.id.navigation_helpCenter:
-                    intent = new Intent(AdminHomePage.this, AdminCategoryActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                 /*   intent = new Intent(AdminHomePage.this, HelpCenterActivity.class);
+                    startActivity(intent);*/
+                    generateRandomNumber();
+
+                  //  overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 //                    getSupportActionBar().setTitle("Help Center");
 //                    fragment = helpCenterFragment;
 //                    framentClass = HelpCenterFragment.class;
@@ -236,6 +244,45 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             return false;
         }
     };
+
+    int range = 9;  // to generate a single number with this range, by default its 0..9
+    int length = 4; // by default length is 4
+
+    public int generateRandomNumber() {
+        int randomNumber;
+
+        SecureRandom secureRandom = new SecureRandom();
+        String s = "";
+        for (int i = 0; i < length; i++) {
+            int number = secureRandom.nextInt(range);
+            if (number == 0 && i == 0) { // to prevent the Zero to be the first number as then it will reduce the length of generated pin to three or even more if the second or third number came as zeros
+                i = -1;
+                continue;
+            }
+            s = s + number;
+        }
+
+
+        randomNumber = Integer.parseInt(s);
+        final Intent emptyIntent = new Intent();
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Notification noti = new Notification.Builder(this)
+                .setContentTitle("JiHUzzur Otp for Order")
+                .setContentText(String.valueOf(randomNumber)).setSmallIcon(R.drawable.jihuzurapplogo)
+                .setContentIntent(pendingIntent)
+              .build();
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        // hide the notification after its selected
+        noti.flags |= Notification.FLAG_NO_CLEAR;
+
+        notificationManager.notify(randomNumber, noti);
+
+
+        Toast.makeText(getApplicationContext(),randomNumber+" number",Toast.LENGTH_LONG).show();
+
+        return randomNumber;
+    }
+
 
     /* For OnBackPRess in HomePage */
     @SuppressLint("ResourceType")

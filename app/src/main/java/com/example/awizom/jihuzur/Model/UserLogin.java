@@ -8,7 +8,7 @@ public class UserLogin {
     public class RootObject {
         public String Message;
         public boolean Status;
-        public String OtpCode;
+        public String  OtpCode;
         public DataProfile dataProfile;
 
         public String getMessage() {

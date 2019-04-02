@@ -98,7 +98,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                     intent = new Intent(CustomerHomePage.this, CustomerHomePage.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-
                     break;
 
                 case R.id.navigation_booking:
@@ -146,7 +145,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.activity_customer_home_page);
         gridView = (GridView) findViewById(R.id.gridview);
         getCategoryList();
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
         toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);

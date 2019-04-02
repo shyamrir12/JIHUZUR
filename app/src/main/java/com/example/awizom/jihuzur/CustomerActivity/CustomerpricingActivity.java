@@ -2,6 +2,9 @@ package com.example.awizom.jihuzur.CustomerActivity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +35,7 @@ import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Model.EmployeeProfileModel;
 import com.example.awizom.jihuzur.Model.PricingView;
 import com.example.awizom.jihuzur.Model.Result;
+import com.example.awizom.jihuzur.Model.ResultModel;
 import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
@@ -38,16 +43,24 @@ import com.example.awizom.jihuzur.Service.GPS_Service;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+import static com.firebase.ui.auth.ui.email.RegisterEmailFragment.TAG;
 
 public class CustomerpricingActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -72,6 +85,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     private EmployeeProfileModel employeeProfileModel;
     private String[] empNameList, empLat, empLong;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +95,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     }
 
     private void initView() {
+        db = FirebaseFirestore.getInstance();
         if (!runtime_permissions())
         {enable_buttons();}
         serviceID = getIntent().getStringExtra("serviceID");
@@ -91,8 +106,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         orderID = getIntent().getStringExtra("orderId");
         priceID = getIntent().getStringExtra("priceId");
         getSupportActionBar().setTitle(serviceName);
-
-
         mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -262,8 +275,15 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         }
         try {
             result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId, priceIds).get();
+            Gson gson = new Gson();
+            Type getType = new TypeToken<ResultModel>() {
+            }.getType();
+            ResultModel resultModel = new Gson().fromJson(result, getType);
+
             if (!result.equals("")) {
+                String orrderid=resultModel.getMessage().split(",")[1].toString();
                 intent = new Intent(this, MyBokingsActivity.class);
+                generateRandomNumber(orrderid);
                 startActivity(intent);
             } else {
                 Toast toast = Toast.makeText(CustomerpricingActivity.this, "Sorry Our Employee's are Busy on another Order please try after sometime", Toast.LENGTH_LONG);
@@ -294,6 +314,75 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
             e.printStackTrace();
         }
     }
+
+    int range = 9;  // to generate a single number with this range, by default its 0..9
+    int length = 4; // by default length is 4
+
+    public int generateRandomNumber(String orderID) {
+        int randomNumber;
+
+        SecureRandom secureRandom = new SecureRandom();
+        String s = "";
+        for (int i = 0; i < length; i++) {
+            int number = secureRandom.nextInt(range);
+            if (number == 0 && i == 0) { // to prevent the Zero to be the first number as then it will reduce the length of generated pin to three or even more if the second or third number came as zeros
+                i = -1;
+                continue;
+            }
+            s = s + number;
+        }
+
+
+        randomNumber = Integer.parseInt(s);
+        final Intent emptyIntent = new Intent();
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Notification noti = new Notification.Builder(this)
+                .setContentTitle("JiHUzzur Otp for Order")
+                .setContentText(String.valueOf(randomNumber)).setSmallIcon(R.drawable.jihuzurapplogo)
+                .setContentIntent(pendingIntent)
+                .build();
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        // hide the notification after its selected
+        noti.flags |= Notification.FLAG_NO_CLEAR;
+
+        notificationManager.notify(randomNumber, noti);
+        try {
+
+            Map<String, Object> profile = new HashMap<>();
+            profile.put("otp", randomNumber);
+
+            db.collection("OrderOtp").document(orderID)
+                    .set(profile)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            //   Log.d(TAG, "DocumentSnapshot successfully written!");
+                            Toast.makeText(getApplicationContext(), "Success!",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), "Failed!",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+            Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+        Toast.makeText(getApplicationContext(),randomNumber+" number",Toast.LENGTH_LONG).show();
+
+        return randomNumber;
+    }
+
+
 
     private void employeeProfileGet() {
         try {

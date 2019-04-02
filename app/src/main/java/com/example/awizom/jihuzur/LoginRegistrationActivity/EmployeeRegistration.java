@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.example.awizom.jihuzur.AdminActivity.AdminHomePage;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
+import com.example.awizom.jihuzur.EmployeeActivity.VerifyPhoneActivityEmployeee;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.LoginHelper;
 import com.example.awizom.jihuzur.Model.DataProfile;
@@ -90,9 +91,7 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
         checkInternet();
         editTextMobile = findViewById(R.id.editTextMobile);
         butonContinue = findViewById(R.id.buttonContinue);
-
         butonContinue.setOnClickListener(this);
-
         loginHelper = new LoginHelper();
         role = findViewById(R.id.roleSpiner);
     }
@@ -170,7 +169,6 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
             if (role != null)
                 ur = role.getText().toString().trim();
             try {
-
                 result = new LoginHelper.GetLogin().execute(editTextMobile.getText().toString().trim(), "Jihuzur@123", "Jihuzur@123", ur).get();
                 progressDialog.dismiss();
                 Gson gson = new Gson();
@@ -190,33 +188,7 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
                             result = String.valueOf(new AdminHelper.POSTProfileLatLong().execute(SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(), String.valueOf("21.22"), String.valueOf("80.66")));
 
-                         /*   Map<String, Object> profile = new HashMap<>();
-                            profile.put("busystatus", false);
-                            profile.put("lat", 20.22);
-                            profile.put("long", 81.66);
-                            db.collection("Profile").document(jsonbody.dataProfile.ID)
-                                    .set(profile)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            //   Log.d(TAG, "DocumentSnapshot successfully written!");
-                                            Toast.makeText(getApplicationContext(), "Success!",
-                                                    Toast.LENGTH_LONG).show();
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(getApplicationContext(), "Failed!",
-                                                    Toast.LENGTH_LONG).show();
-                                        }
-                                    });*/
-
                             //20/02/2019 ravi
-
-
-
-
 
                         } else {
                             Map<String, Object> profile = new HashMap<>();
@@ -241,7 +213,7 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
                                         }
                                     });
 
-                            intent = new Intent(EmployeeRegistration.this, VerifyPhoneActivity.class);
+                            intent = new Intent(EmployeeRegistration.this, VerifyPhoneActivityEmployeee.class);
                             intent.putExtra("OTP", jsonbody.OtpCode);
                             Log.d("OtpEmployee", jsonbody.OtpCode);
                             intent.putExtra("Uid", jsonbody.dataProfile.ID);

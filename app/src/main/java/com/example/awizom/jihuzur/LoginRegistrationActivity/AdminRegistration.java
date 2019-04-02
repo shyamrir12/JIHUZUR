@@ -57,7 +57,7 @@ public class AdminRegistration extends AppCompatActivity implements View.OnClick
     LinearLayout coordinatorLayout;
     Snackbar snackbar;
     FirebaseFirestore db;
-    private static int TIMER = 10000;
+    private static int TIMER = 100000;
 
     /*For layout binding */
     @Override
@@ -197,7 +197,7 @@ public class AdminRegistration extends AppCompatActivity implements View.OnClick
                         }
 
                         else {
-                            intent = new Intent(AdminRegistration.this, VerifyPhoneActivity.class);
+                            intent = new Intent(AdminRegistration.this, VerifyPhoneActivityAdmin.class);
                             intent.putExtra("OTP", jsonbody.OtpCode);
                             intent.putExtra("Uid", jsonbody.dataProfile.ID);
                             intent.putExtra("Role", jsonbody.dataProfile.Role);

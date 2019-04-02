@@ -63,12 +63,18 @@ public class CustomerHomePageAdapter extends BaseAdapter {
             final TextView imglinkurl = gridViewAndroid.findViewById(R.id.imgLink);
             viewDialog = new ViewDialog((Activity) mContext);
 
-                String imgstr= AppConfig.BASE_URL+catalogNameList.get(i).getImage().toString();
-                Glide.with(mContext).load(imgstr).placeholder(R.drawable.jihuzurblanklogo).into(imageViewAndroid);
-                textViewAndroid.setText(catalogNameList.get(i).getCategory());
-                if(catalogNameList.get(i).getImage().toString()!= null) {
-                    imglinkurl.setText(imgstr.toString());
-                }
+try {
+    String imgstr = AppConfig.BASE_URL + catalogNameList.get(i).getImage().toString();
+    Glide.with(mContext).load(imgstr).placeholder(R.drawable.jihuzurblanklogo).into(imageViewAndroid);
+    textViewAndroid.setText(catalogNameList.get(i).getCategory());
+    if (catalogNameList.get(i).getImage().toString() != null) {
+        imglinkurl.setText(imgstr.toString());
+    }
+}
+catch (Exception e)
+{
+    e.printStackTrace();
+}
               try {
                 gridViewAndroid.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -186,9 +186,8 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onClick(View v) {
             try {
-
-
-                result = new AdminHelper.ChangeCategoryIndex().execute(catalogid, String.valueOf(position), String.valueOf(minteger)).get();
+                showCustomLoadingDialog(v);
+             result = new AdminHelper.ChangeCategoryIndex().execute(catalogid, String.valueOf(position), String.valueOf(minteger)).get();
              //   Toast.makeText(AdminCategoryActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
                 Gson gson = new Gson();
                 Type getType = new TypeToken<ResultModel>() {

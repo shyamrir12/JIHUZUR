@@ -125,9 +125,8 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
     private boolean validation() {
 
         if (otpEditText.getText().toString().isEmpty()) {
-
             otpEditText.setError("Required");
-            return false;
+            return false ;
         }
         return true;
     }
@@ -156,16 +155,12 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
                         dataProfile.Name = jsonbody.dataProfile.Name;
                         dataProfile.MobileNo = jsonbody.dataProfile.MobileNo;
 
-
                         SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
                         result = String.valueOf(new AdminHelper.POSTProfileLatLong().execute(SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(), String.valueOf("21.22"), String.valueOf("80.66")));
-
-
                         if (jsonbody.dataProfile.Role.equals("Customer")) {
                             intent = new Intent(VerifyPhoneActivity.this, CustomerHomePage.class);
                             startActivity(intent);
                             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-
                         }
                     }
                 }
@@ -179,24 +174,18 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
     }
-
 
     /*For Post API call with the use of Helper class*/
     private void verifyPostOtp() {
         if (validation()) {
-
             try {
                 result = new LoginHelper.PostVerifyMobile().execute(userId, otp).get();
                 progressDialog.dismiss();
                 Gson gson = new Gson();
                 UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
                 Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
-
                 if (!result.equals(null)) {
-
                     if (jsonbody.isStatus()) {
                         DataProfile dataProfile = new DataProfile();
                         dataProfile.ID = userId;
