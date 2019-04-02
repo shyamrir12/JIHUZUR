@@ -95,12 +95,14 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             switch (item.getItemId()) {
                 case R.id.navigation_search:
                     getSupportActionBar().setTitle("JiHuzzur");
+                    showCustomLoadingDialog();
                     intent = new Intent(CustomerHomePage.this, CustomerHomePage.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                     break;
 
                 case R.id.navigation_booking:
+                    showCustomLoadingDialog();
                     intent = new Intent(CustomerHomePage.this, MyBokingsActivity.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
@@ -108,6 +110,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                     break;
 
                 case R.id.navigation_helpCenter:
+                    showCustomLoadingDialog();
                     intent = new Intent(CustomerHomePage.this, HelpCenterActivity.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
@@ -191,6 +194,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showCustomLoadingDialog();
                 intent = new Intent(CustomerHomePage.this, CustomerProfileActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
@@ -365,7 +369,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             return true;
         }
         if (id == R.id.action_profile) {
-
+            showCustomLoadingDialog();
             Intent i = new Intent(CustomerHomePage.this, CustomerProfileActivity.class);
             startActivity(i);
             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
@@ -406,11 +410,13 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
         } else if (id == R.id.nav_logout) {
             SharedPrefManager.getInstance(this).logout();
+            showCustomLoadingDialog();
             Intent login = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
             login = login.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(login);
             finish();
         } else if (id == R.id.profile) {
+            showCustomLoadingDialog();
             Intent i = new Intent(CustomerHomePage.this, CustomerProfileActivity.class);
             startActivity(i);
             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
@@ -434,6 +440,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
         } else if (id == R.id.profileImage) {
+            showCustomLoadingDialog();
             Intent imageView = new Intent(CustomerHomePage.this, CustomerProfileActivity.class);
             startActivity(imageView);
             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);

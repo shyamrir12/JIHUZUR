@@ -15,6 +15,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
@@ -33,6 +34,7 @@ import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeHelper;
+import com.example.awizom.jihuzur.LoginRegistrationActivity.VerifyPhoneActivity;
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.R;
@@ -62,6 +64,7 @@ public class CustomerProfileActivity extends AppCompatActivity {
     EditText yourname, email, address;
     Intent intent = new Intent();
     String result = "", img_str, identimage_str;
+    private ProgressDialog progressDialog;
 
 
     private ArrayList<String> permissionsToRequest;
@@ -70,6 +73,7 @@ public class CustomerProfileActivity extends AppCompatActivity {
     String Check;
     private final static int ALL_PERMISSIONS_RESULT = 107;
     private final static int IMAGE_RESULT = 200;
+    private static int TIMER = 300;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +95,8 @@ public class CustomerProfileActivity extends AppCompatActivity {
         toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
         toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
         toolbar.setTitleTextColor(Color.WHITE);
+
+        progressDialog = new ProgressDialog(com.example.awizom.jihuzur.CustomerActivity.CustomerProfileActivity.this);
 
         pd = new ProgressDialog(this);
         pd.setMessage("Uploading....");
@@ -131,6 +137,20 @@ public class CustomerProfileActivity extends AppCompatActivity {
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                progressDialog.setMessage("Login in progress ...");
+                progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
+                progressDialog.show();
+
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+
+
+
+
                 imageView.buildDrawingCache();
                 Bitmap bitmap = imageView.getDrawingCache();
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -139,6 +159,7 @@ public class CustomerProfileActivity extends AppCompatActivity {
                 System.out.println("byte array:" + image);
                 String img_str = Base64.encodeToString(image, 0);
                 String name = yourname.getText().toString();
+
                 String emails = email.getText().toString();
                 String addresss = address.getText().toString();
 
@@ -165,6 +186,11 @@ public class CustomerProfileActivity extends AppCompatActivity {
                 } catch (Exception e) {
 
                 }
+
+                    }
+                }, TIMER);
+
+
             }
 
         });

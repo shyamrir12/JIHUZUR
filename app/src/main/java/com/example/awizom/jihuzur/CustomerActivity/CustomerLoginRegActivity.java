@@ -154,18 +154,14 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                 progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
                 progressDialog.show();
 
-                new Handler().postDelayed(new Runnable() {
+                    new Handler().postDelayed(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        intent = new Intent(CustomerLoginRegActivity.this, VerifyPhoneActivity.class);
+                        @Override
+                        public void run() {
+                          reDirect();
+                        }
+                    }, TIMER);
 
-                        intent.putExtra("Role", userRole);
-                        intent.putExtra("Mobile",editTextMobile.getText().toString());
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-                    }
-                }, TIMER);
                 break;
             case R.id.skiplogin:
                 intent = new Intent(CustomerLoginRegActivity.this, CustomerHomePage.class);
@@ -174,6 +170,21 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                 break;
         }
 
+
+    }
+
+    private void reDirect() {
+        if(validation()) {
+
+            intent = new Intent(CustomerLoginRegActivity.this, VerifyPhoneActivity.class);
+            intent.putExtra("Role", userRole);
+            intent.putExtra("Mobile", editTextMobile.getText().toString());
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+        }else {
+            Toast.makeText(getApplicationContext(), "Mobile No is not Valid", Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
+        }
 
     }
 

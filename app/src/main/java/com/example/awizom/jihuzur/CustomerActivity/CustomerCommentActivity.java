@@ -207,7 +207,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
             case R.id.cancel:
                 try {
                     result = new CustomerOrderHelper.CancelOrder().execute(orderID).get();
-                    Toast.makeText(CustomerCommentActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(CustomerCommentActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
                     Gson gson = new Gson();
                     Type getType = new TypeToken<ResultModel>() {
                     }.getType();
@@ -230,6 +230,9 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
                                     }
                                 });
                         //   canclBtn.setVisibility(View.GONE);
+
+                        intent = new Intent(this,MyBokingsActivity.class);
+                        startActivity(intent);
                     }
 
                 } catch (ExecutionException e) {
