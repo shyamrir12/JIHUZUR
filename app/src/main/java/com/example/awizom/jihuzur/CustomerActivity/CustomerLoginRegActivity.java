@@ -46,7 +46,7 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
     private Button butonContinue;
     DatabaseReference datauserprofile;
     private FirebaseAuth mAuth;
-    private String mobileNumber = "", mobile = "", ur = "User", result = "";
+    private String mobileNumber = "", mobile = "", ur = "User", result = "",userId="",userRole="";
     DataProfile customerDataProfile;
     private ProgressDialog progressDialog;
     Intent intent;
@@ -99,6 +99,9 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
         skiplogin.setOnClickListener(this);
         loginHelper = new LoginHelper();
         role = findViewById(R.id.roleSpiner);
+
+        userId=  editTextMobile.getText().toString();
+        userRole = role.getText().toString().trim();
 
 
     }
@@ -155,7 +158,12 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
 
                     @Override
                     public void run() {
-                        createuser();
+                        intent = new Intent(CustomerLoginRegActivity.this, VerifyPhoneActivity.class);
+
+                        intent.putExtra("Role", userRole);
+                        intent.putExtra("Mobile",editTextMobile.getText().toString());
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                     }
                 }, TIMER);
                 break;
