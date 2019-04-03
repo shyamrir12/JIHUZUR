@@ -53,7 +53,7 @@
                    android:drawableTint="@color/colorBlack"
                     android:padding="6dp"
                     android:gravity="left|center"
-                    android:text="   Cancel"
+                    android:text="Order Cancel"
                     android:textColor="@color/colorBlack"
                     android:textSize="17sp"
                     android:fontFamily="serif-monospace"/>

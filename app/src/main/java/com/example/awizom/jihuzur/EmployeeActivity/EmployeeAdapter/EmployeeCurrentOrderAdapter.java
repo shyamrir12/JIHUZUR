@@ -360,10 +360,10 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                                                                     }
                                                                 });
 
-                                                        Intent serviceIntent = new Intent(mCtx, AlarmService.class);
+                                                    /*    Intent serviceIntent = new Intent(mCtx, AlarmService.class);
                                                         serviceIntent.putExtra("inputExtra", serviceName + " Your Order Is Started");
                                                         serviceIntent.putExtra("orderId", orderId);
-                                                        ContextCompat.startForegroundService(mCtx, serviceIntent);
+                                                        ContextCompat.startForegroundService(mCtx, serviceIntent);*/
                                                     }
                                                 } catch (Exception e) {
                                                     e.printStackTrace();

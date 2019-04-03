@@ -62,7 +62,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     FirebaseFirestore db;
     ViewDialog viewDialog;
 
-
     public CustomerCurrentOrderAdapter(Context currentOrderActivity, List<Order> orderList) {
         this.mCtx = currentOrderActivity;
         this.orderitemList = orderList;
@@ -91,9 +90,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             final String prictrm = order.getPricingTerms();
             final String empname = order.getEmpName();
             final String empmob = order.getEmpMob();
-
             viewDialog = new ViewDialog((Activity) mCtx);
-
             holder.empName.setText(order.getServiceName());
             holder.empContAct.setText(order.getCatalogName());
             holder.timercount.setText(order.getTotalTime());
@@ -112,6 +109,10 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                     if (documentSnapshot.getData() != null) {
                         holder.acceptBtn.setVisibility(View.GONE);
                         holder.chronometer.setVisibility(View.VISIBLE);
+                        Intent serviceIntent = new Intent(mCtx, AlarmService.class);
+                        serviceIntent.putExtra("inputExtra", servicnam + " Your Order Is Started");
+                        serviceIntent.putExtra("orderId", ordid);
+                        ContextCompat.startForegroundService(mCtx, serviceIntent);
                     } else {
                         holder.acceptBtn.setVisibility(View.VISIBLE);
                         holder.chronometer.setVisibility(View.GONE);

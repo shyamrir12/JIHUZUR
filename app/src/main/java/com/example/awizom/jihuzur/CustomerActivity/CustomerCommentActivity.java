@@ -201,7 +201,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         v.startAnimation(buttonClick);
         switch (v.getId()) {
             case R.id.backArrow:
-                intent = new Intent(CustomerCommentActivity.this, MyBokingsActivity.class);
+                intent = new Intent(CustomerCommentActivity.this, CustomerHomePage.class);
                 startActivity(intent);
                 break;
             case R.id.cancel:
