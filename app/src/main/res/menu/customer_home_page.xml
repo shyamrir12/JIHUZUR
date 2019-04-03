@@ -24,6 +24,7 @@
         android:id="@+id/action_profile"
         android:orderInCategory="300"
         android:title="User"
-        android:icon="@drawable/boy"
+        android:icon="@drawable/ic_account_circle_white_24dp"
+        android:iconTint="@color/white"
         app:showAsAction="ifRoom"></item>
 </menu>
