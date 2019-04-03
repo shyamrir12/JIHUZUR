@@ -169,7 +169,7 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
             if (role != null)
                 ur = role.getText().toString().trim();
             try {
-                result = new LoginHelper.GetLogin().execute(editTextMobile.getText().toString().trim(), "Jihuzur@123", "Jihuzur@123", ur).get();
+                result = new LoginHelper.GetLogin().execute(editTextMobile.getText().toString().trim(), "Jihuzur@123", "Jihuzur@123", ur.toString().trim()).get();
                 progressDialog.dismiss();
                 Gson gson = new Gson();
                 UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);

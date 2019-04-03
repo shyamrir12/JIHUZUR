@@ -57,7 +57,7 @@ public class AdminRegistration extends AppCompatActivity implements View.OnClick
     LinearLayout coordinatorLayout;
     Snackbar snackbar;
     FirebaseFirestore db;
-    private static int TIMER = 100000;
+    private static int TIMER = 1000;
 
     /*For layout binding */
     @Override
@@ -170,7 +170,7 @@ public class AdminRegistration extends AppCompatActivity implements View.OnClick
             if (textRole != null)
                 ur = textRole.getText().toString().trim();
             try {
-                result = new LoginHelper.GetLogin().execute(editTextMobile.getText().toString().trim(), "Jihuzur@123", "Jihuzur@123", ur).get();
+                result = new LoginHelper.GetLogin().execute(editTextMobile.getText().toString().trim(), "Jihuzur@123", "Jihuzur@123", ur.toString().trim()).get();
                 progressDialog.dismiss();
                 Gson gson = new Gson();
                 UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);

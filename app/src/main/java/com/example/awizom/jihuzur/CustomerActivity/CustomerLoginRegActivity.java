@@ -175,10 +175,9 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
 
     private void reDirect() {
         if(validation()) {
-
             intent = new Intent(CustomerLoginRegActivity.this, VerifyPhoneActivity.class);
-            intent.putExtra("Role", userRole);
-            intent.putExtra("Mobile", editTextMobile.getText().toString());
+            intent.putExtra("Role", userRole.toString().trim());
+            intent.putExtra("Mobile", editTextMobile.getText().toString().trim());
             startActivity(intent);
             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
         }else {

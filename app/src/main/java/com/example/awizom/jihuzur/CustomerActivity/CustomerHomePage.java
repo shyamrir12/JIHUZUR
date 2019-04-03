@@ -94,7 +94,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             Class framentClass = null;
             switch (item.getItemId()) {
                 case R.id.navigation_search:
-                    getSupportActionBar().setTitle("JiHuzzur");
                     showCustomLoadingDialog();
                     intent = new Intent(CustomerHomePage.this, CustomerHomePage.class);
                     startActivity(intent);
@@ -148,8 +147,11 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.activity_customer_home_page);
         gridView = (GridView) findViewById(R.id.gridview);
         getCategoryList();
+
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setLogo(R.mipmap.final_logo);
+        toolbar.setLogo(R.mipmap.jihuzzur_home_logo);
+        toolbar.setTitle("");
+
         toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
         toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
         setSupportActionBar(toolbar);
