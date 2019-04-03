@@ -5,6 +5,14 @@ import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,6 +38,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerCatagoryAdapter;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerHomePageAdapter;
@@ -45,6 +55,7 @@ import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.SettingsActivity;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
+import com.example.awizom.jihuzur.Util.Util;
 import com.example.awizom.jihuzur.ViewDialog;
 import com.google.firebase.database.DatabaseReference;
 import com.google.gson.Gson;
@@ -79,7 +90,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     ViewDialog viewDialog;
     GridView gridView;
     List<Catalog> categorylist;
-
+    String imgstr;
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         //bottom navigation Button Onclick
@@ -268,10 +279,12 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 DataProfile dataProfile = new Gson().fromJson(result, listType);
                 userName.setText(dataProfile.getName().toString());
                 userContact.setText(dataProfile.MobileNo);
-                String imgstr = AppConfig.BASE_URL+dataProfile.getImage().toString();
+                imgstr = AppConfig.BASE_URL + dataProfile.getImage().toString();
                 Glide.with(this).load(imgstr)
                         .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
-                   .into(imageView);
+                        .into(imageView);
+
+
                 if (dataProfile != null) {
                     DataProfile dataProfile1 = new DataProfile();
                     dataProfile1.ID = dataProfile.ID;
@@ -328,7 +341,42 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.customer_home_page, menu);
+
+
+        final MenuItem settingsItem = menu.findItem(R.id.action_profile);
+
+
+        Glide.with(this).load(imgstr).asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(new SimpleTarget<Bitmap>(100, 100) {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                settingsItem.setIcon(new BitmapDrawable(getResources(), getCroppedBitmap(resource)));
+            }
+        });
+
+
         return true;
+    }
+
+    public Bitmap getCroppedBitmap(Bitmap bitmap) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        // canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
+                bitmap.getWidth() / 2, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        //Bitmap _bmp = Bitmap.createScaledBitmap(output, 60, 60, false);
+        //return _bmp;
+        return output;
     }
 
     @Override
@@ -370,6 +418,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         }
         if (id == R.id.action_profile) {
             showCustomLoadingDialog();
+
             Intent i = new Intent(CustomerHomePage.this, CustomerProfileActivity.class);
             startActivity(i);
             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
@@ -406,7 +455,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             intent = new Intent(CustomerHomePage.this, CustomerComplaintActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
- //            ActivityOptions startAnimation = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.fui_slide_out_left, R.anim.fui_slide_in_right);
+            //            ActivityOptions startAnimation = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.fui_slide_out_left, R.anim.fui_slide_in_right);
 //            startActivity(intent, startAnimation.toBundle());
 
         } else if (id == R.id.nav_logout) {

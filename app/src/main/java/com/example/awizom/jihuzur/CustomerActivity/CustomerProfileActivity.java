@@ -141,7 +141,7 @@ public class CustomerProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                progressDialog.setMessage("Login in progress ...");
+                progressDialog.setMessage("Uploading...");
                 progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
                 progressDialog.show();
 
