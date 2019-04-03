@@ -1,6 +1,5 @@
 package com.example.awizom.jihuzur.AdminActivity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -8,8 +7,6 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
 
-import com.bumptech.glide.Glide;
-import com.example.awizom.jihuzur.LoginRegistrationActivity.RegistrationActivity;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.ViewDialog;
 

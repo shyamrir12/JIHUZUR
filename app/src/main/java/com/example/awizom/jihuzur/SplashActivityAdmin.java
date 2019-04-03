@@ -5,27 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.awizom.jihuzur.AdminActivity.AdminHomePage;
-import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
-import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
-import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.LoginRegistrationActivity.AdminRegistration;
-import com.example.awizom.jihuzur.LoginRegistrationActivity.EmployeeRegistration;
-import com.example.awizom.jihuzur.LoginRegistrationActivity.LoginActivity;
-import com.example.awizom.jihuzur.LoginRegistrationActivity.RegistrationActivity;
-import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 
 public class SplashActivityAdmin extends AppCompatActivity {
 

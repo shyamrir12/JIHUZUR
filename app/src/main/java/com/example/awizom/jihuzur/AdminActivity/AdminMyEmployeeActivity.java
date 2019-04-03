@@ -1,7 +1,6 @@
 package com.example.awizom.jihuzur.AdminActivity;
 
 import android.app.ProgressDialog;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -11,20 +10,15 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.awizom.jihuzur.Adapter.MyEmployeeListAdapter;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
-import com.example.awizom.jihuzur.LoginRegistrationActivity.RegistrationActivity;
-import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.MyEmployeeListModel;
-import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.ResultModel;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.ViewDialog;
@@ -34,7 +28,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
