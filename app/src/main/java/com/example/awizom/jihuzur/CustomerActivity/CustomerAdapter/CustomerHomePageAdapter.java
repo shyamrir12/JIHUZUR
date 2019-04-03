@@ -77,14 +77,14 @@ public class CustomerHomePageAdapter extends BaseAdapter {
                 }
                 textViewAndroid.setText(catalogNameList.get(i).getCategory());
                 if (catalogNameList.get(i).getImage().toString() != null) {
-                    imglinkurl.setText(imgstr.toString());
+                     imglinkurl.setText(imgstr.toString());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
 
-//                Glide.with(mContext).load(imgstr).placeholder(R.drawable.jihuzurblanklogo)
+//                Glide.wit h(mContext).load(imgstr).placeholder(R.drawable.jihuzurblanklogo)
 //                        .listener(new RequestListener<String, GlideDrawable>() {
 //                            @Override
 //                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
