@@ -401,10 +401,11 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         else if (id == R.id.nav_complaint) {
             showCustomLoadingDialog();
             intent = new Intent(CustomerHomePage.this, CustomerComplaintActivity.class);
-            ActivityOptions startAnimation = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.fui_slide_out_left, R.anim.fui_slide_in_right);
-
-            startActivity(intent, startAnimation.toBundle());
+            startActivity(intent);
             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+ //            ActivityOptions startAnimation = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.fui_slide_out_left, R.anim.fui_slide_in_right);
+//            startActivity(intent, startAnimation.toBundle());
+
         } else if (id == R.id.nav_logout) {
             SharedPrefManager.getInstance(this).logout();
             showCustomLoadingDialog();

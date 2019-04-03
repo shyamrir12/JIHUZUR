@@ -137,7 +137,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
 
         try {
 
-            result = new LoginHelper.GetLogin().execute(mobile.toString(), "Jihuzur@123", "Jihuzur@123", role.toString()).get();
+            result = new LoginHelper.GetLogin().execute(mobile.toString().trim(), "Jihuzur@123", "Jihuzur@123", role.toString().trim()).get();
             progressDialog.dismiss();
             Gson gson = new Gson();
             UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
