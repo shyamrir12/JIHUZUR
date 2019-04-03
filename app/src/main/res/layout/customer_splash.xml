@@ -2,14 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/ji">
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+    android:background="@mipmap/final_background">
+
 
 
     <!--<ImageView-->
@@ -23,35 +17,26 @@
         android:id="@+id/l"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|center_horizontal"
-            android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:src="@mipmap/jihuzurapplogo"
-                android:layout_gravity="center_horizontal|center"
-                android:layout_marginTop="20dp"/>
 
-            <TextView
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/circle_shape"
-                android:layout_gravity="center|center_horizontal"
-                android:gravity="center_horizontal|center"
-                android:layout_centerHorizontal="true"
-                android:text="JiHuzzur.com"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                android:textColor="#fa4306"
-                android:layout_margin="8dp"
-                android:fontFamily="serif-monospace"/>
-        </LinearLayout>
+                android:layout_height="100dp"
+                android:src="@mipmap/final_logo"
+                android:layout_gravity="center_horizontal|center|center_vertical" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center|center_horizontal"/>
+
     </LinearLayout>
 
 

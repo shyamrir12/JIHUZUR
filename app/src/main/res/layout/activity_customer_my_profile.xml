@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerHorizontal="true"
-    android:background="@color/white"
+    android:background="@mipmap/final_background"
     android:fitsSystemWindows="true">
 
     <android.support.v7.widget.Toolbar
@@ -62,7 +62,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="17sp"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="7dp"/>
 
             <EditText
                 android:id="@+id/Email"
@@ -78,7 +78,7 @@
                 android:paddingRight="10dp"
                 android:textSize="17sp"
                 android:inputType="textEmailAddress"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="7dp"/>
 
             <EditText
                 android:id="@+id/Adress"
@@ -93,7 +93,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="17sp"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginTop="7dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -107,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:background="#fa4306"
+                android:background="@color/button_color"
                 android:fontFamily="monospace"
                 android:gravity="center"
                 android:letterSpacing="0.2"

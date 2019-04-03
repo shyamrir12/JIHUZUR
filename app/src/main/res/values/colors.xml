@@ -12,8 +12,13 @@
     <!--<color name="colorPrimary">#145278</color>-->
     <!--<color name="colorPrimaryDark">#093854</color>-->
 
-    <color name="colorPrimary">#174d18</color>
-    <color name="colorPrimaryDark">#113812</color>
+    <color name="colorPrimary">#063955</color>
+    <color name="colorPrimaryDark">#063955</color>
+    <color name="button_color">#052e45</color>
+    <color name="light_background_color">#1877a3</color>
+    <color name="orange">#E0461C</color>
+    <color name="shade_orange">#95442F</color>
+
     <color name="colorAccent">#FF4081</color>
     <color name="white">#fff</color>
     <color name="colorBlack">#140806</color>

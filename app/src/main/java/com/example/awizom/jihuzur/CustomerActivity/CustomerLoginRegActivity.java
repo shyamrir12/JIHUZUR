@@ -65,7 +65,7 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.customer_login_layout);
+        setContentView(R.layout.customer_final_login);
         checkAppPermission();
         initView();
     }
