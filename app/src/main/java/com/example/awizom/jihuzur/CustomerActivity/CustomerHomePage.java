@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerCatagoryAdapter;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerHomePageAdapter;
@@ -268,7 +269,9 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 userName.setText(dataProfile.getName().toString());
                 userContact.setText(dataProfile.MobileNo);
                 String imgstr = AppConfig.BASE_URL+dataProfile.getImage().toString();
-                Glide.with(this).load(imgstr).placeholder(R.drawable.user_icon).into(imageView);
+                Glide.with(this).load(imgstr)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
+                        .placeholder(R.drawable.user_icon).into(imageView);
                 if (dataProfile != null) {
                     DataProfile dataProfile1 = new DataProfile();
                     dataProfile1.ID = dataProfile.ID;

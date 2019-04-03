@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -65,6 +66,7 @@ public class CustomerProfileActivity extends AppCompatActivity {
     Intent intent = new Intent();
     String result = "", img_str, identimage_str;
     private ProgressDialog progressDialog;
+    private TextView imgUrl;
 
 
     private ArrayList<String> permissionsToRequest;
@@ -104,6 +106,7 @@ public class CustomerProfileActivity extends AppCompatActivity {
         email = (EditText) findViewById(R.id.Email);
         address = (EditText) findViewById(R.id.Adress);
         imageView = findViewById(R.id.imageView);
+        imgUrl = findViewById(R.id.imgurl);
 
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -148,46 +151,40 @@ public class CustomerProfileActivity extends AppCompatActivity {
                     public void run() {
 
 
+                        imageView.buildDrawingCache();
+                        Bitmap bitmap = imageView.getDrawingCache();
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
+                        byte[] image = stream.toByteArray();
+                        System.out.println("byte array:" + image);
+                        String img_str = Base64.encodeToString(image, 0);
+                        String name = yourname.getText().toString();
+                        String emails = email.getText().toString();
+                        String addresss = address.getText().toString();
+                        String id = SharedPrefManager.getInstance(CustomerProfileActivity.this).getUser().getID();
+                        String lat = "";
+                        String longs = "";
+                        try {
+                            result = new EmployeeHelper.POSTProfile().execute(id, name, img_str, identityimage, lat, longs, emails, addresss).get();
+                            Gson gson = new Gson();
+                            final Result jsonbodyres = gson.fromJson(result, Result.class);
+                            DataProfile dataProfile = new DataProfile();
+                            dataProfile.Image = jsonbodyres.ImageUrl;
+                            SharedPrefManager.getInstance(CustomerProfileActivity.this).getUser().setImage(String.valueOf(dataProfile));
+                            /*   SharedPrefManager.getInstance(DrawingActivity.this).getUser().setName(String.valueOf(yourname.getText()));*/
+                            if (SharedPrefManager.getInstance(CustomerProfileActivity.this).getUser().getImage() != null) {
+                                Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
+                                intent = new Intent(CustomerProfileActivity.this, CustomerHomePage.class);
+                                startActivity(intent);
+                            }
+                            {
+                                intent = new Intent(CustomerProfileActivity.this, CustomerHomePage.class);
+                                startActivity(intent);
+                            }
 
+                        } catch (Exception e) {
 
-
-                imageView.buildDrawingCache();
-                Bitmap bitmap = imageView.getDrawingCache();
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
-                byte[] image = stream.toByteArray();
-                System.out.println("byte array:" + image);
-                String img_str = Base64.encodeToString(image, 0);
-                String name = yourname.getText().toString();
-
-                String emails = email.getText().toString();
-                String addresss = address.getText().toString();
-
-
-                String id = SharedPrefManager.getInstance(CustomerProfileActivity.this).getUser().getID();
-                String lat = "";
-                String longs = "";
-                try {
-                    result = new EmployeeHelper.POSTProfile().execute(id, name, img_str, identityimage, lat, longs, emails, addresss).get();
-                    Gson gson = new Gson();
-                    final Result jsonbodyres = gson.fromJson(result, Result.class);
-                    DataProfile dataProfile = new DataProfile();
-                    dataProfile.Image = jsonbodyres.ImageUrl;
-                    SharedPrefManager.getInstance(CustomerProfileActivity.this).getUser().setImage(String.valueOf(dataProfile));
-                    /*   SharedPrefManager.getInstance(DrawingActivity.this).getUser().setName(String.valueOf(yourname.getText()));*/
-                    if (SharedPrefManager.getInstance(CustomerProfileActivity.this).getUser().getImage() != null) {
-                        Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
-                        intent = new Intent(CustomerProfileActivity.this,CustomerHomePage.class);
-                        startActivity(intent);
-                    }
-                    {
-                        intent = new Intent(CustomerProfileActivity.this, CustomerHomePage.class);
-                        startActivity(intent);
-                    }
-
-                } catch (Exception e) {
-
-                }
+                        }
 
                     }
                 }, TIMER);
@@ -221,12 +218,15 @@ public class CustomerProfileActivity extends AppCompatActivity {
                 DataProfile dataProfile = new Gson().fromJson(result, listType);
                 String imageurl = dataProfile.getImage();
                 String img_str = AppConfig.BASE_URL + imageurl;
+
+                imgUrl.setText(img_str.toString());
                 yourname.setText(dataProfile.getName().toString());
                 email.setText(dataProfile.getEmail().toString());
                 address.setText(dataProfile.getAddress().toString());
-                Glide.with(CustomerProfileActivity.this).load(img_str).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.jihuzurblanklogo).into(imageView);
+                Glide.with(CustomerProfileActivity.this).load(imgUrl.getText().toString().trim())
+                        .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
+                        .placeholder(R.drawable.jihuzurblanklogo).into(imageView);
                 identimage_str = AppConfig.BASE_URL + dataProfile.getIdentityImage();
-
 
                 if (dataProfile != null) {
                     DataProfile dataProfile1 = new DataProfile();

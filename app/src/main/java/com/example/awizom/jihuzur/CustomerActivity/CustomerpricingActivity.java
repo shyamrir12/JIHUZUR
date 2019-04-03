@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
@@ -23,6 +24,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -87,6 +89,8 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     private String[] empNameList, empLat, empLong;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     FirebaseFirestore db;
+    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
+    ViewDialog viewDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,13 +207,14 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View v) {
+        v.startAnimation(buttonClick);
         switch (v.getId()) {
             case R.id.buttonNext:
-
+                showCustomLoadingDialog();
                 method();
                 break;
             case R.id.postOrderPriceBtn:
-
+                showCustomLoadingDialog();
                 int j = SharedPrefManager.getInstance(CustomerpricingActivity.this).getPricingID().PricingID;
                 try {
                     result = new AdminHelper.EditPricingPost().execute(orderID, String.valueOf(j)).get();
@@ -422,6 +427,21 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+    public void showCustomLoadingDialog() {
+
+        //..show gif
+        viewDialog.showDialog();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //...here i'm waiting 5 seconds before hiding the custom dialog
+                //...you can do whenever you want or whenever your work is done
+                viewDialog.hideDialog();
+            }
+        }, 1000);
     }
 }
 
