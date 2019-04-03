@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
     private Intent intent;
     private ProgressDialog progressDialog;
     private static int TIMER = 300;
+    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
     /*For layout binding */
     @Override
@@ -97,7 +99,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
 
-
+        v.startAnimation(buttonClick);
         switch (v.getId()) {
             case R.id.buttonVerify:
                 if (otp.equals(otpEditText.getText().toString())) {

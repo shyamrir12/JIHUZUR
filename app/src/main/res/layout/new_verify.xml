@@ -101,14 +101,14 @@
 
                     <Button
                         android:id="@+id/resendOTP"
-                        android:layout_width="110dp"
+                        android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:text="Resend Otp"
                         android:textColor="#FFFFFF"
                         android:textAllCaps="false"
                         android:background="@color/transparency"
                         android:textStyle="bold"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:layout_gravity="bottom"
                         android:padding="8dp"
                         android:layout_marginTop="20dp"
