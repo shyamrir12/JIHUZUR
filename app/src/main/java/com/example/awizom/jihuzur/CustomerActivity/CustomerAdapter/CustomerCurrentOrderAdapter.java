@@ -114,7 +114,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                         serviceIntent.putExtra("orderId", ordid);
                         ContextCompat.startForegroundService(mCtx, serviceIntent);
                     } else {
-                        holder.acceptBtn.setVisibility(View.VISIBLE);
+                        holder.acceptBtn.setVisibility(View.GONE);
                         holder.chronometer.setVisibility(View.GONE);
                     }
                 }
