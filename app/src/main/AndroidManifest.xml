@@ -215,6 +215,7 @@
 
         </activity>
 
+        <activity android:name=".LoginRegistrationActivity.VerifyPhoneActivityAdmin"></activity>
         <activity android:name=".CustomerActivity.CustomerProfileActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".EmployeeActivity.EmployeeMyProfileActivity"
