@@ -271,7 +271,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 String imgstr = AppConfig.BASE_URL+dataProfile.getImage().toString();
                 Glide.with(this).load(imgstr)
                         .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
-                        .placeholder(R.drawable.user_icon).into(imageView);
+                   .into(imageView);
                 if (dataProfile != null) {
                     DataProfile dataProfile1 = new DataProfile();
                     dataProfile1.ID = dataProfile.ID;

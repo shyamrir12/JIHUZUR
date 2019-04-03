@@ -72,7 +72,9 @@ public class CustomerHomePageAdapter extends BaseAdapter {
             try {
                 String imgstr = AppConfig.BASE_URL + catalogNameList.get(i).getImage().toString();
 
-                Glide.with(mContext).load(imgstr).placeholder(R.drawable.jihuzurblanklogo).into(imageViewAndroid);
+                if(catalogNameList.get(i).getImage().toString()!=null) {
+                    Glide.with(mContext).load(imgstr).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imageViewAndroid);
+                }
                 textViewAndroid.setText(catalogNameList.get(i).getCategory());
                 if (catalogNameList.get(i).getImage().toString() != null) {
                     imglinkurl.setText(imgstr.toString());

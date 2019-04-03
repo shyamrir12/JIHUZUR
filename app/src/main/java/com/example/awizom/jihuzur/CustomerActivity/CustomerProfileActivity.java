@@ -223,9 +223,12 @@ public class CustomerProfileActivity extends AppCompatActivity {
                 yourname.setText(dataProfile.getName().toString());
                 email.setText(dataProfile.getEmail().toString());
                 address.setText(dataProfile.getAddress().toString());
-                Glide.with(CustomerProfileActivity.this).load(imgUrl.getText().toString().trim())
-                        .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
-                        .placeholder(R.drawable.jihuzurblanklogo).into(imageView);
+                if(imageurl!=null) {
+                    Glide.with(CustomerProfileActivity.this).load(img_str)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
+                            .into(imageView);
+                }
+
                 identimage_str = AppConfig.BASE_URL + dataProfile.getIdentityImage();
 
                 if (dataProfile != null) {

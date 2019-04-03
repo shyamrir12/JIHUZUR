@@ -171,4 +171,13 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements V
         }
     }
 
+    public void recivedSms(String message)
+    {
+        try
+        {
+            otpEditText.setText(message);
+        }
+        catch (Exception e) {}
+
+    }
 }

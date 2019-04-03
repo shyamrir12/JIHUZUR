@@ -29,16 +29,13 @@ public class LoginHelper extends AppCompatActivity {
                 builder.url(AppConfig.BASE_URL_API_REG + "Register");
                 builder.addHeader("Content-Type", "application/json");
                 builder.addHeader("Accept", "application/json");
-
                 FormBody.Builder parameters = new FormBody.Builder();
                 parameters.add("UserName", name);
                 parameters.add("Password", password);
                 parameters.add("ConfirmPassword", cnfrmpassword);
                 parameters.add("Role", role);
                 builder.post(parameters.build());
-
                 okhttp3.Response response = client.newCall(builder.build()).execute();
-
                 if (response.isSuccessful()) {
                     json = response.body().string();
 
