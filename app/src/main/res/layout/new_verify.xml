@@ -106,7 +106,7 @@
                         android:text="Resend Otp"
                         android:textColor="#FFFFFF"
                         android:textAllCaps="false"
-                        android:background="linear_background_shape"
+                        android:background="@color/transparency"
                         android:textStyle="bold"
                         android:gravity="center"
                         android:layout_gravity="bottom"
