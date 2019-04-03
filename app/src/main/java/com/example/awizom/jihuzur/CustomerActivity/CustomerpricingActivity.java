@@ -41,6 +41,7 @@ import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Service.GPS_Service;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
+import com.example.awizom.jihuzur.ViewDialog;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -105,7 +106,20 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         btn = getIntent().getStringExtra("button");
         orderID = getIntent().getStringExtra("orderId");
         priceID = getIntent().getStringExtra("priceId");
-        getSupportActionBar().setTitle(serviceName);
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        /*  catalogName = getIntent().getStringExtra("CatalogName");*/
+
+
+        toolbar.setTitle(serviceName);
+        toolbar.setTitleTextColor(0xFFFFFFFF);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -226,9 +240,9 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
             }
         }
 
-        Toast.makeText(CustomerpricingActivity.this,
-                data, Toast.LENGTH_LONG)
-                .show();
+//        Toast.makeText(CustomerpricingActivity.this,
+//                data, Toast.LENGTH_LONG)
+//                .show();
 
         if (data != null) {
             priceID = data;
@@ -279,7 +293,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
             Type getType = new TypeToken<ResultModel>() {
             }.getType();
             ResultModel resultModel = new Gson().fromJson(result, getType);
-
             if (!result.equals("")) {
                 String orrderid=resultModel.getMessage().split(",")[1].toString();
                 intent = new Intent(this, MyBokingsActivity.class);

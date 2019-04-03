@@ -238,7 +238,7 @@
                             android:textColor="@color/white"
                             android:textSize="13sp"
                             android:fontFamily="monospace"
-                            android:visibility="visible"/>
+                            android:visibility="gone"/>
 
                         <view
                             class="android.support.v7.app.AlertController$RecycleListView"

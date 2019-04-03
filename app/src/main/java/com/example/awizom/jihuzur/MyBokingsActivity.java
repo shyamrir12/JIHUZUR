@@ -41,6 +41,10 @@ public class MyBokingsActivity extends AppCompatActivity {
 
 
         setSupportActionBar(toolbar);
+
+        toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
+        toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
+        toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,11 +52,6 @@ public class MyBokingsActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-        toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
-        toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
-        toolbar.setTitleTextColor(Color.WHITE);
-
 
         tabLayout = findViewById(R.id.tablayout);
         outGoing = findViewById(R.id.outgoing);

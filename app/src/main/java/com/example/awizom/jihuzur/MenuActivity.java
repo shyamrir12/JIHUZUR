@@ -11,7 +11,7 @@ import com.example.awizom.jihuzur.Adapter.PageAdapter;
 
 public class MenuActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
+ /*   Toolbar toolbar;*/
     TabLayout tabLayout;
     ViewPager viewPager;
     PageAdapter pageAdapter;
@@ -33,13 +33,10 @@ public class MenuActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Home Services");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
-        toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
-
-
+      /*  toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
+        toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);*/
         catagoryName = String.valueOf(getIntent().getIntExtra("CategoryName",0));
         employeeSkill = getIntent().getStringExtra("EmployeeSkill");
-
         tabLayout = findViewById(R.id.tablayout);
         electrician = findViewById(R.id.Electrician);
         carpenter = findViewById(R.id.Carpenter);

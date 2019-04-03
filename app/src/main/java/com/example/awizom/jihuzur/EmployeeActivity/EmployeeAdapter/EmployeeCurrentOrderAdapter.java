@@ -1,5 +1,6 @@
 package com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -23,18 +24,23 @@ import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeLocationActivity;
 import com.example.awizom.jihuzur.EmployeeActivity.SendOrderPhoto;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
+import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Helper.ServicesHelper;
 import com.example.awizom.jihuzur.Model.Order;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.ResultModel;
 import com.example.awizom.jihuzur.Model.Service;
+import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Service.AlarmService;
 import com.example.awizom.jihuzur.Service.LocationMonitoringNotificationService;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -118,7 +124,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             //   holder.linearLayout.setVisibility(View.VISIBLE);
             holder.disctName.setVisibility(View.VISIBLE);
             holder.discountUpdateBtn.setVisibility(View.VISIBLE);
-          //     holder.discountUpdateBtn.setVisibility(View.VISIBLE);
+            //     holder.discountUpdateBtn.setVisibility(View.VISIBLE);
             //            holder.priceUpdateBtn.setVisibility(View.VISIBLE);
 
             if (order.getOrderStartTime() != null) {
@@ -130,17 +136,15 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 //                holder.stopBtn.setVisibility(View.GONE);
             }
 
-           holder.sendphoto.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   intent = new Intent(mCtx,SendOrderPhoto.class);
-                   intent.putExtra("OrderID",orderId);
-                   intent.putExtra("ServiceName",holder.serviceName.getText().toString());
-                   mCtx.startActivity(intent);
-               }
-           });
-
-
+            holder.sendphoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    intent = new Intent(mCtx, SendOrderPhoto.class);
+                    intent.putExtra("OrderID", orderId);
+                    intent.putExtra("ServiceName", holder.serviceName.getText().toString());
+                    mCtx.startActivity(intent);
+                }
+            });
 
 
             db = FirebaseFirestore.getInstance();
@@ -285,11 +289,106 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             switch (v.getId()) {
                 case R.id.genOtpBtn:
                     try {
-                        result = new EmployeeOrderHelper.GenerateOtp().execute(orderId).get();
-                        Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
+                       /* result = new EmployeeOrderHelper.GenerateOtp().execute(orderId).get();
+                        Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();*/
+
+                        final android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(v.getRootView().getContext());
+                        LayoutInflater inflater = LayoutInflater.from(v.getRootView().getContext());
+                        final View dialogView = inflater.inflate(R.layout.accept_otp_for_order_layout, null);
+                        dialogBuilder.setView(dialogView);
+                        final EditText enterOtp = dialogView.findViewById(R.id.editTextOtp);
+                        Button verify = dialogView.findViewById(R.id.buttonVerify);
+                        dialogBuilder.setTitle("Accept Otp");
+                        final android.support.v7.app.AlertDialog b = dialogBuilder.create();
+                        b.show();
+                        if (enterOtp.getText().toString().isEmpty()) {
+                            enterOtp.setError("Enter a valid value");
+                            enterOtp.requestFocus();
+                        }
+                        verify.setOnClickListener(new View.OnClickListener() {
+                            @SuppressLint("NewApi")
+                            @Override
+                            public void onClick(final View v) {
+                                db.collection("OrderOtp").document(orderId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                                        String otps = String.valueOf(task.getResult().get("otp"));
+                                        if (otps.equals(String.valueOf(enterOtp.getText()))) {
+                                            try {
+                                                result = new CustomerOrderHelper.OrderStartEmployee().execute(orderId).get();
+                                                Gson gson = new Gson();
+                                                Type getType = new TypeToken<ResultModel>() {
+                                                }.getType();
+                                                ResultModel resultModel = new Gson().fromJson(result, getType);
+                                                try {
+                                                    if (resultModel.getMessage().contains("Order Started")) {
+                                                        genrateBtn.setVisibility(View.GONE);
+                                                        String employeeid = resultModel.getEmployeeID().toString();
+                                                        Map<String, Object> profile = new HashMap<>();
+                                                        profile.put("busystatus", true);
+                                                        db.collection("Profile").document(employeeid).update(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                            }
+                                                        })
+                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
+                                                                        Log.w(TAG, "Error writing document", e);
+                                                                    }
+                                                                });
+                                                        Date today = new Date();
+                                                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+                                                        String dateToStr = format.format(today);
+                                                        Map<String, Object> order = new HashMap<>();
+                                                        order.put("startTime", dateToStr);
+                                                        order.put("endTime", 00);
+
+                                                        db.collection("Order").document(orderId).set(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                            }
+                                                        })
+                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
+                                                                        //
+                                                                        Log.w(TAG, "Error writing document", e);
+                                                                    }
+                                                                });
+
+                                                        Intent serviceIntent = new Intent(mCtx, AlarmService.class);
+                                                        serviceIntent.putExtra("inputExtra", serviceName + " Your Order Is Started");
+                                                        serviceIntent.putExtra("orderId", orderId);
+                                                        ContextCompat.startForegroundService(mCtx, serviceIntent);
+                                                    }
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                                //   canclBtn.setVisibility(View.GONE);
+                                                Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
+                                                Log.d("result", result.toString());
+                                                Intent intent = new Intent(mCtx, MyBokingsActivity.class);
+                                                mCtx.startActivity(intent);
+                                            } catch (ExecutionException e) {
+                                                e.printStackTrace();
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+                                        else{
+                                            Toast.makeText(v.getContext(),"Entered Otp is wrong",Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                            }
+                        });
+
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 

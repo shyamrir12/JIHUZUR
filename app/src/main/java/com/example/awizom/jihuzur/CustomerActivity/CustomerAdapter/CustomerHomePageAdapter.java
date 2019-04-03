@@ -30,13 +30,14 @@ import java.util.List;
 
 public class CustomerHomePageAdapter extends BaseAdapter {
 
-  //  private final String[] catalogNameList;
+    //  private final String[] catalogNameList;
     private List<Catalog> catalogNameList;
     ViewDialog viewDialog;
     private Context mContext;
+
     public CustomerHomePageAdapter(CustomerHomePage newCustomerHome, List<Catalog> categorylist) {
 
-        this.mContext=newCustomerHome;
+        this.mContext = newCustomerHome;
         this.catalogNameList = categorylist;
     }
 
@@ -58,19 +59,28 @@ public class CustomerHomePageAdapter extends BaseAdapter {
     @Override
     public View getView(final int i, final View convertView, ViewGroup parent) {
         View gridViewAndroid;
-        LayoutInflater inflater = (LayoutInflater) mContext .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
             gridViewAndroid = new View(mContext);
             gridViewAndroid = inflater.inflate(R.layout.catalogname_gridview, null);
             TextView textViewAndroid = (TextView) gridViewAndroid.findViewById(R.id.catalogName);
             de.hdodenhof.circleimageview.CircleImageView imageViewAndroid = (de.hdodenhof.circleimageview.CircleImageView) gridViewAndroid.findViewById(R.id.catalogImage);
             final TextView imglinkurl = gridViewAndroid.findViewById(R.id.imgLink);
-          //  final ProgressBar progressBar = gridViewAndroid.findViewById(R.id.homeprogress);
-            viewDialog = new ViewDialog((Activity) mContext);
+            //  final ProgressBar progressBar = gridViewAndroid.findViewById(R.id.homeprogress);
 
-                String imgstr= AppConfig.BASE_URL+catalogNameList.get(i).getImage().toString();
+            viewDialog = new ViewDialog((Activity) mContext);
+            try {
+                String imgstr = AppConfig.BASE_URL + catalogNameList.get(i).getImage().toString();
 
                 Glide.with(mContext).load(imgstr).placeholder(R.drawable.jihuzurblanklogo).into(imageViewAndroid);
+                textViewAndroid.setText(catalogNameList.get(i).getCategory());
+                if (catalogNameList.get(i).getImage().toString() != null) {
+                    imglinkurl.setText(imgstr.toString());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
 
 //                Glide.with(mContext).load(imgstr).placeholder(R.drawable.jihuzurblanklogo)
 //                        .listener(new RequestListener<String, GlideDrawable>() {
@@ -89,26 +99,23 @@ public class CustomerHomePageAdapter extends BaseAdapter {
 //                .into(imageViewAndroid);
 
 
-                textViewAndroid.setText(catalogNameList.get(i).getCategory());
-                if(catalogNameList.get(i).getImage().toString()!= null) {
-                    imglinkurl.setText(imgstr.toString());
-                }
-              try {
+
+            try {
                 gridViewAndroid.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         showcustomloadingdialog();
                         Intent intent = new Intent(mContext, SelectServices.class);
-                        intent.putExtra("CatalogID",String.valueOf(catalogNameList.get(i).getCatalogID()));
+                        intent.putExtra("CatalogID", String.valueOf(catalogNameList.get(i).getCatalogID()));
                         intent.putExtra("CategoryName", catalogNameList.get(i).getCategory().toString());
-                        intent.putExtra("Image",imglinkurl.getText().toString());
-                        intent.putExtra("EmployeeSkill","EmployeeSkill");
+                        intent.putExtra("Image", imglinkurl.getText().toString());
+                        intent.putExtra("EmployeeSkill", "EmployeeSkill");
                         mContext.startActivity(intent);
                     }
                 });
 
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
