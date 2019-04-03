@@ -33,7 +33,7 @@ import java.util.concurrent.ExecutionException;
 public class VerifyPhoneActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText otpEditText;
-    private Button verifyOtpBtn;
+    private Button verifyOtpBtn,resendOTP;
     private String result, userId = "", otp = "", role = "", image = "", mobile = "", name = "";
 
     boolean active = false;
@@ -76,6 +76,8 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
         otpEditText = findViewById(R.id.editTextOtp);
         verifyOtpBtn = findViewById(R.id.buttonVerify);
         verifyOtpBtn.setOnClickListener(this);
+        resendOTP = findViewById(R.id.resendOTP);
+        resendOTP.setOnClickListener(this);
         progressDialog = new ProgressDialog(VerifyPhoneActivity.this);
 
         createuser();
@@ -116,6 +118,9 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
                     Toast.makeText(getApplicationContext(), "Entered OTP is Wrong", Toast.LENGTH_LONG).show();
 
                 }
+                break;
+            case R.id.resendOTP:
+               createuser();
                 break;
         }
 
