@@ -353,7 +353,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             }
         });
 
-
         return true;
     }
 

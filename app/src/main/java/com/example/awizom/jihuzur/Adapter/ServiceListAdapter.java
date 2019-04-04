@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ServiceListAdapter extends  RecyclerView.Adapter<ServiceListAdapter.MyViewHolder> {
+public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.MyViewHolder> {
 
     String uri;
     Intent intent;
@@ -46,7 +46,7 @@ public class ServiceListAdapter extends  RecyclerView.Adapter<ServiceListAdapter
     String catalogName;
     AutoCompleteTextView editServicename, editDescription;
     Spinner displayType;
-    String result = "", empskills = "",imageLink="";
+    String result = "", empskills = "", imageLink = "";
     private List<Service> serviceList;
     private Context mCtx;
     ViewDialog viewDialog;
@@ -100,13 +100,14 @@ public class ServiceListAdapter extends  RecyclerView.Adapter<ServiceListAdapter
                         Intent i = new Intent(mCtx, SingleShotLocationProvider.class);
                         mCtx.startService(i);
                         mCtx.startActivity(intent);
-                    /*    Toast.makeText(mCtx, "" + position, Toast.LENGTH_SHORT).show();
-*/
+                        /*    Toast.makeText(mCtx, "" + position, Toast.LENGTH_SHORT).show();
+                         */
                     } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Employee")) {
                         holder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 String employeeid = SharedPrefManager.getInstance(mCtx).getUser().getID();
+                                showCustomLoadingDialog(v);
                                 try {
                                     result = new EmployeeOrderHelper.EmployeePOSTSkill().execute(employeeid, serviceID).get();
                                     Gson gson = new Gson();
@@ -122,8 +123,7 @@ public class ServiceListAdapter extends  RecyclerView.Adapter<ServiceListAdapter
                                 }
                             }
                         });
-                    }
-                    else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Customer")) {
+                    } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Customer")) {
                         showCustomLoadingDialog(v);
                         intent = new Intent(mCtx, CustomerpricingActivity.class);
                         intent.putExtra("serviceName", holder.serviceName.getText());
@@ -155,6 +155,7 @@ public class ServiceListAdapter extends  RecyclerView.Adapter<ServiceListAdapter
             e.printStackTrace();
         }
     }
+
     public void showCustomLoadingDialog(View view) {
 
         //..show gif
@@ -170,6 +171,7 @@ public class ServiceListAdapter extends  RecyclerView.Adapter<ServiceListAdapter
             }
         }, 1000);
     }
+
     private void showEditServiceDialogue(final String servicename, final String description, final String serviceid, final String catalogId, String displaytype) {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mCtx);

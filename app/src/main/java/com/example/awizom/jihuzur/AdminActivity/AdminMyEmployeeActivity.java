@@ -11,9 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.awizom.jihuzur.Adapter.MyEmployeeListAdapter;
@@ -33,7 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AdminMyEmployeeActivity extends AppCompatActivity {
+public class AdminMyEmployeeActivity extends AppCompatActivity implements View.OnTouchListener {
 
     RecyclerView recyclerView;
     String result = "";
@@ -44,6 +46,10 @@ public class AdminMyEmployeeActivity extends AppCompatActivity {
     FloatingActionButton addEmployee;
     FirebaseFirestore db;
     ViewDialog viewDialog;
+    FrameLayout rootlayout;
+
+    int _xDelta;
+    int _yDelta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +73,15 @@ public class AdminMyEmployeeActivity extends AppCompatActivity {
 
     private void initView() {
         db = FirebaseFirestore.getInstance();
+        rootlayout = (FrameLayout) findViewById(R.id.rootlayout);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         getMyEmployeeList();
         addEmployee=(FloatingActionButton)findViewById(R.id.addEmployee);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(80, 80);
+        addEmployee.setLayoutParams(layoutParams);
+        addEmployee.setOnTouchListener(AdminMyEmployeeActivity.this);
         addEmployee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +92,6 @@ public class AdminMyEmployeeActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 try {
-
                     getMyEmployeeList();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -91,7 +100,7 @@ public class AdminMyEmployeeActivity extends AppCompatActivity {
         });
     }
 
-    private void showaddEmployee() {
+    public void showaddEmployee() {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -216,4 +225,42 @@ public class AdminMyEmployeeActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        final int X = (int) event.getRawX();
+        final int Y = (int) event.getRawY();
+        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+
+
+
+            case MotionEvent.ACTION_DOWN:
+                FrameLayout.LayoutParams lParams = (FrameLayout.LayoutParams) v.getLayoutParams();
+                _xDelta = X - lParams.leftMargin;
+                _yDelta = Y - lParams.topMargin;
+                break;
+            case MotionEvent.ACTION_UP:
+                showaddEmployee();
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                showaddEmployee();
+                break;
+            case MotionEvent.ACTION_POINTER_UP:
+                showaddEmployee();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) v
+                        .getLayoutParams();
+                layoutParams.leftMargin = X - _xDelta;
+                layoutParams.topMargin = Y - _yDelta;
+                layoutParams.rightMargin = -250;
+                layoutParams.bottomMargin = -250;
+                v.setLayoutParams(layoutParams);
+                break;
+        }
+
+
+
+        rootlayout.invalidate();
+        return true;
+    }
 }
