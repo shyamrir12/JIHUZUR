@@ -99,22 +99,50 @@
                         android:letterSpacing="0.2"
                         android:fontFamily="monospace"/>
 
-                    <Button
-                        android:id="@+id/resendOTP"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:text="Resend Otp"
-                        android:textColor="#FFFFFF"
-                        android:textAllCaps="false"
-                        android:background="@color/transparency"
-                        android:textStyle="bold"
-                        android:gravity="left"
-                        android:layout_gravity="bottom"
-                        android:padding="8dp"
-                        android:layout_marginTop="20dp"
-                        android:letterSpacing="0.2"
-                        android:fontFamily="monospace"
-                        android:visibility="visible"/>
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        <Button
+                            android:id="@+id/resendOTP"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:text="Resend Otp"
+                            android:layout_weight="1"
+                            android:textColor="#FFFFFF"
+                            android:textAllCaps="false"
+                            android:background="@color/transparency"
+                            android:textStyle="bold"
+                            android:gravity="left"
+                            android:layout_gravity="bottom"
+                            android:padding="8dp"
+                            android:layout_marginTop="20dp"
+                            android:letterSpacing="0.2"
+                            android:fontFamily="monospace"
+                            android:visibility="visible"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.6"/>
+                        <Button
+                            android:id="@+id/countDown"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:text="00:00"
+                            android:layout_weight="1"
+                            android:textColor="#FFFFFF"
+                            android:textAllCaps="false"
+                            android:background="@color/transparency"
+                            android:textStyle="bold"
+                            android:gravity="right"
+                            android:layout_gravity="bottom"
+                            android:padding="8dp"
+                            android:layout_marginTop="20dp"
+                            android:letterSpacing="0.2"
+                            android:fontFamily="monospace"
+                            android:visibility="visible"/>
+                    </LinearLayout>
+
 
                 </LinearLayout>
             </LinearLayout>

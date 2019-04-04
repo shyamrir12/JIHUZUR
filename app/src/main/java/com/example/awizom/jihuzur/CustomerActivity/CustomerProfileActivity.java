@@ -59,7 +59,7 @@ public class CustomerProfileActivity extends AppCompatActivity {
     String identityimage = "";
     Uri picUri;
     Uri outputFileUri;
-    Button upload;
+    Button upload,cancel;
     ProgressDialog pd;
     de.hdodenhof.circleimageview.CircleImageView imageView;
     EditText yourname, email, address;
@@ -82,6 +82,7 @@ public class CustomerProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_my_profile);
         upload = findViewById(R.id.upload);
+        cancel = findViewById(R.id.cancel);
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Profile");
 
@@ -192,6 +193,26 @@ public class CustomerProfileActivity extends AppCompatActivity {
 
             }
 
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                progressDialog.setMessage("Cancel...");
+                progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
+                progressDialog.show();
+
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                intent = new Intent(CustomerProfileActivity.this, CustomerHomePage.class);
+                startActivity(intent);
+
+            }
+        }, TIMER);
+            }
         });
         permissions.add(CAMERA);
         permissions.add(WRITE_EXTERNAL_STORAGE);
