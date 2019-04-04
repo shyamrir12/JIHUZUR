@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.example.awizom.jihuzur.Adapter.EmployeeSkillServiceAdapter;
+import com.example.awizom.jihuzur.CustomerActivity.NewCustomerHome;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.MenuActivity;
@@ -57,7 +58,6 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
         String employeeNmae = SharedPrefManager.getInstance(EmployeeSkillActivity.this).getUser().getName();
         toolbar.setTitle("Select Skill");
         setSupportActionBar(toolbar);
-
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,11 +65,9 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
                 onBackPressed();
             }
         });
-
         toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
         toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
         toolbar.setTitleTextColor(Color.WHITE);
-
         intitView();
     }
 
@@ -82,7 +80,6 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
         getEmployeeSkill();
         addSkill = (FloatingActionButton) findViewById(R.id.addSkill);
         addSkill.setOnClickListener(this);
-
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -93,7 +90,6 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
                 }
             }
         });
-
     }
 
     public void getEmployeeSkill() {
@@ -117,7 +113,7 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
         if (v.getId() == addSkill.getId()) {
-            intent = new Intent(EmployeeSkillActivity.this, MenuActivity.class);
+            intent = new Intent(EmployeeSkillActivity.this, NewCustomerHome.class);
             intent = intent.putExtra("EmployeeSkill","EmployeeSkill");
             intent = intent.putExtra("CategoryName",5);
             startActivity(intent);

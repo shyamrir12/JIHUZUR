@@ -27,8 +27,6 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     private void initview() {
-
-
         getSupportActionBar().setTitle("Home Services");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

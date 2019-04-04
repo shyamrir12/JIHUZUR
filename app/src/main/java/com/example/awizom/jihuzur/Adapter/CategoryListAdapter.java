@@ -35,6 +35,7 @@ import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.SelectServices;
+import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.example.awizom.jihuzur.ViewDialog;
 import com.google.gson.Gson;
 
@@ -130,19 +131,20 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         });
 
 
+        if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Admin")) {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
 
-
-                ((AdminCategoryActivity) mCtx).showAddCategoryDialog(categorynem, cetlogId, cetlogName,imglnk);
+                    ((AdminCategoryActivity) mCtx).showAddCategoryDialog(categorynem, cetlogId, cetlogName, imglnk);
 
 //                showEditCategoryDialog(categorynem, cetlogId, cetlogName);
 
-                return true;
-            }
-        });
+                    return true;
+                }
+            });
+        }
 
     }
 
