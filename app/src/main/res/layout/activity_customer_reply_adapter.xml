@@ -32,7 +32,8 @@
                 android:text="14-02-2018"
                 android:layout_weight="1"
                 android:textSize="16sp"
-                android:textColor="@color/colorBlack"/>
+                android:textColor="@color/colorBlack"
+                android:fontFamily="serif"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/l1"
@@ -50,7 +51,8 @@
                 android:text="@string/learn_more"
                 android:layout_weight="1"
                 android:textSize="10sp"
-                android:textColor="@color/colorBlack"/>
+                android:textColor="@color/colorBlack"
+                android:fontFamily="serif"/>
 
         </LinearLayout>
         <view

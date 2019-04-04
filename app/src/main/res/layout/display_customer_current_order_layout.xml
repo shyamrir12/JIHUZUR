@@ -51,7 +51,8 @@
                             android:padding="10dp"
                             android:text="Employee Name"
                             android:textColor="@color/colorBlack"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:fontFamily="serif"/>
                         <view
 
                             class="android.support.v7.app.AlertController$RecycleListView"
@@ -66,6 +67,7 @@
                             android:gravity="left"
                             android:padding="10dp"
                             android:text="Employee Contact"
+                            android:fontFamily="serif"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold" />
 
@@ -77,6 +79,7 @@
                             android:gravity="left"
                             android:padding="10dp"
                             android:text="00:00"
+                            android:fontFamily="serif"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"
                             android:visibility="gone"/>
@@ -237,7 +240,7 @@
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textSize="13sp"
-                            android:fontFamily="monospace"
+                            android:fontFamily="serif"
                             android:visibility="gone"/>
 
                         <view
@@ -256,7 +259,7 @@
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textSize="13sp"
-                            android:fontFamily="monospace"/>
+                            android:fontFamily="serif"/>
 
                         <view
                             class="android.support.v7.app.AlertController$RecycleListView"
@@ -274,7 +277,7 @@
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textSize="13sp"
-                            android:fontFamily="monospace"
+                            android:fontFamily="serif"
                             android:visibility="gone" />
                         <view
                             class="android.support.v7.app.AlertController$RecycleListView"
@@ -292,7 +295,7 @@
                             android:textColor="@color/white"
                             android:textSize="13sp"
                             android:visibility="visible"
-                            android:fontFamily="monospace"/>
+                            android:fontFamily="serif"/>
 
                     </LinearLayout>
                 </RelativeLayout>

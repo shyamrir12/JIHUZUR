@@ -167,6 +167,8 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
 
         setContentView(R.layout.activity_employee_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setLogo(R.mipmap.jihuzzur_home_logo);
+        toolbar.setTitle("");
         toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
         toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
         toolbar.setTitleTextColor(Color.WHITE);

@@ -13,11 +13,8 @@ import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.widget.Toolbar;
-
 import com.example.awizom.jihuzur.AdminActivity.AdminHomePage;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
-import com.example.awizom.jihuzur.CustomerActivity.CustomerLoginRegActivity;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerProfileActivity;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
@@ -26,7 +23,6 @@ import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
-import com.example.awizom.jihuzur.ViewDialog;
 import com.google.gson.Gson;
 
 import java.util.concurrent.ExecutionException;

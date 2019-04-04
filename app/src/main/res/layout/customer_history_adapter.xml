@@ -43,7 +43,8 @@
                             android:padding="10dp"
                             android:text="Employee Name"
                             android:textColor="@color/greydarks"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:fontFamily="serif"/>
                         <view
 
                             class="android.support.v7.app.AlertController$RecycleListView"
@@ -61,7 +62,8 @@
                             android:padding="10dp"
                             android:text="Employee Contact"
                             android:textColor="@color/greydarks"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:fontFamily="serif"/>
                         <view
 
                             class="android.support.v7.app.AlertController$RecycleListView"
@@ -78,7 +80,8 @@
                             android:padding="10dp"
                             android:text="00:00"
                             android:textColor="@color/greydarks"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:fontFamily="serif"/>
 
                     </LinearLayout>
 
@@ -147,7 +150,8 @@
                             android:text="CatagoryName"
                             android:padding="10dp"
                             android:textColor="@color/greydarks"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:fontFamily="serif"/>
                         <view
 
                             class="android.support.v7.app.AlertController$RecycleListView"
@@ -164,7 +168,8 @@
                             android:text="Service Name"
                             android:padding="10dp"
                             android:textColor="@color/greydarks"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:fontFamily="serif"/>
                         <view
 
                             class="android.support.v7.app.AlertController$RecycleListView"
@@ -182,7 +187,8 @@
                             android:padding="10dp"
                             android:textColor="@color/greydarks"
                             android:textStyle="bold"
-                            android:visibility="visible"/>
+                            android:visibility="visible"
+                            android:fontFamily="serif"/>
 
 
                     </LinearLayout>
@@ -249,7 +255,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
                             android:layout_weight="1"
-
+                            android:fontFamily="serif"
                             android:text="Delete"
                             android:textAllCaps="false"
                             android:textColor="@color/white"

@@ -297,6 +297,8 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             showGPSDisabledAlertToUser();
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setLogo(R.mipmap.jihuzzur_home_logo);
+        toolbar.setTitle("");
 
         employeeImage = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.employee_dp);
         call = (ImageView) findViewById(R.id.call);

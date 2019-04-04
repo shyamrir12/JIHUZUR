@@ -134,7 +134,7 @@
             android:layout_marginBottom="50dp"
             android:letterSpacing="0.2"
             android:onClick="onClick"
-            android:fontFamily="monospace"/>
+            android:fontFamily="serif"/>
 
 
         <TextView

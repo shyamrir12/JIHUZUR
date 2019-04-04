@@ -82,7 +82,8 @@
         android:layout_weight="1"
         android:text="Hii, How are you ?"
         android:textColor="@color/colorBlack"
-        android:textSize="16dip" />
+        android:textSize="15sp"
+        android:fontFamily="serif"/>
 
     <TextView
         android:id="@+id/reply"
@@ -91,7 +92,8 @@
         android:layout_weight="1"
         android:text="@string/reply"
         android:textColor="@color/blue"
-        android:textSize="19dp"
+        android:textSize="18sp"
+        android:fontFamily="serif"
         android:visibility="gone"/>
 </LinearLayout>
                 <LinearLayout
@@ -107,7 +109,8 @@
                         android:layout_weight="1"
                         android:text="Hii, How are you ?"
                         android:textColor="@color/greydark"
-                        android:textSize="14dip" />
+                        android:textSize="13sp"
+                        android:fontFamily="serif"/>
                     <TextView
                         android:id="@+id/reviewId"
                         android:layout_width="match_parent"
@@ -115,7 +118,8 @@
                         android:layout_weight="1"
                         android:text="2"
                         android:textColor="@color/blue"
-                        android:textSize="14dp"
+                        android:textSize="13sp"
+                        android:fontFamily="serif"
                         android:visibility="gone"/>
 
 
@@ -133,7 +137,8 @@
                         android:layout_weight="1.4"
                         android:text="4"
                         android:textColor="@color/blue"
-                        android:textSize="14dp" />
+                        android:textSize="13sp"
+                        android:fontFamily="serif"/>
 
                     <TextView
                         android:id="@+id/replyBtn"
@@ -142,14 +147,16 @@
                         android:layout_weight="1"
                         android:text="@string/reply"
                         android:textColor="@color/blue"
-                        android:textSize="14dp" />
+                        android:textSize="13sp"
+                        android:fontFamily="serif"/>
                     <TextView
                         android:id="@+id/totalreplyBtn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textColor="@color/blue"
-                        android:textSize="14dp"
+                        android:textSize="13sp"
+                        android:fontFamily="serif"
                         android:visibility="visible"/>
 
                 </LinearLayout>
@@ -219,7 +226,8 @@
                         android:text="send"
                         android:textAllCaps="false"
                         android:textColor="@color/blue"
-                        android:textSize="14sp"/>
+                        android:textSize="13sp"
+                        android:fontFamily="serif"/>
                 </LinearLayout>
 
                 <view

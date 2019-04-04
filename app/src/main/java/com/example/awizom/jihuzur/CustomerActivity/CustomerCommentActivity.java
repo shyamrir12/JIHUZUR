@@ -116,6 +116,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
                 acceptotp(v);
             }
         });*/
+        viewDialog=new ViewDialog(this);
         cancel = findViewById(R.id.cancel);
         empName = findViewById(R.id.empName);
         empMobile = findViewById(R.id.contactNumber);

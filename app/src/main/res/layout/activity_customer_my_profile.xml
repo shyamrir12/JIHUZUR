@@ -62,12 +62,13 @@
                 android:drawableRight="@drawable/ic_create_black_24dp"
                 android:drawableTint="#892b0b"
                 android:textColor="@color/colorBlack"
-                android:fontFamily="serif-monospace"
+                android:fontFamily="serif"
                 android:hint="Name"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="17sp"
-                android:layout_marginTop="7dp"/>
+                android:layout_marginTop="7dp"
+                android:singleLine="true" />
 
             <EditText
                 android:id="@+id/Email"
@@ -77,13 +78,14 @@
                 android:drawableRight="@drawable/ic_create_black_24dp"
                 android:drawableTint="#892b0b"
                 android:textColor="@color/colorBlack"
-                android:fontFamily="serif-monospace"
+                android:fontFamily="serif"
                 android:hint="Email"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="17sp"
                 android:inputType="textEmailAddress"
-                android:layout_marginTop="7dp"/>
+                android:layout_marginTop="7dp"
+                android:singleLine="true" />
 
             <EditText
                 android:id="@+id/Adress"
@@ -92,13 +94,14 @@
                 android:background="@drawable/background_layout"
                 android:drawableRight="@drawable/ic_create_black_24dp"
                 android:drawableTint="#892b0b"
-                android:fontFamily="serif-monospace"
+                android:fontFamily="serif"
                 android:textColor="@color/colorBlack"
                 android:hint="Adreess"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="17sp"
-                android:layout_marginTop="7dp"/>
+                android:layout_marginTop="7dp"
+                android:singleLine="true" />
         </LinearLayout>
 
         <LinearLayout
@@ -113,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/button_color"
-                android:fontFamily="monospace"
+                android:fontFamily="serif"
                 android:gravity="center"
                 android:letterSpacing="0.2"
                 android:padding="16dp"
@@ -131,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/button_color"
-                android:fontFamily="monospace"
+                android:fontFamily="serif"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:letterSpacing="0.2"

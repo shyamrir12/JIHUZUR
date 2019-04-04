@@ -16,7 +16,7 @@
             android:id="@+id/relativeOne"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@mipmap/final_background">
+            android:background="@color/white">
 
 
             <LinearLayout
@@ -43,13 +43,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/transparency"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="0dp">
 
 
                 <GridView
                     android:id="@+id/gridview"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="350dp"
                     android:numColumns="2"
                     android:columnWidth="140dp"
                     android:horizontalSpacing="10dp"
@@ -65,7 +65,8 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:layout_margin="20dp"
-                    android:layout_below="@+id/gridview">
+                    android:layout_below="@+id/gridview"
+                    android:visibility="gone">
 
 
                     <LinearLayout

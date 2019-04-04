@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -91,11 +92,14 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     FirebaseFirestore db;
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
     ViewDialog viewDialog;
+    private ProgressDialog progressDialog;
+    private static int TIMER = 300;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repair_service);
+        viewDialog=new ViewDialog(this);
         initView();
     }
 
@@ -128,6 +132,8 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        progressDialog = new ProgressDialog(com.example.awizom.jihuzur.CustomerActivity.CustomerpricingActivity.this);
+
         nextButton = findViewById(R.id.buttonNext);
         nextButton.setOnClickListener(this);
         postPricingBtn = findViewById(R.id.postOrderPriceBtn);
@@ -265,8 +271,10 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 //             intent.putExtra("PricingID", data);
 //             startActivity(intent);
         } else {
+            Toast toast = Toast.makeText(CustomerpricingActivity.this, "Sorry Our Employee's are Busy on another Order please try after sometime", Toast.LENGTH_LONG);
             int i = SharedPrefManager.getInstance(CustomerpricingActivity.this).getPricingID().PricingID;
             priceIDs = String.valueOf(i);
+
 //             intent = new Intent(this, LocationActivity.class);
 //             intent.putExtra("PricingIDS", i);
 //             startActivity(intent);
@@ -283,7 +291,18 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                     Class fragmentClass = null;
                     public void onClick(DialogInterface arg0,
                                         int arg1) {
+
+                        progressDialog.setMessage("Order in progress ...");
+                        progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
+                        progressDialog.show();
+
+                        new Handler().postDelayed(new Runnable() {
+
+                            @Override
+                            public void run() {
                         postOderCreate();
+                            }
+                        }, TIMER);
                     }
                 });
         alertbox.setPositiveButton("No", null);

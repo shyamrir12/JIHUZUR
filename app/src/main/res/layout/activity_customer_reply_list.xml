@@ -28,7 +28,8 @@
                 android:layout_marginLeft="20dp"
                 android:textColor="@color/colorBlack"
                 android:textSize="16sp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:fontFamily="serif"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/l0"
@@ -43,6 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="send"
+                android:fontFamily="serif"
                 android:textAllCaps="false"
                 android:textColor="@color/colorBlack"
                 android:textSize="12sp"
@@ -64,6 +66,7 @@
                 android:id="@+id/txtReply"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="serif"
                 android:layout_weight="1.5"
                 android:hint="Write a reply..." />
             <TextView
@@ -72,6 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
                 android:text="send"
+                android:fontFamily="serif"
                 android:textAllCaps="false"
                 android:textColor="@color/blue"
                 android:textSize="14sp"/>
