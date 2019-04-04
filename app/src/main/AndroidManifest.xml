@@ -98,7 +98,10 @@
         <activity
             android:name=".SplashActivityEmployee"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".CustomerActivity.CustomerLoginRegActivity"
@@ -107,10 +110,7 @@
         <activity
             android:name=".CustomerActivity.CustomerSplashActivity"
             android:theme="@style/AppFullScreenTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".SplashActivityAdmin"
@@ -221,11 +221,7 @@
         <activity
             android:name=".HelpCenterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <receiver android:name=".LoginRegistrationActivity.ReadSms">
-            <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
-            </intent-filter>
-        </receiver>
+
     </application>
 
 </manifest>

@@ -99,9 +99,6 @@ public class CustomerHomePageAdapter extends BaseAdapter {
 //                            }
 //                        })
 //                .into(imageViewAndroid);
-
-
-
             try {
                 gridViewAndroid.setOnClickListener(new View.OnClickListener() {
                     @Override

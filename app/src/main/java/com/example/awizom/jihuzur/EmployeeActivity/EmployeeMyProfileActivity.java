@@ -232,7 +232,7 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
                      yourname.setText(dataProfile.getName().toString());
                         email.setText(dataProfile.getEmail().toString());
                         address.setText(dataProfile.getAddress().toString());
-                Glide.with(EmployeeMyProfileActivity.this).load(img_str). diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.jihuzurblanklogo).into(imageView);
+                Glide.with(EmployeeMyProfileActivity.this).load(img_str). diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imageView);
                 identimage_str = AppConfig.BASE_URL + dataProfile.getIdentityImage();
                                        Glide.with(this)
                                 .load(identimage_str)

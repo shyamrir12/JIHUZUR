@@ -23,7 +23,6 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-
         initview();
     }
 
@@ -41,8 +40,7 @@ public class MenuActivity extends AppCompatActivity {
         electrician = findViewById(R.id.Electrician);
         carpenter = findViewById(R.id.Carpenter);
         plumber = findViewById(R.id.Plumber);
-
-         ac_repair_fix = findViewById(R.id.Ac_repair);
+        ac_repair_fix = findViewById(R.id.Ac_repair);
 //         tutors  = findViewById(R.id.Tutor);
 //         movingHome  = findViewById(R.id.Moving);
 

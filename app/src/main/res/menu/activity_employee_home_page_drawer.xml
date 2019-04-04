@@ -10,6 +10,7 @@
             android:title="@string/Profile" />
         <item
             android:id="@+id/nav_booking"
+            android:visible="false"
             android:icon="@drawable/ic_history_black_24dp"
             android:title="@string/My_Booking" />
         <item
