@@ -3,6 +3,7 @@ package com.example.awizom.jihuzur.CustomerActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +30,7 @@ import com.example.awizom.jihuzur.Model.Review;
 import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
+import com.example.awizom.jihuzur.ViewDialog;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -83,6 +85,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
     private DataProfile dataProfileCustomer;
     private DataProfile dataProfileEmployee;
     private String customerID = "", employeeID = "";
+    ViewDialog viewDialog;
     //SwipeRefreshLayout mSwipeRefreshLayout;
 
 
@@ -201,10 +204,13 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         v.startAnimation(buttonClick);
         switch (v.getId()) {
             case R.id.backArrow:
+                showCustomLoadingDialog();
                 intent = new Intent(CustomerCommentActivity.this, CustomerHomePage.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                 break;
             case R.id.cancel:
+                showCustomLoadingDialog();
                 try {
                     result = new CustomerOrderHelper.CancelOrder().execute(orderID).get();
 //                    Toast.makeText(CustomerCommentActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
@@ -233,6 +239,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
 
                         intent = new Intent(this,MyBokingsActivity.class);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                     }
 
                 } catch (ExecutionException e) {
@@ -243,11 +250,14 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
 
                 break;
             case R.id.viewDetail:
+
+                showCustomLoadingDialog();
                 getreviewByOrder();
                 break;
 
             case R.id.buttonAddCategory:
 
+                showCustomLoadingDialog();
                 String rate = txtRatingValue.getText().toString().split("", 3)[1];
                 String revie = review.getText().toString().trim();
                 try {
@@ -255,13 +265,12 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(this, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-
                 } catch (Exception e) {
-
                 }
 
                 break;
             case R.id.buttonCancel:
+                showCustomLoadingDialog();
                 review.setText("");
                 break;
         }
@@ -357,6 +366,22 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
 
       }
   */
+
+    public void showCustomLoadingDialog() {
+
+        //..show gif
+        viewDialog.showDialog();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //...here i'm waiting 5 seconds before hiding the custom dialog
+                //...you can do whenever you want or whenever your work is done
+                viewDialog.hideDialog();
+            }
+        }, 1000);
+    }
     private void getreviewByOrder() {
         try {
 //            mSwipeRefreshLayout.setRefreshing(true);

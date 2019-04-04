@@ -23,6 +23,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -59,7 +60,7 @@ public class CustomerProfileActivity extends AppCompatActivity {
     String identityimage = "";
     Uri picUri;
     Uri outputFileUri;
-    Button upload;
+    Button upload,cancel;
     ProgressDialog pd;
     de.hdodenhof.circleimageview.CircleImageView imageView;
     EditText yourname, email, address;
@@ -76,12 +77,14 @@ public class CustomerProfileActivity extends AppCompatActivity {
     private final static int ALL_PERMISSIONS_RESULT = 107;
     private final static int IMAGE_RESULT = 200;
     private static int TIMER = 300;
+    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_my_profile);
         upload = findViewById(R.id.upload);
+        cancel = findViewById(R.id.cancel);
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Profile");
 
@@ -140,7 +143,7 @@ public class CustomerProfileActivity extends AppCompatActivity {
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                v.startAnimation(buttonClick);
                 progressDialog.setMessage("Uploading...");
                 progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
                 progressDialog.show();
@@ -192,6 +195,26 @@ public class CustomerProfileActivity extends AppCompatActivity {
 
             }
 
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(buttonClick);
+                progressDialog.setMessage("Cancel...");
+                progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
+                progressDialog.show();
+
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                intent = new Intent(CustomerProfileActivity.this, CustomerHomePage.class);
+                startActivity(intent);
+
+            }
+        }, TIMER);
+            }
         });
         permissions.add(CAMERA);
         permissions.add(WRITE_EXTERNAL_STORAGE);

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -33,14 +34,13 @@ import java.util.concurrent.ExecutionException;
 
 public class VerifyPhoneActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText otpEditText;
-    private Button verifyOtpBtn,resendOTP;
-    private String result, userId = "", otp = "", role = "", image = "", mobile = "", name = "";
-
+    private static int TIMER = 300;
     boolean active = false;
+    private EditText otpEditText;
+    private Button verifyOtpBtn, resendOTP, countDown;
+    private String result, userId = "", otp = "", role = "", image = "", mobile = "", name = "";
     private Intent intent;
     private ProgressDialog progressDialog;
-    private static int TIMER = 300;
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
     /*For layout binding */
@@ -55,7 +55,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
     /*For Initialization */
     private void initView() {
 
-       // android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        // android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         /*  catalogName = getIntent().getStringExtra("CatalogName");*/
 
 //        toolbar.setTitle("Verify");
@@ -79,20 +79,24 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
         verifyOtpBtn = findViewById(R.id.buttonVerify);
         verifyOtpBtn.setOnClickListener(this);
         resendOTP = findViewById(R.id.resendOTP);
+        countDown = findViewById(R.id.countDown);
         resendOTP.setOnClickListener(this);
+        countDown.setOnClickListener(this);
         progressDialog = new ProgressDialog(VerifyPhoneActivity.this);
 
         createuser();
-//        otp = getIntent().getExtras().getString("OTP","");
-//        userId = getIntent().getExtras().getString("Uid","");
-//        active = getIntent().getExtras().getBoolean("Active",false);
+        new CountDownTimer(30000, 1000) {
 
-//        name = getIntent().getExtras().getString("Name");
+            public void onTick(long millisUntilFinished) {
+                countDown.setText("" + millisUntilFinished / 1000);
+                resendOTP.setVisibility(View.GONE);
+            }
 
-
-//        if(otp != null){
-//            otpEditText.setText(otp.toString());
-//        }
+            public void onFinish() {
+                countDown.setText("00:00");
+                resendOTP.setVisibility(View.VISIBLE);
+            }
+        }.start();
     }
 
     /*For Event Listeners */
@@ -103,7 +107,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
         switch (v.getId()) {
             case R.id.buttonVerify:
                 if (otp.equals(otpEditText.getText().toString())) {
-                    progressDialog.setMessage("Login in progress ...");
+                    progressDialog.setMessage("Verify...");
                     progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
                     progressDialog.show();
 
@@ -122,7 +126,18 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
                 }
                 break;
             case R.id.resendOTP:
-               createuser();
+                progressDialog.setMessage("Resend Otp...");
+                progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
+                progressDialog.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        createuser();
+                    }
+
+                }, TIMER);
+                break;
+            case R.id.countDown:
                 break;
         }
 
@@ -134,7 +149,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
 
         if (otpEditText.getText().toString().isEmpty()) {
             otpEditText.setError("Required");
-            return false ;
+            return false;
         }
         return true;
     }
@@ -151,6 +166,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
             try {
                 if (jsonbody.isStatus()) {
                     otp = jsonbody.getOtpCode();
+                    Log.d("Customer OTP", otp);
                     userId = jsonbody.dataProfile.ID;
                     progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
