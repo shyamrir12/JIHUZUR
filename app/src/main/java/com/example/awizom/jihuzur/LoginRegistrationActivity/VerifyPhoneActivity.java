@@ -126,7 +126,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
                 }
                 break;
             case R.id.resendOTP:
-                progressDialog.setMessage("Verify...");
+                progressDialog.setMessage("Resend Otp...");
                 progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
                 progressDialog.show();
                 new Handler().postDelayed(new Runnable() {
