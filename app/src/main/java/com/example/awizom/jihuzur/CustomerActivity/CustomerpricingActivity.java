@@ -211,9 +211,15 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         switch (v.getId()) {
             case R.id.buttonNext:
                 showCustomLoadingDialog();
-                method();
+                try {
+                    method();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
                 break;
             case R.id.postOrderPriceBtn:
+                try {
                 showCustomLoadingDialog();
                 int j = SharedPrefManager.getInstance(CustomerpricingActivity.this).getPricingID().PricingID;
                 try {
@@ -222,6 +228,9 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                }catch (Exception e){
                     e.printStackTrace();
                 }
                 break;
