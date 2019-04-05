@@ -1,17 +1,33 @@
 package com.example.awizom.jihuzur.AdminActivity;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.awizom.jihuzur.Adapter.DiscountListAdapter;
@@ -23,7 +39,10 @@ import com.example.awizom.jihuzur.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.FormBody;
@@ -33,12 +52,21 @@ import okhttp3.Request;
 public class AdminDiscountActivity extends AppCompatActivity {
 
     FloatingActionButton addDiscount;
-    AutoCompleteTextView editDiscountName, editDiscountType, editDiscountAmount;
+    AutoCompleteTextView editDiscountName, editDiscountType, editDiscountAmount,editcategory;
+    ImageView addimage;
+    ImageView imageView;
     ProgressDialog progressDialog;
     RecyclerView recyclerView;
     String result = "";
+    Uri picUri;
+    Uri outputFileUri;
     List<DiscountView> discountlist;
+    private ArrayList<String> permissionsToRequest;
+    private ArrayList<String> permissionsRejected = new ArrayList<>();
+    private ArrayList<String> permissions = new ArrayList<>();
     DiscountListAdapter discountListAdapter;
+    private final static int ALL_PERMISSIONS_RESULT = 107;
+    private final static int IMAGE_RESULT = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +88,7 @@ public class AdminDiscountActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        getPricingList();
+        getDiscountList();
         addDiscount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +97,7 @@ public class AdminDiscountActivity extends AppCompatActivity {
         });
     }
 
-    private void getPricingList() {
+    private void getDiscountList() {
 
         try {
             result = new AdminHelper.GETDiscountList().execute().get();
@@ -97,6 +125,16 @@ public class AdminDiscountActivity extends AppCompatActivity {
         editDiscountName = (AutoCompleteTextView) dialogView.findViewById(R.id.editDiscountName);
         editDiscountType = (AutoCompleteTextView) dialogView.findViewById(R.id.editDiscountType);
         editDiscountAmount = (AutoCompleteTextView) dialogView.findViewById(R.id.editDiscountAmount);
+        editcategory = (AutoCompleteTextView) dialogView.findViewById(R.id.editDiscountcategory);
+        imageView=(ImageView)dialogView.findViewById(R.id.imageView);
+        addimage=(ImageView)dialogView.findViewById(R.id.addImage);
+        addimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivityForResult(getPickImageChooserIntent(), IMAGE_RESULT);
+            }
+        });
         final Button buttonAddDiscount = (Button) dialogView.findViewById(R.id.buttonAddDiscount);
         final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
         dialogBuilder.setTitle("Add Discount");
@@ -109,15 +147,25 @@ public class AdminDiscountActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (validation()) {
+                    imageView.buildDrawingCache();
+                    Bitmap bitmap = imageView.getDrawingCache();
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
+                    byte[] image = stream.toByteArray();
+                    System.out.println("byte array:" + image);
+                    String img_str = Base64.encodeToString(image, 0);
                     String discountName = editDiscountName.getText().toString();
                     String discounttype = editDiscountType.getText().toString().trim();
                     String discountamount = editDiscountAmount.getText().toString().trim();
+                    String edtcategory = editcategory.getText().toString().trim();
 
                     try {
                         //String res="";
                         progressDialog.setMessage("loading...");
                         progressDialog.show();
-                        new AdminDiscountActivity.POSTDiscount().execute(discountName, discounttype, discountamount);
+                        new AdminHelper.POSTDiscount().execute(discountName, discounttype, discountamount,edtcategory,img_str);
+                        getDiscountList();
+                        progressDialog.dismiss();
                     } catch (Exception e) {
                         e.printStackTrace();
                         progressDialog.dismiss();
@@ -141,6 +189,160 @@ public class AdminDiscountActivity extends AppCompatActivity {
         });
     }
 
+    public Intent getPickImageChooserIntent() {
+        outputFileUri = getCaptureImageOutputUri();
+        List<Intent> allIntents = new ArrayList<>();
+        PackageManager packageManager = getPackageManager();
+        Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+        for (ResolveInfo res : listCam) {
+            Intent intent = new Intent(captureIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(res.activityInfo.packageName);
+            if (outputFileUri != null) {
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            }
+            allIntents.add(intent);
+        }
+        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setType("image/*");
+        List<ResolveInfo> listGallery = packageManager.queryIntentActivities(galleryIntent, 0);
+        for (ResolveInfo res : listGallery) {
+            Intent intent = new Intent(galleryIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(res.activityInfo.packageName);
+            allIntents.add(intent);
+        }
+        Intent mainIntent = allIntents.get(allIntents.size() - 1);
+        for (Intent intent : allIntents) {
+            if (intent.getComponent().getClassName().equals("com.android.documentsui.DocumentsActivity")) {
+                mainIntent = intent;
+                break;
+            }
+        }
+        allIntents.remove(mainIntent);
+        Intent chooserIntent = Intent.createChooser(mainIntent, "Select source");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, allIntents.toArray(new Parcelable[allIntents.size()]));
+        return chooserIntent;
+    }
+    private Uri getCaptureImageOutputUri() {
+        outputFileUri = null;
+        File getImage = getExternalFilesDir("");
+        if (getImage != null) {
+            outputFileUri = Uri.fromFile(new File(getImage.getPath(), "profile.png"));
+        }
+        return outputFileUri;
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == IMAGE_RESULT) {
+                String filePath = getImageFilePath(data);
+                if (filePath != null) {
+                    Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
+
+                        imageView.setImageBitmap(selectedImage);
+
+                }
+            }
+        }
+    }
+
+    private String getImageFromFilePath(Intent data) {
+        boolean isCamera = data == null || data.getData() == null;
+        if (isCamera) return getCaptureImageOutputUri().getPath();
+        else return getPathFromURI(data.getData());
+    }
+
+    public String getImageFilePath(Intent data) {
+        return getImageFromFilePath(data);
+    }
+
+    private String getPathFromURI(Uri contentUri) {
+        String[] proj = {MediaStore.Audio.Media.DATA};
+        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("pic_uri", picUri);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // get the file url
+        picUri = savedInstanceState.getParcelable("pic_uri");
+    }
+
+    private ArrayList<String> findUnAskedPermissions(ArrayList<String> wanted) {
+        ArrayList<String> result = new ArrayList<String>();
+
+        for (String perm : wanted) {
+            if (!hasPermission(perm)) {
+                result.add(perm);
+            }
+        }
+        return result;
+    }
+
+    private boolean hasPermission(String permission) {
+        if (canMakeSmores()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                return (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED);
+            }
+        }
+        return true;
+    }
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
+    }
+
+    private boolean canMakeSmores() {
+        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        switch (requestCode) {
+            case ALL_PERMISSIONS_RESULT:
+                for (String perms : permissionsToRequest) {
+                    if (!hasPermission(perms)) {
+                        permissionsRejected.add(perms);
+                    }
+                }
+                if (permissionsRejected.size() > 0) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (shouldShowRequestPermissionRationale(permissionsRejected.get(0))) {
+                            showMessageOKCancel("These permissions are mandatory for the application. Please allow access.",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                requestPermissions(permissionsRejected.toArray(new String[permissionsRejected.size()]), ALL_PERMISSIONS_RESULT);
+                                            }
+                                        }
+                                    });
+                            return;
+                        }
+                    }
+                }
+                break;
+        }
+    }
+
     private boolean validation() {
 
         if (editDiscountName.getText().toString().isEmpty()) {
@@ -161,53 +363,4 @@ public class AdminDiscountActivity extends AppCompatActivity {
         return true;
     }
 
-    private class POSTDiscount extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-            //     InputStream inputStream
-            String discountname = params[0];
-            String discounttype = params[1];
-            String discountamount = params[2];
-            String json = "";
-            try {
-
-                OkHttpClient client = new OkHttpClient();
-                Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Admin + "AddDiscount");
-                builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
-                builder.addHeader("Accept", "application/json");
-                //builder.addHeader("Authorization", "Bearer " + accesstoken);
-                FormBody.Builder parameters = new FormBody.Builder();
-                parameters.add("DiscountID", "0");
-                parameters.add("DiscountName", discountname);
-                parameters.add("DiscountType", discounttype);
-                parameters.add("Discount1", discountamount);
-                builder.post(parameters.build());
-                okhttp3.Response response = client.newCall(builder.build()).execute();
-                if (response.isSuccessful()) {
-                    json = response.body().string();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                progressDialog.dismiss();
-                // System.out.println("Error: " + e);
-                Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
-            }
-            return json;
-        }
-
-        protected void onPostExecute(String result) {
-            if (result.isEmpty()) {
-                progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
-            } else {
-                //System.out.println("CONTENIDO:  " + result);
-                Gson gson = new Gson();
-                final Result jsonbodyres = gson.fromJson(result, Result.class);
-                getPricingList();
-                Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-            }
-        }
-    }
 }

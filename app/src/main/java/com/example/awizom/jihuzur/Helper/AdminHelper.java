@@ -3,8 +3,11 @@ package com.example.awizom.jihuzur.Helper;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.awizom.jihuzur.Config.AppConfig;
+import com.example.awizom.jihuzur.Model.Result;
+import com.google.gson.Gson;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -1003,6 +1006,53 @@ public class AdminHelper extends AppCompatActivity {
 
     }
 
+    public   static final class POSTDiscount extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            //     InputStream inputStream
+            String discountname = params[0];
+            String discounttype = params[1];
+            String discountamount = params[2];
+            String edtcategory = params[3];
+            String img_str = params[4];
+            String json = "";
+            try {
+
+                OkHttpClient client = new OkHttpClient();
+                Request.Builder builder = new Request.Builder();
+                builder.url(AppConfig.BASE_URL_API_Admin + "AddDiscount");
+                builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
+                builder.addHeader("Accept", "application/json");
+                //builder.addHeader("Authorization", "Bearer " + accesstoken);
+                FormBody.Builder parameters = new FormBody.Builder();
+                parameters.add("DiscountID", "0");
+                parameters.add("DiscountName", discountname);
+                parameters.add("DiscountType", discounttype);
+                parameters.add("Discount1", discountamount);
+                parameters.add("Category", edtcategory);
+                parameters.add("Photo", img_str);
+                builder.post(parameters.build());
+                okhttp3.Response response = client.newCall(builder.build()).execute();
+                if (response.isSuccessful()) {
+                    json = response.body().string();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+            return json;
+        }
+
+        protected void onPostExecute(String result) {
+
+            if (result.isEmpty()) {
+
+            } else {
+                super.onPostExecute(result);
+            }
+
+        }
+    }
 
     public static final class POSTAddEmployee extends AsyncTask<String, Void, String> {
         @Override

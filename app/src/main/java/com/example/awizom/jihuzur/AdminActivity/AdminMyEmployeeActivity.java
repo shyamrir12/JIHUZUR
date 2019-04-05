@@ -47,7 +47,6 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
     FirebaseFirestore db;
     ViewDialog viewDialog;
     FrameLayout rootlayout;
-
     int _xDelta;
     int _yDelta;
 
@@ -106,25 +105,20 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialogue_add_employee, null);
         dialogBuilder.setView(dialogView);
-
         final AutoCompleteTextView Name=(AutoCompleteTextView)dialogView.findViewById(R.id.Name);
         final AutoCompleteTextView Phonenumber=(AutoCompleteTextView)dialogView.findViewById(R.id.phonenumber);
         final AutoCompleteTextView Email=(AutoCompleteTextView)dialogView.findViewById(R.id.email);
         final AutoCompleteTextView Address=(AutoCompleteTextView)dialogView.findViewById(R.id.address);
-
         final Button buttonaddEmployee = (Button) dialogView.findViewById(R.id.buttonaddemployee);
         final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
-
         dialogBuilder.setTitle("Add Employee");
         dialogBuilder.setIcon(R.drawable.ic_nature_people_black_24dp);
         final AlertDialog b = dialogBuilder.create();
         b.show();
 
-
         buttonaddEmployee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                   showcustomloadindialogue();
                   String name=Name.getText().toString();
                   String phonenumber=Phonenumber.getText().toString();
@@ -133,7 +127,6 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
                   String userName=Phonenumber.getText().toString();
                   String password="Jihuzur@123";
                   String ConfirmPassword="Jihuzur@123";
-
                     try {
                         result = new AdminHelper.POSTAddEmployee().execute(name, phonenumber, email, address,userName,password,ConfirmPassword).get();
                         Gson gson = new Gson();
@@ -164,7 +157,6 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
                                         }
                                     });
                                 Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
-
                         }
                         catch (Exception e)
                         {
@@ -172,16 +164,10 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
                         }
                         getMyEmployeeList();
 
-
                     } catch (Exception e) {
-
                     }
-
                     b.dismiss();
-
                 }
-
-
     });
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -231,21 +217,19 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
         final int Y = (int) event.getRawY();
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
 
-
-
             case MotionEvent.ACTION_DOWN:
                 FrameLayout.LayoutParams lParams = (FrameLayout.LayoutParams) v.getLayoutParams();
                 _xDelta = X - lParams.leftMargin;
                 _yDelta = Y - lParams.topMargin;
                 break;
             case MotionEvent.ACTION_UP:
-                showaddEmployee();
+            showaddEmployee();
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
-                showaddEmployee();
+              //  showaddEmployee();
                 break;
             case MotionEvent.ACTION_POINTER_UP:
-                showaddEmployee();
+              //  showaddEmployee();
                 break;
             case MotionEvent.ACTION_MOVE:
                 FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) v

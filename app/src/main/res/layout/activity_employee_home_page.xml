@@ -132,8 +132,6 @@
 
         </RelativeLayout>
     </LinearLayout>
-
-
     <RelativeLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
@@ -153,8 +151,6 @@
             app:menu="@menu/navigation"
             app:itemTextColor="@color/colorPrimary" />
     </RelativeLayout>
-
-
     <include
         layout="@layout/app_bar_employee_home_page"
         android:layout_width="match_parent"

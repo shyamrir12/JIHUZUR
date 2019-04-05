@@ -3,7 +3,20 @@ package com.example.awizom.jihuzur.Model;
 public class DiscountView {
 
     public int DiscountID ;
+    public String DiscountName;
+    public String DiscountType;
+    public Double Discount;
 
+    public Double getDiscount() {
+        return Discount;
+    }
+
+    public void setDiscount(Double discount) {
+        Discount = discount;
+    }
+
+    public String Photo ;
+    public String Category ;
     public int getDiscountID() {
         return DiscountID;
     }
@@ -28,16 +41,24 @@ public class DiscountView {
         DiscountType = discountType;
     }
 
-    public double getDiscount() {
-        return Discount;
+
+
+    public String getPhoto() {
+        return Photo;
     }
 
-    public void setDiscount(double discount1) {
-        Discount = discount1;
+    public void setPhoto(String photo) {
+        Photo = photo;
     }
 
-    public String DiscountName ;
-    public String DiscountType ;
-    public double Discount;
+    public String getCategory() {
+        return Category;
+    }
+
+    public void setCategory(String category) {
+        Category = category;
+    }
+
+
 
 }

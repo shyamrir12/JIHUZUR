@@ -8,9 +8,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.Discount;
 import com.example.awizom.jihuzur.Model.DiscountView;
@@ -21,16 +24,16 @@ import com.example.awizom.jihuzur.R;
 import java.util.List;
 
 
-public class DiscountListAdapter extends  RecyclerView.Adapter<DiscountListAdapter.MyViewHolder> implements View.OnTouchListener {
+public class DiscountListAdapter extends RecyclerView.Adapter<DiscountListAdapter.MyViewHolder> implements View.OnTouchListener {
 
     private List<DiscountView> discountlist;
     private Context mCtx;
     private int position;
+    String imagestr;
+
     public DiscountListAdapter(Context baseContext, List<DiscountView> discountlist) {
         this.discountlist = discountlist;
         this.mCtx = baseContext;
-
-
     }
 
     @Override
@@ -44,8 +47,15 @@ public class DiscountListAdapter extends  RecyclerView.Adapter<DiscountListAdapt
         holder.discountName.setText((c.getDiscountName()));
         holder.discountAmount.setText(String.valueOf("Rs " + c.getDiscount()));
         holder.discountType.setText(c.getDiscountType());
-       // holder.discountName.setTextAppearance(mCtx, R.style.fontForNotificationLandingPage);
+        try {
+            holder.imagestring.setText(c.getPhoto().toString());
+            imagestr = AppConfig.BASE_URL + holder.imagestring.getText().toString();
+            Glide.with(mCtx).load(imagestr).into(holder.imagview);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        // holder.discountName.setTextAppearance(mCtx, R.style.fontForNotificationLandingPage);
+    }
 
     @Override
     public int getItemCount() {
@@ -53,7 +63,8 @@ public class DiscountListAdapter extends  RecyclerView.Adapter<DiscountListAdapt
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) { View v = LayoutInflater.from(parent.getContext())
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.adapter_discountlist, parent, false);
         return new MyViewHolder(v);
     }
@@ -62,15 +73,18 @@ public class DiscountListAdapter extends  RecyclerView.Adapter<DiscountListAdapt
      * View holder class
      */
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView discountName;
+        public TextView discountName, imagestring;
         public TextView discountType;
         public TextView discountAmount;
+        public ImageView imagview;
 
         public MyViewHolder(View view) {
             super(view);
             discountName = (TextView) view.findViewById(R.id.discountName);
             discountType = (TextView) view.findViewById(R.id.discounttype);
             discountAmount = (TextView) view.findViewById(R.id.discountAmount);
+            imagestring = (TextView) view.findViewById(R.id.imgstring);
+            imagview = (ImageView) view.findViewById(R.id.imageView);
 
         }
     }
