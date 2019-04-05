@@ -159,7 +159,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
             new GoogleMap.OnMyLocationButtonClickListener() {
                 @Override
                 public boolean onMyLocationButtonClick() {
-                    mGoogleMap.setMinZoomPreference(11);
+                    mGoogleMap.setMinZoomPreference(13);
                     mGoogleMap.setMaxZoomPreference(2000);
                     return false;
                 }
@@ -169,7 +169,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                 @Override
                 public void onMyLocationClick(@NonNull Location location) {
 
-                    mGoogleMap.setMinZoomPreference(12);
+                    mGoogleMap.setMinZoomPreference(13);
                     CircleOptions circleOptions = new CircleOptions();
                     circleOptions.center(new LatLng(location.getLatitude(),
                             location.getLongitude()));
@@ -412,7 +412,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                     mGoogleMap.addMarker(mylocation);
                     CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
                     mGoogleMap.moveCamera(cu);
-                    mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
+                    mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(13), 2000, null);
                 }
             }
         });
@@ -422,7 +422,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         enableMyLocationIfPermitted();
 
         mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
-        mGoogleMap.setMinZoomPreference(11);
+        mGoogleMap.setMinZoomPreference(13);
 
     }
 

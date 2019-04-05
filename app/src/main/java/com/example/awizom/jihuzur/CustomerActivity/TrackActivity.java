@@ -281,7 +281,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                             .snippet(dataProfileCustomer.MobileNo));
                     mMap.setTrafficEnabled(true);
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(cusLatLng));
-                    mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
                     if (marker[0] != null) {
                         marker[0].remove();
                         marker[0] = mMap.addMarker(place2);
@@ -291,7 +291,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                     }
                     mMap.setTrafficEnabled(true);
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(empLatLng));
-                    mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
                     mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
                         @Override
                         public void onMapLoaded() {
