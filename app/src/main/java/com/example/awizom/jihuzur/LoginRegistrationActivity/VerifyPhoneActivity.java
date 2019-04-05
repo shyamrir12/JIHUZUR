@@ -22,6 +22,9 @@ import com.example.awizom.jihuzur.Helper.LoginHelper;
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.R;
+import com.example.awizom.jihuzur.SMSTestActicity;
+import com.example.awizom.jihuzur.SmsListener;
+import com.example.awizom.jihuzur.SmsReceiver;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.gson.Gson;
 
@@ -93,6 +96,18 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
                 resendOTP.setVisibility(View.VISIBLE);
             }
         }.start();
+
+
+        SmsReceiver.bindListener(new SmsListener() {
+            @Override
+            public void messageReceived(String messageText) {
+                Log.d("Text",messageText);
+                Toast.makeText(VerifyPhoneActivity.this,"Message: "+messageText,Toast.LENGTH_LONG).show();
+                String sms = messageText;
+                String[] smsSplit = messageText.split(":");
+                otpEditText.setText(smsSplit[1]);
+            }
+        });
     }
 
     /*For Event Listeners */
