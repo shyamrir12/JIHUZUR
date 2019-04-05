@@ -128,6 +128,7 @@ public class AdminDiscountActivity extends AppCompatActivity {
         editcategory = (AutoCompleteTextView) dialogView.findViewById(R.id.editDiscountcategory);
         imageView=(ImageView)dialogView.findViewById(R.id.imageView);
         addimage=(ImageView)dialogView.findViewById(R.id.addImage);
+
         addimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
