@@ -78,7 +78,7 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         getMyEmployeeList();
         addEmployee=(FloatingActionButton)findViewById(R.id.addEmployee);
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(80, 80);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(120, 120);
         addEmployee.setLayoutParams(layoutParams);
         addEmployee.setOnTouchListener(AdminMyEmployeeActivity.this);
         addEmployee.setOnClickListener(new View.OnClickListener() {

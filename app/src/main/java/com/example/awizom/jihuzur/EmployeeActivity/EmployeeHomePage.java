@@ -2,6 +2,9 @@ package com.example.awizom.jihuzur.EmployeeActivity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,6 +19,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,6 +38,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,10 +63,20 @@ import com.example.awizom.jihuzur.Service.LocationMonitoringNotificationService;
 import com.example.awizom.jihuzur.SettingsActivity;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.example.awizom.jihuzur.ViewDialog;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.security.SecureRandom;
+
+import javax.annotation.Nullable;
 
 /**
  * Created by Ravi on 07/01/2019.
@@ -89,6 +104,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
     private CardView homeCleaningCardView, appliancecardView;
     private TextView btn_start, btn_stop;
     private TextView textView;
+    FirebaseFirestore db;
     private BroadcastReceiver broadcastReceiver;
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -159,6 +175,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = FirebaseFirestore.getInstance();
         initView();
     }
 
@@ -242,7 +259,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         userContact = headerview.findViewById(R.id.empContact);
         identityNo = headerview.findViewById(R.id.identityNo);
         identityType = headerview.findViewById(R.id.identityType);
-
+        final String id = SharedPrefManager.getInstance(this).getUser().getID();
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -251,7 +268,120 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             }
         });
         getProfile();
+        final DocumentReference docRef = db.collection("OrderNotification").document(id);
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w("failed", "Listen failed.", e);
+                    return;
+                }
+                String source = documentSnapshot != null && documentSnapshot.getMetadata().hasPendingWrites()
+                        ? "Local" : "Server";
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    Log.d("Snapshot data", source + " data: " + documentSnapshot.getData());
+                    final Intent emptyIntent = new Intent(EmployeeHomePage.this,EmployeeHomePage.class);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(EmployeeHomePage.this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    Notification noti = new Notification.Builder(EmployeeHomePage.this)
+                            .setContentTitle("Hey! You Have Order")
+                            .setContentText(String.valueOf("Jihuzzur, You Have One Order Click Here For Details.")).setSmallIcon(R.drawable.jihuzurapplogo)
+                            .setContentIntent(pendingIntent)
+                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                            .build();
+                    NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    // hide the notification after its selected
+                    int randomNumber;
+                    int range = 9;  // to generate a single number with this range, by default its 0..9
+                    int length = 4;
+                    SecureRandom secureRandom = new SecureRandom();
+                    String s = "";
+                    for (int i = 0; i < length; i++) {
+                        int number = secureRandom.nextInt(range);
+                        if (number == 0 && i == 0) { // to prevent the Zero to be the first number as then it will reduce the length of generated pin to three or even more if the second or third number came as zeros
+                            i = -1;
+                            continue;
+                        }
+                        s = s + number;
+                    }
+                    randomNumber = Integer.parseInt(s);
+                    notificationManager.notify(1000,noti);
 
+                    db.collection("OrderNotification").document(id)
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error deleting document", e);
+                                }
+                            });
+
+                  Toast.makeText(getApplicationContext(),"Your Order Is",Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+
+        final DocumentReference docRefs = db.collection("SendOrderPhoto").document(id);
+        docRefs.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w("failed", "Listen failed.", e);
+                    return;
+                }
+                String source = documentSnapshot != null && documentSnapshot.getMetadata().hasPendingWrites()
+                        ? "Local" : "Server";
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    Log.d("Snapshot data", source + " data: " + documentSnapshot.getData());
+                    final Intent emptyIntent = new Intent(EmployeeHomePage.this,EmployeeHomePage.class);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(EmployeeHomePage.this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    Notification noti = new Notification.Builder(EmployeeHomePage.this)
+                            .setContentTitle("Send Your Current Order Photo ")
+                            .setContentText(String.valueOf("Jihuzzur,Hey! Admin Is wants to See Yoour Current Order Photo")).setSmallIcon(R.drawable.jihuzurapplogo)
+                            .setContentIntent(pendingIntent)
+                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                            .build();
+                    NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    // hide the notification after its selected
+                    int randomNumber;
+                    int range = 9;  // to generate a single number with this range, by default its 0..9
+                    int length = 4;
+                    SecureRandom secureRandom = new SecureRandom();
+                    String s = "";
+                    for (int i = 0; i < length; i++) {
+                        int number = secureRandom.nextInt(range);
+                        if (number == 0 && i == 0) { // to prevent the Zero to be the first number as then it will reduce the length of generated pin to three or even more if the second or third number came as zeros
+                            i = -1;
+                            continue;
+                        }
+                        s = s + number;
+                    }
+                    randomNumber = Integer.parseInt(s);
+                    notificationManager.notify(260,noti);
+                    db.collection("SendOrderPhoto").document(id)
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error deleting document", e);
+                                }
+                            });
+                }
+
+            }
+        });
     }
 
     private void getProfile() {

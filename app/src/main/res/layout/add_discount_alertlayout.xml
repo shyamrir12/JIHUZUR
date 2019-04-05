@@ -52,22 +52,25 @@
 
 
 
-        <android.support.design.widget.TextInputLayout
+        <!--<android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_discounttype"
             android:layout_width="120dp"
             android:layout_height="60dp"
             android:layout_weight="1"
-            android:hint="Discount Type">
+            android:hint="Discount Type">-->
+<Spinner
+    android:layout_width="wrap_content"
+    android:id="@+id/editDiscountType"
+    android:layout_height="wrap_content"></Spinner>
+       <!--     <AutoCompleteTextView
 
-            <AutoCompleteTextView
-                android:id="@+id/editDiscountType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="                              "
                 android:inputType="text"
                 android:textSize="15sp" />
-        </android.support.design.widget.TextInputLayout>
+        </android.support.design.widget.TextInputLayout>-->
 
     </LinearLayout>
 
@@ -100,22 +103,18 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <android.support.design.widget.TextInputLayout
+        <!--<android.support.design.widget.TextInputLayout
             android:id="@+id/input_layout_discountcategory"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_weight="1"
-            android:hint="Discount Category">
+            android:hint="Discount Category">-->
+<Spinner
+    android:layout_width="wrap_content"
+    android:id="@+id/editDiscountcategory"
+    android:layout_height="wrap_content"></Spinner>
 
-            <AutoCompleteTextView
-                android:id="@+id/editDiscountcategory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="                              "
-                android:inputType="text"
-                android:textSize="15sp" />
-        </android.support.design.widget.TextInputLayout>
+    <!--    </android.support.design.widget.TextInputLayout>-->
 
 
     </LinearLayout>

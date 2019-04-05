@@ -51,11 +51,22 @@
                 android:id="@+id/employee_dp"
                 android:layout_width="42dp"
                 android:layout_height="46dp"
+                android:layout_weight="1"
                 android:layout_alignParentTop="true"
                 android:background="#00ffffff"
                 android:contentDescription="@null"
                 android:src="@drawable/circle"
                 app:civ_border_color="#fff" />
+            <TextView
+                android:id="@+id/sendorderphoto"
+                android:layout_width="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:drawableLeft="@drawable/ic_image_black_24dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="45dp"
+
+                android:text="orderphoto" />
+
 
             <ImageView
                 android:id="@+id/call"
@@ -85,7 +96,6 @@
             <Button
                 android:id="@+id/btnGetDirection"
                 android:layout_width="100dp"
-
                 android:layout_height="40dp"
                 android:background="@drawable/background_buttons"
                 android:text="Get Direction"

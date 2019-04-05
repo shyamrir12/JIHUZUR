@@ -11,6 +11,7 @@ import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -22,17 +23,23 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.awizom.jihuzur.Adapter.CategoryListAdapter;
 import com.example.awizom.jihuzur.Adapter.DiscountListAdapter;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
+import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.DiscountView;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.R;
@@ -41,6 +48,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,12 +60,16 @@ import okhttp3.Request;
 public class AdminDiscountActivity extends AppCompatActivity {
 
     FloatingActionButton addDiscount;
-    AutoCompleteTextView editDiscountName, editDiscountType, editDiscountAmount,editcategory;
+    AutoCompleteTextView editDiscountName, editDiscountAmount;
+    Spinner editcategory, editDiscountType;
     ImageView addimage;
     ImageView imageView;
     ProgressDialog progressDialog;
+    List<Catalog> categorylist;
     RecyclerView recyclerView;
     String result = "";
+    ArrayList<String> worldlist;
+    String discounttypes,category;
     Uri picUri;
     Uri outputFileUri;
     List<DiscountView> discountlist;
@@ -123,11 +135,40 @@ public class AdminDiscountActivity extends AppCompatActivity {
         final View dialogView = inflater.inflate(R.layout.add_discount_alertlayout, null);
         dialogBuilder.setView(dialogView);
         editDiscountName = (AutoCompleteTextView) dialogView.findViewById(R.id.editDiscountName);
-        editDiscountType = (AutoCompleteTextView) dialogView.findViewById(R.id.editDiscountType);
+        editDiscountType = (Spinner) dialogView.findViewById(R.id.editDiscountType);
         editDiscountAmount = (AutoCompleteTextView) dialogView.findViewById(R.id.editDiscountAmount);
-        editcategory = (AutoCompleteTextView) dialogView.findViewById(R.id.editDiscountcategory);
-        imageView=(ImageView)dialogView.findViewById(R.id.imageView);
-        addimage=(ImageView)dialogView.findViewById(R.id.addImage);
+        editcategory = (Spinner) dialogView.findViewById(R.id.editDiscountcategory);
+        imageView = (ImageView) dialogView.findViewById(R.id.imageView);
+        addimage = (ImageView) dialogView.findViewById(R.id.addImage);
+
+        getCategoryList();
+        List<String> spinnerArray = new ArrayList<>();
+        spinnerArray.add(String.valueOf("Fix"));
+        spinnerArray.add("Percentage");
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, spinnerArray);
+        editDiscountType.setAdapter(arrayAdapter);
+        editcategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                category = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                category ="Plumber";
+            }
+        });
+        editDiscountType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                discounttypes = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                discounttypes = "Fix";
+            }
+        });
 
         addimage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,15 +197,15 @@ public class AdminDiscountActivity extends AppCompatActivity {
                     System.out.println("byte array:" + image);
                     String img_str = Base64.encodeToString(image, 0);
                     String discountName = editDiscountName.getText().toString();
-                    String discounttype = editDiscountType.getText().toString().trim();
+                    String discounttype = discounttypes;
                     String discountamount = editDiscountAmount.getText().toString().trim();
-                    String edtcategory = editcategory.getText().toString().trim();
+                    String edtcategory =category;
 
                     try {
                         //String res="";
                         progressDialog.setMessage("loading...");
                         progressDialog.show();
-                        new AdminHelper.POSTDiscount().execute(discountName, discounttype, discountamount,edtcategory,img_str);
+                        new AdminHelper.POSTDiscount().execute(discountName, discounttype, discountamount, edtcategory, img_str);
                         getDiscountList();
                         progressDialog.dismiss();
                     } catch (Exception e) {
@@ -188,6 +229,27 @@ public class AdminDiscountActivity extends AppCompatActivity {
                  */
             }
         });
+    }
+
+    private void getCategoryList() {
+
+        try {
+            result = new AdminHelper.GETCategoryList().execute("Home Cleaning & Repairs".toString()).get();
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<Catalog>>() {
+            }.getType();
+            categorylist = new Gson().fromJson(result, listType);
+            worldlist = new ArrayList<String>();
+            for (int i = 0; i < categorylist.size(); i++) {
+                worldlist.add(categorylist.get(i).getCategory());
+            }
+
+            editcategory.setAdapter(new ArrayAdapter<String>(AdminDiscountActivity.this,
+                    android.R.layout.simple_spinner_dropdown_item,
+                    worldlist));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Intent getPickImageChooserIntent() {
@@ -226,6 +288,7 @@ public class AdminDiscountActivity extends AppCompatActivity {
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, allIntents.toArray(new Parcelable[allIntents.size()]));
         return chooserIntent;
     }
+
     private Uri getCaptureImageOutputUri() {
         outputFileUri = null;
         File getImage = getExternalFilesDir("");
@@ -234,6 +297,7 @@ public class AdminDiscountActivity extends AppCompatActivity {
         }
         return outputFileUri;
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
@@ -242,7 +306,7 @@ public class AdminDiscountActivity extends AppCompatActivity {
                 if (filePath != null) {
                     Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
 
-                        imageView.setImageBitmap(selectedImage);
+                    imageView.setImageBitmap(selectedImage);
 
                 }
             }
@@ -351,11 +415,7 @@ public class AdminDiscountActivity extends AppCompatActivity {
             editDiscountName.requestFocus();
             return false;
         }
-        if (editDiscountType.getText().toString().isEmpty()) {
-            editDiscountType.setError("Enter a valid Discount Type");
-            editDiscountType.requestFocus();
-            return false;
-        }
+
         if (editDiscountAmount.getText().toString().isEmpty()) {
             editDiscountAmount.setError("Enter a valid Discount Amount");
             editDiscountAmount.requestFocus();

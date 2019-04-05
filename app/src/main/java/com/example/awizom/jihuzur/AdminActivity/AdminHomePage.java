@@ -34,6 +34,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -52,6 +54,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.BuildConfig;
 import com.example.awizom.jihuzur.Config.AppConfig;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeCurrentOrderAdapter;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeHistoryAdapter;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment.EmployeeCurrentOrderFragment;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment.EmployeeHistoryCurrentFragment;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
@@ -60,6 +64,7 @@ import com.example.awizom.jihuzur.Locationhelper.FetchURL;
 import com.example.awizom.jihuzur.Locationhelper.TaskLoadedCallback;
 import com.example.awizom.jihuzur.LoginRegistrationActivity.AdminRegistration;
 import com.example.awizom.jihuzur.Model.EmployeeProfileModel;
+import com.example.awizom.jihuzur.Model.Order;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Service.LocationMonitoringService;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
@@ -81,6 +86,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -92,7 +99,9 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
@@ -127,6 +136,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
     String result = "";
     ViewDialog viewDialog;
     Intent intent;
+    TextView orderphotorequest;
     de.hdodenhof.circleimageview.CircleImageView profileImages;
     TextView userName, identityNo, identityType;
     List<DataProfile> listtype;
@@ -301,6 +311,8 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         toolbar.setTitle("");
 
         employeeImage = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.employee_dp);
+         orderphotorequest=(TextView)findViewById(R.id.sendorderphoto) ;
+
         call = (ImageView) findViewById(R.id.call);
         viewDialog = new ViewDialog(this);
         customerDetails = (TextView) findViewById(R.id.customerdetails);
@@ -475,9 +487,9 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             new GoogleMap.OnMyLocationButtonClickListener() {
                 @Override
                 public boolean onMyLocationButtonClick() {
-                    mGoogleMap.setMinZoomPreference(11);
+                    mGoogleMap.setMinZoomPreference(13);
 
-                    mGoogleMap.setMaxZoomPreference(2000);
+
                     return false;
                 }
             };
@@ -486,7 +498,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 @Override
                 public void onMyLocationClick(@NonNull Location location) {
 
-                    mGoogleMap.setMinZoomPreference(12);
+                    mGoogleMap.setMinZoomPreference(13);
                     CircleOptions circleOptions = new CircleOptions();
                     circleOptions.center(new LatLng(location.getLatitude(),
                             location.getLongitude()));
@@ -731,6 +743,45 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                             return true;
                         }
                     });
+                    orderphotorequest.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            orderphotorequest.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Map<String, Object> ordernotification = new HashMap<>();
+
+              /*  ordernotification.put("customerid", false);
+                ordernotification.put("customermob", 20.22);
+                ordernotification.put("employeemob", false);
+                ordernotification.put("servicename", false);*/
+
+
+                                    ordernotification.put("employeeid", idmark);
+
+                                    db.collection("SendOrderPhoto").document(idmark)
+                                            .set(ordernotification)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    //   Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                    Toast.makeText(getApplicationContext(), "Success!",
+                                                            Toast.LENGTH_LONG).show();
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(getApplicationContext(), "Failed!",
+                                                            Toast.LENGTH_LONG).show();
+                                                }
+                                            });
+
+                                }
+                            });
+                        }
+                    });
+
                     call.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -787,10 +838,9 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                 String name = namemark;
                                 String img_str = img_strmark;
                                 RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.rating);
-                               /* final RecyclerView orderNew = (RecyclerView) dialogView.findViewById(R.id.orderNew);
+                                final RecyclerView orderNew = (RecyclerView) dialogView.findViewById(R.id.orderNew);
                                 orderNew.setHasFixedSize(true);
                                 orderNew.setLayoutManager(new LinearLayoutManager(AdminHomePage.this));
-                               */
                                 ImageView oderrun = (ImageView) dialogView.findViewById(R.id.orderRun);
                                 ImageView orderHist = (ImageView) dialogView.findViewById(R.id.orderHist);                               /* getRatingForEmployee(ide, ratingBar);
                                 getMyOrderRunning(orderNew, ide, AdminHomePage.this);*/
@@ -814,25 +864,68 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                 oderrun.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        b.cancel();
-                                        getSupportActionBar().setTitle(namemark + "'s" + " " + "Current Order");
+                                    b.cancel();
+                                       getSupportActionBar().setTitle(namemark + "'s" + " " + "Current Order");
                                         Fragment employeeCurrentOrderFragment = new EmployeeCurrentOrderFragment();//Get Fragment Instance
                                         Bundle data = new Bundle();//Use bundle to pass data
                                         data.putString("EmployeeID", ide);//put string, int, etc in bundle with a key value
                                         employeeCurrentOrderFragment.setArguments(data);//Finally set argument bundle to fragment
                                         fragmentManager.beginTransaction().replace(R.id.home_container, employeeCurrentOrderFragment).commit();//now replace the argument fragment
+
+                                     /*   try {
+
+                                            result = new EmployeeOrderHelper.EmployeeGetMyCurrentOrder().execute(ide).get();
+
+                                            List<Order> orderList;
+                                            EmployeeCurrentOrderAdapter employeeCurrentOrderAdapter;
+                                                Gson gson = new Gson();
+                                                Type listType = new TypeToken<List<Order>>() {
+                                                }.getType();
+                                                orderList = new Gson().fromJson(result, listType);
+                                                employeeCurrentOrderAdapter = new EmployeeCurrentOrderAdapter(AdminHomePage.this, orderList);
+                                            orderNew.setAdapter(employeeCurrentOrderAdapter);
+                                            }
+                                        catch (ExecutionException e) {
+                                            e.printStackTrace();
+
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }*/
+
                                     }
                                 });
                                 orderHist.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        b.cancel();
+                                   b.cancel();
                                         getSupportActionBar().setTitle(namemark + "'s" + " " + "Order History");
                                         Fragment employeeHistoryCurrentFragment = new EmployeeHistoryCurrentFragment();//Get Fragment Instance
                                         Bundle data = new Bundle();//Use bundle to pass data
                                         data.putString("EmployeeID", ide);//put string, int, etc in bundle with a key value
                                         employeeHistoryCurrentFragment.setArguments(data);//Finally set argument bundle to fragment
                                         fragmentManager.beginTransaction().replace(R.id.home_container, employeeHistoryCurrentFragment).commit();//now replace the argument fragment
+
+
+                                      /*  try {
+
+                                            result = new EmployeeOrderHelper.GetMyCompleteOrderGet().execute(ide).get();
+
+                                            List<Order> orderList;
+                                            EmployeeHistoryAdapter employeeHistoryAdapter;
+                                            Gson gson = new Gson();
+                                            Type listType = new TypeToken<List<Order>>() {
+                                            }.getType();
+                                            orderList = new Gson().fromJson(result, listType);
+                                            employeeHistoryAdapter = new EmployeeHistoryAdapter(AdminHomePage.this, orderList);
+                                            orderNew.setAdapter(employeeHistoryAdapter);
+                                        }
+                                        catch (ExecutionException e) {
+                                            e.printStackTrace();
+
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }*/
+
                                     }
                                 });
                             }
@@ -850,14 +943,13 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         builder.include(latLngs);
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(latLngs)
-                .zoom(11)
+                .zoom(13)
                 .bearing(90)
                 .tilt(30)
                 .build();
         mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         /* set zoom position by this value */
-        mGoogleMap.getMaxZoomLevel();
-        mGoogleMap.getMinZoomLevel();
+
     }
 
     private String getUrl(LatLng origin, LatLng dest, String directionMode) {

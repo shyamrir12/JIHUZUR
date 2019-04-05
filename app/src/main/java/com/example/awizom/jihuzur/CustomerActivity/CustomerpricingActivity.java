@@ -326,7 +326,36 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
             }.getType();
             ResultModel resultModel = new Gson().fromJson(result, getType);
             if (!result.equals("")) {
+                String employeeid=resultModel.getMessage().split(",")[2];
                 String orrderid=resultModel.getMessage().split(",")[1].toString();
+                Map<String, Object> ordernotification = new HashMap<>();
+
+              /*  ordernotification.put("customerid", false);
+                ordernotification.put("customermob", 20.22);
+                ordernotification.put("employeemob", false);
+                ordernotification.put("servicename", false);*/
+
+                ordernotification.put("orderid", orrderid);
+                ordernotification.put("employeeid", employeeid);
+
+                db.collection("OrderNotification").document(employeeid)
+                        .set(ordernotification)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                //   Log.d(TAG, "DocumentSnapshot successfully written!");
+                                Toast.makeText(getApplicationContext(), "Success!",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getApplicationContext(), "Failed!",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        });
+
                 intent = new Intent(this, MyBokingsActivity.class);
                 generateRandomNumber(orrderid);
                 startActivity(intent);

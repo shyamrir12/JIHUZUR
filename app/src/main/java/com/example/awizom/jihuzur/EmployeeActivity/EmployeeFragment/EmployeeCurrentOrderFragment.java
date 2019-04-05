@@ -99,6 +99,7 @@ public class EmployeeCurrentOrderFragment extends Fragment implements View.OnCli
                 orderList = new Gson().fromJson(result, listType);
                 employeeCurrentOrderAdapter = new EmployeeCurrentOrderAdapter(getContext(), orderList);
                 recyclerView.setAdapter(employeeCurrentOrderAdapter);
+
             }
         } catch (ExecutionException e) {
             e.printStackTrace();
