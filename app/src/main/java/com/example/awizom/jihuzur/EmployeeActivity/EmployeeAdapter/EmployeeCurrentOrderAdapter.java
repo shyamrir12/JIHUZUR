@@ -66,7 +66,7 @@ import static com.firebase.ui.auth.ui.email.RegisterEmailFragment.TAG;
 public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCurrentOrderAdapter.OrderItemViewHolder> {
 
     List<Service> serviceList;
-    List<Order> orderList;
+    Order orderList;
     private Context mCtx;
     private List<Order> orderitemList;
     private Order order;
@@ -378,7 +378,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                                                     e.printStackTrace();
                                                 }
                                                 //   canclBtn.setVisibility(View.GONE);
-                                                Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
+                                             //   Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                                                 Log.d("result", result.toString());
                                                 Intent intent = new Intent(mCtx, MyBokingsActivity.class);
                                                 mCtx.startActivity(intent);
@@ -454,14 +454,13 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                                             Log.w(TAG, "Error writing document", e);
                                         }
                                     });
+                            showpaymentdialog();
 
-                            intent = new Intent(mCtx, EmployeeHomePage.class);
-                            mCtx.startActivity(intent);
 
                         }
 
 
-                        Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
+                   //     Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {
@@ -472,7 +471,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                     break;
                 case R.id.acceptPaymentBtn:
 
-                    showpaymentdialog();
+                 //   showpaymentdialog();
 
 
                     break;
@@ -489,48 +488,45 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
         final View dialogView = inflater.inflate(R.layout.show_payment, null);
         dialogBuilder.setView(dialogView);
         TextView amount = (TextView) dialogView.findViewById(R.id.amount);
-        myrunningorderget();
         try {
             result = new EmployeeOrderHelper.GetPayment().execute(orderId).get();
             Gson gson = new Gson();
-            Type listType = new TypeToken<List<Order>>() {
+            Type listType = new TypeToken<Order>() {
             }.getType();
             orderList = new Gson().fromJson(result, listType);
-            for (int i=0;i<orderList.size();i++)
-            {
-                String payment =orderList.get(i).getAmount().toString();
-                amount.setText(String.valueOf(payment));
-            }
-            Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
+         try {
+                 String payment = orderList.getAmount().toString();
+                 amount.setText(String.valueOf(payment));
+         }
+         catch (Exception e)
+         {e.printStackTrace();}
+
+       //     Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         final Button buttonadd = (Button) dialogView.findViewById(R.id.changePosition);
-
-        dialogBuilder.setTitle("Add Discount");
+        dialogBuilder.setTitle("Order Amount is-");
         dialogBuilder.setIcon(R.drawable.coupons);
         final AlertDialog b = dialogBuilder.create();
         b.show();
 
-
-
         buttonadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 try {
                     result = new EmployeeOrderHelper.AcceptPayment().execute(orderId, empId).get();
-
-                    Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
+                    intent = new Intent(mCtx, EmployeeHomePage.class);
+                    mCtx.startActivity(intent);
+                  Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                b.dismiss();
+
             }
         });
 
@@ -538,26 +534,5 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 
     }
 
-    private void myrunningorderget() {
-        try {
-            result = new EmployeeOrderHelper.GetPayment().execute(orderId).get();
-            Gson gson = new Gson();
-            Type listType = new TypeToken<List<Order>>() {
-            }.getType();
-            orderList = new Gson().fromJson(result, listType);
-            for (int i=0;i<orderList.size();i++)
-            {
-                String payment =orderList.get(i).getAmount().toString();
-
-            }
-            Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
-    }
 
 }

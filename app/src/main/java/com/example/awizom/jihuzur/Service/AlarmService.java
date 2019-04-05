@@ -33,14 +33,13 @@ public class AlarmService extends Service {
     Intent intentalarm;
     PendingIntent pendingIntent;
     AlarmManager alarmManager;
-
     //boolean check=true;
     @Override
     public void onCreate() {
         super.onCreate();
         db = FirebaseFirestore.getInstance();
-        intentalarm = new Intent(this, MyBroadcastReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 0, intentalarm, 0);
+       // intentalarm = new Intent(this, MyBroadcastReceiver.class);
+//        pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 0, intentalarm, 0);
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
     }
 
@@ -80,7 +79,7 @@ public class AlarmService extends Service {
 
         //Id allows you to update the notification later on.
         mNotificationManager.notify(Integer.parseInt(String.valueOf(orderid)), notification);
-        startAlert();
+       // startAlert();
         return START_NOT_STICKY;
     }
 

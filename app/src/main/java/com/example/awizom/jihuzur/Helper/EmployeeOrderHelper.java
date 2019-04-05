@@ -70,7 +70,7 @@ public class EmployeeOrderHelper extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Employee + "GetOrderPayment/" + orderid);
+                builder.url(AppConfig.BASE_URL_API_Customer + "GetOrderPayment/" + orderid);
                 builder.addHeader("Content-Type", "application/json");
                 builder.addHeader("Accept", "application/json");
                 FormBody.Builder parameters = new FormBody.Builder();
