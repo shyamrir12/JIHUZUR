@@ -24,17 +24,22 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -43,6 +48,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerCatagoryAdapter;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerHomePageAdapter;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.DiscountImageAdapter;
 import com.example.awizom.jihuzur.Fragment.CatalogFragment;
 import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
@@ -51,6 +57,8 @@ import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.DataProfile;
+import com.example.awizom.jihuzur.Model.DiscountModel;
+import com.example.awizom.jihuzur.Model.DiscountView;
 import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.SettingsActivity;
@@ -62,7 +70,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Ravi on 07/01/2019.
@@ -85,12 +95,21 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
     Intent intent;
     private String result = "", catalogName = "Home Cleaning & Repairs";
-    RecyclerView recyclerView;
+    ViewFlipper recyclerView;
     CustomerCatagoryAdapter customerCatagoryAdapter;
     ViewDialog viewDialog;
     GridView gridView;
     List<Catalog> categorylist;
     String imgstr;
+
+    DiscountImageAdapter discountImageAdapter;
+    private List<DiscountModel> discountModel;
+    private ViewFlipper viewFlipper;
+    private Button recalls;
+
+    private String[] imageList;
+    String imageLists = String.valueOf(new ArrayList<String>());
+
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         //bottom navigation Button Onclick
@@ -172,6 +191,12 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         View headerview = navigationView.getHeaderView(0);
         viewDialog = new ViewDialog((Activity) CustomerHomePage.this);
         imageView = headerview.findViewById(R.id.imageView);
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setFlipInterval(1000);
+       /* recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));*/
+
         /*  img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();*/
        /* {
             try {
@@ -211,11 +236,11 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             }
         });
         getProfile();
-//        recyclerView = findViewById(R.id.recyclerView);
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        getDiscountImageList();
+
 
     }
+
 
     private void getCategoryList() {
         String catalogname = "Home Cleaning & Repairs";
@@ -517,6 +542,59 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 
         }
 
+    }
+
+    private void getDiscountImageList() {
+
+
+        try {
+            result = new CustomerOrderHelper.GETDiscountList().execute().get();
+
+
+            if (result.isEmpty()) {
+                Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
+            } else {
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<DiscountModel>>() {
+                }.getType();
+                discountModel = new Gson().fromJson(result, listType);
+
+                imageList = new String[discountModel.size()];
+
+                recyclerView.setFlipInterval(1000);
+//                for (int i = 0; i < discountModel.size(); i++) {
+//                    String[] elements = {discountModel.get(i).Photo};
+//                    for (String s : elements) {
+//                        //Do your stuff here
+//                        Log.d("Datassssssssssss", s);
+//                        Toast.makeText(getApplicationContext(), AppConfig.BASE_URL + s, Toast.LENGTH_SHORT).show();
+//                        setFlipperImage(AppConfig.BASE_URL + s);
+//                    }
+//                }
+//                    for (int i = 0;i<=discountModel.size();i++){
+//
+//                        imageLists = discountModel.get(i).getPhoto().toString();
+//                        Toast.makeText(getApplicationContext(),AppConfig.BASE_URL+imageLists, Toast.LENGTH_SHORT).show();
+//
+//                    }
+
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void setFlipperImage(String res) {
+        Log.i("Set Filpper Called", res + "");
+        Toast.makeText(getApplicationContext(), res + "", Toast.LENGTH_SHORT).show();
+       // ImageView image = findViewById(R.id.imgview);
+//        Glide.with(this).load(res)
+//                .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
+//                .into(image);
+//        recyclerView.addView(image);
     }
 }
 

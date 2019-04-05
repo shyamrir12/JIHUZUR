@@ -22,12 +22,34 @@
             <LinearLayout
                 android:id="@+id/l"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="130dp"
                 android:orientation="horizontal"
                 android:layout_marginTop="60dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@mipmap/final_top_home_image">
+                android:layout_marginRight="10dp">
+
+                <ViewFlipper
+                    android:id="@+id/recyclerView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="130dp"
+                    android:background="@mipmap/final_top_home_image"
+                    android:autoStart="true"
+                    android:flipInterval="2000" >
+
+                    <ImageView
+                        android:id="@+id/imgview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@mipmap/slide1"/>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@mipmap/slide2"/>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@mipmap/slide3"/>
+                </ViewFlipper>
 
             </LinearLayout>
         <LinearLayout
