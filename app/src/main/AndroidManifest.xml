@@ -215,8 +215,7 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity
-            android:name=".LoginRegistrationActivity.VerifyPhoneActivityAdmin"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".LoginRegistrationActivity.VerifyPhoneActivityAdmin"></activity>
         <activity
             android:name=".EmployeeActivity.VerifyPhoneActivityEmployeee"
             android:theme="@style/AppTheme.NoActionBar"></activity>
