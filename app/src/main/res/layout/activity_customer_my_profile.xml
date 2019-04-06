@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerHorizontal="true"
-    android:background="@mipmap/final_background"
+    android:background="@mipmap/backdrop"
     android:fitsSystemWindows="true">
 
     <android.support.v7.widget.Toolbar
