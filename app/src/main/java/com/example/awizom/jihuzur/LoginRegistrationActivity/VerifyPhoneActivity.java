@@ -102,7 +102,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void messageReceived(String messageText) {
                 Log.d("Text",messageText);
-                Toast.makeText(VerifyPhoneActivity.this,"Message: "+messageText,Toast.LENGTH_LONG).show();
+               // Toast.makeText(VerifyPhoneActivity.this,"Message: "+messageText,Toast.LENGTH_LONG).show();
                 String sms = messageText;
                 String[] smsSplit = messageText.split(":");
                 otpEditText.setText(smsSplit[1]);

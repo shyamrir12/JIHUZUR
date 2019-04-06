@@ -314,7 +314,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                 LinearLayout.LayoutParams.MATCH_PARENT);
         input.setLayoutParams(lp);
         input.setHint("Enter coupon code");
-        input.setInputType(InputType.TYPE_CLASS_NUMBER);
         alertDialog.setView(input);
         alertDialog.setIcon(R.drawable.ic_dashboard_black_24dp);
 
