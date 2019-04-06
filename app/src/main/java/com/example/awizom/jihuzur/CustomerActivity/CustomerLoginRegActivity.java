@@ -110,7 +110,7 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
 
         ActivityCompat.requestPermissions(com.example.awizom.jihuzur.CustomerActivity.CustomerLoginRegActivity.this,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.CALL_PHONE, Manifest.permission.READ_CONTACTS, Manifest.permission.RECEIVE_SMS},
+                        Manifest.permission.CALL_PHONE, Manifest.permission.READ_CONTACTS, Manifest.permission.RECEIVE_SMS, Manifest.permission.ACCESS_NOTIFICATION_POLICY},
                 1);
     }
 

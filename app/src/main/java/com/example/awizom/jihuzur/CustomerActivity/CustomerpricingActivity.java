@@ -396,8 +396,9 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                                         Toast.LENGTH_LONG).show();
                             }
                         });
-                intent = new Intent(this, MyBokingsActivity.class);
                 generateRandomNumber(orrderid);
+                intent = new Intent(this, MyBokingsActivity.class);
+
                 startActivity(intent);
             } else {
                 Toast toast = Toast.makeText(CustomerpricingActivity.this, "Sorry Our Employee's are Busy on another Order please try after sometime", Toast.LENGTH_LONG);
@@ -448,7 +449,17 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 
 
         randomNumber = Integer.parseInt(s);
+        String custmob=  SharedPrefManager.getInstance(this).getUser().getMobileNo().toString();
+        try {
+            result = new CustomerOrderHelper.SendOrderOtp().execute(custmob,String.valueOf(randomNumber)).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         final Intent emptyIntent = new Intent();
+
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Notification noti = new Notification.Builder(this)
                 .setContentTitle("JiHUzzur Otp for Order")

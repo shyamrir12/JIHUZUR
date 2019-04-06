@@ -1,5 +1,6 @@
 package com.example.awizom.jihuzur;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,17 +31,13 @@ public class MyBokingsActivity extends AppCompatActivity {
     }
 
     private void initview() {
-
-
 //        toolbar = findViewById(R.id.toolbar);
 //        toolbar.setTitle(getResources().getString(R.string.app_name));
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         /*  catalogName = getIntent().getStringExtra("CatalogName");*/
-
         toolbar.setTitle("My Booking");
-
-
         setSupportActionBar(toolbar);
+//        String otp=  getIntent().getStringExtra("OrderOtp");
 
         toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
         toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
@@ -52,17 +49,13 @@ public class MyBokingsActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
         tabLayout = findViewById(R.id.tablayout);
         outGoing = findViewById(R.id.outgoing);
         history = findViewById(R.id.history);
-
         viewPager = findViewById(R.id.viewPager);
-
         pageAdapter = new CustomerPageAdapterBookings(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

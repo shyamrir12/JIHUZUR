@@ -241,7 +241,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context mCtx;
-        private TextView chronometer, orderIds;
+        private TextView chronometer, orderIds,otps;
         private TextView startTime, endtime, empName, timercount, empContAct, catagryName, servicName, pricingterm, dctName;
         private Button acceptBtn, trackinBtn, canclBtn, viewdetail;
         private List<Order> orderitemList;
@@ -279,6 +279,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             dctName = itemView.findViewById(R.id.discountName);
             viewdetail = itemView.findViewById(R.id.viewDetail);
             linearLayout = itemView.findViewById(R.id.l4);
+            otps = itemView.findViewById(R.id.otp);
 
             orderIds = itemView.findViewById(R.id.orderId);
             db = FirebaseFirestore.getInstance();

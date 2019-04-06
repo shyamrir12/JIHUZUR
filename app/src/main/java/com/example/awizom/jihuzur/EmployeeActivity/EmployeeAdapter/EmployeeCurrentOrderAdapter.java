@@ -91,7 +91,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
     @Override
     public void onBindViewHolder(@NonNull final EmployeeCurrentOrderAdapter.OrderItemViewHolder holder, int position) {
         order = orderitemList.get(position);
-        orderId = String.valueOf(order.getOrderID());
+
         priceid = String.valueOf(order.getPricingID());
         empId = order.getEmployeeID();
         try {
@@ -105,6 +105,8 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             holder.serviceName.setText(order.getServiceName());
             holder.totalTime.setText(order.getTotalTime());
             holder.cusId.setText(order.getCustomerID());
+            holder.orderIssss.setText(String.valueOf(order.getOrderID()));
+            orderId = holder.orderIssss.getText().toString();
 
             if (order.getDiscountName() != null) {
                 holder.disctName.setText(order.getDiscountName());
@@ -133,6 +135,173 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             //   holder.linearLayout.setVisibility(View.VISIBLE);
             holder.disctName.setVisibility(View.VISIBLE);
             holder.discountUpdateBtn.setVisibility(View.VISIBLE);
+            holder.stopBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        result = new EmployeeOrderHelper.StopOrder().execute(holder.orderIssss.getText().toString()).get();
+                        Gson gson = new Gson();
+                        Type getType = new TypeToken<ResultModel>() {
+                        }.getType();
+                        ResultModel resultModel = new Gson().fromJson(result, getType);
+                        if (resultModel.getMessage().contains("Order End")) {
+                         /*   Intent serviceIntent = new Intent(mCtx, AlarmService.class);
+                            serviceIntent.putExtra("inputExtra", "Order End");
+                            serviceIntent.putExtra("orderId", orderId);
+                            ContextCompat.startForegroundService(mCtx, serviceIntent);*/
+
+                            String employeeid = resultModel.getEmployeeID().toString();
+                            Map<String, Object> profile = new HashMap<>();
+                            profile.put("busystatus", false);
+
+                            db.collection("Profile").document(employeeid).update(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                }
+                            })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error writing document", e);
+                                        }
+                                    });
+                            Date today = new Date();
+                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+                            String dateToStr = format.format(today);
+                            Map<String, Object> order = new HashMap<>();
+                            order.put("endTime", dateToStr);
+                            db.collection("Order").document(orderId).update(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                }
+                            })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error writing document", e);
+                                        }
+                                    });
+                            showpaymentdialog();
+
+                        }
+
+
+                        //     Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            holder.genrateBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                       /* result = new EmployeeOrderHelper.GenerateOtp().execute(orderId).get();
+                        Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();*/
+
+                        final android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(v.getRootView().getContext());
+                        LayoutInflater inflater = LayoutInflater.from(v.getRootView().getContext());
+                        final View dialogView = inflater.inflate(R.layout.accept_otp_for_order_layout, null);
+                        dialogBuilder.setView(dialogView);
+                        final EditText enterOtp = dialogView.findViewById(R.id.editTextOtp);
+                        Button verify = dialogView.findViewById(R.id.buttonVerify);
+                        dialogBuilder.setTitle("Accept Otp");
+                        final android.support.v7.app.AlertDialog b = dialogBuilder.create();
+                        b.show();
+                        if (enterOtp.getText().toString().isEmpty()) {
+                            enterOtp.setError("Enter a valid value");
+                            enterOtp.requestFocus();
+                        }
+                        verify.setOnClickListener(new View.OnClickListener() {
+                            @SuppressLint("NewApi")
+                            @Override
+                            public void onClick(final View v) {
+                                db.collection("OrderOtp").document(holder.orderIssss.getText().toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                                        String otps = String.valueOf(task.getResult().get("otp"));
+                                        if (otps.equals(String.valueOf(enterOtp.getText().toString()))) {
+                                            try {
+                                                result = new CustomerOrderHelper.OrderStartEmployee().execute(orderId).get();
+                                                Gson gson = new Gson();
+                                                Type getType = new TypeToken<ResultModel>() {
+                                                }.getType();
+                                                ResultModel resultModel = new Gson().fromJson(result, getType);
+                                                try {
+                                                    if (resultModel.getMessage().contains("Order Started")) {
+                                                        holder.genrateBtn.setVisibility(View.GONE);
+                                                        String employeeid = resultModel.getEmployeeID().toString();
+                                                        Map<String, Object> profile = new HashMap<>();
+                                                        profile.put("busystatus", true);
+                                                        db.collection("Profile").document(employeeid).update(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                            }
+                                                        })
+                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
+                                                                        Log.w(TAG, "Error writing document", e);
+                                                                    }
+                                                                });
+                                                        Date today = new Date();
+                                                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+                                                        String dateToStr = format.format(today);
+                                                        Map<String, Object> order = new HashMap<>();
+                                                        order.put("startTime", dateToStr);
+                                                        order.put("endTime", 00);
+
+                                                        db.collection("Order").document(orderId).set(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                            }
+                                                        })
+                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
+                                                                        //
+                                                                        Log.w(TAG, "Error writing document", e);
+                                                                    }
+                                                                });
+
+                                                    /*    Intent serviceIntent = new Intent(mCtx, AlarmService.class);
+                                                        serviceIntent.putExtra("inputExtra", serviceName + " Your Order Is Started");
+                                                        serviceIntent.putExtra("orderId", orderId);
+                                                        ContextCompat.startForegroundService(mCtx, serviceIntent);*/
+                                                    }
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                                //   canclBtn.setVisibility(View.GONE);
+                                                //   Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
+                                                Log.d("result", result.toString());
+                                                Intent intent = new Intent(mCtx, MyBokingsActivity.class);
+                                                mCtx.startActivity(intent);
+                                            } catch (ExecutionException e) {
+                                                e.printStackTrace();
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            Toast.makeText(v.getContext(), "Entered Otp is wrong", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                            }
+                        });
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
             //     holder.discountUpdateBtn.setVisibility(View.VISIBLE);
             //            holder.priceUpdateBtn.setVisibility(View.VISIBLE);
 
@@ -244,7 +413,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 
         private Context mCtx;
         private TextView startTime, endtime, customerName, customerContact, catagoryName, serviceName, totalTime, pricingterm,
-                disctName, catlgId, catagryName, catlgName, pricingterms, serviceID, cusId;
+                disctName, catlgId, catagryName, catlgName, pricingterms, serviceID, cusId, orderIssss;
         private Button genrateBtn, trackinBtn, stopBtn, acceptPaymentBtn, priceUpdateBtn, discountUpdateBtn;
         private LinearLayout linearLayout, linerButtonSide;
         private List<Order> orderitemList;
@@ -276,13 +445,14 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             catagryName = itemView.findViewById(R.id.catagoryName);
             pricingterms = itemView.findViewById(R.id.pricingterm);
             serviceID = itemView.findViewById(R.id.serviceID);
+            orderIssss = itemView.findViewById(R.id.orderIDS);
             // catlgName = itemView.findViewById(R.id.catalogName);
             catlgId = itemView.findViewById(R.id.catalogID);
             disctName = itemView.findViewById(R.id.discountName);
             linearLayout = itemView.findViewById(R.id.l5);
-            genrateBtn.setOnClickListener(this);
+            //   genrateBtn.setOnClickListener(this);
             // trackinBtn.setOnClickListener(this);
-            stopBtn.setOnClickListener(this);
+
             acceptPaymentBtn.setOnClickListener(this);
             priceUpdateBtn = itemView.findViewById(R.id.priceupdateBtn);
             priceUpdateBtn.setOnClickListener(this);
@@ -294,10 +464,10 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
         public void onClick(final View v) {
 
             switch (v.getId()) {
-                case R.id.genOtpBtn:
-                    try {
-                       /* result = new EmployeeOrderHelper.GenerateOtp().execute(orderId).get();
-                        Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();*/
+
+                /*  try {
+                 *//* result = new EmployeeOrderHelper.GenerateOtp().execute(orderId).get();
+                        Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();*//*
 
                         final android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(v.getRootView().getContext());
                         LayoutInflater inflater = LayoutInflater.from(v.getRootView().getContext());
@@ -321,7 +491,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
                                         String otps = String.valueOf(task.getResult().get("otp"));
-                                        if (otps.equals(String.valueOf(enterOtp.getText()))) {
+                                        if (otps.equals(String.valueOf(enterOtp.getText().toString()))) {
                                             try {
                                                 result = new CustomerOrderHelper.OrderStartEmployee().execute(orderId).get();
                                                 Gson gson = new Gson();
@@ -367,10 +537,10 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                                                                     }
                                                                 });
 
-                                                    /*    Intent serviceIntent = new Intent(mCtx, AlarmService.class);
+                                                    *//*    Intent serviceIntent = new Intent(mCtx, AlarmService.class);
                                                         serviceIntent.putExtra("inputExtra", serviceName + " Your Order Is Started");
                                                         serviceIntent.putExtra("orderId", orderId);
-                                                        ContextCompat.startForegroundService(mCtx, serviceIntent);*/
+                                                        ContextCompat.startForegroundService(mCtx, serviceIntent);*//*
                                                     }
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
@@ -395,78 +565,15 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 
                     } catch (Exception e) {
                         e.printStackTrace();
-                    }
+                    }*/
 
-                    break;
+
 //                case R.id.trackBtn:
 //                        intent = new Intent(mCtx, EmployeeLocationActivity.class);
 //                        mCtx.startActivity(intent);
 //
 //                    break;
-                case R.id.stopBtn:
 
-                    try {
-                        result = new EmployeeOrderHelper.StopOrder().execute(orderId).get();
-                        Gson gson = new Gson();
-                        Type getType = new TypeToken<ResultModel>() {
-                        }.getType();
-                        ResultModel resultModel = new Gson().fromJson(result, getType);
-                        if (resultModel.getMessage().contains("Order End")) {
-
-                         /*   Intent serviceIntent = new Intent(mCtx, AlarmService.class);
-                            serviceIntent.putExtra("inputExtra", "Order End");
-                            serviceIntent.putExtra("orderId", orderId);
-                            ContextCompat.startForegroundService(mCtx, serviceIntent);*/
-
-                            String employeeid = resultModel.getEmployeeID().toString();
-                            Map<String, Object> profile = new HashMap<>();
-                            profile.put("busystatus", false);
-
-                            db.collection("Profile").document(employeeid).update(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "DocumentSnapshot successfully written!");
-                                }
-                            })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w(TAG, "Error writing document", e);
-                                        }
-                                    });
-                            Date today = new Date();
-                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
-                            String dateToStr = format.format(today);
-                            Map<String, Object> order = new HashMap<>();
-                            order.put("endTime", dateToStr);
-
-                            db.collection("Order").document(orderId).update(order).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "DocumentSnapshot successfully written!");
-                                }
-                            })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w(TAG, "Error writing document", e);
-                                        }
-                                    });
-                            showpaymentdialog();
-
-
-                        }
-
-
-                        //     Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-
-                    break;
                 case R.id.acceptPaymentBtn:
 
                     //   showpaymentdialog();

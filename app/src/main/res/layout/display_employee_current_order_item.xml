@@ -355,6 +355,11 @@
                             android:fontFamily="monospace"
                             android:layout_weight="1"
                             android:background="@drawable/adapter_btn_background"/>
+                        <TextView
+                            android:id="@+id/orderIDS"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"/>
 
                </LinearLayout>
                 </RelativeLayout>

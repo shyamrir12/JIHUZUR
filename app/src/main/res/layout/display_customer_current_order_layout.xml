@@ -296,6 +296,18 @@
                             android:textSize="13sp"
                             android:visibility="visible"
                             android:fontFamily="@font/fonts"/>
+                        <TextView
+                            android:id="@+id/otp"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/adapter_btn_background"
+                            android:text="Otp"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="13sp"
+                            android:visibility="visible"
+                            android:fontFamily="@font/fonts"/>
 
                     </LinearLayout>
                 </RelativeLayout>
