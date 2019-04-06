@@ -2,17 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/final_splash_screen">
+    android:background="@drawable/final_splash_screen">
 
-
-
-    <!--<ImageView-->
-        <!--android:id="@+id/img"-->
-        <!--android:layout_width="190dp"-->
-        <!--android:layout_height="70dp"-->
-        <!--android:layout_marginTop="80dp"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:src="@mipmap/jihuzur" />-->
     <LinearLayout
         android:id="@+id/l"
         android:layout_width="match_parent"
@@ -21,14 +12,6 @@
         android:layout_marginTop="20dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true">
-
-
-            <!--<ImageView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="100dp"-->
-                <!--android:src="@mipmap/final_logo"-->
-                <!--android:layout_gravity="center_horizontal|center|center_vertical" />-->
-
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleLarge"
@@ -36,7 +19,6 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center|center_horizontal"/>
-
     </LinearLayout>
 
 
