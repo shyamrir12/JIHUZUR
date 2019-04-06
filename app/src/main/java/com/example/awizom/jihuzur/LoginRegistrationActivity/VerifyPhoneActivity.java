@@ -196,6 +196,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
                             intent = new Intent(VerifyPhoneActivity.this, CustomerHomePage.class);
                             startActivity(intent);
                             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+
                         }
                     }
                 }
@@ -232,19 +233,16 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
                         SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
                         role = SharedPrefManager.getInstance(VerifyPhoneActivity.this).getUser().Role;
                         if (role.equals("Customer")) {
-                            intent = new Intent(VerifyPhoneActivity.this, CustomerProfileActivity.class);
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-                        } else if (role.equals("Admin")) {
-                            intent = new Intent(VerifyPhoneActivity.this, AdminHomePage.class);
-                            startActivity(intent);
-                        }
 
-                        if (role.equals("Employee") && active == true) {
-                            intent = new Intent(VerifyPhoneActivity.this, EmployeeHomePage.class);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Please Contact Your Admin", Toast.LENGTH_SHORT).show();
+                            if(dataProfile.Name.toString().isEmpty()){
+                                intent = new Intent(VerifyPhoneActivity.this, CustomerHomePage.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                            }else {
+                                intent = new Intent(VerifyPhoneActivity.this, CustomerHomePage.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                            }
                         }
                     }
                 }

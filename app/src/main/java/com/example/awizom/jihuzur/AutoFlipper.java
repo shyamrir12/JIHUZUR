@@ -72,8 +72,6 @@ public class AutoFlipper extends Activity {
                 Type listType = new TypeToken<List<DiscountView>>() {
                 }.getType();
                 discountModel = new Gson().fromJson(result, listType);
-
-                discountModel = new Gson().fromJson(result, listType);
                 discountImageAdapter = new DiscountImageAdapter(getApplicationContext(), discountModel);
                 recyclerView.setAdapter(discountImageAdapter);
             }

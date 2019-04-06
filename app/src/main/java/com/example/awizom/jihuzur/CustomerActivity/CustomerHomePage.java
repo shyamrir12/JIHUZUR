@@ -33,6 +33,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.widget.AdapterViewFlipper;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -49,6 +50,7 @@ import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerCatagoryAdapter;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerHomePageAdapter;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.DiscountImageAdapter;
+import com.example.awizom.jihuzur.ExampleFliperAdapter;
 import com.example.awizom.jihuzur.Fragment.CatalogFragment;
 import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
 import com.example.awizom.jihuzur.Fragment.SearchFragment;
@@ -102,13 +104,9 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     List<Catalog> categorylist;
     String imgstr;
 
-    DiscountImageAdapter discountImageAdapter;
+    private AdapterViewFlipper simpleAdapterViewFlipper;
     private List<DiscountModel> discountModel;
-    private ViewFlipper viewFlipper;
-    private Button recalls;
 
-    private String[] imageList;
-    String imageLists = String.valueOf(new ArrayList<String>());
 
     //bottom navigation drawer started
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -191,9 +189,10 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         View headerview = navigationView.getHeaderView(0);
         viewDialog = new ViewDialog((Activity) CustomerHomePage.this);
         imageView = headerview.findViewById(R.id.imageView);
+        simpleAdapterViewFlipper = (AdapterViewFlipper) findViewById(R.id.simpleAdapterViewFlipper);
 
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setFlipInterval(1000);
+//        recyclerView = findViewById(R.id.recyclerView);
+//        recyclerView.setFlipInterval(1000);
        /* recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));*/
 
@@ -546,10 +545,8 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 
     private void getDiscountImageList() {
 
-
         try {
             result = new CustomerOrderHelper.GETDiscountList().execute().get();
-
 
             if (result.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
@@ -559,27 +556,19 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 }.getType();
                 discountModel = new Gson().fromJson(result, listType);
 
-                imageList = new String[discountModel.size()];
+                String imageNames[] = new String[discountModel.size()];
+                for(int i = 0; i<= discountModel.size(); i++){
+                    imageNames[i] = discountModel.get(i).getPhoto();
+                    ExampleFliperAdapter customAdapter = new ExampleFliperAdapter(getApplicationContext(), imageNames);
+                    simpleAdapterViewFlipper.setAdapter(customAdapter);
+                    simpleAdapterViewFlipper.setFlipInterval(3000);
+                    simpleAdapterViewFlipper.setAutoStart(true);
 
-                recyclerView.setFlipInterval(1000);
-//                for (int i = 0; i < discountModel.size(); i++) {
-//                    String[] elements = {discountModel.get(i).Photo};
-//                    for (String s : elements) {
-//                        //Do your stuff here
-//                        Log.d("Datassssssssssss", s);
-//                        Toast.makeText(getApplicationContext(), AppConfig.BASE_URL + s, Toast.LENGTH_SHORT).show();
-//                        setFlipperImage(AppConfig.BASE_URL + s);
-//                    }
-//                }
-//                    for (int i = 0;i<=discountModel.size();i++){
-//
-//                        imageLists = discountModel.get(i).getPhoto().toString();
-//                        Toast.makeText(getApplicationContext(),AppConfig.BASE_URL+imageLists, Toast.LENGTH_SHORT).show();
-//
-//                    }
+
+                }
+
 
             }
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -587,14 +576,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     }
 
 
-    private void setFlipperImage(String res) {
-        Log.i("Set Filpper Called", res + "");
-        Toast.makeText(getApplicationContext(), res + "", Toast.LENGTH_SHORT).show();
-       // ImageView image = findViewById(R.id.imgview);
-//        Glide.with(this).load(res)
-//                .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
-//                .into(image);
-//        recyclerView.addView(image);
-    }
+
 }
 

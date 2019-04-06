@@ -23,10 +23,13 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -266,7 +269,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         if (data != null) {
             priceID = data;
             AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
-            alertbox.setMessage("1. Once the order is placed, minimum onword of Rs. 100 will be Charged. " + "\n"+"2. Once the order is placed, customer could not cancel the order, only our executive can do so accordingly" );
+            alertbox.setMessage("1. Once the order is placed, minimum onword of Rs. 100 will be Charged. " + "\n"+"2. Once the order is placed, customer could not cancel the order, only our executive can do so accordingly." );
             alertbox.setTitle("Terms & Condition");
             alertbox.setIcon(R.drawable.ic_dashboard_black_24dp);
             alertbox.setNeutralButton("Ok",
@@ -281,6 +284,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 
                         }
                     });
+
 
             alertbox.show();
 
@@ -301,16 +305,55 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     }
 
     private void showTheAlertOrderDailogue() {
-        AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
-        alertbox.setMessage("Do you want to place this order");
-        alertbox.setTitle("Order");
-        alertbox.setIcon(R.drawable.ic_dashboard_black_24dp);
-        alertbox.setNeutralButton("Yes",
-                new DialogInterface.OnClickListener() {
-                    Class fragmentClass = null;
-                    public void onClick(DialogInterface arg0,
-                                        int arg1) {
+//        AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
+//        alertbox.setMessage("Do you want to place this order ?" + "\n" + "\"Enter coupan code\"");
+//        alertbox.setTitle("Order");
+//        final EditText input = new EditText(this);
+//
+//        alertbox.setIcon(R.drawable.ic_dashboard_black_24dp);
+//        alertbox.setNeutralButton("Yes",
+//                new DialogInterface.OnClickListener() {
+//                    Class fragmentClass = null;
+//                    public void onClick(DialogInterface arg0,
+//                                        int arg1) {
+//
+//                        progressDialog.setMessage("Order in progress ...");
+//                        progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
+//                        progressDialog.show();
+//
+//                        new Handler().postDelayed(new Runnable() {
+//
+//                            @Override
+//                            public void run() {
+//                                String dicountCoupan = input.getText().toString();
+//                        postOderCreate(dicountCoupan);
+//                            }
+//                        }, TIMER);
+//                    }
+//                });
+//        alertbox.setPositiveButton("No", null);
+//        alertbox.show();
 
+
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Order Create");
+        alertDialog.setMessage("Do you want to place this order ?");
+
+        final EditText input = new EditText(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        input.setHint("Enter coupon code");
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        alertDialog.setView(input);
+        alertDialog.setIcon(R.drawable.ic_dashboard_black_24dp);
+
+        alertDialog.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String dicountCoupan = input.getText().toString();
                         progressDialog.setMessage("Order in progress ...");
                         progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
                         progressDialog.show();
@@ -319,28 +362,39 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 
                             @Override
                             public void run() {
-                        postOderCreate();
+                                String dicountCoupan = input.getText().toString();
+                                postOderCreate(dicountCoupan);
                             }
                         }, TIMER);
                     }
                 });
-        alertbox.setPositiveButton("No", null);
-        alertbox.show();
+
+        alertDialog.setNegativeButton("NO",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        alertDialog.show();
     }
 
-    private void postOderCreate() {
+
+
+    private void postOderCreate(String dicountCoupan) {
         String date = new SimpleDateFormat("MM/dd/yy", Locale.getDefault()).format(new Date());
         String customerid = SharedPrefManager.getInstance(getApplicationContext()).getUser().getID();
         String empId = selectedEmpId;
         String orderDate = String.valueOf(date);
         String catalogId = String.valueOf(serviceID);
+        String coupncode = dicountCoupan;
         if (priceID.equals(null)) {
             priceIds = priceIDs;
         } else {
             priceIds = priceID;
         }
         try {
-            result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId, priceIds).get();
+            result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId, priceIds,coupncode).get();
             Gson gson = new Gson();
             Type getType = new TypeToken<ResultModel>() {
             }.getType();

@@ -24,10 +24,7 @@
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_settings_power_black_24dp"
             android:title="signout" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+
 
 
     </group>

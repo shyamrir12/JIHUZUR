@@ -305,6 +305,7 @@ public class CustomerOrderHelper extends AppCompatActivity {
             String orderDate = params[2];
             String catalogId = params[3];
             String priceId = params[4];
+            String coupanCode = params[5];
 
             String json = "";
             try {
@@ -320,6 +321,7 @@ public class CustomerOrderHelper extends AppCompatActivity {
                 parameters.add("OrderDate", orderDate);
                 parameters.add("CatalogID", catalogId);
                 parameters.add("PricingID", priceId);
+                parameters.add("DiscountName", coupanCode);
                 builder.post(parameters.build());
                 okhttp3.Response response = client.newCall(builder.build()).execute();
                 if (response.isSuccessful()) {
