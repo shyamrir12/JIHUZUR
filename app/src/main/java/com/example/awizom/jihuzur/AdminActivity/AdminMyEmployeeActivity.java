@@ -1,6 +1,7 @@
 package com.example.awizom.jihuzur.AdminActivity;
 
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -24,8 +25,12 @@ import com.example.awizom.jihuzur.Model.MyEmployeeListModel;
 import com.example.awizom.jihuzur.Model.ResultModel;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.ViewDialog;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -116,7 +121,8 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
         final AlertDialog b = dialogBuilder.create();
         b.show();
 
-        buttonaddEmployee.setOnClickListener(new View.OnClickListener() {
+
+                buttonaddEmployee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                   showcustomloadindialogue();
@@ -203,6 +209,8 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
 
             myEmployeeListModels = new Gson().fromJson(result, listType);
             myEmployeeListAdapter = new MyEmployeeListAdapter(AdminMyEmployeeActivity.this, myEmployeeListModels);
+
+
             mSwipeRefreshLayout.setRefreshing(false);
             recyclerView.setAdapter(myEmployeeListAdapter);
 

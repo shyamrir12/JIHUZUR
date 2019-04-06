@@ -112,6 +112,7 @@
         <activity
             android:name=".CustomerActivity.CustomerSplashActivity"
             android:theme="@style/AppFullScreenTheme">
+
         </activity>
         <activity
             android:name=".SplashActivityAdmin"
@@ -135,6 +136,8 @@
             android:label="@string/title_activity_admin_complaint_reply"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+
+
             android:name=".SelectServices"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

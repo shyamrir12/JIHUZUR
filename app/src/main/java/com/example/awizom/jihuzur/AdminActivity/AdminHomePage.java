@@ -58,6 +58,7 @@ import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeCurre
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeHistoryAdapter;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment.EmployeeCurrentOrderFragment;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment.EmployeeHistoryCurrentFragment;
+import com.example.awizom.jihuzur.HelpCenterActivity;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Locationhelper.FetchURL;
@@ -203,9 +204,9 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     break;
 
                 case R.id.navigation_helpCenter:
-                 /*   intent = new Intent(AdminHomePage.this, HelpCenterActivity.class);
-                    startActivity(intent);*/
-                    generateRandomNumber();
+                    intent = new Intent(AdminHomePage.this, HelpCenterActivity.class);
+                    startActivity(intent);
+                 //   generateRandomNumber();
 
                     //  overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 //                    getSupportActionBar().setTitle("Help Center");
@@ -677,13 +678,25 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                         db.collection("Profile").document(employeeid[i]).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                Bitmap smallMarker = null;
                                 latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().get("lat"))),
                                         Double.valueOf(String.valueOf(task.getResult().get("long"))));
-                                int height = 100;
-                                int width = 100;
-                                BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.map_logo);
-                                Bitmap b = bitmapdraw.getBitmap();
-                                Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                                boolean busystatus= (boolean) task.getResult().get("busystatus");
+                              if(busystatus){
+                                  int height = 100;
+                                  int width = 100;
+                                  BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.map_logo);
+                                  Bitmap b = bitmapdraw.getBitmap();
+                                   smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                              }
+                              else{
+                                    int height = 100;
+                                    int width = 100;
+                                    BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.map_logo_green_removebg);
+                                    Bitmap b = bitmapdraw.getBitmap();
+                                     smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                                }
+
 
                                 mGoogleMap.addMarker(new MarkerOptions().position(latLng).
                                         icon(BitmapDescriptorFactory.fromBitmap(smallMarker))).setTitle(empNameList[finalI] + "," + employeeid[finalI1] + "," + employeeimage[finalI2] + "," + employeemobile[finalI2]);
