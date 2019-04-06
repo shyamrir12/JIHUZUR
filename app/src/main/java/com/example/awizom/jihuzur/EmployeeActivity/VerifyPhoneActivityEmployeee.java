@@ -129,7 +129,7 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements V
                 progressDialog.dismiss();
                 Gson gson = new Gson();
                 UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
-                Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
+           //     Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
 
                 if (!result.equals(null)) {
 

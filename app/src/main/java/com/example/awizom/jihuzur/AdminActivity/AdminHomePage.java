@@ -665,9 +665,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     employeeimage[i] = String.valueOf(employeeProfileModelList.get(i).getImage());
                     empMobile.add(employeeProfileModelList.get(i).getMobileNo());
                     empName.add(employeeProfileModelList.get(i).getName());
-
                     try {
-
                           /*  name = dataProfileEmployee.getName();
                             mobno = dataProfileEmployee.getMobileNo();
                             img_str = dataProfileEmployee.getImage();*/
