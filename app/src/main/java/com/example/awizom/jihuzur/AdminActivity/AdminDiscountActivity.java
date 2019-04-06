@@ -70,7 +70,7 @@ public class AdminDiscountActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     String result = "";
     ArrayList<String> worldlist;
-    String discounttypes,category;
+    String discounttypes, category;
     Uri picUri;
     SwipeControllerDiscount swipeController;
     Uri outputFileUri;
@@ -127,20 +127,21 @@ public class AdminDiscountActivity extends AppCompatActivity {
                 swipeController = new SwipeControllerDiscount(new SwipeControllerActions() {
                     @Override
                     public void onRightClicked(int position) {
-                        String discountid= String.valueOf(discountlist.get(position).getDiscountID());
+                        String discountid = String.valueOf(discountlist.get(position).getDiscountID());
                         progressDialog.setMessage("loading...");
                         progressDialog.show();
-                       // Toast.makeText(getApplicationContext(), position + "position", Toast.LENGTH_LONG).show();
+                        // Toast.makeText(getApplicationContext(), position + "position", Toast.LENGTH_LONG).show();
                         deletediscount(discountid);
                         progressDialog.dismiss();
                    /* mAdapter.players.remove(position);
                     mAdapter.notifyItemRemoved(position);
                     mAdapter.notifyItemRangeChanged(position, mAdapter.getItemCount());*/
                     }
+
                     @Override
                     public void onLeftClicked(int position) {
                         super.onLeftClicked(position);
-                        Intent intent=new Intent(AdminDiscountActivity.this,AdminHomePage.class);
+                        Intent intent = new Intent(AdminDiscountActivity.this, AdminHomePage.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                     }
@@ -166,7 +167,7 @@ public class AdminDiscountActivity extends AppCompatActivity {
 
         try {
             result = new AdminHelper.DeleteDiscount().execute(discountid).get();
-            Toast.makeText(getApplicationContext(), result+"", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), result + "", Toast.LENGTH_SHORT).show();
             getDiscountList();
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -202,7 +203,7 @@ public class AdminDiscountActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                category ="Plumber";
+                category = "Plumber";
             }
         });
         editDiscountType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -246,7 +247,7 @@ public class AdminDiscountActivity extends AppCompatActivity {
                     String discountName = editDiscountName.getText().toString();
                     String discounttype = discounttypes;
                     String discountamount = editDiscountAmount.getText().toString().trim();
-                    String edtcategory =category;
+                    String edtcategory = category;
 
                     try {
                         //String res="";

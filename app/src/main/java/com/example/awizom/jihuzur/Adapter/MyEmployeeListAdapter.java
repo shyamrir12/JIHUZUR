@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -36,6 +37,11 @@ import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.MyCustomDialog;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.SelectServices;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -57,7 +63,7 @@ public class MyEmployeeListAdapter extends RecyclerView.Adapter<MyEmployeeListAd
     private Context mCtx;
     String result="";
     String id,active;
-
+  FirebaseFirestore db;
     public MyEmployeeListAdapter(Context baseContext, List<MyEmployeeListModel> myemployeeListModels) {
         this.myEmployeeListModels = myemployeeListModels;
         this.mCtx = baseContext;
@@ -77,9 +83,18 @@ public class MyEmployeeListAdapter extends RecyclerView.Adapter<MyEmployeeListAd
         holder.mobileNo.setText(String.valueOf(c.getMobileNo()));
         holder.employeeid.setText(c.getID());
 
-
-
-        if (c.isActive()) {
+        db.collection("Profile").document(holder.employeeid.getText().toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                Bitmap smallMarker = null;
+                boolean busystatus = (boolean) task.getResult().get("busystatus");
+                if (busystatus) {
+                 holder.employeeName.setTextColor(Color.parseColor("#8B0000"));
+                }
+                else {  holder.employeeName.setTextColor(Color.parseColor("#008000"));}
+            }
+        });
+                    if (c.isActive()) {
             holder.Activeemployee.setText("Deactivate");
             holder.Activeemployee.setChecked(true);
 
@@ -133,6 +148,7 @@ public class MyEmployeeListAdapter extends RecyclerView.Adapter<MyEmployeeListAd
         Switch Activeemployee;
         public MyViewHolder(View view) {
             super(view);
+            db = FirebaseFirestore.getInstance();
             employeeName = view.findViewById(R.id.employeeName);
             mobileNo = view.findViewById(R.id.mobileNumber);
             Activeemployee = view.findViewById(R.id.true_false);

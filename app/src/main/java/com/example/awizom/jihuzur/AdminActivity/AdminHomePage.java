@@ -58,6 +58,7 @@ import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeCurre
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeHistoryAdapter;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment.EmployeeCurrentOrderFragment;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment.EmployeeHistoryCurrentFragment;
+import com.example.awizom.jihuzur.HelpCenterActivity;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Locationhelper.FetchURL;
@@ -203,11 +204,11 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     break;
 
                 case R.id.navigation_helpCenter:
-                 /*   intent = new Intent(AdminHomePage.this, HelpCenterActivity.class);
-                    startActivity(intent);*/
-                    generateRandomNumber();
+                    intent = new Intent(AdminHomePage.this, HelpCenterActivity.class);
+                    startActivity(intent);
+                 //   generateRandomNumber();
 
-                  //  overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                    //  overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 //                    getSupportActionBar().setTitle("Help Center");
 //                    fragment = helpCenterFragment;
 //                    framentClass = HelpCenterFragment.class;
@@ -250,7 +251,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 .setContentTitle("JiHUzzur Otp for Order")
                 .setContentText(String.valueOf(randomNumber)).setSmallIcon(R.drawable.jihuzurapplogo)
                 .setContentIntent(pendingIntent)
-              .build();
+                .build();
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         // hide the notification after its selected
         noti.flags |= Notification.FLAG_NO_CLEAR;
@@ -258,7 +259,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         notificationManager.notify(randomNumber, noti);
 
 
-        Toast.makeText(getApplicationContext(),randomNumber+" number",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), randomNumber + " number", Toast.LENGTH_LONG).show();
 
         return randomNumber;
     }
@@ -311,7 +312,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         toolbar.setTitle("");
 
         employeeImage = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.employee_dp);
-         orderphotorequest=(TextView)findViewById(R.id.sendorderphoto) ;
+        orderphotorequest = (TextView) findViewById(R.id.sendorderphoto);
 
         call = (ImageView) findViewById(R.id.call);
         viewDialog = new ViewDialog(this);
@@ -516,7 +517,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         final RelativeLayout relativeLayout = (RelativeLayout) marker.findViewById(R.id.custom_marker_view);
         String img_strs = AppConfig.BASE_URL + resource;
         /*        markerImage.setImageResource(resource);*/
-
         final TextView txt_name = (TextView) marker.findViewById(R.id.name);
         TextView text_mob = (TextView) marker.findViewById(R.id.mobno);
         TextView txt_id = (TextView) marker.findViewById(R.id.empid);
@@ -678,13 +678,25 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                         db.collection("Profile").document(employeeid[i]).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                Bitmap smallMarker = null;
                                 latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().get("lat"))),
                                         Double.valueOf(String.valueOf(task.getResult().get("long"))));
-                                int height = 100;
-                                int width = 100;
-                                BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.map_logo);
-                                Bitmap b = bitmapdraw.getBitmap();
-                                Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                                boolean busystatus= (boolean) task.getResult().get("busystatus");
+                              if(busystatus){
+                                  int height = 100;
+                                  int width = 100;
+                                  BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.map_logo);
+                                  Bitmap b = bitmapdraw.getBitmap();
+                                   smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                              }
+                              else{
+                                    int height = 100;
+                                    int width = 100;
+                                    BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.map_logo_green_removebg);
+                                    Bitmap b = bitmapdraw.getBitmap();
+                                     smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                                }
+
 
                                 mGoogleMap.addMarker(new MarkerOptions().position(latLng).
                                         icon(BitmapDescriptorFactory.fromBitmap(smallMarker))).setTitle(empNameList[finalI] + "," + employeeid[finalI1] + "," + employeeimage[finalI2] + "," + employeemobile[finalI2]);
@@ -864,8 +876,8 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                 oderrun.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                    b.cancel();
-                                       getSupportActionBar().setTitle(namemark + "'s" + " " + "Current Order");
+                                        b.cancel();
+                                        getSupportActionBar().setTitle(namemark + "'s" + " " + "Current Order");
                                         Fragment employeeCurrentOrderFragment = new EmployeeCurrentOrderFragment();//Get Fragment Instance
                                         Bundle data = new Bundle();//Use bundle to pass data
                                         data.putString("EmployeeID", ide);//put string, int, etc in bundle with a key value
@@ -897,7 +909,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                 orderHist.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                   b.cancel();
+                                        b.cancel();
                                         getSupportActionBar().setTitle(namemark + "'s" + " " + "Order History");
                                         Fragment employeeHistoryCurrentFragment = new EmployeeHistoryCurrentFragment();//Get Fragment Instance
                                         Bundle data = new Bundle();//Use bundle to pass data
@@ -949,7 +961,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 .build();
         mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         /* set zoom position by this value */
-
+ //
     }
 
     private String getUrl(LatLng origin, LatLng dest, String directionMode) {
