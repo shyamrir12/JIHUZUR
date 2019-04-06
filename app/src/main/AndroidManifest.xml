@@ -153,7 +153,7 @@
         <activity android:name=".AddAddressActivity" />
         <activity
             android:name=".LoginRegistrationActivity.VerifyPhoneActivity"
-            android:theme="@style/AppFullScreenTheme"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <activity
             android:name=".EmployeeActivity.EmployeeBookingsActivity"
