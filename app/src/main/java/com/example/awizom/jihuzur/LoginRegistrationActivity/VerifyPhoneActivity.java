@@ -84,7 +84,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
         progressDialog = new ProgressDialog(VerifyPhoneActivity.this);
 
         createuser();
-        new CountDownTimer(30000, 1000) {
+        new CountDownTimer(180000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 countDown.setText("" + millisUntilFinished / 1000);

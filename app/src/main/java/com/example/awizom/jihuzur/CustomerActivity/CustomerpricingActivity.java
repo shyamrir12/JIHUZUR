@@ -269,7 +269,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         if (data != null) {
             priceID = data;
             AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
-            alertbox.setMessage("1. Once the order is placed, minimum onword of Rs. 100 will be Charged. " + "\n"+"2. Once the order is placed, customer could not cancel the order, only our executive can do so accordingly." );
+            alertbox.setMessage("1. Once the order is placed, minimum amount of Rs. 100 will be charged. " + "\n"+"2. Once the order is placed, customer could not cancel the order, only our executive can do so accordingly." );
             alertbox.setTitle("Terms & Condition");
             alertbox.setIcon(R.drawable.ic_dashboard_black_24dp);
             alertbox.setNeutralButton("Ok",

@@ -34,7 +34,7 @@
                 android:gravity="center|center_horizontal"
                 android:textStyle="bold"
                 android:textColor="#145278"
-                android:fontFamily="serif"/>
+                android:fontFamily="@font/fonts"/>
             <!--<ProgressBar-->
                 <!--android:id="@+id/homeprogress"-->
                 <!--android:layout_width="30dp"-->

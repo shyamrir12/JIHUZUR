@@ -110,7 +110,7 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
 
         ActivityCompat.requestPermissions(com.example.awizom.jihuzur.CustomerActivity.CustomerLoginRegActivity.this,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.CALL_PHONE, Manifest.permission.READ_CONTACTS},
+                        Manifest.permission.CALL_PHONE, Manifest.permission.READ_CONTACTS, Manifest.permission.RECEIVE_SMS},
                 1);
     }
 
@@ -207,7 +207,7 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                 ur = role.getText().toString().trim();
             try {
 
-                result = new LoginHelper.GetLogin().execute(editTextMobile.getText().toString().trim(), "Jihuzur@123", "Jihuzur@123", ur).get();
+                result = new LoginHelper.GetLogin().execute(editTextMobile.getText().toString().trim(), "Jihuzur@123", "Jihuzur@123", "Customer").get();
                 progressDialog.dismiss();
                 Gson gson = new Gson();
                 UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);

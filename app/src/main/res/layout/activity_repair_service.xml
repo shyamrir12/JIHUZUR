@@ -43,7 +43,7 @@
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         android:visibility="visible"
-        android:fontFamily="serif"/>
+        android:fontFamily="@font/fonts"/>
 
 
     <Button
@@ -61,5 +61,5 @@
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         android:visibility="visible"
-        android:fontFamily="serif"/>
+        android:fontFamily="@font/fonts"/>
 </LinearLayout>

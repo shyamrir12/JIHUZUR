@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_below="@+id/rvToolbar"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:fontFamily="@font/fonts"/>
 
     <TextView
         android:id="@+id/msgView"
@@ -21,7 +22,8 @@
         android:text="@string/msg_location_service_not_started"
         android:textColor="#000"
         android:textSize="20sp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:fontFamily="@font/fonts"/>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -30,7 +30,7 @@
                         android:textColor="@color/white"
                         android:text="Verify"
                         android:textSize="25sp"
-                        android:fontFamily="serif"
+                        android:fontFamily="serif-Relawy"
                         android:layout_gravity="center"
                         android:textStyle="bold"
                         android:layout_marginTop="10dp"

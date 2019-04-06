@@ -561,7 +561,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                     imageNames[i] = discountModel.get(i).getPhoto();
                     ExampleFliperAdapter customAdapter = new ExampleFliperAdapter(getApplicationContext(), imageNames);
                     simpleAdapterViewFlipper.setAdapter(customAdapter);
-                    simpleAdapterViewFlipper.setFlipInterval(3000);
+                    simpleAdapterViewFlipper.setFlipInterval(11000);
                     simpleAdapterViewFlipper.setAutoStart(true);
 
 
