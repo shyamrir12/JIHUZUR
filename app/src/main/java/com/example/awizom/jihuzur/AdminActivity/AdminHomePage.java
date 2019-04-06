@@ -948,7 +948,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 .build();
         mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         /* set zoom position by this value */
-
+ //
     }
 
     private String getUrl(LatLng origin, LatLng dest, String directionMode) {

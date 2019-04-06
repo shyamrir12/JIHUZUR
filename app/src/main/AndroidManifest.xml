@@ -48,9 +48,10 @@
         android:theme="@style/AppTheme">
         <receiver android:name=".SmsReceiver">
             <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
+
         <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
@@ -111,7 +112,6 @@
         <activity
             android:name=".CustomerActivity.CustomerSplashActivity"
             android:theme="@style/AppFullScreenTheme">
-
         </activity>
         <activity
             android:name=".SplashActivityAdmin"
@@ -144,16 +144,17 @@
         <activity
             android:name=".MyBokingsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CustomerActivity.CustomerpricingActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".CustomerActivity.CustomerpricingActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AddAddressActivity" />
         <activity
             android:name=".LoginRegistrationActivity.VerifyPhoneActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
             android:name=".EmployeeActivity.EmployeeBookingsActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ComplaintActivity" />
         <activity
             android:name=".CustomerActivity.CustomerComplaintActivity"
@@ -202,6 +203,7 @@
         <activity
             android:name=".EmployeeActivity.EmployeeLocationActivity"
             android:parentActivityName=".EmployeeActivity.EmployeeBookingsActivity" />
+
         <receiver android:name=".Service.MyBroadcastReceiver" />
 
         <activity
@@ -209,24 +211,27 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CustomerActivity.NewCustomerHome"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
-        <activity android:name=".LoginRegistrationActivity.VerifyPhoneActivityAdmin"
+        <activity
+            android:name=".LoginRegistrationActivity.VerifyPhoneActivityAdmin"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".EmployeeActivity.VerifyPhoneActivityEmployeee"
+        <activity
+            android:name=".EmployeeActivity.VerifyPhoneActivityEmployeee"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".CustomerActivity.CustomerProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".EmployeeActivity.EmployeeMyProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".CustomerActivity.CustomerProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".EmployeeActivity.EmployeeMyProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".HelpCenterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SMSTestActicity"/>
-<activity android:name=".ExampleFliper">
+        <activity android:name=".SMSTestActicity" />
+        <activity android:name=".ExampleFliper">
 
-</activity>
+        </activity>
     </application>
 
 </manifest>
