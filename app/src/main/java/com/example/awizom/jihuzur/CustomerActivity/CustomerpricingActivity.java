@@ -303,36 +303,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     }
 
     private void showTheAlertOrderDailogue() {
-//        AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
-//        alertbox.setMessage("Do you want to place this order ?" + "\n" + "\"Enter coupan code\"");
-//        alertbox.setTitle("Order");
-//        final EditText input = new EditText(this);
-//
-//        alertbox.setIcon(R.drawable.ic_dashboard_black_24dp);
-//        alertbox.setNeutralButton("Yes",
-//                new DialogInterface.OnClickListener() {
-//                    Class fragmentClass = null;
-//                    public void onClick(DialogInterface arg0,
-//                                        int arg1) {
-//
-//                        progressDialog.setMessage("Order in progress ...");
-//                        progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
-//                        progressDialog.show();
-//
-//                        new Handler().postDelayed(new Runnable() {
-//
-//                            @Override
-//                            public void run() {
-//                                String dicountCoupan = input.getText().toString();
-//                        postOderCreate(dicountCoupan);
-//                            }
-//                        }, TIMER);
-//                    }
-//                });
-//        alertbox.setPositiveButton("No", null);
-//        alertbox.show();
-
-
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle("Order Create");
