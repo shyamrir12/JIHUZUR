@@ -136,14 +136,14 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             //     holder.discountUpdateBtn.setVisibility(View.VISIBLE);
             //            holder.priceUpdateBtn.setVisibility(View.VISIBLE);
 
-            if (order.getOrderStartTime() != null) {
+          /*  if (order.getOrderStartTime() != null) {
                 holder.genrateBtn.setVisibility(View.GONE);
 
             } else {
                 holder.stopBtn.setVisibility(View.VISIBLE);
                 holder.genrateBtn.setVisibility(View.VISIBLE);
 //                holder.stopBtn.setVisibility(View.GONE);
-            }
+            }*/
 
             holder.sendphoto.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -154,7 +154,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                     mCtx.startActivity(intent);
                 }
             });
-
 
             db = FirebaseFirestore.getInstance();
             getServiceList(holder.catlgId.getText().toString());
@@ -221,7 +220,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
         }
     }
 
-
     private void getServiceList(String s) {
         try {
             result = new ServicesHelper.GETServiceList().execute(s).get();
@@ -260,7 +258,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             itemView.setOnClickListener(this);
             sendphoto = itemView.findViewById(R.id.sendPhoto);
             sendphoto.setOnClickListener(this);
-
             customerName = itemView.findViewById(R.id.cusName);
             cusId = itemView.findViewById(R.id.cusID);
             startTime = itemView.findViewById(R.id.starttime);
@@ -274,6 +271,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             trackinBtn = itemView.findViewById(R.id.trackBtn);
             stopBtn = itemView.findViewById(R.id.stopBtn);
             acceptPaymentBtn = itemView.findViewById(R.id.acceptPaymentBtn);
+            acceptPaymentBtn.setVisibility(View.GONE);
             linerButtonSide = itemView.findViewById(R.id.l6);
             catagryName = itemView.findViewById(R.id.catagoryName);
             pricingterms = itemView.findViewById(R.id.pricingterm);
@@ -378,7 +376,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                                                     e.printStackTrace();
                                                 }
                                                 //   canclBtn.setVisibility(View.GONE);
-                                             //   Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
+                                                //   Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                                                 Log.d("result", result.toString());
                                                 Intent intent = new Intent(mCtx, MyBokingsActivity.class);
                                                 mCtx.startActivity(intent);
@@ -460,7 +458,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                         }
 
 
-                   //     Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
+                        //     Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {
@@ -471,7 +469,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                     break;
                 case R.id.acceptPaymentBtn:
 
-                 //   showpaymentdialog();
+                    //   showpaymentdialog();
 
 
                     break;
@@ -494,14 +492,14 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             Type listType = new TypeToken<Order>() {
             }.getType();
             orderList = new Gson().fromJson(result, listType);
-         try {
-                 String payment = orderList.getAmount().toString();
-                 amount.setText(String.valueOf(payment));
-         }
-         catch (Exception e)
-         {e.printStackTrace();}
+            try {
+                String payment = orderList.getAmount().toString();
+                amount.setText(String.valueOf(payment));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-       //     Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
+            //     Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -520,7 +518,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                     result = new EmployeeOrderHelper.AcceptPayment().execute(orderId, empId).get();
                     intent = new Intent(mCtx, EmployeeHomePage.class);
                     mCtx.startActivity(intent);
-                  Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
@@ -529,7 +527,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 
             }
         });
-
 
 
     }

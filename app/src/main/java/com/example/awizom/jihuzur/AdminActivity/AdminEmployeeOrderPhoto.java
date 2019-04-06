@@ -26,7 +26,7 @@ import java.util.List;
 public class AdminEmployeeOrderPhoto extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    String result="";
+    String result = "";
     List<OrderPhoto> orderPhotoList;
     AdminOrderPhotoAdapter adminOrderPhotoAdapter;
 
@@ -37,8 +37,8 @@ public class AdminEmployeeOrderPhoto extends AppCompatActivity {
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         /*  catalogName = getIntent().getStringExtra("CatalogName");*/
 
-               toolbar.setTitle("Order Photo");
-          toolbar.setTitleTextColor(0xFFFFFFFF);
+        toolbar.setTitle("Order's Photo");
+        toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -47,7 +47,7 @@ public class AdminEmployeeOrderPhoto extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         getORderPhoto();
@@ -55,19 +55,17 @@ public class AdminEmployeeOrderPhoto extends AppCompatActivity {
 
     private void getORderPhoto() {
         try {
-          //  mSwipeRefreshLayout.setRefreshing(true);
+            //  mSwipeRefreshLayout.setRefreshing(true);
             result = new AdminHelper.GetOrderPhoto().execute().get();
             Gson gson = new Gson();
             Type listType = new TypeToken<List<OrderPhoto>>() {
             }.getType();
             orderPhotoList = new Gson().fromJson(result, listType);
             adminOrderPhotoAdapter = new AdminOrderPhotoAdapter(AdminEmployeeOrderPhoto.this, orderPhotoList);
-
             recyclerView.setAdapter(adminOrderPhotoAdapter);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
 }

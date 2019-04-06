@@ -277,8 +277,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                         Class fragmentClass = null;
                         public void onClick(DialogInterface arg0,
                                             int arg1) {
-
-
                                     showTheAlertOrderDailogue();
 
 
@@ -429,7 +427,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                                         Toast.LENGTH_LONG).show();
                             }
                         });
-
                 intent = new Intent(this, MyBokingsActivity.class);
                 generateRandomNumber(orrderid);
                 startActivity(intent);
@@ -496,8 +493,8 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         notificationManager.notify(randomNumber, noti);
         try {
 
-            Map<String, Object> profile = new HashMap<>();
-            profile.put("otp", randomNumber);
+            Map<String, String> profile = new HashMap<>();
+            profile.put("otp", String.valueOf(randomNumber));
 
             db.collection("OrderOtp").document(orderID)
                     .set(profile)

@@ -52,6 +52,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -71,6 +72,7 @@ public class AdminDiscountActivity extends AppCompatActivity {
     ArrayList<String> worldlist;
     String discounttypes,category;
     Uri picUri;
+    SwipeControllerDiscount swipeController;
     Uri outputFileUri;
     List<DiscountView> discountlist;
     private ArrayList<String> permissionsToRequest;
@@ -122,8 +124,53 @@ public class AdminDiscountActivity extends AppCompatActivity {
                 discountlist = new Gson().fromJson(result, listType);
                 discountListAdapter = new DiscountListAdapter(AdminDiscountActivity.this, discountlist);
                 recyclerView.setAdapter(discountListAdapter);
+                swipeController = new SwipeControllerDiscount(new SwipeControllerActions() {
+                    @Override
+                    public void onRightClicked(int position) {
+                        String discountid= String.valueOf(discountlist.get(position).getDiscountID());
+                        progressDialog.setMessage("loading...");
+                        progressDialog.show();
+                       // Toast.makeText(getApplicationContext(), position + "position", Toast.LENGTH_LONG).show();
+                        deletediscount(discountid);
+                        progressDialog.dismiss();
+                   /* mAdapter.players.remove(position);
+                    mAdapter.notifyItemRemoved(position);
+                    mAdapter.notifyItemRangeChanged(position, mAdapter.getItemCount());*/
+                    }
+                    @Override
+                    public void onLeftClicked(int position) {
+                        super.onLeftClicked(position);
+                        Intent intent=new Intent(AdminDiscountActivity.this,AdminHomePage.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                    }
+
+                });
+
+                ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+                itemTouchhelper.attachToRecyclerView(recyclerView);
+
+                recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+                    @Override
+                    public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                        swipeController.onDraw(c);
+                    }
+                });
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deletediscount(String discountid) {
+
+        try {
+            result = new AdminHelper.DeleteDiscount().execute(discountid).get();
+            Toast.makeText(getApplicationContext(), result+"", Toast.LENGTH_SHORT).show();
+            getDiscountList();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -305,9 +352,7 @@ public class AdminDiscountActivity extends AppCompatActivity {
                 String filePath = getImageFilePath(data);
                 if (filePath != null) {
                     Bitmap selectedImage = BitmapFactory.decodeFile(filePath);
-
                     imageView.setImageBitmap(selectedImage);
-
                 }
             }
         }

@@ -430,7 +430,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
                     finishAffinity();
                     System.exit(0);
 
-
                 }
             });
 
