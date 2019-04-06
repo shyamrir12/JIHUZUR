@@ -207,7 +207,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     startActivity(intent);*/
                     generateRandomNumber();
 
-                  //  overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                    //  overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 //                    getSupportActionBar().setTitle("Help Center");
 //                    fragment = helpCenterFragment;
 //                    framentClass = HelpCenterFragment.class;
@@ -250,7 +250,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 .setContentTitle("JiHUzzur Otp for Order")
                 .setContentText(String.valueOf(randomNumber)).setSmallIcon(R.drawable.jihuzurapplogo)
                 .setContentIntent(pendingIntent)
-              .build();
+                .build();
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         // hide the notification after its selected
         noti.flags |= Notification.FLAG_NO_CLEAR;
@@ -258,7 +258,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         notificationManager.notify(randomNumber, noti);
 
 
-        Toast.makeText(getApplicationContext(),randomNumber+" number",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), randomNumber + " number", Toast.LENGTH_LONG).show();
 
         return randomNumber;
     }
@@ -311,7 +311,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         toolbar.setTitle("");
 
         employeeImage = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.employee_dp);
-         orderphotorequest=(TextView)findViewById(R.id.sendorderphoto) ;
+        orderphotorequest = (TextView) findViewById(R.id.sendorderphoto);
 
         call = (ImageView) findViewById(R.id.call);
         viewDialog = new ViewDialog(this);
@@ -516,7 +516,6 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
         final RelativeLayout relativeLayout = (RelativeLayout) marker.findViewById(R.id.custom_marker_view);
         String img_strs = AppConfig.BASE_URL + resource;
         /*        markerImage.setImageResource(resource);*/
-
         final TextView txt_name = (TextView) marker.findViewById(R.id.name);
         TextView text_mob = (TextView) marker.findViewById(R.id.mobno);
         TextView txt_id = (TextView) marker.findViewById(R.id.empid);
@@ -864,8 +863,8 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                 oderrun.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                    b.cancel();
-                                       getSupportActionBar().setTitle(namemark + "'s" + " " + "Current Order");
+                                        b.cancel();
+                                        getSupportActionBar().setTitle(namemark + "'s" + " " + "Current Order");
                                         Fragment employeeCurrentOrderFragment = new EmployeeCurrentOrderFragment();//Get Fragment Instance
                                         Bundle data = new Bundle();//Use bundle to pass data
                                         data.putString("EmployeeID", ide);//put string, int, etc in bundle with a key value
@@ -897,7 +896,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                 orderHist.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                   b.cancel();
+                                        b.cancel();
                                         getSupportActionBar().setTitle(namemark + "'s" + " " + "Order History");
                                         Fragment employeeHistoryCurrentFragment = new EmployeeHistoryCurrentFragment();//Get Fragment Instance
                                         Bundle data = new Bundle();//Use bundle to pass data
