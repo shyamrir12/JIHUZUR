@@ -3,9 +3,11 @@ package com.example.awizom.jihuzur.CustomerActivity;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -449,29 +451,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 
 
         randomNumber = Integer.parseInt(s);
-        String custmob=  SharedPrefManager.getInstance(this).getUser().getMobileNo().toString();
-        try {
-            result = new CustomerOrderHelper.SendOrderOtp().execute(custmob,String.valueOf(randomNumber)).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-        final Intent emptyIntent = new Intent();
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        Notification noti = new Notification.Builder(this)
-                .setContentTitle("JiHUzzur Otp for Order")
-                .setContentText(String.valueOf(randomNumber)).setSmallIcon(R.drawable.jihuzurapplogo)
-                .setContentIntent(pendingIntent)
-                .build();
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        // hide the notification after its selected
-        noti.flags |= Notification.FLAG_NO_CLEAR;
-
-        notificationManager.notify(randomNumber, noti);
-        try {
 
             Map<String, String> profile = new HashMap<>();
             profile.put("otp", String.valueOf(randomNumber));
@@ -495,12 +475,59 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                     });
             Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
 
-        }
-        catch (Exception e)
-        {
+        String custmob=  SharedPrefManager.getInstance(this).getUser().getMobileNo().toString();
+        try {
+            result = new CustomerOrderHelper.SendOrderOtp().execute(custmob,String.valueOf(randomNumber)).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
+
+
+
+
+
+
+
+     //   PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+      /*  Notification noti = new Notification.Builder(this)
+                .setContentTitle("JiHUzzur Otp for Order")
+                .setContentText(String.valueOf(randomNumber)).setSmallIcon(R.drawable.jihuzurapplogo)
+                .setContentIntent(pendingIntent)
+                .build();
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        // hide the notification after its selected
+        noti.flags |= Notification.FLAG_NO_CLEAR;
+
+        notificationManager.notify(randomNumber, noti);
+*/
+
+        final Intent emptyIntent = new Intent();
+        NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        String channelId = "channel-01";
+        String channelName = "Channel Name";
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel mChannel = new NotificationChannel(
+                    channelId, channelName, importance);
+            notificationManager.createNotificationChannel(mChannel);
+        }
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.mipmap.jihuzurapplogo)
+                .setContentTitle("JiHUzzur Otp for Order")
+                .setContentText(String.valueOf(randomNumber));
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+     /*   stackBuilder.addNextIntent(intent);*/
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(pendingIntent);
+
+        notificationManager.notify(randomNumber, mBuilder.build());
 
         Toast.makeText(getApplicationContext(),randomNumber+" number",Toast.LENGTH_LONG).show();
 

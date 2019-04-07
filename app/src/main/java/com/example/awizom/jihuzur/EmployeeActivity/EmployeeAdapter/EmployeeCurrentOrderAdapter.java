@@ -99,6 +99,8 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             order = orderitemList.get(position);
             holder.customerName.setText(order.getName());
             holder.startTime.setText(order.getOrderStartTime());
+            if(!holder.startTime.getText().toString().equals(""))
+            {holder.genrateBtn.setVisibility(View.GONE);}
             holder.endtime.setText(order.getOrderEndTime());
             holder.customerContact.setText(order.getMobileNo());
             holder.catagoryName.setText(order.getCatalogName());
@@ -282,7 +284,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                                                 //   canclBtn.setVisibility(View.GONE);
                                                 //   Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                                                 Log.d("result", result.toString());
-                                                Intent intent = new Intent(mCtx, MyBokingsActivity.class);
+                                                Intent intent = new Intent(mCtx, EmployeeHomePage.class);
                                                 mCtx.startActivity(intent);
                                             } catch (ExecutionException e) {
                                                 e.printStackTrace();

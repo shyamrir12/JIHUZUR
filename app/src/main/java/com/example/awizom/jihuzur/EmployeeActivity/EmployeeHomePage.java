@@ -3,8 +3,10 @@ package com.example.awizom.jihuzur.EmployeeActivity;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,6 +32,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -280,7 +283,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
                         ? "Local" : "Server";
                 if (documentSnapshot != null && documentSnapshot.exists()) {
                     Log.d("Snapshot data", source + " data: " + documentSnapshot.getData());
-                    final Intent emptyIntent = new Intent(EmployeeHomePage.this,EmployeeHomePage.class);
+                 /*   final Intent emptyIntent = new Intent(EmployeeHomePage.this,EmployeeHomePage.class);
                     PendingIntent pendingIntent = PendingIntent.getActivity(EmployeeHomePage.this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     Notification noti = new Notification.Builder(EmployeeHomePage.this)
                             .setContentTitle("Hey! You Have Order")
@@ -288,8 +291,8 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
                             .setContentIntent(pendingIntent)
                             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                             .build();
-                    NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                    // hide the notification after its selected
+                    NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);*/
+
                     int randomNumber;
                     int range = 9;  // to generate a single number with this range, by default its 0..9
                     int length = 4;
@@ -304,7 +307,34 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
                         s = s + number;
                     }
                     randomNumber = Integer.parseInt(s);
-                    notificationManager.notify(1000,noti);
+                    final Intent emptyIntent = new Intent(EmployeeHomePage.this, EmployeeHomePage.class);
+                    NotificationManager notificationManager = (NotificationManager)EmployeeHomePage.this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                    String channelId = "channel-01";
+                    String channelName = "Channel Name";
+                    int importance = NotificationManager.IMPORTANCE_HIGH;
+
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        NotificationChannel mChannel = new NotificationChannel(
+                                channelId, channelName, importance);
+                        notificationManager.createNotificationChannel(mChannel);
+                    }
+
+                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(EmployeeHomePage.this, channelId)
+                            .setSmallIcon(R.mipmap.jihuzurapplogo)
+                            .setContentTitle("Hey! You Have Order")
+                            .setContentText(String.valueOf("Jihuzzur, You Have One Order Click Here For Details."));
+
+                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(EmployeeHomePage.this);
+                    /*   stackBuilder.addNextIntent(intent);*/
+                    PendingIntent pendingIntent = PendingIntent.getActivity(EmployeeHomePage.this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    mBuilder.setContentIntent(pendingIntent);
+
+                    notificationManager.notify(randomNumber, mBuilder.build());
+
+                    // hide the notification after its selected
+
+
 
                     db.collection("OrderNotification").document(id)
                             .delete()
@@ -339,7 +369,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
                         ? "Local" : "Server";
                 if (documentSnapshot != null && documentSnapshot.exists()) {
                     Log.d("Snapshot data", source + " data: " + documentSnapshot.getData());
-                    final Intent emptyIntent = new Intent(EmployeeHomePage.this,EmployeeHomePage.class);
+                   /* final Intent emptyIntent = new Intent(EmployeeHomePage.this,EmployeeHomePage.class);
                     PendingIntent pendingIntent = PendingIntent.getActivity(EmployeeHomePage.this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     Notification noti = new Notification.Builder(EmployeeHomePage.this)
                             .setContentTitle("Send Your Current Order Photo ")
@@ -363,7 +393,32 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
                         s = s + number;
                     }
                     randomNumber = Integer.parseInt(s);
-                    notificationManager.notify(260,noti);
+                    notificationManager.notify(260,noti);*/
+                    final Intent emptyIntent = new Intent(EmployeeHomePage.this, EmployeeHomePage.class);
+                    NotificationManager notificationManager = (NotificationManager)EmployeeHomePage.this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                    String channelId = "channel-01";
+                    String channelName = "Channel Name";
+                    int importance = NotificationManager.IMPORTANCE_HIGH;
+
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        NotificationChannel mChannel = new NotificationChannel(
+                                channelId, channelName, importance);
+                        notificationManager.createNotificationChannel(mChannel);
+                    }
+
+                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(EmployeeHomePage.this, channelId)
+                            .setSmallIcon(R.mipmap.jihuzurapplogo)
+                            .setContentTitle("Send Your Current Order Photo")
+                            .setContentText(String.valueOf(String.valueOf("Jihuzzur,Hey! Admin Is wants to See Yoour Current Order Photo")));
+
+                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(EmployeeHomePage.this);
+                    /*   stackBuilder.addNextIntent(intent);*/
+                    PendingIntent pendingIntent = PendingIntent.getActivity(EmployeeHomePage.this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    mBuilder.setContentIntent(pendingIntent);
+
+                    notificationManager.notify(200, mBuilder.build());
+
                     db.collection("SendOrderPhoto").document(id)
                             .delete()
                             .addOnSuccessListener(new OnSuccessListener<Void>() {

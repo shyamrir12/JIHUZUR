@@ -22,8 +22,12 @@ public class SmsReceiver extends BroadcastReceiver {
             //You must check here if the sender is your provider and not another one with same text.
             String messageBody = smsMessage.getMessageBody();
             //Pass on the text to our listener.
-            mListener.messageReceived(messageBody);
-        }
+      try {
+          mListener.messageReceived(messageBody);
+      }
+      catch (Exception e)
+      {e.printStackTrace();}
+      }
 
     }
 
