@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
 
 
     <RelativeLayout
@@ -88,4 +89,4 @@
         <!--tools:layout_editor_absoluteX="287dp"-->
         <!--tools:layout_editor_absoluteY="452dp"-->
         <!--tools:ignore="MissingConstraints" />-->
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

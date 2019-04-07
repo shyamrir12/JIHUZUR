@@ -60,6 +60,8 @@ public class EmployeeCurrentOrderFragment extends Fragment implements View.OnCli
         // reloadBtn.setOnClickListener(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.scrollToPosition(300);
+        recyclerView.smoothScrollToPosition(300);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
