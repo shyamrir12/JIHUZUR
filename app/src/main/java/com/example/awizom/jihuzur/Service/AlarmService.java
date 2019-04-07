@@ -2,12 +2,14 @@ package com.example.awizom.jihuzur.Service;
 
 import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -33,16 +35,30 @@ public class AlarmService extends Service {
     Intent intentalarm;
     PendingIntent pendingIntent;
     AlarmManager alarmManager;
+
     //boolean check=true;
     @Override
     public void onCreate() {
         super.onCreate();
         db = FirebaseFirestore.getInstance();
-       // intentalarm = new Intent(this, MyBroadcastReceiver.class);
-//        pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 0, intentalarm, 0);
+        intentalarm = new Intent(this, MyBroadcastReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 0, intentalarm, 0);
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-    }
+        if (Build.VERSION.SDK_INT >= 26) {
+            String CHANNEL_ID = "my_channel_01";
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                    "Channel human readable title",
+                    NotificationManager.IMPORTANCE_DEFAULT);
 
+            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
+
+            Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setContentTitle("Order Started")
+                    .setContentText("").build();
+
+            startForeground(1, notification);
+        }
+    }
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
         String input = intent.getStringExtra("inputExtra");
@@ -56,14 +72,13 @@ public class AlarmService extends Service {
                 if (!String.valueOf(documentSnapshot.get("endTime")).equals("0")) {
                     // AlarmService.super.onDestroy();
                     //   check=false;
-               mNotificationManager.cancel(Integer.parseInt(orderid));
+                    mNotificationManager.cancel(Integer.parseInt(orderid));
                     stopalert();
                 }
             }
         });
         // if(check==true) {
-        Intent notificationIntent = new Intent(AlarmService.this, MyBokingsActivity.class);
-
+      /*  Intent notificationIntent = new Intent(AlarmService.this, MyBokingsActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, Integer.parseInt(String.valueOf(orderid)), notificationIntent, 0);
         Date currentTime = Calendar.getInstance().getTime();
         Long setthewn = System.currentTimeMillis();
@@ -79,7 +94,7 @@ public class AlarmService extends Service {
 
         //Id allows you to update the notification later on.
         mNotificationManager.notify(Integer.parseInt(String.valueOf(orderid)), notification);
-       // startAlert();
+        startAlert();*/
         return START_NOT_STICKY;
     }
 

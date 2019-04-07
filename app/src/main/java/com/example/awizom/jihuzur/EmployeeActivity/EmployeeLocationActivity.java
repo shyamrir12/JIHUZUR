@@ -85,6 +85,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
@@ -107,6 +112,8 @@ import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
+import javax.annotation.Nullable;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.example.awizom.jihuzur.R.drawable.jihuzurapplogo;
@@ -117,9 +124,11 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     String latl, long1, namemark, img_strmark, idmark;
+    Double lats,longss;
     de.hdodenhof.circleimageview.CircleImageView customerimage;
     ImageView call;
     TextView customerDetails;
+    FirebaseFirestore db;
     /**
      * Code used in requesting runtime permissions.
      */
@@ -185,6 +194,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_location);
         checksomething();
+        db = FirebaseFirestore.getInstance();
         ActivityCompat.requestPermissions(EmployeeLocationActivity.this,  new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
         mMsgView = (TextView) findViewById(R.id.msgView);
         customerimage = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.customer_dp);
@@ -237,6 +247,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
     private void CustomerProfileGet() {
         try {
             result = new AdminHelper.GetProfileForShow().execute(cusID).get();
+
             if (result.isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();
             } else {
@@ -244,14 +255,45 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                 Type listType = new TypeToken<DataProfile>() {
                 }.getType();
                 dataProfileCustomer = new Gson().fromJson(result, listType);
-                if (dataProfileCustomer != null) {
-                    latlngs.add(new LatLng(Double.valueOf(String.valueOf(dataProfileCustomer.Lat)),
-                            Double.valueOf(String.valueOf(dataProfileCustomer.Long))));
 
-                    place2 = new MarkerOptions().position(new LatLng(Double.valueOf(String.valueOf(dataProfileCustomer.Lat)),
-                            Double.valueOf(String.valueOf(dataProfileCustomer.Long)))).title("Location 1");
-                    /*  getMapvalue();*/
-                }
+                final DocumentReference docRef = db.collection("CustomerLoc").document(cusID);
+                docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w("failed", "Listen failed.", e);
+                            return;
+                        }
+
+                        String source = snapshot != null && snapshot.getMetadata().hasPendingWrites()
+                                ? "Local" : "Server";
+
+                        if (snapshot != null && snapshot.exists()) {
+                            Log.d("Snapshot data", source + " data: " + snapshot.getData());
+
+                             lats = Double.parseDouble(String.valueOf(snapshot.get("lat")));
+                              longss = Double.parseDouble(String.valueOf(snapshot.get("long")));
+                            place2 = new MarkerOptions().position(new LatLng(Double.valueOf(String.valueOf(lats)),
+                                    Double.valueOf(String.valueOf(longss)))).title("Location 1");
+
+                            if (dataProfileCustomer != null) {
+                                latlngs.add(new LatLng(Double.valueOf(String.valueOf(lats)),
+                                        Double.valueOf(String.valueOf(longss))));
+                                latLng = new LatLng(Double.valueOf(String.valueOf(lats)),
+                                        Double.valueOf(String.valueOf(longss)));
+                                place2 = new MarkerOptions().position(new LatLng(Double.valueOf(String.valueOf(lats)),
+                                        Double.valueOf(String.valueOf(longss)))).title("Location 1");
+                                /*  getMapvalue();*/
+                            }
+
+                        } else {
+                            Log.d("snapshot null", source + " data: null");
+                        }
+                    }
+                });
+
+
             }
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -270,18 +312,56 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
 
         Marker[] allMarkers = new Marker[1];
         {
-            latLng = new LatLng(Double.valueOf(String.valueOf(dataProfileCustomer.getLat())),
-                    Double.valueOf(String.valueOf(dataProfileCustomer.getLong())));
-            if (googleMap != null) {
+
+          /*  if (googleMap != null) {
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13.0f));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
-            }
+            }*/
         }
         mGoogleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
                 {
-                    latLng = new LatLng(Double.parseDouble(String.valueOf(dataProfileCustomer.getLat())), Double.parseDouble(String.valueOf(dataProfileCustomer.getLong())));
+
+                    final DocumentReference docRef = db.collection("CustomerLoc").document(cusID);
+                    docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                            @Nullable FirebaseFirestoreException e) {
+                            if (e != null) {
+                                Log.w("failed", "Listen failed.", e);
+                                return;
+                            }
+
+                            String source = snapshot != null && snapshot.getMetadata().hasPendingWrites()
+                                    ? "Local" : "Server";
+
+                            if (snapshot != null && snapshot.exists()) {
+                                Log.d("Snapshot data", source + " data: " + snapshot.getData());
+
+                                Double lat1 = Double.parseDouble(String.valueOf(snapshot.get("lat")));
+                                Double  long1 = Double.parseDouble(String.valueOf(snapshot.get("long")));
+                                place2 = new MarkerOptions().position(new LatLng(Double.valueOf(String.valueOf(lat1)),
+                                        Double.valueOf(String.valueOf(long1)))).title("Location 1");
+
+                                if (dataProfileCustomer != null) {
+                                    latlngs.add(new LatLng(Double.valueOf(String.valueOf(lat1)),
+                                            Double.valueOf(String.valueOf(long1))));
+                                    latLng = new LatLng(Double.valueOf(String.valueOf(lat1)),
+                                            Double.valueOf(String.valueOf(long1)));
+                                    place2 = new MarkerOptions().position(new LatLng(Double.valueOf(String.valueOf(lat1)),
+                                            Double.valueOf(String.valueOf(long1)))).title("Location 1");
+                                    /*  getMapvalue();*/
+                                }
+
+                            } else {
+                                Log.d("snapshot null", source + " data: null");
+                            }
+                        }
+                    });
+
+
+                    //  latLng = new LatLng(Double.parseDouble(String.valueOf(dataProfileCustomer.getLat())), Double.parseDouble(String.valueOf(dataProfileCustomer.getLong())));
                     name = dataProfileCustomer.getName();
                     mobno = dataProfileCustomer.getMobileNo();
                     img_str = dataProfileCustomer.getImage();
@@ -313,7 +393,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                     });
 
                     //                    LatLng customMarkerLocationOne = new LatLng(28.583911, 77.319116);
-                    place2 = new MarkerOptions().position(new LatLng(Double.parseDouble(String.valueOf(dataProfileCustomer.getLat())), Double.parseDouble(String.valueOf(dataProfileCustomer.getLong())))).title("Location 1");
+                //    place2 = new MarkerOptions().position(new LatLng(Double.parseDouble(String.valueOf(dataProfileCustomer.getLat())), Double.parseDouble(String.valueOf(dataProfileCustomer.getLong())))).title("Location 1");
                     int height = 100;
                     int width = 100;
                     BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.map_logo);
@@ -386,8 +466,8 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                         @Override
                         public void onClick(View view) {
                             String label = "Route for " + dataProfileCustomer.getName();
-                            String uriBegin = "geo:" + String.valueOf(dataProfileCustomer.getLat()) + "," + String.valueOf(dataProfileCustomer.getLong());
-                            String query = String.valueOf(dataProfileCustomer.getLat()) + "," + String.valueOf(dataProfileCustomer.getLong()) + "(" + label + ")";
+                            String uriBegin = "geo:" + String.valueOf(lats) + "," + String.valueOf(longss);
+                            String query = String.valueOf(lats) + "," + String.valueOf(longss) + "(" + label + ")";
                             String encodedQuery = Uri.encode(query);
                             String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
                             Uri uri = Uri.parse(uriString);
@@ -823,13 +903,10 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
     @Override
     public void onDestroy() {
 
-
         //Stop location sharing service to app server.........
-
         stopService(new Intent(this, LocationMonitoringService.class));
         mAlreadyStartedService = false;
         //Ends................................................
-
 
         super.onDestroy();
     }

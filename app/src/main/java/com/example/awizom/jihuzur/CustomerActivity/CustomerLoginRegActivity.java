@@ -75,11 +75,8 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
         //19/02/2019 comment for not login
         db = FirebaseFirestore.getInstance();
         coordinatorLayout = (LinearLayout) findViewById(R.id.coordinator);
-
         //progress bar on
         progressDialog = new ProgressDialog(com.example.awizom.jihuzur.CustomerActivity.CustomerLoginRegActivity.this);
-
-
         snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
                 .setAction("RETRY", new View.OnClickListener() {
                     @Override
@@ -99,11 +96,8 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
         skiplogin.setOnClickListener(this);
         loginHelper = new LoginHelper();
         role = findViewById(R.id.roleSpiner);
-
         userId=  editTextMobile.getText().toString();
         userRole = role.getText().toString().trim();
-
-
     }
 
     private void checkAppPermission() {
@@ -169,8 +163,6 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                 break;
         }
-
-
     }
 
     private void reDirect() {

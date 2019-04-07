@@ -229,7 +229,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                                         String otps = String.valueOf(task.getResult().get("otp"));
                                         if (otps.equals(String.valueOf(enterOtp.getText().toString()))) {
                                             try {
-                                                result = new CustomerOrderHelper.OrderStartEmployee().execute(orderId).get();
+                                                result = new CustomerOrderHelper.OrderStartEmployee().execute(holder.orderIssss.getText().toString()).get();
                                                 Gson gson = new Gson();
                                                 Type getType = new TypeToken<ResultModel>() {
                                                 }.getType();
@@ -259,7 +259,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                                                         order.put("startTime", dateToStr);
                                                         order.put("endTime", 00);
 
-                                                        db.collection("Order").document(orderId).set(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        db.collection("Order").document(holder.orderIssss.getText().toString()).set(order).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                             @Override
                                                             public void onSuccess(Void aVoid) {
                                                                 Log.d(TAG, "DocumentSnapshot successfully written!");

@@ -649,7 +649,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             }
             selectedEmpId = employeeProfileModelList.get(i).getID();
         }
-        mGoogleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+         mGoogleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
 

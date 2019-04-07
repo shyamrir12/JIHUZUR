@@ -1199,7 +1199,6 @@ public class AdminHelper extends AppCompatActivity {
 
             //     InputStream inputStream
             String id = params[0];
-
             String latitude = params[1];
             String logitude = params[2];
 
@@ -1216,14 +1215,9 @@ public class AdminHelper extends AppCompatActivity {
 
                 FormBody.Builder parameters = new FormBody.Builder();
                 parameters.add("ID", id);
-
                 parameters.add("Lat", latitude);
                 parameters.add("Long", logitude);
-
-
                 builder.post(parameters.build());
-
-
                 okhttp3.Response response = client.newCall(builder.build()).execute();
 
                 if (response.isSuccessful()) {

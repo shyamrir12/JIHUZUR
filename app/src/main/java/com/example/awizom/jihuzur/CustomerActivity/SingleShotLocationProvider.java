@@ -32,6 +32,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import static com.firebase.ui.auth.ui.email.RegisterEmailFragment.TAG;
+
 public class SingleShotLocationProvider extends Service {
 
     private LocationListener listener;
@@ -39,6 +41,7 @@ public class SingleShotLocationProvider extends Service {
     String result = "";
     private BroadcastReceiver broadcastReceiver;
     private MediaPlayer player;
+    FirebaseFirestore db;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -56,12 +59,30 @@ public class SingleShotLocationProvider extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
+        db = FirebaseFirestore.getInstance();
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+                String id=SharedPrefManager.getInstance(getApplicationContext()).getUser().ID;
                 try {
-                    result = new AdminHelper.POSTProfileLatLong().execute(SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(), String.valueOf(location.getLatitude()).toString(), String.valueOf(location.getLongitude()).toString()).get();
+              //      result = new AdminHelper.POSTProfileLatLong().execute(SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(), String.valueOf(location.getLatitude()).toString(), String.valueOf(location.getLongitude()).toString()).get();
+                    Map<String, Object> customerloc = new HashMap<>();
+                    customerloc.put("lat",  String.valueOf(location.getLatitude()).toString());
+                    customerloc.put("long",  String.valueOf(location.getLongitude()).toString());
+
+                    db.collection("CustomerLoc").document(id).set(customerloc).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    //
+                                    Log.w(TAG, "Error writing document", e);
+                                }
+                            });
 
                     //Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.d("myTag", "\n" + " " + location.getLatitude() + " " + location.getLongitude());

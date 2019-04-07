@@ -172,7 +172,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 
     private void enable_buttons() {
 
-        Intent i = new Intent(getApplicationContext(), SingleShotLocationProvider.class);
+        Intent i = new Intent(this, SingleShotLocationProvider.class);
         startService(i);
     }
 

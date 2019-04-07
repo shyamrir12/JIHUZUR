@@ -109,10 +109,14 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                     if (documentSnapshot.getData() != null) {
                         holder.acceptBtn.setVisibility(View.GONE);
                         holder.chronometer.setVisibility(View.VISIBLE);
-                        Intent serviceIntent = new Intent(mCtx, AlarmService.class);
-                        serviceIntent.putExtra("inputExtra", servicnam + " Your Order Is Started");
-                        serviceIntent.putExtra("orderId", ordid);
-                        ContextCompat.startForegroundService(mCtx, serviceIntent);
+                        try {
+                            Intent serviceIntent = new Intent(mCtx, AlarmService.class);
+                            serviceIntent.putExtra("inputExtra", servicnam + " Your Order Is Started");
+                            serviceIntent.putExtra("orderId", ordid);
+                            ContextCompat.startForegroundService(mCtx.getApplicationContext(), serviceIntent);
+                        }
+                        catch (Exception d)
+                        {d.printStackTrace();}
                     } else {
                         holder.acceptBtn.setVisibility(View.GONE);
                         holder.chronometer.setVisibility(View.GONE);
@@ -137,7 +141,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                     mCtx.startActivity(intent);
                 }
             });
-
 
             holder.acceptBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -205,10 +208,15 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                                                     }
                                                 });
 
-                                        Intent serviceIntent = new Intent(mCtx, AlarmService.class);
-                                        serviceIntent.putExtra("inputExtra", servicnam + " Your Order Is Started");
-                                        serviceIntent.putExtra("orderId", ordid);
-                                        ContextCompat.startForegroundService(mCtx, serviceIntent);
+                                        try {
+                                            Intent serviceIntent = new Intent(mCtx, AlarmService.class);
+                                            serviceIntent.putExtra("inputExtra", servicnam + " Your Order Is Started");
+                                            serviceIntent.putExtra("orderId", ordid);
+                                            ContextCompat.startForegroundService(mCtx, serviceIntent);
+                                        }catch (Exception e)
+                                        {e.printStackTrace();
+
+                                        }
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
