@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -56,22 +57,21 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
 
         // android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         /*  catalogName = getIntent().getStringExtra("CatalogName");*/
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Verify");
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
-//        toolbar.setTitle("Verify");
-//
-//
-//        setSupportActionBar(toolbar);
-//        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onBackPressed();
-//            }
-//        });
-//
-//        toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
-//        toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
-//        toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
+        toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
+        toolbar.setTitleTextColor(Color.WHITE);
+
         role = getIntent().getExtras().getString("Role");
         mobile = getIntent().getExtras().getString("Mobile");
         otpEditText = findViewById(R.id.editTextOtp);

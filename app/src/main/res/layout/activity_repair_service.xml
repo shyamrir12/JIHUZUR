@@ -43,7 +43,7 @@
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         android:visibility="visible"
-        android:fontFamily="@font/fonts"/>
+        android:fontFamily="@font/fonts" />
 
 
     <Button

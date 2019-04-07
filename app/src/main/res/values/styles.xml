@@ -52,20 +52,20 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="styleA">
-        <item name="android:fontFamily">serif-monospace</item>
+        <item name="android:fontFamily">@font/fonts</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">19sp</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
     <style name="styleB">
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily">@font/fonts</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">?android:attr/textColorTertiary</item>
     </style>
 
     <style name="AppTheme.Widget.TextView" parent="android:Widget.Holo.Light.TextView">
-        <item name="android:fontFamily">serif-monospace</item>
+        <item name="android:fontFamily">@font/fonts</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">19sp</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>

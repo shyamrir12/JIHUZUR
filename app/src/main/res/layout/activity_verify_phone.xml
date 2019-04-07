@@ -3,10 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl1"
     android:background="@drawable/backdrop"
     android:orientation="vertical">
-
-
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -15,92 +14,158 @@
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
     </android.support.v7.widget.Toolbar>
-
-    <LinearLayout
-
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="170dp">
-
-    <LinearLayout
-        android:id="@+id/loginset"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="60dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:gravity="center"
-        android:layout_gravity="center|center_horizontal|center_vertical">
-
-
-
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp">
-
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/phonemo"
-                android:layout_gravity="center"
-                android:tint="@color/colorPrimary"/>
-            <!--<EditText-->
-                <!---->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="50dp"-->
-                <!--android:hint="Otp"-->
-                <!--android:paddingLeft="15dp"-->
-                <!--android:letterSpacing="0.1"-->
-                <!--android:background="#00000000" />-->
-
-
-            <EditText
-                android:id="@+id/editTextOtp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Otp"
-                android:textColorHint="@color/colorPrimary"
-                android:layout_marginLeft="15dp"
-                android:background="#00000000"
-                android:letterSpacing="0.1"
-                android:textSize="19sp"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:inputType="text"
-                android:paddingLeft="10dp"
-                android:maxLength="10"
-                android:fontFamily="serif-monospace"/>
+                android:background="@drawable/linear_background_shape">
+                <LinearLayout
+                    android:id="@+id/loginset"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:orientation="vertical"
+                    android:layout_margin="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:layout_marginTop="40dp">
+
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/phonemo"
+                            android:layout_gravity="center"
+                            android:tint="@color/white"/>
+
+
+
+                        <EditText
+                            android:id="@+id/editTextOtp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Otp"
+                            android:textColorHint="@color/white"
+                            android:layout_marginLeft="25dp"
+                            android:background="#00000000"
+                            android:letterSpacing="0.1"
+                            android:textSize="19sp"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:inputType="number"
+                            android:paddingLeft="10dp"
+                            android:maxLength="4"
+                            android:fontFamily="serif-monospace"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="2dp"
+                        android:background="#dfe0e2"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"/>
+
+                    <Button
+                        android:id="@+id/buttonVerify"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="@drawable/button_background"
+                        android:text="Verify"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:layout_gravity="bottom"
+                        android:padding="10dp"
+                        android:layout_marginTop="20dp"
+                        android:letterSpacing="0.2"
+                        android:fontFamily="monospace"/>
+
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:orientation="horizontal">-->
+                        <!--<Button-->
+                            <!--android:id="@+id/resendOTP"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="30dp"-->
+                            <!--android:text="Resend Otp"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:textColor="#FFFFFF"-->
+                            <!--android:textAllCaps="false"-->
+                            <!--android:background="@drawable/linear_background_shape"-->
+                            <!--android:textStyle="bold"-->
+                            <!--android:textSize="12sp"-->
+                            <!--android:gravity="center"-->
+                            <!--android:layout_gravity="bottom"-->
+                            <!--android:padding="8dp"-->
+                            <!--android:layout_marginTop="20dp"-->
+                            <!--android:letterSpacing="0.2"-->
+                            <!--android:fontFamily="monospace"-->
+                            <!--android:visibility="visible"/>-->
+                        <!--<TextView-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:layout_weight="1.6"/>-->
+                        <!--<Button-->
+                            <!--android:id="@+id/countDown"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="40dp"-->
+                            <!--android:text="00:00"-->
+                            <!--android:layout_weight="1"-->
+                            <!--android:textColor="#FFFFFF"-->
+                            <!--android:textAllCaps="false"-->
+                            <!--android:background="@color/transparency"-->
+                            <!--android:textStyle="bold"-->
+                            <!--android:gravity="right"-->
+                            <!--android:layout_gravity="bottom"-->
+                            <!--android:padding="8dp"-->
+                            <!--android:layout_marginTop="20dp"-->
+                            <!--android:letterSpacing="0.2"-->
+                            <!--android:fontFamily="monospace"-->
+                            <!--android:visibility="visible"/>-->
+                    <!--</LinearLayout>-->
+
+
+                </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
-        <Button
-            android:id="@+id/buttonVerify"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/button_color"
-            android:text="Verify"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_gravity="bottom"
-            android:padding="16dp"
-            android:layout_marginTop="20dp"
-            android:letterSpacing="0.2"
-            android:fontFamily="monospace"/>
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:paddingLeft="60dp"
+            android:paddingRight="60dp"
+            android:orientation="vertical"
+            android:gravity="bottom"
+            android:id="@+id/linear">
 
-    </LinearLayout>
-    </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linear"
+                android:orientation="vertical"
+                android:id="@+id/coordinator">
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
 </LinearLayout>
-
-<!--#093854-->
