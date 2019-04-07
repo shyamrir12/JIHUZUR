@@ -74,34 +74,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:text="Start location Service"
-                android:layout_marginTop="10dp"
-                android:textSize="16sp"
-                android:visibility="gone"
-                android:textColor="@color/colorBlack"
-                android:gravity="center"
-                android:id="@+id/button" />
             <view
                 class="android.support.v7.app.AlertController$RecycleListView"
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:background="@color/grey" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="Stop location Service"
-                android:layout_marginTop="10dp"
-                android:textSize="16sp"
-                android:visibility="gone"
-                android:textColor="@color/colorBlack"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:id="@+id/button2" />
+
         </LinearLayout>
         <view
             class="android.support.v7.app.AlertController$RecycleListView"
@@ -109,25 +88,7 @@
             android:layout_height="2dp"
             android:background="@color/grey"
             android:layout_marginTop="10dp"/>
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="230dp"
 
-            android:id="@+id/scrollView"
-            android:layout_centerHorizontal="true"
-            android:foregroundGravity="top|right"
-            android:layout_below="@+id/button"
-            android:layout_alignParentTop="true"
-            android:clickable="true">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Coordinates: "
-                android:id="@+id/textView" />
-        </ScrollView>
     </LinearLayout>
 
         </RelativeLayout>

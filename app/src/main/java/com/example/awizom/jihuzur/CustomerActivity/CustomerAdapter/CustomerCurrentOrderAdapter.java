@@ -101,7 +101,19 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             holder.pricingterm.setText(order.getPricingTerms());
             holder.dctName.setText(order.getDiscountName());
             // holder.orderIds.setText(order.getOrderID());
-
+            holder.cusid.setText(order.getCustomerID());
+            holder.empid.setText(order.getEmployeeID());
+            holder.trackinBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showCustomLoadingDialog(v);
+                    intent = new Intent(mCtx, TrackActivity.class);
+                    intent.putExtra("CustomerID",holder.cusid.getText().toString());
+                    intent.putExtra("EmployeeID", holder.empid.getText().toString());
+                    mCtx.startActivity(intent
+                    );
+                }
+            });
             final DocumentReference docRef = db.collection("Order").document(ordid);
             docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
@@ -250,7 +262,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
 
         private Context mCtx;
         private TextView chronometer, orderIds,otps;
-        private TextView startTime, endtime, empName, timercount, empContAct, catagryName, servicName, pricingterm, dctName;
+        private TextView startTime, endtime, empName, timercount, empContAct, catagryName, servicName, pricingterm, dctName,empid,cusid;
         private Button acceptBtn, trackinBtn, canclBtn, viewdetail;
         private List<Order> orderitemList;
         private LinearLayout linearLayout;
@@ -273,6 +285,9 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
 
             empName = itemView.findViewById(R.id.cusName);
             startTime = itemView.findViewById(R.id.starttime);
+            cusid = itemView.findViewById(R.id.cusID);
+            empid = itemView.findViewById(R.id.empId);
+
             endtime = itemView.findViewById(R.id.endtime);
             timercount = itemView.findViewById(R.id.timeCount);
             acceptBtn = itemView.findViewById(R.id.acceptOtpBtn);
@@ -292,7 +307,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             orderIds = itemView.findViewById(R.id.orderId);
             db = FirebaseFirestore.getInstance();
             acceptBtn.setOnClickListener(this);
-            trackinBtn.setOnClickListener(this);
+
             canclBtn.setOnClickListener(this);
             timercount.setOnClickListener(this);
         }
@@ -303,12 +318,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             switch (v.getId()) {
 
                 case R.id.trackBtn:
-                    showCustomLoadingDialog(v);
-                    intent = new Intent(mCtx, TrackActivity.class);
-                    intent.putExtra("CustomerID", order.getCustomerID());
-                    intent.putExtra("EmployeeID", order.getEmployeeID());
-                    mCtx.startActivity(intent
-                    );
+
 
                     break;
                 case R.id.cancelBtn:

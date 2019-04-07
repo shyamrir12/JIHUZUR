@@ -308,7 +308,16 @@
                             android:textSize="13sp"
                             android:visibility="gone"
                             android:fontFamily="@font/fonts"/>
-
+<TextView
+    android:id="@+id/cusID"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone"/>
+                        <TextView
+                            android:id="@+id/empId"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="gone"/>
                     </LinearLayout>
                 </RelativeLayout>
 

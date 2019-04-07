@@ -158,7 +158,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             broadcastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    textView.append("\n" + intent.getExtras().get("coordinates"));
+//                    textView.append("\n" + intent.getExtras().get("coordinates"));
                     //Log.d("myTag", "\n" +intent.getExtras().get("coordinates"));
                 }
             };
@@ -195,10 +195,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         setSupportActionBar(toolbar);
 
 
-
-        btn_start = findViewById(R.id.button);
-        btn_stop = findViewById(R.id.button2);
-        textView = (TextView) findViewById(R.id.textView);
         tabLayout = findViewById(R.id.tablayout);
         outGoing = findViewById(R.id.outgoing);
         history = findViewById(R.id.history);
@@ -510,25 +506,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             e.printStackTrace();
         }
 
-        btn_start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent serviceIntent = new Intent(EmployeeHomePage.this, LocationMonitoringNotificationService.class);
-                serviceIntent.putExtra("inputExtra", "Location Service Enabled");
-                ContextCompat.startForegroundService(EmployeeHomePage.this, serviceIntent);
-                Intent i = new Intent(getApplicationContext(), GPS_Service.class);
-                startService(i);
-            }
-        });
-        btn_stop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent serviceIntent = new Intent(EmployeeHomePage.this, LocationMonitoringNotificationService.class);
-                stopService(serviceIntent);
-                Intent i = new Intent(getApplicationContext(), GPS_Service.class);
-                stopService(i);
-            }
-        });
+
     }
 
     private boolean runtime_permissions() {

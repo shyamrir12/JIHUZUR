@@ -130,10 +130,49 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                 }.getType();
                 dataProfileCustomer = new Gson().fromJson(result, listType);
                 if (dataProfileCustomer != null) {
-                    cusLatLng = new LatLng(Double.valueOf(String.valueOf(dataProfileCustomer.Lat)),
-                            Double.valueOf(String.valueOf(dataProfileCustomer.Long)));
-                    place1 = new MarkerOptions().position(new LatLng(Double.valueOf(String.valueOf(dataProfileCustomer.Lat)),
-                            Double.valueOf(String.valueOf(dataProfileCustomer.Long)))).title("Customer Location");
+
+
+                    final DocumentReference docRef = db.collection("CustomerLoc").document(customerID);
+                    docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                            @Nullable FirebaseFirestoreException e) {
+                            if (e != null) {
+                                Log.w("failed", "Listen failed.", e);
+                                return;
+                            }
+
+                            String source = snapshot != null && snapshot.getMetadata().hasPendingWrites()
+                                    ? "Local" : "Server";
+
+                            if (snapshot != null && snapshot.exists()) {
+                                Log.d("Snapshot data", source + " data: " + snapshot.getData());
+
+                                Double lat1 = Double.parseDouble(String.valueOf(snapshot.get("lat")));
+                                Double  long1 = Double.parseDouble(String.valueOf(snapshot.get("long")));
+                                place2 = new MarkerOptions().position(new LatLng(Double.valueOf(String.valueOf(lat1)),
+                                        Double.valueOf(String.valueOf(long1)))).title("Location 1");
+
+                                if (dataProfileCustomer != null) {
+
+                                    place2 = new MarkerOptions().position(new LatLng(Double.valueOf(String.valueOf(lat1)),
+                                            Double.valueOf(String.valueOf(long1)))).title("Location 1");
+                                    /*  getMapvalue();*/
+                                    cusLatLng = new LatLng(Double.valueOf(String.valueOf(lat1)),
+                                            Double.valueOf(String.valueOf(long1)));
+
+
+                                    place1 = new MarkerOptions().position(new LatLng(Double.valueOf(String.valueOf(lat1)),
+                                            Double.valueOf(String.valueOf(long1)))).title("Customer Location");
+
+                                }
+
+                            } else {
+                                Log.d("snapshot null", source + " data: null");
+                            }
+                        }
+                    });
+
 
                     getMapvalue();
                 }
