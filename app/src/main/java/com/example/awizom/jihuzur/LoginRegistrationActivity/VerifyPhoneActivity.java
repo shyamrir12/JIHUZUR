@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.example.awizom.jihuzur.AdminActivity.AdminHomePage;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerLoginRegActivity;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerProfileActivity;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
@@ -74,6 +75,10 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
 
         role = getIntent().getExtras().getString("Role");
         mobile = getIntent().getExtras().getString("Mobile");
+        otp = getIntent().getExtras().getString("OTP");
+        userId = getIntent().getExtras().getString("Uid");
+
+
         otpEditText = findViewById(R.id.editTextOtp);
         verifyOtpBtn = findViewById(R.id.buttonVerify);
         verifyOtpBtn.setOnClickListener(this);
@@ -83,8 +88,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
         countDown.setOnClickListener(this);
         progressDialog = new ProgressDialog(VerifyPhoneActivity.this);
 
-        createuser();
-        new CountDownTimer(180000, 1000) {
+        new CountDownTimer(240000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 countDown.setText("" + millisUntilFinished / 1000);
@@ -102,7 +106,6 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void messageReceived(String messageText) {
                 Log.d("Text",messageText);
-               // Toast.makeText(VerifyPhoneActivity.this,"Message: "+messageText,Toast.LENGTH_LONG).show();
                 String sms = messageText;
                 String[] smsSplit = messageText.split(":");
                 otpEditText.setText(smsSplit[1]);
@@ -126,8 +129,23 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
 
                         @Override
                         public void run() {
-
-                            verifyPostOtp();
+                            Toast.makeText(getApplicationContext(), "SuccessFully Verified", Toast.LENGTH_LONG).show();
+                            if (validation()) {
+                                DataProfile dataProfile = new DataProfile();
+                                dataProfile.ID = userId;
+                                dataProfile.Role = role;
+                                dataProfile.MobileNo = mobile;
+                                SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
+                                if (SharedPrefManager.getInstance(getApplicationContext()).getUser().Name != null) {
+                                    intent = new Intent(VerifyPhoneActivity.this, CustomerHomePage.class);
+                                    startActivity(intent);
+                                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                                } else {
+                                    intent = new Intent(VerifyPhoneActivity.this, CustomerProfileActivity.class);
+                                    startActivity(intent);
+                                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                                }
+                            }
 
                         }
                     }, TIMER);
@@ -166,50 +184,27 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void createuser() {
-
-
-        try {
-
-            result = new LoginHelper.GetLogin().execute(mobile.toString().trim(), "Jihuzur@123", "Jihuzur@123", role.toString().trim()).get();
-            progressDialog.dismiss();
-            Gson gson = new Gson();
-            UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
             try {
-                if (jsonbody.isStatus()) {
-                    otp = jsonbody.getOtpCode();
-                    Log.d("Customer OTP", otp);
-                    userId = jsonbody.dataProfile.ID;
-                    progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
-                    if (jsonbody.OtpCode.equals("mobile already verified")) {
-                        DataProfile dataProfile = new DataProfile();
-                        dataProfile.ID = jsonbody.dataProfile.ID;
-                        dataProfile.Active = jsonbody.dataProfile.Active;
-                        dataProfile.Role = jsonbody.dataProfile.Role;
-                        dataProfile.Image = jsonbody.dataProfile.Image;
-                        dataProfile.Name = jsonbody.dataProfile.Name;
-                        dataProfile.MobileNo = jsonbody.dataProfile.MobileNo;
-
-                        SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
-                        result = String.valueOf(new AdminHelper.POSTProfileLatLong().execute(SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(), String.valueOf("21.22"), String.valueOf("80.66")));
-                        if (jsonbody.dataProfile.Role.equals("Customer")) {
-                            intent = new Intent(VerifyPhoneActivity.this, CustomerHomePage.class);
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-
+                result = new LoginHelper.GetLogin().execute(mobile, "Jihuzur@123", "Jihuzur@123", "Customer").get();
+                progressDialog.dismiss();
+                Gson gson = new Gson();
+                UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
+                try {
+                    if (jsonbody.isStatus()) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "OTP Send", Toast.LENGTH_SHORT).show();
                         }
-                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
-            } catch (Exception e) {
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     /*For Post API call with the use of Helper class*/
@@ -220,31 +215,26 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
                 progressDialog.dismiss();
                 Gson gson = new Gson();
                 UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
-           //     Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
                 if (!result.equals(null)) {
-                    if (jsonbody.isStatus()) {
+
                         DataProfile dataProfile = new DataProfile();
                         dataProfile.ID = userId;
-                        dataProfile.Active = Boolean.valueOf(active);
                         dataProfile.Role = role;
-                        dataProfile.Image = image;
                         dataProfile.MobileNo = mobile;
-                        dataProfile.Name = name;
                         SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
-                        role = SharedPrefManager.getInstance(VerifyPhoneActivity.this).getUser().Role;
-                        if (role.equals("Customer")) {
 
-                            if(dataProfile.Name.toString().isEmpty()){
+
+                            if(dataProfile.Name != null){
                                 intent = new Intent(VerifyPhoneActivity.this, CustomerHomePage.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                             }else {
-                                intent = new Intent(VerifyPhoneActivity.this, CustomerHomePage.class);
+                                intent = new Intent(VerifyPhoneActivity.this, CustomerProfileActivity.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                             }
-                        }
-                    }
+
+
                 }
 
 

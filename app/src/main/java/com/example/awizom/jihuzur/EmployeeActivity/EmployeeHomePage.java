@@ -623,7 +623,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             SharedPrefManager.getInstance(this).logout();
             Intent login = new Intent(getApplicationContext(), EmployeeRegistration.class);
             startActivity(login);
-            finish();
+
 
         } else if (id == R.id.nav_share) {
             showCustomLoadingDialog();

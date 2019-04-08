@@ -172,7 +172,12 @@ public class CustomerProfileActivity extends AppCompatActivity {
                             Gson gson = new Gson();
                             final Result jsonbodyres = gson.fromJson(result, Result.class);
                             DataProfile dataProfile = new DataProfile();
-                            dataProfile.Image = jsonbodyres.ImageUrl;
+
+                            dataProfile.Image = jsonbodyres.Image;
+                            dataProfile.Name = jsonbodyres.Name;
+                            dataProfile.Email = jsonbodyres.Email;
+                            dataProfile.Address = jsonbodyres.Address;
+
                             SharedPrefManager.getInstance(CustomerProfileActivity.this).getUser().setImage(String.valueOf(dataProfile));
                             /*   SharedPrefManager.getInstance(DrawingActivity.this).getUser().setName(String.valueOf(yourname.getText()));*/
                             if (SharedPrefManager.getInstance(CustomerProfileActivity.this).getUser().getImage() != null) {

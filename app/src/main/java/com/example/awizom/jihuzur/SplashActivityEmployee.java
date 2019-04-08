@@ -49,19 +49,6 @@ public class SplashActivityEmployee extends AppCompatActivity {
                             getProfile();
                         }
                     }
-                    /*else if (SharedPrefManager.getInstance(getApplicationContext()).getUser().getRole().equals("Customer")) {
-
-                        intent = new Intent(SplashActivity.this, CustomerHomePage.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-
-                    } else if (SharedPrefManager.getInstance(getApplicationContext()).getUser().getRole().equals("Admin")) {
-
-                        intent = new Intent(SplashActivity.this, AdminHomePage.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-
-                    } */
                     else {
                         Intent intent = new Intent(SplashActivityEmployee.this, EmployeeRegistration.class);
                         startActivity(intent);

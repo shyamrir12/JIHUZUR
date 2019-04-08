@@ -191,7 +191,7 @@ public class DrawingActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     DataProfile dataProfile = new DataProfile();
-                    dataProfile.Image = jsonbodyres.ImageUrl;
+                    dataProfile.Image = jsonbodyres.Image;
                     SharedPrefManager.getInstance(DrawingActivity.this).getUser().setImage(String.valueOf(dataProfile));
                     /*   SharedPrefManager.getInstance(DrawingActivity.this).getUser().setName(String.valueOf(yourname.getText()));*/
                     if (SharedPrefManager.getInstance(DrawingActivity.this).getUser().getImage() != null) {

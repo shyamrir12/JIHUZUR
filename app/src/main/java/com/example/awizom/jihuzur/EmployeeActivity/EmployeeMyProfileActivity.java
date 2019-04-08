@@ -186,7 +186,12 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     DataProfile dataProfile = new DataProfile();
-                    dataProfile.Image = jsonbodyres.ImageUrl;
+
+                    dataProfile.Image = jsonbodyres.Image;
+                    dataProfile.Name = jsonbodyres.Name;
+                    dataProfile.Email = jsonbodyres.Email;
+                    dataProfile.Address = jsonbodyres.Address;
+
                     SharedPrefManager.getInstance(EmployeeMyProfileActivity.this).getUser().setImage(String.valueOf(dataProfile));
                     /*   SharedPrefManager.getInstance(DrawingActivity.this).getUser().setName(String.valueOf(yourname.getText()));*/
                     if (SharedPrefManager.getInstance(EmployeeMyProfileActivity.this).getUser().getImage() != null) {
@@ -194,8 +199,12 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
                     }
 
                    {
-                        intent = new Intent(EmployeeMyProfileActivity.this, EmployeeHomePage.class);
-                        startActivity(intent);
+                       if(dataProfile.isActiveStatus()) {
+                           intent = new Intent(EmployeeMyProfileActivity.this, EmployeeHomePage.class);
+                           startActivity(intent);
+                       }else {
+                           Toast.makeText(getApplicationContext(),"Please Contact your admin",Toast.LENGTH_SHORT).show();
+                       }
                     }
 
                 } catch (Exception e) {

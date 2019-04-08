@@ -99,7 +99,7 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
     private void checkAppPermission() {
         ActivityCompat.requestPermissions(EmployeeRegistration.this,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.CALL_PHONE, Manifest.permission.READ_CONTACTS},
+                        Manifest.permission.CALL_PHONE, Manifest.permission.READ_CONTACTS, Manifest.permission.RECEIVE_SMS,Manifest.permission.READ_SMS},
                 1);
     }
 
@@ -166,25 +166,23 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
 
         if (validation()) {
 
-            if (role != null)
-                ur = role.getText().toString().trim();
+
             try {
-                result = new LoginHelper.GetLogin().execute(editTextMobile.getText().toString().trim(), "Jihuzur@123", "Jihuzur@123", ur.toString().trim()).get();
+                result = new LoginHelper.GetLogin().execute(editTextMobile.getText().toString().trim(), "Jihuzur@123", "Jihuzur@123","Employee").get();
                 progressDialog.dismiss();
                 Gson gson = new Gson();
                 UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
                 try {
-                    if (jsonbody.isStatus()) {
+                    if (jsonbody.Status == true) {
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
-                        if (jsonbody.OtpCode.equals("mobile already verified")) {
+                        if (jsonbody.Otp.equals("mobile already verified")) {
                             DataProfile dataProfile = new DataProfile();
-                            dataProfile.ID = jsonbody.dataProfile.ID;
-                            dataProfile.Active = jsonbody.dataProfile.Active;
-                            dataProfile.Role = jsonbody.dataProfile.Role;
-                            dataProfile.Image = jsonbody.dataProfile.Image;
-                            dataProfile.Name = jsonbody.dataProfile.Name;
-                            dataProfile.MobileNo = jsonbody.dataProfile.MobileNo;
+                            dataProfile.ID = jsonbody.Id;
+                            dataProfile.ActiveStatus = jsonbody.ActiveStatus;
+                            dataProfile.Role = jsonbody.Role;
+                            dataProfile.Mobile = jsonbody.Mobile;
+                            Log.d("Employee OTP", jsonbody.Otp);
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
                             result = String.valueOf(new AdminHelper.POSTProfileLatLong().execute(SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(), String.valueOf("21.22"), String.valueOf("80.66")));
 
@@ -195,7 +193,7 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
                             profile.put("busystatus", false);
                             profile.put("lat", 20.22);
                             profile.put("long", 81.66);
-                            db.collection("Profile").document(jsonbody.dataProfile.ID)
+                            db.collection("Profile").document(jsonbody.Id)
                                     .set(profile)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
@@ -214,12 +212,13 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
                                     });
 
                             intent = new Intent(EmployeeRegistration.this, VerifyPhoneActivityEmployeee.class);
-                            intent.putExtra("OTP", jsonbody.OtpCode);
-                            Log.d("OtpEmployee", jsonbody.OtpCode);
-                            intent.putExtra("Uid", jsonbody.dataProfile.ID);
-                            intent.putExtra("Role", jsonbody.dataProfile.Role);
-                            intent.putExtra("Active", jsonbody.dataProfile.Active);
+                            intent.putExtra("OTP", jsonbody.Otp);
+                            Log.d("OtpEmployee", jsonbody.Otp);
+                            intent.putExtra("Uid", jsonbody.Id);
+                            intent.putExtra("Role", jsonbody.Role);
+                            intent.putExtra("Active", jsonbody.ActiveStatus);
                             startActivity(intent);
+                            Log.d("EmployeeOTp", jsonbody.Otp);
                             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                         }
                     }

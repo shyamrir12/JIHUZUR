@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 
 import com.example.awizom.jihuzur.AdminActivity.AdminHomePage;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerLoginRegActivity;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.LoginHelper;
@@ -97,7 +99,7 @@ public class AdminRegistration extends AppCompatActivity implements View.OnClick
 
         ActivityCompat.requestPermissions(AdminRegistration.this,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.CALL_PHONE, Manifest.permission.READ_CONTACTS},
+                        Manifest.permission.CALL_PHONE, Manifest.permission.READ_CONTACTS, Manifest.permission.RECEIVE_SMS,Manifest.permission.READ_SMS},
                 1);
     }
 
@@ -170,7 +172,7 @@ public class AdminRegistration extends AppCompatActivity implements View.OnClick
             if (textRole != null)
                 ur = textRole.getText().toString().trim();
             try {
-                result = new LoginHelper.GetLogin().execute(editTextMobile.getText().toString().trim(), "Jihuzur@123", "Jihuzur@123", ur.toString().trim()).get();
+                result = new LoginHelper.GetLogin().execute(editTextMobile.getText().toString().trim(), "Jihuzur@123", "Jihuzur@123", "Admin").get();
                 progressDialog.dismiss();
                 Gson gson = new Gson();
                 UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
@@ -178,18 +180,19 @@ public class AdminRegistration extends AppCompatActivity implements View.OnClick
                     if (jsonbody.isStatus()) {
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
-                        if (jsonbody.OtpCode.equals("mobile already verified")) {
+                        if (jsonbody.Otp.equals("mobile already verified")) {
+
                             DataProfile dataProfile = new DataProfile();
-                            dataProfile.ID = jsonbody.dataProfile.ID;
-                            dataProfile.Active = jsonbody.dataProfile.Active;
-                            dataProfile.Role = jsonbody.dataProfile.Role;
-                            dataProfile.Image = jsonbody.dataProfile.Image;
-                            dataProfile.Name = jsonbody.dataProfile.Name;
-                            dataProfile.MobileNo = jsonbody.dataProfile.MobileNo;
+                            dataProfile.ID = jsonbody.Id;
+                            dataProfile.ActiveStatus = jsonbody.ActiveStatus;
+                            dataProfile.Role = jsonbody.Role;
+                            dataProfile.Mobile = jsonbody.Mobile;
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
+
                             result = String.valueOf(new AdminHelper.POSTProfileLatLong().execute(SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(), String.valueOf("21.22"), String.valueOf("80.66")));
 
-                            if (jsonbody.dataProfile.Role.equals("Admin")) {
+                            if (jsonbody.Role.equals("Admin")) {
+                                 progressDialog.dismiss();
                                 intent = new Intent(AdminRegistration.this, AdminHomePage.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
@@ -197,12 +200,16 @@ public class AdminRegistration extends AppCompatActivity implements View.OnClick
                         }
 
                         else {
+
+                            progressDialog.dismiss();
                             intent = new Intent(AdminRegistration.this, VerifyPhoneActivityAdmin.class);
-                            intent.putExtra("OTP", jsonbody.OtpCode);
-                            intent.putExtra("Uid", jsonbody.dataProfile.ID);
-                            intent.putExtra("Role", jsonbody.dataProfile.Role);
-                            intent.putExtra("Active", jsonbody.dataProfile.Active);
+                            intent.putExtra("OTP", jsonbody.Otp);
+                            intent.putExtra("Uid", jsonbody.Id);
+                            intent.putExtra("Role", jsonbody.Role);
+                            intent.putExtra("Active", jsonbody.ActiveStatus);
+                            intent.putExtra("Mobile", jsonbody.Mobile);
                             startActivity(intent);
+                            Log.d("AdminOTp", jsonbody.Otp);
                             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                         }
 

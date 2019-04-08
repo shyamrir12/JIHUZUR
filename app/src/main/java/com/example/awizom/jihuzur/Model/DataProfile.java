@@ -18,6 +18,8 @@ public class DataProfile {
     public boolean BusyStatus;
     public String CreatedDate;
     public String Email;
+    public boolean ActiveStatus;
+    public String Mobile;
 
     public String getEmail() {
         return Email;
@@ -125,5 +127,21 @@ public class DataProfile {
 
     public void setCreatedDate(String createdDate) {
         CreatedDate = createdDate;
+    }
+
+    public boolean isActiveStatus() {
+        return ActiveStatus;
+    }
+
+    public void setActiveStatus(boolean activeStatus) {
+        ActiveStatus = activeStatus;
+    }
+
+    public String getMobile() {
+        return Mobile;
+    }
+
+    public void setMobile(String mobile) {
+        Mobile = mobile;
     }
 }

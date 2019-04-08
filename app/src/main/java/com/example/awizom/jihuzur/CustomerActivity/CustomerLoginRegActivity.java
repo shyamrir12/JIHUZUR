@@ -152,7 +152,7 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
 
                         @Override
                         public void run() {
-                          reDirect();
+                          createuser();
                         }
                     }, TIMER);
 
@@ -205,37 +205,34 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                 UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
                 try {
                     if (jsonbody.isStatus()) {
-                        progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
-                        if (jsonbody.OtpCode.equals("mobile already verified")) {
+                        if (jsonbody.Otp.equals("mobile already verified")) {
+                            progressDialog.dismiss();
                             DataProfile dataProfile = new DataProfile();
-                            dataProfile.ID = jsonbody.dataProfile.ID;
-                            dataProfile.Active = jsonbody.dataProfile.Active;
-                            dataProfile.Role = jsonbody.dataProfile.Role;
-                            dataProfile.Image = jsonbody.dataProfile.Image;
-                            dataProfile.Name = jsonbody.dataProfile.Name;
-                            dataProfile.MobileNo = jsonbody.dataProfile.MobileNo;
-
+                            dataProfile.ID = jsonbody.Id;
+                            dataProfile.ActiveStatus = jsonbody.ActiveStatus;
+                            dataProfile.Role = jsonbody.Role;
+                            dataProfile.Mobile = jsonbody.Mobile;
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
                             result = String.valueOf(new AdminHelper.POSTProfileLatLong().execute(SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(), String.valueOf("21.22"), String.valueOf("80.66")));
 
 
-                            if (jsonbody.dataProfile.Role.equals("Customer")) {
-                                intent = new Intent(CustomerLoginRegActivity.this, CustomerHomePage.class);
+                            if (jsonbody.Role.equals("Customer")) {
+                                progressDialog.dismiss();
+                                intent = new Intent(CustomerLoginRegActivity.this, VerifyPhoneActivity.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
                             }
                         } else {
+                            progressDialog.dismiss();
                             intent = new Intent(CustomerLoginRegActivity.this, VerifyPhoneActivity.class);
-                            intent.putExtra("OTP", jsonbody.OtpCode);
-                            intent.putExtra("Uid", jsonbody.dataProfile.ID);
-                            intent.putExtra("Role", jsonbody.dataProfile.Role);
-                            intent.putExtra("Active", jsonbody.dataProfile.Active);
-                            intent.putExtra("Mobile",jsonbody.dataProfile.MobileNo);
-                            intent.putExtra("Name",jsonbody.dataProfile.Name);
-                            Log.d("CustomerOTp",jsonbody.OtpCode);
+                            intent.putExtra("OTP", jsonbody.Otp);
+                            intent.putExtra("Uid", jsonbody.Id);
+                            intent.putExtra("Role", jsonbody.Role);
+                            intent.putExtra("Active", jsonbody.ActiveStatus);
+                            intent.putExtra("Mobile", jsonbody.Mobile);
                             startActivity(intent);
+                            Log.d("CustomerOTp", jsonbody.Otp);
                             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                         }
                     }

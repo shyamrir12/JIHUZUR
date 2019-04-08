@@ -9,7 +9,7 @@ import com.example.awizom.jihuzur.Util.SharedPrefManager;
 
 public class CustomerSplashActivity  extends AppCompatActivity {
 
-    private static int SPLASH_TIME_OUT = 10000;
+    private static int SPLASH_TIME_OUT = 5000;
     private Intent intent;
     String result = "";
     String id;

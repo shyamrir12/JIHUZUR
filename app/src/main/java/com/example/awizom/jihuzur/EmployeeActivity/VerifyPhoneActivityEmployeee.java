@@ -4,8 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +21,8 @@ import com.example.awizom.jihuzur.Helper.LoginHelper;
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.R;
+import com.example.awizom.jihuzur.SmsListener;
+import com.example.awizom.jihuzur.SmsReceiver;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.example.awizom.jihuzur.ViewDialog;
 import com.google.gson.Gson;
@@ -29,7 +33,7 @@ import java.util.concurrent.ExecutionException;
 public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements View.OnClickListener {
 
     private EditText otpEditText;
-    private Button verifyOtpBtn;
+    private Button verifyOtpBtn,resendOTP, countDown;
     private String result, userId = "", otp = "", role = "", image = "", mobile = "", name = "";
 
     boolean active = false;
@@ -67,6 +71,11 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements V
         otpEditText = findViewById(R.id.editTextOtp);
         verifyOtpBtn = findViewById(R.id.buttonVerify);
         verifyOtpBtn.setOnClickListener(this);
+        resendOTP = findViewById(R.id.resendOTP);
+        countDown = findViewById(R.id.countDown);
+        resendOTP.setOnClickListener(this);
+        countDown.setOnClickListener(this);
+
         progressDialog = new ProgressDialog(VerifyPhoneActivityEmployeee.this);
         otp = getIntent().getExtras().getString("OTP", "");
         userId = getIntent().getExtras().getString("Uid", "");
@@ -75,9 +84,29 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements V
         mobile = getIntent().getExtras().getString("Mobile");
         name = getIntent().getExtras().getString("Name");
 
-//        if(otp != null){
-//            otpEditText.setText(otp.toString());
-//        }
+        new CountDownTimer(240000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                countDown.setText("" + millisUntilFinished / 1000);
+                resendOTP.setVisibility(View.GONE);
+            }
+
+            public void onFinish() {
+                countDown.setText("00:00");
+                resendOTP.setVisibility(View.VISIBLE);
+            }
+        }.start();
+
+        SmsReceiver.bindListener(new SmsListener() {
+            @Override
+            public void messageReceived(String messageText) {
+                Log.d("Text",messageText);
+                // Toast.makeText(VerifyPhoneActivity.this,"Message: "+messageText,Toast.LENGTH_LONG).show();
+                String sms = messageText;
+                String[] smsSplit = messageText.split(":");
+                otpEditText.setText(smsSplit[1]);
+            }
+        });
     }
 
     /*For Event Listeners */
@@ -96,15 +125,46 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements V
 
                         @Override
                         public void run() {
+                            if (validation()) {
+                                DataProfile dataProfile = new DataProfile();
+                                dataProfile.ID = userId;
+                                dataProfile.Active = Boolean.valueOf(active);
+                                dataProfile.Role = role;
+                                dataProfile.Image = image;
+                                dataProfile.MobileNo = mobile;
+                                dataProfile.Name = name;
+                                SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
 
-                            verifyPostOtp();
+                                if (SharedPrefManager.getInstance(getApplicationContext()).getUser().Name != null) {
+                                    intent = new Intent(VerifyPhoneActivityEmployeee.this, EmployeeHomePage.class);
+                                    startActivity(intent);
+                                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                                } else {
+                                    intent = new Intent(VerifyPhoneActivityEmployeee.this, EmployeeMyProfileActivity.class);
+                                    startActivity(intent);
 
+                                }
+                            }
                         }
                     }, TIMER);
                 } else {
                     Toast.makeText(getApplicationContext(), "Entered OTP is Wrong", Toast.LENGTH_LONG).show();
 
                 }
+                break;
+            case R.id.resendOTP:
+                progressDialog.setMessage("Resend Otp...");
+                progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
+                progressDialog.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        createuser();
+                    }
+
+                }, TIMER);
+                break;
+            case R.id.countDown:
                 break;
         }
     }
@@ -172,10 +232,26 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements V
         }
     }
 
-    public void recivedSms(String message) {
+    private void createuser() {
         try {
-            otpEditText.setText(message);
-        } catch (Exception e) {
+            result = new LoginHelper.GetLogin().execute(mobile, "Jihuzur@123", "Jihuzur@123", "Customer").get();
+            progressDialog.dismiss();
+            Gson gson = new Gson();
+            UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
+            try {
+                if (jsonbody.isStatus()) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), "OTP Send", Toast.LENGTH_SHORT).show();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
     }

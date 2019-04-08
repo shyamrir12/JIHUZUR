@@ -413,9 +413,10 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         if (id == R.id.action_signout) {
             try {
                 SharedPrefManager.getInstance(this).logout();
-                Intent login = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
-                startActivity(login);
-                finish();
+                intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+//                finish();
             } catch (Exception e) {
                 e.printStackTrace();
             }
