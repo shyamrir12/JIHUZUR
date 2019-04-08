@@ -185,7 +185,6 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
                             Log.d("Employee OTP", jsonbody.Otp);
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
                             result = String.valueOf(new AdminHelper.POSTProfileLatLong().execute(SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(), String.valueOf("21.22"), String.valueOf("80.66")));
-
                             //20/02/2019 ravi
 
                         } else {

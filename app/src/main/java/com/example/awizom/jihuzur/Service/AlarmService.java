@@ -6,10 +6,10 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -44,21 +44,8 @@ public class AlarmService extends Service {
         intentalarm = new Intent(this, MyBroadcastReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 0, intentalarm, 0);
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        if (Build.VERSION.SDK_INT >= 26) {
-            String CHANNEL_ID = "my_channel_01";
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
-                    "Channel human readable title",
-                    NotificationManager.IMPORTANCE_DEFAULT);
-
-            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
-
-            Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setContentTitle("Order Started")
-                    .setContentText("").build();
-
-            startForeground(1, notification);
-        }
     }
+
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
         String input = intent.getStringExtra("inputExtra");
@@ -78,7 +65,40 @@ public class AlarmService extends Service {
             }
         });
         // if(check==true) {
-      /*  Intent notificationIntent = new Intent(AlarmService.this, MyBokingsActivity.class);
+
+
+        final Intent emptyIntent = new Intent(AlarmService.this, MyBokingsActivity.class);
+        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        String channelId = "channel-01";
+        String channelName = "Channel Name";
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel mChannel = new NotificationChannel(
+                    channelId, channelName, importance);
+            notificationManager.createNotificationChannel(mChannel);
+        }
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.shopping)
+                .setContentTitle("Jihuzzur")
+                .setUsesChronometer(true)
+                .setContentText("Order is Started");
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        /*   stackBuilder.addNextIntent(intent);*/
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, Integer.parseInt(String.valueOf(orderid)), emptyIntent, 0);
+        mBuilder.setContentIntent(pendingIntent);
+        notificationManager.notify(Integer.parseInt(String.valueOf(orderid)), mBuilder.build());
+
+       // Toast.makeText(getApplicationContext(), randomNumber + " number", Toast.LENGTH_LONG).show();
+
+       // return randomNumber;
+
+
+
+       /* Intent notificationIntent = new Intent(AlarmService.this, MyBokingsActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, Integer.parseInt(String.valueOf(orderid)), notificationIntent, 0);
         Date currentTime = Calendar.getInstance().getTime();
         Long setthewn = System.currentTimeMillis();
@@ -91,7 +111,7 @@ public class AlarmService extends Service {
                 .setSmallIcon(R.drawable.shopping)
                 .setContentIntent(pendingIntent)
                 .build();
-
+        notification.flags |= Notification.FLAG_NO_CLEAR;
         //Id allows you to update the notification later on.
         mNotificationManager.notify(Integer.parseInt(String.valueOf(orderid)), notification);
         startAlert();*/

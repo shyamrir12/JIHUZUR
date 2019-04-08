@@ -34,7 +34,7 @@ public class EmployeeCurrentOrderFragment extends Fragment implements View.OnCli
     private String result = "", empId;
     String empid;
     private ImageView reloadBtn;
-   // SwipeRefreshLayout mSwipeRefreshLayout;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     @Override
@@ -54,7 +54,7 @@ public class EmployeeCurrentOrderFragment extends Fragment implements View.OnCli
         empId = SharedPrefManager.getInstance(getContext()).getUser().getID();
 
         relativeLayout = view.findViewById(R.id.textRelate);
-      //  mSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+       mSwipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         recyclerView = view.findViewById(R.id.recyclerView);
         // reloadBtn = view.findViewById(R.id.reload);
         // reloadBtn.setOnClickListener(this);
@@ -63,17 +63,17 @@ public class EmployeeCurrentOrderFragment extends Fragment implements View.OnCli
         recyclerView.scrollToPosition(0);
         recyclerView.smoothScrollToPosition(0);
 
-//        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                try {
-//                    getMyOrderRunning();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    relativeLayout.setVisibility(View.VISIBLE);
-//                }
-//            }
-//        });
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                try {
+                    getMyOrderRunning();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    relativeLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         try {
             getMyOrderRunning();
         } catch (Exception e) {
@@ -89,9 +89,9 @@ public class EmployeeCurrentOrderFragment extends Fragment implements View.OnCli
         }
 
         try {
-           // mSwipeRefreshLayout.setRefreshing(true);
+           mSwipeRefreshLayout.setRefreshing(true);
             result = new EmployeeOrderHelper.EmployeeGetMyCurrentOrder().execute(empId).get();
-         //   mSwipeRefreshLayout.setRefreshing(false);
+            mSwipeRefreshLayout.setRefreshing(false);
             if (result.isEmpty()) {
                 relativeLayout.setVisibility(View.VISIBLE);
             } else {

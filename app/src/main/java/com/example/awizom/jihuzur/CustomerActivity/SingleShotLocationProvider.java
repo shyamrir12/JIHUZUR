@@ -135,8 +135,11 @@ public class SingleShotLocationProvider extends Service {
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+
                 Intent i = new Intent("location_update");
-                i.putExtra("coordinates", location.getLongitude() + " " + location.getLatitude());
+                i.putExtra("coordinatescus", location.getLongitude() + " " + location.getLatitude());
+                sendBroadcast(i);
+
                 try {
                     result = new AdminHelper.POSTProfileLatLong().execute(SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(), String.valueOf(location.getLatitude()).toString(), String.valueOf(location.getLongitude()).toString()).get();
                 } catch (ExecutionException e) {

@@ -204,10 +204,9 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     break;
 
                 case R.id.navigation_helpCenter:
-                    intent = new Intent(AdminHomePage.this, HelpCenterActivity.class);
+                    intent = new Intent(AdminHomePage.this, GeoCoder.class);
                     startActivity(intent);
                  //   generateRandomNumber();
-
                     //  overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 //                    getSupportActionBar().setTitle("Help Center");
 //                    fragment = helpCenterFragment;

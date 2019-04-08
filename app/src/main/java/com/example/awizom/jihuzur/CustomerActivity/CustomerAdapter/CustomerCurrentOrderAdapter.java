@@ -2,8 +2,10 @@ package com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -50,6 +52,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import static android.support.v4.content.ContextCompat.startForegroundService;
 import static com.firebase.ui.auth.ui.email.RegisterEmailFragment.TAG;
 
 public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCurrentOrderAdapter.OrderItemViewHolder> {
@@ -108,7 +111,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                 public void onClick(View v) {
                     showCustomLoadingDialog(v);
                     intent = new Intent(mCtx, TrackActivity.class);
-                    intent.putExtra("CustomerID",holder.cusid.getText().toString());
+                    intent.putExtra("CustomerID", holder.cusid.getText().toString());
                     intent.putExtra("EmployeeID", holder.empid.getText().toString());
                     mCtx.startActivity(intent
                     );
@@ -119,16 +122,44 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                 @Override
                 public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot, @javax.annotation.Nullable FirebaseFirestoreException e) {
                     if (documentSnapshot.getData() != null) {
+                        String starttime = documentSnapshot.get("startTime").toString();
+                        String endtime = documentSnapshot.get("endTime").toString();
                         holder.acceptBtn.setVisibility(View.GONE);
                         holder.chronometer.setVisibility(View.VISIBLE);
                         try {
-                            Intent serviceIntent = new Intent(mCtx, AlarmService.class);
-                            serviceIntent.putExtra("inputExtra", servicnam + " Your Order Is Started");
-                            serviceIntent.putExtra("orderId", ordid);
-                            ContextCompat.startForegroundService(mCtx.getApplicationContext(), serviceIntent);
+
+                            final Intent emptyIntent = new Intent(mCtx, MyBokingsActivity.class);
+                            NotificationManager notificationManager = (NotificationManager) mCtx.getSystemService(Context.NOTIFICATION_SERVICE);
+                            String channelId = "channel-01";
+                            String channelName = "Channel Name";
+                            int importance = NotificationManager.IMPORTANCE_HIGH;
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                NotificationChannel mChannel = new NotificationChannel(
+                                        channelId, channelName, importance);
+                                notificationManager.createNotificationChannel(mChannel);
+                            }
+
+                            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mCtx, channelId)
+                                    .setSmallIcon(R.drawable.shopping)
+                                    .setContentTitle("Jihuzzur")
+                                    .setContentText("Order is Started from:-" + starttime);
+
+                            TaskStackBuilder stackBuilder = TaskStackBuilder.create(mCtx);
+                            /*   stackBuilder.addNextIntent(intent);*/
+                            PendingIntent pendingIntent = PendingIntent.getActivity(mCtx, Integer.parseInt(String.valueOf(ordid)), emptyIntent, 0);
+                            mBuilder.setContentIntent(pendingIntent);
+                            notificationManager.notify(Integer.parseInt(String.valueOf(ordid)), mBuilder.build());
+                            try {
+                                if (!endtime.equals("0")) {
+                                    notificationManager.cancel(Integer.parseInt(String.valueOf(ordid)));
+                                }
+
+                            } catch (Exception d) {
+                                d.printStackTrace();
+                            }
+                        } catch (Exception d) {
+                            d.printStackTrace();
                         }
-                        catch (Exception d)
-                        {d.printStackTrace();}
                     } else {
                         holder.acceptBtn.setVisibility(View.GONE);
                         holder.chronometer.setVisibility(View.GONE);
@@ -219,14 +250,15 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                                                         Log.w(TAG, "Error writing document", e);
                                                     }
                                                 });
-
                                         try {
-                                            Intent serviceIntent = new Intent(mCtx, AlarmService.class);
-                                            serviceIntent.putExtra("inputExtra", servicnam + " Your Order Is Started");
-                                            serviceIntent.putExtra("orderId", ordid);
-                                            ContextCompat.startForegroundService(mCtx, serviceIntent);
-                                        }catch (Exception e)
-                                        {e.printStackTrace();
+                                          /*  if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                                Intent serviceIntent = new Intent(mCtx, AlarmService.class);
+                                                serviceIntent.putExtra("inputExtra", servicnam + " Your Order Is Started");
+                                                serviceIntent.putExtra("orderId", ordid);
+                                                startForegroundService(mCtx, serviceIntent);*/
+
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
 
                                         }
                                     }
@@ -261,8 +293,8 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context mCtx;
-        private TextView chronometer, orderIds,otps;
-        private TextView startTime, endtime, empName, timercount, empContAct, catagryName, servicName, pricingterm, dctName,empid,cusid;
+        private TextView chronometer, orderIds, otps;
+        private TextView startTime, endtime, empName, timercount, empContAct, catagryName, servicName, pricingterm, dctName, empid, cusid;
         private Button acceptBtn, trackinBtn, canclBtn, viewdetail;
         private List<Order> orderitemList;
         private LinearLayout linearLayout;
@@ -287,7 +319,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             startTime = itemView.findViewById(R.id.starttime);
             cusid = itemView.findViewById(R.id.cusID);
             empid = itemView.findViewById(R.id.empId);
-
             endtime = itemView.findViewById(R.id.endtime);
             timercount = itemView.findViewById(R.id.timeCount);
             acceptBtn = itemView.findViewById(R.id.acceptOtpBtn);
@@ -303,11 +334,9 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             viewdetail = itemView.findViewById(R.id.viewDetail);
             linearLayout = itemView.findViewById(R.id.l4);
             otps = itemView.findViewById(R.id.otp);
-
             orderIds = itemView.findViewById(R.id.orderId);
             db = FirebaseFirestore.getInstance();
             acceptBtn.setOnClickListener(this);
-
             canclBtn.setOnClickListener(this);
             timercount.setOnClickListener(this);
         }

@@ -21,7 +21,6 @@ public class ImageCompressTask implements Runnable {
     private List<File> result = new ArrayList<>();
     private IImageCompressTaskListener mIImageCompressTaskListener;
 
-
     public ImageCompressTask(Context context, String path, IImageCompressTaskListener compressTaskListener) {
 
         originalPaths.add(path);

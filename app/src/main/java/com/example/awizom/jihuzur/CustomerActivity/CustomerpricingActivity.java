@@ -8,9 +8,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.TaskStackBuilder;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.LocationManager;
@@ -83,7 +85,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     private Button nextButton;
     private Button postPricingBtn;
     private Intent intent;
-    private String result = "", serviceID = "", description = "", serviceName = "",  displayType = "", btn = "", orderID = "", priceID = "0", data = "", pricingId = "";
+    private String result = "", serviceID = "", description = "", serviceName = "", displayType = "", btn = "", orderID = "", priceID = "0", data = "", pricingId = "";
     private String empId = "", priceIDs = "", selectedEmpId;
     private String priceIds = "";
     private ArrayList<LatLng> latlngs = new ArrayList<>();
@@ -99,19 +101,21 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     ViewDialog viewDialog;
     private ProgressDialog progressDialog;
     private static int TIMER = 300;
+    private BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repair_service);
-        viewDialog=new ViewDialog(this);
+        viewDialog = new ViewDialog(this);
         initView();
     }
 
     private void initView() {
         db = FirebaseFirestore.getInstance();
-        if (!runtime_permissions())
-        {enable_buttons();}
+        if (!runtime_permissions()) {
+            enable_buttons();
+        }
         serviceID = getIntent().getStringExtra("serviceID");
         description = getIntent().getStringExtra("description");
         serviceName = getIntent().getStringExtra("serviceName");
@@ -195,7 +199,20 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
             }
         }
     }
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (broadcastReceiver == null) {
+            broadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+//                    textView.append("\n" + intent.getExtras().get("coordinates"));
+                    Log.d("myTag", "\n" +intent.getExtras().get("coordinatescus"));
+                }
+            };
+        }
+        registerReceiver(broadcastReceiver, new IntentFilter("location_update"));
+    }
     private void getMyOrderRunning() {
         try {
             mSwipeRefreshLayout.setRefreshing(true);
@@ -223,24 +240,24 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                 showCustomLoadingDialog();
                 try {
                     method();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
                 break;
             case R.id.postOrderPriceBtn:
                 try {
-                showCustomLoadingDialog();
-                int j = SharedPrefManager.getInstance(CustomerpricingActivity.this).getPricingID().PricingID;
-                try {
-                    result = new AdminHelper.EditPricingPost().execute(orderID, String.valueOf(j)).get();
-                    Gson gson = new Gson();
-                    final Result jsonbodyres = gson.fromJson(result, Result.class);
-                    Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                    showCustomLoadingDialog();
+                    int j = SharedPrefManager.getInstance(CustomerpricingActivity.this).getPricingID().PricingID;
+                    try {
+                        result = new AdminHelper.EditPricingPost().execute(orderID, String.valueOf(j)).get();
+                        Gson gson = new Gson();
+                        final Result jsonbodyres = gson.fromJson(result, Result.class);
+                        Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                }catch (Exception e){
                     e.printStackTrace();
                 }
                 break;
@@ -271,15 +288,16 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         if (data != null) {
             priceID = data;
             AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
-            alertbox.setMessage("1. Once the order is placed, minimum amount of Rs. 100 will be charged. " + "\n"+"2. Once the order is placed, customer could not cancel the order, only our executive can do so accordingly." );
+            alertbox.setMessage("1. Once the order is placed, minimum amount of Rs. 100 will be charged. " + "\n" + "2. Once the order is placed, customer could not cancel the order, only our executive can do so accordingly.");
             alertbox.setTitle("Terms & Condition");
             alertbox.setIcon(R.drawable.ic_dashboard_black_24dp);
             alertbox.setNeutralButton("Ok",
                     new DialogInterface.OnClickListener() {
                         Class fragmentClass = null;
+
                         public void onClick(DialogInterface arg0,
                                             int arg1) {
-                                    showTheAlertOrderDailogue();
+                            showTheAlertOrderDailogue();
 
 
                         }
@@ -287,7 +305,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 
 
             alertbox.show();
-
 
 
 //             intent = new Intent(this, LocationActivity.class);
@@ -349,7 +366,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     }
 
 
-
     private void postOderCreate(String dicountCoupan) {
         String date = new SimpleDateFormat("MM/dd/yy", Locale.getDefault()).format(new Date());
         String customerid = SharedPrefManager.getInstance(getApplicationContext()).getUser().getID();
@@ -363,14 +379,14 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
             priceIds = priceID;
         }
         try {
-            result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId, priceIds,coupncode).get();
+            result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId, priceIds, coupncode).get();
             Gson gson = new Gson();
             Type getType = new TypeToken<ResultModel>() {
             }.getType();
             ResultModel resultModel = new Gson().fromJson(result, getType);
             if (!result.equals("")) {
-                String employeeid=resultModel.getMessage().split(",")[2];
-                String orrderid=resultModel.getMessage().split(",")[1].toString();
+                String employeeid = resultModel.getMessage().split(",")[2];
+                String orrderid = resultModel.getMessage().split(",")[1].toString();
                 Map<String, Object> ordernotification = new HashMap<>();
 
               /*  ordernotification.put("customerid", false);
@@ -453,31 +469,31 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         randomNumber = Integer.parseInt(s);
 
 
-            Map<String, String> profile = new HashMap<>();
-            profile.put("otp", String.valueOf(randomNumber));
+        Map<String, String> profile = new HashMap<>();
+        profile.put("otp", String.valueOf(randomNumber));
 
-            db.collection("OrderOtp").document(orderID)
-                    .set(profile)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            //   Log.d(TAG, "DocumentSnapshot successfully written!");
-                            Toast.makeText(getApplicationContext(), "Success!",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getApplicationContext(), "Failed!",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-            Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+        db.collection("OrderOtp").document(orderID)
+                .set(profile)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //   Log.d(TAG, "DocumentSnapshot successfully written!");
+                        Toast.makeText(getApplicationContext(), "Success!",
+                                Toast.LENGTH_LONG).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Failed!",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
 
-        String custmob=  SharedPrefManager.getInstance(this).getUser().getMobileNo().toString();
+        String custmob = SharedPrefManager.getInstance(this).getUser().getMobileNo().toString();
         try {
-            result = new CustomerOrderHelper.SendOrderOtp().execute(custmob,String.valueOf(randomNumber)).get();
+            result = new CustomerOrderHelper.SendOrderOtp().execute(custmob, String.valueOf(randomNumber)).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -485,13 +501,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         }
 
 
-
-
-
-
-
-
-     //   PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        //   PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
       /*  Notification noti = new Notification.Builder(this)
                 .setContentTitle("JiHUzzur Otp for Order")
                 .setContentText(String.valueOf(randomNumber)).setSmallIcon(R.drawable.jihuzurapplogo)
@@ -505,7 +515,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 */
 
         final Intent emptyIntent = new Intent();
-        NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         String channelId = "channel-01";
         String channelName = "Channel Name";
@@ -523,17 +533,15 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                 .setContentText(String.valueOf(randomNumber));
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-     /*   stackBuilder.addNextIntent(intent);*/
+        /*   stackBuilder.addNextIntent(intent);*/
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(pendingIntent);
-
         notificationManager.notify(randomNumber, mBuilder.build());
 
-        Toast.makeText(getApplicationContext(),randomNumber+" number",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), randomNumber + " number", Toast.LENGTH_LONG).show();
 
         return randomNumber;
     }
-
 
 
     private void employeeProfileGet() {
@@ -549,7 +557,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                 empNameList[i] = String.valueOf(employeeProfileModelList.get(i).getName());
                 empLat[i] = String.valueOf(employeeProfileModelList.get(i).getLat());
                 empLong[i] = String.valueOf(employeeProfileModelList.get(i).getLong());
-         //       latlngs.add(new LatLng(Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLat())), Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLong()))));
+                //       latlngs.add(new LatLng(Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLat())), Double.valueOf(String.valueOf(employeeProfileModelList.get(i).getLong()))));
                 empID.add(employeeProfileModelList.get(i).getID());
                 empMobile.add(employeeProfileModelList.get(i).getMobileNo());
                 empName.add(employeeProfileModelList.get(i).getName());
@@ -562,6 +570,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
             e.printStackTrace();
         }
     }
+
     public void showCustomLoadingDialog() {
 
         //..show gif

@@ -95,7 +95,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
         priceid = String.valueOf(order.getPricingID());
         empId = order.getEmployeeID();
         try {
-
             order = orderitemList.get(position);
             holder.customerName.setText(order.getName());
             holder.startTime.setText(order.getOrderStartTime());
@@ -116,7 +115,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                 holder.disctName.setText(null);
             }
             // holder.catlgName.setText(order.getCatalogName());
-
             holder.catlgId.setText(String.valueOf(order.getCatalogID()));
             holder.serviceID.setText(String.valueOf(order.getServiceID()));
             holder.pricingterms.setText(order.getPricingTerms());
@@ -173,7 +171,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                             String dateToStr = format.format(today);
                             Map<String, Object> order = new HashMap<>();
                             order.put("endTime", dateToStr);
-                            db.collection("Order").document(orderId).update(order).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            db.collection("Order").document(holder.orderIssss.getText().toString()).update(order).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Log.d(TAG, "DocumentSnapshot successfully written!");
@@ -185,11 +183,8 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                                             Log.w(TAG, "Error writing document", e);
                                         }
                                     });
-                            showpaymentdialog();
-
+                            showpaymentdialog(holder.orderIssss.getText().toString());
                         }
-
-
                         //     Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
@@ -586,17 +581,16 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             }
         }
 
-
     }
 
-    private void showpaymentdialog() {
+    private void showpaymentdialog(String s) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mCtx);
         LayoutInflater inflater = LayoutInflater.from(mCtx);
         final View dialogView = inflater.inflate(R.layout.show_payment, null);
         dialogBuilder.setView(dialogView);
         TextView amount = (TextView) dialogView.findViewById(R.id.amount);
         try {
-            result = new EmployeeOrderHelper.GetPayment().execute(orderId).get();
+            result = new EmployeeOrderHelper.GetPayment().execute(s.toString()).get();
             Gson gson = new Gson();
             Type listType = new TypeToken<Order>() {
             }.getType();

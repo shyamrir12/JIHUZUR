@@ -193,8 +193,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
-
-
         tabLayout = findViewById(R.id.tablayout);
         outGoing = findViewById(R.id.outgoing);
         history = findViewById(R.id.history);
@@ -244,7 +242,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             }
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
-
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -305,7 +302,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
                     randomNumber = Integer.parseInt(s);
                     final Intent emptyIntent = new Intent(EmployeeHomePage.this, EmployeeHomePage.class);
                     NotificationManager notificationManager = (NotificationManager)EmployeeHomePage.this.getSystemService(Context.NOTIFICATION_SERVICE);
-
                     String channelId = "channel-01";
                     String channelName = "Channel Name";
                     int importance = NotificationManager.IMPORTANCE_HIGH;
@@ -545,8 +541,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.employee_home_page, menu);
         final MenuItem settingsItem = menu.findItem(R.id.action_profile);
-
-
         Glide.with(this).load(img_str).asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(new SimpleTarget<Bitmap>(100, 100) {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
