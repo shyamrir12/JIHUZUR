@@ -18,26 +18,26 @@
             android:layout_height="match_parent"
             android:background="@color/white">
 
-
             <LinearLayout
                 android:id="@+id/l"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:orientation="horizontal"
                 android:layout_marginTop="40dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:focusedByDefault="true">
-
 
                 <AdapterViewFlipper
                     android:id="@+id/simpleAdapterViewFlipper"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="#00000000"
+                    android:autoStart="true"
                     android:scrollHorizontally="true"
-                    android:background="#00000000" />
-
-
+                    android:scrollbars="horizontal"
+                    android:scrollIndicators="right"
+                    android:scrollbarAlwaysDrawHorizontalTrack="true" />
 
 
             </LinearLayout>

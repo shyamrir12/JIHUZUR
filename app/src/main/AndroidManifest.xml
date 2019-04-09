@@ -172,7 +172,8 @@
         <activity
             android:name=".CustomerActivity.TrackActivity"
             android:parentActivityName=".MyBokingsActivity" />
-        <activity android:name=".CustomerActivity.CustomerReplyActivity" />
+        <activity android:name=".CustomerActivity.CustomerReplyActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <service
             android:name=".Service.GPS_Service"
@@ -232,6 +233,7 @@
         <activity android:name=".SMSTestActicity" />
         <activity android:name=".ExampleFliper"></activity>
         <activity android:name=".AdminActivity.GeoCoder"></activity>
+
     </application>
 
 </manifest>

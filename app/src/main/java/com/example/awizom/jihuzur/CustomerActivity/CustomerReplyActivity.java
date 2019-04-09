@@ -1,5 +1,6 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +40,25 @@ public class CustomerReplyActivity extends AppCompatActivity implements View.OnC
     }
 
     private void initView() {
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        /*  catalogName = getIntent().getStringExtra("CatalogName");*/
+
+        toolbar.setTitle("Reply");
+
+
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
+        toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
+        toolbar.setTitleTextColor(Color.WHITE);
+
 
         reviewID = getIntent().getStringExtra("ReviewID");
         reView = getIntent().getStringExtra("ReView");

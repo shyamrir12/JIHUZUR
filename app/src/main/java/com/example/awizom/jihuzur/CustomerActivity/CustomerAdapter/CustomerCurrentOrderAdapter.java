@@ -93,6 +93,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             final String prictrm = order.getPricingTerms();
             final String empname = order.getEmpName();
             final String empmob = order.getEmpMob();
+            final String imagelink = order.getImage();
             viewDialog = new ViewDialog((Activity) mCtx);
             holder.empName.setText(order.getServiceName());
             holder.empContAct.setText(order.getCatalogName());
@@ -180,6 +181,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                     intent.putExtra("PricingTerms", prictrm);
                     intent.putExtra("EmployeeName", empname);
                     intent.putExtra("EmployeeContact", empmob);
+                    intent.putExtra("ImageLink",imagelink);
                     // intent.putExtra("OrderIDs", holder.orderIds.getText().toString());
                     mCtx.startActivity(intent);
                 }

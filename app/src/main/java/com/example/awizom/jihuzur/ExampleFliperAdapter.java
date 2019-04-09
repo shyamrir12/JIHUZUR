@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -17,12 +18,16 @@ public class ExampleFliperAdapter extends BaseAdapter {
     Context context;
 
     String[] imageNames;
+    String[] discountNames;
+    String[] dicountAmounts;
     LayoutInflater inflter;
 
 
-    public ExampleFliperAdapter(Context applicationContext, String[]  imageNames) {
+    public ExampleFliperAdapter(Context applicationContext, String[]  imageNames,String[]  discountNames,String[]  dicountAmounts) {
         this.context = applicationContext;
         this.imageNames = imageNames;
+        this.discountNames = discountNames;
+        this.dicountAmounts = dicountAmounts;
 
         inflter = (LayoutInflater.from(applicationContext));
     }
@@ -45,9 +50,16 @@ public class ExampleFliperAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         view = inflter.inflate(R.layout.example_listitem, null);
-        TextView imageName =  view.findViewById(R.id.fruitName);
-        ImageView imageView = view.findViewById(R.id.fruitImage);
+        TextView discountName,imageName,discountAmount;
+        imageName =  view.findViewById(R.id.fruitName);
+        discountName =  view.findViewById(R.id.discountName);
+        discountAmount =  view.findViewById(R.id.discountAmount);
+        ImageView imageView = view.findViewById(R.id.dicountImgName);
         imageName.setText(imageNames[position]);
+        discountName.setText(discountNames[position]);
+        discountAmount.setText(dicountAmounts[position]);
+      imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        final LinearLayout layoutDiscountDetail = view.findViewById(R.id.layout_discount_detail);
 
 
 
@@ -57,9 +69,15 @@ public class ExampleFliperAdapter extends BaseAdapter {
         Glide.with(context)
                 .load(imgString)
                 .placeholder(R.drawable.jihuzurblanklogo)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
                 .into(imageView);
+
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layoutDiscountDetail.setVisibility(View.VISIBLE);
+            }
+        });
         return view;
     }
 }

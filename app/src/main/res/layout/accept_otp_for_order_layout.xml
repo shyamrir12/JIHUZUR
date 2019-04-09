@@ -47,7 +47,7 @@
                     android:inputType="text"
                     android:paddingLeft="10dp"
                     android:maxLength="10"
-                    android:fontFamily="serif-monospace"/>
+                   android:fontFamily="@font/fonts"/>
 
             </LinearLayout>
 
@@ -56,11 +56,11 @@
                 android:id="@+id/buttonVerify"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="#fa4306"
+                android:background="@color/button_color"
                 android:text="Verify"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
-                android:fontFamily="monospace"
+                android:fontFamily="@font/fonts"
                 android:gravity="center"
                 android:layout_gravity="bottom"
                 android:padding="16dp"

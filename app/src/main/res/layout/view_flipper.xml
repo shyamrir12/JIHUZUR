@@ -2,19 +2,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/recyclerView"
-    android:layout_width="match_parent"
-    android:layout_height="130dp"
-    android:layout_margin="30dp">
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-</android.support.v7.widget.RecyclerView>
-<Button
-    android:id="@+id/recall"
-    android:layout_width="match_parent"
-    android:layout_height="34dp"
-    android:text="recall"
-    android:layout_below="@+id/recyclerView"/>
 
 
 </RelativeLayout>

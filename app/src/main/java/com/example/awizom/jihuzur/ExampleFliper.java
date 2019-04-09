@@ -5,11 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.AdapterViewFlipper;
 import android.widget.Toast;
 
-import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.DiscountImageAdapter;
-import com.example.awizom.jihuzur.CustomerActivity.NewCustomerHome;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Model.DiscountModel;
-import com.example.awizom.jihuzur.Model.DiscountView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -56,11 +53,12 @@ public class ExampleFliper extends AppCompatActivity {
                 Type listType = new TypeToken<List<DiscountModel>>() {
                 }.getType();
                 discountModel = new Gson().fromJson(result, listType);
-
+                String discountNames[] = new String[discountModel.size()];
+                String dicountAmounts[] = new String[discountModel.size()];
                 String imageNames[] = new String[discountModel.size()];
                 for(int i = 0; i<= discountModel.size(); i++){
                        imageNames[i] = discountModel.get(i).getPhoto();
-                        ExampleFliperAdapter customAdapter = new ExampleFliperAdapter(getApplicationContext(), imageNames);
+                        ExampleFliperAdapter customAdapter = new ExampleFliperAdapter(getApplicationContext(), imageNames,discountNames,dicountAmounts);
                         simpleAdapterViewFlipper.setAdapter(customAdapter);
                         simpleAdapterViewFlipper.setFlipInterval(3000);
                         simpleAdapterViewFlipper.setAutoStart(true);

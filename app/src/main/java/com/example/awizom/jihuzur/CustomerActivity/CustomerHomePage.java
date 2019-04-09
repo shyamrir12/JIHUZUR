@@ -1,7 +1,6 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,7 +11,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,18 +22,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.AdapterViewFlipper;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,7 +42,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerCatagoryAdapter;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerHomePageAdapter;
-import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.DiscountImageAdapter;
 import com.example.awizom.jihuzur.ExampleFliperAdapter;
 import com.example.awizom.jihuzur.Fragment.CatalogFragment;
 import com.example.awizom.jihuzur.Fragment.MyBookingFragment;
@@ -60,21 +52,17 @@ import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.DiscountModel;
-import com.example.awizom.jihuzur.Model.DiscountView;
 import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.SettingsActivity;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
-import com.example.awizom.jihuzur.Util.Util;
 import com.example.awizom.jihuzur.ViewDialog;
 import com.google.firebase.database.DatabaseReference;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Ravi on 07/01/2019.
@@ -558,15 +546,21 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 discountModel = new Gson().fromJson(result, listType);
 
                 String imageNames[] = new String[discountModel.size()];
+                String discountNames[] = new String[discountModel.size()];
+                String dicountAmounts[] = new String[discountModel.size()];
                 for(int i = 0; i<= discountModel.size(); i++){
                     imageNames[i] = discountModel.get(i).getPhoto();
-                    ExampleFliperAdapter customAdapter = new ExampleFliperAdapter(getApplicationContext(), imageNames);
+                    discountNames[i] = discountModel.get(i).getDiscountName();
+                    dicountAmounts[i] = discountModel.get(i).getDiscount();
+                    ExampleFliperAdapter customAdapter = new ExampleFliperAdapter(getApplicationContext(), imageNames,discountNames,dicountAmounts);
                     simpleAdapterViewFlipper.setAdapter(customAdapter);
-                    simpleAdapterViewFlipper.setFlipInterval(11000);
+                    simpleAdapterViewFlipper.setFlipInterval(2500);
                     simpleAdapterViewFlipper.setAutoStart(true);
 
 
                 }
+
+
 
 
             }

@@ -15,10 +15,14 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerCommentAdapter;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
@@ -65,8 +69,8 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
     private Intent intent;
     private String orderID = "", cusID = "", empID = "", orderStartTime = "", orderEndtime = "",
             catagoryName = "", serviceName = "", pricingterm = "", employeeName = "",
-            employeeContact = "", result = "", serviceId = "",  ordid="";
-    private TextView arrowBack, cancel, empName, empMobile, serviceNAme, txtRatingValue;
+            employeeContact = "", result = "", serviceId = "",  ordid="",imagelink="";
+    private TextView arrowBack, cancel, empName, empMobile, serviceNAme, txtRatingValue,employeeImageLink;
     private CustomerCommentAdapter customerCommentAdapter;
 
     private List<Review> reviews;
@@ -86,6 +90,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
     private DataProfile dataProfileEmployee;
     private String customerID = "", employeeID = "";
     ViewDialog viewDialog;
+    private ImageView employeeImage;
     //SwipeRefreshLayout mSwipeRefreshLayout;
 
 
@@ -125,6 +130,9 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         ratingBar = findViewById(R.id.rating);
         review = findViewById(R.id.review);
         txtRatingValue = findViewById(R.id.txtRatingValue);
+
+        employeeImage = findViewById(R.id.imageEmp);
+        employeeImageLink = findViewById(R.id.imglink);
         //    mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -152,6 +160,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         employeeContact = getIntent().getStringExtra("EmployeeContact");
         orderStartTime = getIntent().getStringExtra("OrderStartTime");
         serviceId = String.valueOf(getIntent().getIntExtra("ServiceID", 0));
+        imagelink = getIntent().getStringExtra("ImageLink");
 
         empName.setText(employeeName.toString());
         empMobile.setText(employeeContact.toString());
@@ -197,6 +206,10 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
 //                }
 //            }
 //        });
+employeeImageLink.setText(AppConfig.BASE_URL+imagelink);
+        Glide.with(this).load(employeeImageLink.getText().toString())
+                .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
+                .into(employeeImage);
 
     }
 
