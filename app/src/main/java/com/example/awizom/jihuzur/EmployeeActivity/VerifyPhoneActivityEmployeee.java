@@ -117,7 +117,7 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements V
         switch (v.getId()) {
             case R.id.buttonVerify:
                 if (otp.equals(otpEditText.getText().toString())) {
-                    progressDialog.setMessage("Login in progress ...");
+                    progressDialog.setMessage("loading in progress ...");
                     progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
                     progressDialog.show();
 

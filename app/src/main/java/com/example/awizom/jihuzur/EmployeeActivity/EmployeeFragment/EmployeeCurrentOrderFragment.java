@@ -100,9 +100,16 @@ public class EmployeeCurrentOrderFragment extends Fragment implements View.OnCli
                 }.getType();
                 orderList = new Gson().fromJson(result, listType);
                 employeeCurrentOrderAdapter = new EmployeeCurrentOrderAdapter(getContext(), orderList);
-                recyclerView.setAdapter(employeeCurrentOrderAdapter);
-                recyclerView.smoothScrollToPosition(0);
-                recyclerView.scrollToPosition(0);
+
+
+                recyclerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerView.setAdapter(employeeCurrentOrderAdapter);
+                        recyclerView.smoothScrollToPosition(0);
+                        recyclerView.scrollToPosition(0);
+                    }
+                },100);
 
             }
         } catch (ExecutionException e) {

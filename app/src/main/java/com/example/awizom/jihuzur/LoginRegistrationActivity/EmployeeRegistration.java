@@ -176,9 +176,9 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
                 Gson gson = new Gson();
                 final UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
                 try {
-                    if (jsonbody.Status == true) {
+
                         progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
                         if (jsonbody.Otp.equals("mobile already verified")) {
                             DataProfile dataProfile = new DataProfile();
                             dataProfile.ID = jsonbody.Id;
@@ -232,7 +232,7 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
                             Log.d("EmployeeOTp", jsonbody.Otp);
                             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                         }
-                    }
+
 
                 } catch (Exception e) {
                     e.printStackTrace();

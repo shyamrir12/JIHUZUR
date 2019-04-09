@@ -301,7 +301,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                         showCustomLoadingDialog();
                         skipMethod = true;
                         onResume();
-                        progressDialog.dismiss();
+
                     } else {
                         Toast.makeText(getApplicationContext(), "Sorry We Are Not Providing Service in Your Area", Toast.LENGTH_LONG).show();
                     }

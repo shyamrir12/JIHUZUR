@@ -97,7 +97,8 @@
         <activity android:name=".EmployeeActivity.EmployeeDrawingActivity" />
         <activity
             android:name=".MenuActivity"
-            android:parentActivityName=".CustomerActivity.CustomerHomePage" />
+            android:parentActivityName=".CustomerActivity.CustomerHomePage"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".UpdateProfile" />
         <activity
             android:name=".LocationActivity"

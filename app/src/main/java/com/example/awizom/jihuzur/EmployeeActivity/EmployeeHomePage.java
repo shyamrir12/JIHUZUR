@@ -194,14 +194,18 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
+
         tabLayout = findViewById(R.id.tablayout);
         outGoing = findViewById(R.id.outgoing);
         history = findViewById(R.id.history);
         viewDialog = new ViewDialog(this);
         viewPager = findViewById(R.id.viewPager);
+
+        showCustomLoadingDialog();
         pageAdapter = new EmployeePageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
