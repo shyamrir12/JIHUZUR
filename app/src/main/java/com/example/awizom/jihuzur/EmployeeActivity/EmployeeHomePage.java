@@ -118,6 +118,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             Class framentClass = null;
             switch (item.getItemId()) {
                 case R.id.navigation_search:
+                    showCustomLoadingDialog();
                     getSupportActionBar().setTitle("Employee Home");
                     intent = new Intent(EmployeeHomePage.this, EmployeeHomePage.class);
                     startActivity(intent);
@@ -233,13 +234,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             }
         });
 
-        if (!runtime_permissions())
 
-            try {
-                enable_buttons();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -429,6 +424,14 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
 
             }
         });
+
+        if (!runtime_permissions())
+
+            try {
+                enable_buttons();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
     }
 
     private void getProfile() {
@@ -501,7 +504,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
     }
 

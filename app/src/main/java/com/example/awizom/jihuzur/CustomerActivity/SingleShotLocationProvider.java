@@ -136,8 +136,8 @@ public class SingleShotLocationProvider extends Service {
             @Override
             public void onLocationChanged(Location location) {
 
-                Intent i = new Intent("location_update");
-                i.putExtra("coordinatescus", location.getLongitude() + " " + location.getLatitude());
+                Intent i = new Intent("location_update_cust");
+                i.putExtra("coordinatescus", location.getLatitude() + "," + location.getLongitude());
                 sendBroadcast(i);
 
                 try {

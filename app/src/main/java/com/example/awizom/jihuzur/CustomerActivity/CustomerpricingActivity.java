@@ -15,6 +15,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -60,6 +62,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
@@ -71,6 +74,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import static com.example.awizom.jihuzur.AdminActivity.GeoCoder.getPostalCodeByCoordinates;
 import static com.firebase.ui.auth.ui.email.RegisterEmailFragment.TAG;
 
 public class CustomerpricingActivity extends AppCompatActivity implements View.OnClickListener {
@@ -100,7 +104,10 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
     ViewDialog viewDialog;
     private ProgressDialog progressDialog;
+    String coordinates, postal_code;
     private static int TIMER = 300;
+    boolean skipMethod = false;
+    ProgressDialog progressDoalog;
     private BroadcastReceiver broadcastReceiver;
 
     @Override
@@ -108,6 +115,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repair_service);
         viewDialog = new ViewDialog(this);
+        skipMethod = true;
         initView();
     }
 
@@ -199,20 +207,66 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
             }
         }
     }
+
+
     @Override
     protected void onResume() {
         super.onResume();
-        if (broadcastReceiver == null) {
-            broadcastReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
+        if (skipMethod == true) {
+            if (broadcastReceiver == null) {
+                broadcastReceiver = new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
 //                    textView.append("\n" + intent.getExtras().get("coordinates"));
-                    Log.d("myTag", "\n" +intent.getExtras().get("coordinatescus"));
-                }
-            };
+                        Log.d("customerpricing", "\n" + intent.getExtras().get("coordinatescus"));
+                        coordinates = intent.getExtras().get("coordinatescus").toString();
+                        String lats = coordinates.split(",")[0];
+                        String longs = coordinates.split(",")[1];
+                        try {
+                            postal_code = getPostalCodeByCoordinates(CustomerpricingActivity.this, String.valueOf(lats).toString(), String.valueOf(longs).toString(), postal_code);
+                            skipMethod = false;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                };
+            }
         }
-        registerReceiver(broadcastReceiver, new IntentFilter("location_update"));
+        registerReceiver(broadcastReceiver, new IntentFilter("location_update_cust"));
     }
+
+    public static String getPostalCodeByCoordinates(CustomerpricingActivity context, String lat, String lon, String postal_code) throws IOException {
+
+        Geocoder mGeocoder = new Geocoder(context, Locale.getDefault());
+        String zipcode = null;
+        Address address = null;
+
+        if (mGeocoder != null) {
+
+            List<Address> addresses = mGeocoder.getFromLocation(Double.parseDouble(lat), Double.parseDouble(lon), 5);
+
+            if (addresses != null && addresses.size() > 0) {
+
+                for (int i = 0; i < addresses.size(); i++) {
+                    address = addresses.get(i);
+                    if (address.getPostalCode() != null) {
+                        zipcode = address.getPostalCode();
+                        Log.d("postcode", "Postal code: " + address.getPostalCode());
+                        //  Toast.makeText(context,  address.getPostalCode().toString(), Toast.LENGTH_LONG).show();
+                        postal_code = address.getPostalCode().toString();
+                        break;
+                    }
+
+                }
+                return zipcode;
+            }
+        }
+
+        return null;
+    }
+
+
     private void getMyOrderRunning() {
         try {
             mSwipeRefreshLayout.setRefreshing(true);
@@ -237,9 +291,22 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         v.startAnimation(buttonClick);
         switch (v.getId()) {
             case R.id.buttonNext:
+
                 showCustomLoadingDialog();
                 try {
-                    method();
+                    if (postal_code.equals("492001") || postal_code.equals("492004") || postal_code.equals("492013") || postal_code.equals("492007") || postal_code.equals("492015")) {
+                        skipMethod = false;
+                        method();
+                    } else if (postal_code.equals(null)) {
+                        showCustomLoadingDialog();
+                        skipMethod = true;
+                        onResume();
+                        progressDialog.dismiss();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Sorry We Are Not Providing Service in Your Area", Toast.LENGTH_LONG).show();
+                    }
+
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -298,8 +365,17 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                         public void onClick(DialogInterface arg0,
                                             int arg1) {
                             showTheAlertOrderDailogue();
+                           /* if(postal_code.equals("492001")||postal_code.equals("492004")||postal_code.equals("492013")||postal_code.equals("492007")) {
+                                showTheAlertOrderDailogue();
+                            }
+                            else if(postal_code.equals(null))
+                            {
+                                skipMethod=true;
+                            }
 
-
+                            {
+                                Toast.makeText(getApplicationContext(),"Sorry We Are Not Providing Service in Your Area",Toast.LENGTH_LONG).show();
+                            }*/
                         }
                     });
 
@@ -363,6 +439,8 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                 });
 
         alertDialog.show();
+
+
     }
 
 
@@ -379,6 +457,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
             priceIds = priceID;
         }
         try {
+
             result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId, priceIds, coupncode).get();
             Gson gson = new Gson();
             Type getType = new TypeToken<ResultModel>() {
@@ -467,8 +546,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 
 
         randomNumber = Integer.parseInt(s);
-
-
         Map<String, String> profile = new HashMap<>();
         profile.put("otp", String.valueOf(randomNumber));
 

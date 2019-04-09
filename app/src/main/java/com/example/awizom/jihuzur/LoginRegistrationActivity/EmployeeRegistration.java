@@ -34,10 +34,13 @@ import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.UserLogin;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 
@@ -171,7 +174,7 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
                 result = new LoginHelper.GetLogin().execute(editTextMobile.getText().toString().trim(), "Jihuzur@123", "Jihuzur@123","Employee").get();
                 progressDialog.dismiss();
                 Gson gson = new Gson();
-                UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
+                final UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
                 try {
                     if (jsonbody.Status == true) {
                         progressDialog.dismiss();
@@ -188,27 +191,36 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
                             //20/02/2019 ravi
 
                         } else {
-                            Map<String, Object> profile = new HashMap<>();
-                            profile.put("busystatus", false);
-                            profile.put("lat", 20.22);
-                            profile.put("long", 81.66);
-                            db.collection("Profile").document(jsonbody.Id)
-                                    .set(profile)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            //   Log.d(TAG, "DocumentSnapshot successfully written!");
-                                            Toast.makeText(getApplicationContext(), "Success!",
-                                                    Toast.LENGTH_LONG).show();
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(getApplicationContext(), "Failed!",
-                                                    Toast.LENGTH_LONG).show();
-                                        }
-                                    });
+                            db.collection("Profile").document(jsonbody.Id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if(task.getResult().equals(null))
+                                    {
+                                        Map<String, Object> profile = new HashMap<>();
+                                        profile.put("busystatus", false);
+                                        profile.put("lat", 21.22);
+                                        profile.put("long", 81.66);
+                                        db.collection("Profile").document(jsonbody.Id)
+                                                .set(profile)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        //   Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                        Toast.makeText(getApplicationContext(), "Success!",
+                                                                Toast.LENGTH_LONG).show();
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(getApplicationContext(), "Failed!",
+                                                                Toast.LENGTH_LONG).show();
+                                                    }
+                                                });
+                                    }
+                                }
+                            });
+
 
                             intent = new Intent(EmployeeRegistration.this, VerifyPhoneActivityEmployeee.class);
                             intent.putExtra("OTP", jsonbody.Otp);

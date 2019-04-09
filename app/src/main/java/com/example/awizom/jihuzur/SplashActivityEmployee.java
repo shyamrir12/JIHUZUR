@@ -79,8 +79,10 @@ public class SplashActivityEmployee extends AppCompatActivity {
                 if (dataProfile != null) {
                     DataProfile dataProfile1 = new DataProfile();
                     dataProfile1.Image = dataProfile.Image;
+                    dataProfile1.ID = dataProfile.ID;
                     dataProfile1.Name = dataProfile.Name;
                     dataProfile1.Active = dataProfile.Active;
+                    dataProfile1.Role = dataProfile.Role;
                     SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile1);
                     if (dataProfile1.isActive()) {
                         intent = new Intent(SplashActivityEmployee.this, EmployeeHomePage.class);

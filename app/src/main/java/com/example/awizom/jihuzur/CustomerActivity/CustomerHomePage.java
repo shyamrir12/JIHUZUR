@@ -1,9 +1,11 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -12,12 +14,14 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -91,7 +95,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     GridView gridView;
     List<Catalog> categorylist;
     String imgstr;
-
     private AdapterViewFlipper simpleAdapterViewFlipper;
     private List<DiscountModel> discountModel;
 
@@ -224,10 +227,36 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         });
         getProfile();
         getDiscountImageList();
-
-
+        if (!runtime_permissions()) {
+            enable_buttons();
+        }
     }
 
+    private boolean runtime_permissions() {
+        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 100) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                enable_buttons();
+            } else {
+                runtime_permissions();
+            }
+        }
+    }
+
+    private void enable_buttons() {
+
+        Intent i = new Intent(this, SingleShotLocationProvider.class);
+        startService(i);
+    }
 
     private void getCategoryList() {
         String catalogname = "Home Cleaning & Repairs";
@@ -424,13 +453,10 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-
-
             return true;
         }
         if (id == R.id.action_profile) {
             showCustomLoadingDialog();
-
             Intent i = new Intent(CustomerHomePage.this, CustomerProfileActivity.class);
             startActivity(i);
             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
@@ -548,11 +574,11 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 String imageNames[] = new String[discountModel.size()];
                 String discountNames[] = new String[discountModel.size()];
                 String dicountAmounts[] = new String[discountModel.size()];
-                for(int i = 0; i<= discountModel.size(); i++){
+                for (int i = 0; i <= discountModel.size(); i++) {
                     imageNames[i] = discountModel.get(i).getPhoto();
                     discountNames[i] = discountModel.get(i).getDiscountName();
                     dicountAmounts[i] = discountModel.get(i).getDiscount();
-                    ExampleFliperAdapter customAdapter = new ExampleFliperAdapter(getApplicationContext(), imageNames,discountNames,dicountAmounts);
+                    ExampleFliperAdapter customAdapter = new ExampleFliperAdapter(getApplicationContext(), imageNames, discountNames, dicountAmounts);
                     simpleAdapterViewFlipper.setAdapter(customAdapter);
                     simpleAdapterViewFlipper.setFlipInterval(2500);
                     simpleAdapterViewFlipper.setAutoStart(true);
@@ -561,15 +587,12 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 }
 
 
-
-
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
 
 }

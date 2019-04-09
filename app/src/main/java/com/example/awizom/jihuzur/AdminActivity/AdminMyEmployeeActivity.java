@@ -82,7 +82,7 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         getMyEmployeeList();
-        addEmployee=(FloatingActionButton)findViewById(R.id.addEmployee);
+        addEmployee = (FloatingActionButton) findViewById(R.id.addEmployee);
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(120, 120);
         addEmployee.setLayoutParams(layoutParams);
         addEmployee.setOnTouchListener(AdminMyEmployeeActivity.this);
@@ -110,10 +110,10 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialogue_add_employee, null);
         dialogBuilder.setView(dialogView);
-        final AutoCompleteTextView Name=(AutoCompleteTextView)dialogView.findViewById(R.id.Name);
-        final AutoCompleteTextView Phonenumber=(AutoCompleteTextView)dialogView.findViewById(R.id.phonenumber);
-        final AutoCompleteTextView Email=(AutoCompleteTextView)dialogView.findViewById(R.id.email);
-        final AutoCompleteTextView Address=(AutoCompleteTextView)dialogView.findViewById(R.id.address);
+        final AutoCompleteTextView Name = (AutoCompleteTextView) dialogView.findViewById(R.id.Name);
+        final AutoCompleteTextView Phonenumber = (AutoCompleteTextView) dialogView.findViewById(R.id.phonenumber);
+        final AutoCompleteTextView Email = (AutoCompleteTextView) dialogView.findViewById(R.id.email);
+        final AutoCompleteTextView Address = (AutoCompleteTextView) dialogView.findViewById(R.id.address);
         final Button buttonaddEmployee = (Button) dialogView.findViewById(R.id.buttonaddemployee);
         final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
         dialogBuilder.setTitle("Add Employee");
@@ -122,25 +122,34 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
         b.show();
 
 
-                buttonaddEmployee.setOnClickListener(new View.OnClickListener() {
+        buttonaddEmployee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                  showcustomloadindialogue();
-                  String name=Name.getText().toString();
-                  String phonenumber=Phonenumber.getText().toString();
-                  String email=Email.getText().toString();
-                  String address=Address.getText().toString();
-                  String userName=Phonenumber.getText().toString();
-                  String password="Jihuzur@123";
-                  String ConfirmPassword="Jihuzur@123";
+
+                if (Name.getText().toString().isEmpty()) {
+                    Name.setError("Enter a valid Employee Name");
+                    Name.requestFocus();
+                } else if (Phonenumber.getText().toString().isEmpty()) {
+                    Phonenumber.setError("Enter a valid Phonenumber");
+                    Phonenumber.requestFocus();
+                }
+                else {
+                    showcustomloadindialogue();
+                    String name = Name.getText().toString();
+                    String phonenumber = Phonenumber.getText().toString();
+                    String email = Email.getText().toString();
+                    String address = Address.getText().toString();
+                    String userName = Phonenumber.getText().toString();
+                    String password = "Jihuzur@123";
+                    String ConfirmPassword = "Jihuzur@123";
                     try {
-                        result = new AdminHelper.POSTAddEmployee().execute(name, phonenumber, email, address,userName,password,ConfirmPassword).get();
+                        result = new AdminHelper.POSTAddEmployee().execute(name, phonenumber, email, address, userName, password, ConfirmPassword).get();
                         Gson gson = new Gson();
                         Type getType = new TypeToken<ResultModel>() {
                         }.getType();
                         ResultModel resultModel = new Gson().fromJson(result, getType);
                         try {
-                            String employeid=resultModel.getMessage().split(",")[1];
+                            String employeid = resultModel.getMessage().split(",")[1];
                             Map<String, Object> profile = new HashMap<>();
                             profile.put("busystatus", false);
                             profile.put("lat", 21.22);
@@ -162,19 +171,17 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
                                                     Toast.LENGTH_LONG).show();
                                         }
                                     });
-                                Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
-                        }
-                        catch (Exception e)
-                        {
+                            Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                         getMyEmployeeList();
-
+                       b.dismiss();
                     } catch (Exception e) {
                     }
-                    b.dismiss();
                 }
-    });
+            }
+        });
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,13 +238,13 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
                 _yDelta = Y - lParams.topMargin;
                 break;
             case MotionEvent.ACTION_UP:
-            showaddEmployee();
+                showaddEmployee();
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
-              //  showaddEmployee();
+                //  showaddEmployee();
                 break;
             case MotionEvent.ACTION_POINTER_UP:
-              //  showaddEmployee();
+                //  showaddEmployee();
                 break;
             case MotionEvent.ACTION_MOVE:
                 FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) v
@@ -249,7 +256,6 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
                 v.setLayoutParams(layoutParams);
                 break;
         }
-
 
 
         rootlayout.invalidate();

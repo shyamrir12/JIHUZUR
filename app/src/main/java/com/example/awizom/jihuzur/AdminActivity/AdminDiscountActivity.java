@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
@@ -43,6 +44,7 @@ import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.Model.DiscountView;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.R;
+import com.example.awizom.jihuzur.ViewDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -72,6 +74,7 @@ public class AdminDiscountActivity extends AppCompatActivity {
     ArrayList<String> worldlist;
     String discounttypes, category;
     Uri picUri;
+    ViewDialog viewDialog;
     SwipeControllerDiscount swipeController;
     Uri outputFileUri;
     List<DiscountView> discountlist;
@@ -86,6 +89,7 @@ public class AdminDiscountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_discount);
+        viewDialog = new ViewDialog(this);
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Discount Offer");
         toolbar.setTitleTextColor(0xFFFFFFFF);
@@ -111,8 +115,24 @@ public class AdminDiscountActivity extends AppCompatActivity {
         });
     }
 
-    private void getDiscountList() {
+    public void showCustomLoadingDialog() {
 
+        //..show gif
+        viewDialog.showDialog();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //...here i'm waiting 5 seconds before hiding the custom dialog
+                //...you can do whenever you want or whenever your work is done
+                viewDialog.hideDialog();
+            }
+        }, 1000);
+    }
+
+    public void getDiscountList() {
+        showCustomLoadingDialog();
         try {
             result = new AdminHelper.GETDiscountList().execute().get();
             if (result.isEmpty()) {
@@ -124,7 +144,8 @@ public class AdminDiscountActivity extends AppCompatActivity {
                 discountlist = new Gson().fromJson(result, listType);
                 discountListAdapter = new DiscountListAdapter(AdminDiscountActivity.this, discountlist);
                 recyclerView.setAdapter(discountListAdapter);
-                swipeController = new SwipeControllerDiscount(new SwipeControllerActions() {
+
+             /*   swipeController = new SwipeControllerDiscount(new SwipeControllerActions() {
                     @Override
                     public void onRightClicked(int position) {
                         String discountid = String.valueOf(discountlist.get(position).getDiscountID());
@@ -133,9 +154,9 @@ public class AdminDiscountActivity extends AppCompatActivity {
                         // Toast.makeText(getApplicationContext(), position + "position", Toast.LENGTH_LONG).show();
                         deletediscount(discountid);
                         progressDialog.dismiss();
-                   /* mAdapter.players.remove(position);
+                   *//* mAdapter.players.remove(position);
                     mAdapter.notifyItemRemoved(position);
-                    mAdapter.notifyItemRangeChanged(position, mAdapter.getItemCount());*/
+                    mAdapter.notifyItemRangeChanged(position, mAdapter.getItemCount());*//*
                     }
 
                     @Override
@@ -156,7 +177,7 @@ public class AdminDiscountActivity extends AppCompatActivity {
                     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
                         swipeController.onDraw(c);
                     }
-                });
+                });*/
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -164,7 +185,7 @@ public class AdminDiscountActivity extends AppCompatActivity {
     }
 
     private void deletediscount(String discountid) {
-
+        showCustomLoadingDialog();
         try {
             result = new AdminHelper.DeleteDiscount().execute(discountid).get();
             Toast.makeText(getApplicationContext(), result + "", Toast.LENGTH_SHORT).show();
@@ -235,8 +256,14 @@ public class AdminDiscountActivity extends AppCompatActivity {
         buttonAddDiscount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (validation()) {
+                showCustomLoadingDialog();
+                if (editDiscountName.getText().toString().isEmpty()) {
+                    editDiscountName.setError("Enter a valid Discount Name");
+                    editDiscountName.requestFocus();
+                } else if (editDiscountAmount.getText().toString().isEmpty()) {
+                    editDiscountAmount.setError("Enter a valid Discount Amount");
+                    editDiscountAmount.requestFocus();
+                } else {
                     imageView.buildDrawingCache();
                     Bitmap bitmap = imageView.getDrawingCache();
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -255,6 +282,7 @@ public class AdminDiscountActivity extends AppCompatActivity {
                         progressDialog.show();
                         new AdminHelper.POSTDiscount().execute(discountName, discounttype, discountamount, edtcategory, img_str);
                         getDiscountList();
+                        b.dismiss();
                         progressDialog.dismiss();
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -264,13 +292,14 @@ public class AdminDiscountActivity extends AppCompatActivity {
                     }
 
                 }
-                b.dismiss();
+
             }
         });
 
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showCustomLoadingDialog();
                 b.dismiss();
                 /*
                  * we will code this method to delete the artist
