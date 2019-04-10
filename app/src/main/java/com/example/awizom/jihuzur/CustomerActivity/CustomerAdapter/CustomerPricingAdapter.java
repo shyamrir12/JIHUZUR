@@ -49,12 +49,11 @@ public class CustomerPricingAdapter extends RecyclerView.Adapter<CustomerPricing
             PricingView pricingView = pricingViewList.get(position);
             /*  holder.radioText.setText(String.valueOf(pricingView.getServiceName()));*/
             holder.catagoryName.setText(pricingView.getServiceName());
-            holder.desText.setText(String.valueOf(pricingView.getPrizingDesc()));
+            holder.desText.setText(pricingView.getTime());
             holder.priceText.setText(String.valueOf(pricingView.getAmount()));
             holder.radioButton.setText(pricingView.getPricingTerms());
             holder.checkBox.setText(pricingView.getPricingTerms());
-
-            holder.serviceDescText.setText(pricingView.getPricingTerms());
+            holder.serviceDescText.setText(pricingView.getServiceName());
             holder.priceIDText.setText(String.valueOf(pricingView.getPricingID()));
 
 //            holder.radioButton.setText(String.valueOf(pricingView.getPricingID()));
