@@ -204,7 +204,7 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                 Gson gson = new Gson();
                 UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
                 try {
-                    if (jsonbody.isStatus()) {
+
                         if (jsonbody.Otp.equals("mobile already verified")) {
                             progressDialog.dismiss();
                             DataProfile dataProfile = new DataProfile();
@@ -213,6 +213,7 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                             dataProfile.Role = jsonbody.Role;
                             dataProfile.Mobile = jsonbody.Mobile;
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
+                            Log.d("CustomerOTp", jsonbody.Otp);
                             result = String.valueOf(new AdminHelper.POSTProfileLatLong().execute(SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(), String.valueOf("21.22"), String.valueOf("80.66")));
 
 
@@ -235,7 +236,7 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                             Log.d("CustomerOTp", jsonbody.Otp);
                             overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                         }
-                    }
+
 
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -2,11 +2,13 @@ package com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -118,6 +120,25 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                     );
                 }
             });
+
+            if(holder.endtime.equals(null)){
+                AlertDialog.Builder alertbox = new AlertDialog.Builder(mCtx);
+                alertbox.setMessage(" Your order is Completed. Price is");
+                alertbox.setTitle("Completed!");
+                alertbox.setIcon(R.drawable.ic_dashboard_black_24dp);
+                alertbox.setNeutralButton("Ok",
+                        new DialogInterface.OnClickListener() {
+                            Class fragmentClass = null;
+
+                            public void onClick(DialogInterface arg0,
+                                                int arg1) {
+
+                            }
+                        });
+
+
+                alertbox.show();
+            }
             final DocumentReference docRef = db.collection("Order").document(ordid);
             docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
