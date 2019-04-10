@@ -103,7 +103,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             viewDialog = new ViewDialog((Activity) mCtx);
             holder.empName.setText(order.getServiceName());
             holder.serviceId.setText(String.valueOf(order.getServiceID()));
-            holder.empContAct.setText(order.getCatalogName());
+            holder.empContAct.setText(order.getCategory());
             holder.timercount.setText(order.getTotalTime());
             holder.startTime.setText(order.getOrderStartTime());
             holder.endtime.setText(order.getOrderEndTime());

@@ -301,6 +301,8 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 
                 if(description.equals("For CCTV")){
 
+
+                    postal_code="492001";
                     try {
                         if (postal_code.equals("492001") || postal_code.equals("492004") || postal_code.equals("492013") || postal_code.equals("492007") || postal_code.equals("492015")) {
                             skipMethod = false;
