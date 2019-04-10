@@ -31,7 +31,7 @@
                     <LinearLayout
                         android:id="@+id/l1"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="60dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -42,11 +42,11 @@
                             android:textStyle="italic"
                             android:textColor="@color/colorBlack"
                             android:id="@+id/chronometer"
-                            android:textSize="10sp"/>
+                            android:textSize="14sp"/>
                         <TextView
                             android:id="@+id/cusName"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="left"
                             android:padding="10dp"
@@ -54,7 +54,7 @@
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"
                             android:fontFamily="@font/fonts"
-                            android:textSize="10sp"/>
+                            android:textSize="14sp"/>
                         <view
 
                             class="android.support.v7.app.AlertController$RecycleListView"
@@ -64,7 +64,7 @@
                         <TextView
                             android:id="@+id/empMobile"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="left"
                             android:padding="10dp"
@@ -72,7 +72,7 @@
                             android:fontFamily="@font/fonts"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"
-                            android:textSize="10sp"/>
+                            android:textSize="14sp"/>
 
                         <TextView
                             android:id="@+id/timeCount"

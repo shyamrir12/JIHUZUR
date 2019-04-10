@@ -37,7 +37,7 @@
                         <TextView
                             android:id="@+id/cusName"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="left"
                             android:padding="10dp"
@@ -49,7 +49,7 @@
                         <TextView
                             android:id="@+id/empMobile"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="left"
                             android:padding="10dp"
@@ -62,7 +62,7 @@
                         <TextView
                             android:id="@+id/timeCount"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="left"
                             android:padding="10dp"

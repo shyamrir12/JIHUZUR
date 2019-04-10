@@ -37,11 +37,11 @@
                         <TextView
                             android:id="@+id/cusName"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="left"
                             android:padding="10dp"
-                            android:textSize="10sp"
+                            android:textSize="13sp"
                             android:text="Employee Name"
                             android:textColor="@color/greydarks"
                             android:textStyle="bold"
@@ -57,7 +57,7 @@
                         <TextView
                             android:id="@+id/empMobile"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="left"
                             android:padding="10dp"
@@ -65,7 +65,7 @@
                             android:textColor="@color/greydarks"
                             android:textStyle="bold"
                             android:fontFamily="@font/fonts"
-                            android:textSize="10sp"/>
+                            android:textSize="13sp"/>
                         <view
 
                             class="android.support.v7.app.AlertController$RecycleListView"
@@ -76,7 +76,7 @@
                         <TextView
                             android:id="@+id/timeCount"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="left"
                             android:padding="10dp"
@@ -84,7 +84,7 @@
                             android:textColor="@color/greydarks"
                             android:textStyle="bold"
                             android:fontFamily="@font/fonts"
-                            android:textSize="10sp"/>
+                            android:textSize="13sp"/>
 
                     </LinearLayout>
 
@@ -149,7 +149,7 @@
                         <TextView
                             android:id="@+id/catagoryName"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="left"
                             android:text="CatagoryName"
@@ -157,7 +157,7 @@
                             android:textColor="@color/greydarks"
                             android:textStyle="bold"
                             android:fontFamily="@font/fonts"
-                            android:textSize="10sp"/>
+                            android:textSize="13sp"/>
                         <view
 
                             class="android.support.v7.app.AlertController$RecycleListView"
@@ -168,7 +168,7 @@
                         <TextView
                             android:id="@+id/serviceName"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="left"
                             android:text="Service Name"
@@ -176,7 +176,7 @@
                             android:textColor="@color/greydarks"
                             android:textStyle="bold"
                             android:fontFamily="@font/fonts"
-                            android:textSize="10sp"/>
+                            android:textSize="13sp"/>
                         <view
 
                             class="android.support.v7.app.AlertController$RecycleListView"
@@ -187,7 +187,7 @@
                         <TextView
                             android:id="@+id/pricingterm"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="left"
                             android:text="CatagoryName"
@@ -196,7 +196,7 @@
                             android:textStyle="bold"
                             android:visibility="visible"
                             android:fontFamily="@font/fonts"
-                            android:textSize="10sp"/>
+                            android:textSize="13sp"/>
 
 
                     </LinearLayout>
