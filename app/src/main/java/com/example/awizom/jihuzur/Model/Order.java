@@ -42,7 +42,7 @@ public class Order {
     private String PricingID;
     private String PricingTerms;
 
-    public int Quantity;
+
     public String Time;
 
 
@@ -247,11 +247,5 @@ public class Order {
         PricingTerms = pricingTerms;
     }
 
-    public int getQuantity() {
-        return Quantity;
-    }
 
-    public void setQuantity(int quantity) {
-        Quantity = quantity;
-    }
 }
