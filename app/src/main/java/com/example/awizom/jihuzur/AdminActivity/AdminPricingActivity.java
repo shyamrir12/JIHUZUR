@@ -62,7 +62,6 @@ public class AdminPricingActivity extends AppCompatActivity {
         toolbar.setTitle(servicenameForToolbar + " Pricing");
         toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
-
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

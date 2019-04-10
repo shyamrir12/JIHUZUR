@@ -108,7 +108,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             holder.cusId.setText(order.getCustomerID());
             holder.orderIssss.setText(String.valueOf(order.getOrderID()));
             orderId = holder.orderIssss.getText().toString();
-
             if (order.getDiscountName() != null) {
                 holder.disctName.setText(order.getDiscountName());
             } else {
@@ -121,7 +120,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             if (SharedPrefManager.getInstance(mCtx).getUser().Role.contains("Admin")) {
                 holder.linerButtonSide.setVisibility(View.GONE);
             }
-
             if (order.getPricingTerms() != null) {
                 holder.pricingterm.setVisibility(View.VISIBLE);
                 holder.pricingterm.setVisibility(View.VISIBLE);
@@ -449,7 +447,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             linearLayout = itemView.findViewById(R.id.l5);
             //   genrateBtn.setOnClickListener(this);
             // trackinBtn.setOnClickListener(this);
-
             acceptPaymentBtn.setOnClickListener(this);
             priceUpdateBtn = itemView.findViewById(R.id.priceupdateBtn);
             priceUpdateBtn.setOnClickListener(this);
@@ -564,7 +561,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                         e.printStackTrace();
                     }*/
 
-
 //                case R.id.trackBtn:
 //                        intent = new Intent(mCtx, EmployeeLocationActivity.class);
 //                        mCtx.startActivity(intent);
@@ -572,15 +568,10 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
 //                    break;
 
                 case R.id.acceptPaymentBtn:
-
                     //   showpaymentdialog();
-
-
                     break;
-
             }
         }
-
     }
 
     private void showpaymentdialog(String s,String servieid) {
@@ -590,7 +581,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
         dialogBuilder.setView(dialogView);
         TextView amount = (TextView) dialogView.findViewById(R.id.amount);
         try {
-            result = new EmployeeOrderHelper.GetPayment().execute(s.toString(),servieid).get();
+            result = new EmployeeOrderHelper.GetPayment().execute(s.toString(),servieid.toString()).get();
             Gson gson = new Gson();
             Type listType = new TypeToken<Order>() {
             }.getType();

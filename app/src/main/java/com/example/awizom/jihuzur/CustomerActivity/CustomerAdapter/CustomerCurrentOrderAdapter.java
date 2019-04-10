@@ -29,7 +29,9 @@ import android.widget.Toast;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerCommentActivity;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.CustomerActivity.TrackActivity;
+import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
+import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Model.Order;
 import com.example.awizom.jihuzur.Model.ResultModel;
 import com.example.awizom.jihuzur.MyBokingsActivity;
@@ -62,6 +64,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     private Context mCtx;
     private List<Order> orderitemList;
     private Order order;
+    Order orderList;
     private String orderId = "", otpCode = "", result = "";
     private Intent intent;
     FirebaseFirestore db;
@@ -99,6 +102,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             final  String catalogId = String.valueOf(order.getCatalogID());
             viewDialog = new ViewDialog((Activity) mCtx);
             holder.empName.setText(order.getServiceName());
+            holder.serviceId.setText(String.valueOf(order.getServiceID()));
             holder.empContAct.setText(order.getCatalogName());
             holder.timercount.setText(order.getTotalTime());
             holder.startTime.setText(order.getOrderStartTime());
@@ -107,7 +111,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             holder.servicName.setText(order.getServiceName());
             holder.pricingterm.setText(order.getPricingTerms());
             holder.dctName.setText(order.getDiscountName());
-            // holder.orderIds.setText(order.getOrderID());
+            holder.orderIds.setText(String.valueOf(order.getOrderID()));
             holder.cusid.setText(order.getCustomerID());
             holder.empid.setText(order.getEmployeeID());
             holder.trackinBtn.setOnClickListener(new View.OnClickListener() {
@@ -180,6 +184,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                             try {
                                 if (!endtime.equals("0")) {
                                     notificationManager.cancel(Integer.parseInt(String.valueOf(ordid)));
+
                                 }
 
                             } catch (Exception d) {
@@ -314,6 +319,41 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
         }
     }
 
+    private void showpaymentdialog(String s,String servieid) {
+        android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(mCtx);
+        LayoutInflater inflater = LayoutInflater.from(mCtx);
+        final View dialogView = inflater.inflate(R.layout.show_payment, null);
+        dialogBuilder.setView(dialogView);
+        TextView amount = (TextView) dialogView.findViewById(R.id.amount);
+        try {
+            result = new EmployeeOrderHelper.GetPayment().execute(s.toString(),servieid.toString()).get();
+            Gson gson = new Gson();
+            Type listType = new TypeToken<Order>() {
+            }.getType();
+            orderList = new Gson().fromJson(result, listType);
+            try {
+                String payment = orderList.getAmount().toString();
+                amount.setText(String.valueOf(payment));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            //     Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        final Button buttonadd = (Button) dialogView.findViewById(R.id.changePosition);
+        buttonadd.setVisibility(View.GONE);
+        dialogBuilder.setTitle("Order Amount is-");
+        dialogBuilder.setIcon(R.drawable.coupons);
+        final android.support.v7.app.AlertDialog b = dialogBuilder.create();
+        b.show();
+
+
+    }
+
     private void getPayment(String ordid, String catalogId) {
         try {
             result = new CustomerOrderHelper.GetPaymentRupees().execute(ordid,catalogId).get();
@@ -332,7 +372,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context mCtx;
-        private TextView chronometer, orderIds, otps;
+        private TextView chronometer, serviceId, orderIds, otps;
         private TextView startTime, endtime, empName, timercount, empContAct, catagryName, servicName, pricingterm, dctName, empid, cusid;
         private Button acceptBtn, trackinBtn, canclBtn, viewdetail;
         private List<Order> orderitemList;
@@ -353,7 +393,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
 //            bookingAccepted = itemView.findViewById(R.id.bookingAccepted);
 //            description = itemView.findViewById(R.id.description);
 //            timing = itemView.findViewById(R.id.timing);
-
+            serviceId=itemView.findViewById(R.id.serviceId);
             empName = itemView.findViewById(R.id.cusName);
             startTime = itemView.findViewById(R.id.starttime);
             cusid = itemView.findViewById(R.id.cusID);

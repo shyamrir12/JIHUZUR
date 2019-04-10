@@ -111,8 +111,7 @@ public class EmployeeOrderHelper extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             String orderid = params[0];
-            String serviceid = params[0];
-
+            String serviceid = params[1];
             String json = "";
             try {
 
