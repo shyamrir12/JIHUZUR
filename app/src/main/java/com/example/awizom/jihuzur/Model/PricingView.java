@@ -16,6 +16,8 @@ public class PricingView {
     public double PricingEndSlot;
     public double StartAmount ;
     public String DisplayType;
+    public int Quantity;
+    public String Time;
     private boolean isSelected;
 
     public int getCatalogID() {
@@ -136,5 +138,21 @@ public class PricingView {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public int getQuantity() {
+        return Quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        Quantity = quantity;
+    }
+
+    public String getTime() {
+        return Time;
+    }
+
+    public void setTime(String time) {
+        Time = time;
     }
 }

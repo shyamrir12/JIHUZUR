@@ -32,6 +32,9 @@ public class Order {
     private String PricingID;
     private String PricingTerms;
 
+    public int Quantity;
+    public String Time;
+
 
     public int getOrderID() {
         return OrderID;
@@ -232,5 +235,13 @@ public class Order {
 
     public void setPricingTerms(String pricingTerms) {
         PricingTerms = pricingTerms;
+    }
+
+    public int getQuantity() {
+        return Quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        Quantity = quantity;
     }
 }

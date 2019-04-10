@@ -96,6 +96,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             final String empname = order.getEmpName();
             final String empmob = order.getEmpMob();
             final String imagelink = order.getImage();
+            final  String catalogId = String.valueOf(order.getCatalogID());
             viewDialog = new ViewDialog((Activity) mCtx);
             holder.empName.setText(order.getServiceName());
             holder.empContAct.setText(order.getCatalogName());
@@ -121,24 +122,29 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                 }
             });
 
-            if(holder.endtime.equals(null)){
-                AlertDialog.Builder alertbox = new AlertDialog.Builder(mCtx);
-                alertbox.setMessage(" Your order is Completed. Price is");
-                alertbox.setTitle("Completed!");
-                alertbox.setIcon(R.drawable.ic_dashboard_black_24dp);
-                alertbox.setNeutralButton("Ok",
-                        new DialogInterface.OnClickListener() {
-                            Class fragmentClass = null;
+          //  getPayment(ordid,catalogId);
 
-                            public void onClick(DialogInterface arg0,
-                                                int arg1) {
+//            if(holder.endtime.equals(null)){
+//                AlertDialog.Builder alertbox = new AlertDialog.Builder(mCtx);
+//                alertbox.setMessage(" Your order is Completed. Price is");
+//                alertbox.setTitle("Completed!");
+//                alertbox.setIcon(R.drawable.ic_dashboard_black_24dp);
+//                alertbox.setNeutralButton("Ok",
+//                        new DialogInterface.OnClickListener() {
+//                            Class fragmentClass = null;
+//
+//                            public void onClick(DialogInterface arg0,
+//                                                int arg1) {
+//
+//
+//                            }
+//                        });
+//
+//
+//                alertbox.show();
+//            }
 
-                            }
-                        });
 
-
-                alertbox.show();
-            }
             final DocumentReference docRef = db.collection("Order").document(ordid);
             docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
@@ -305,6 +311,16 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
 
         } catch (Exception E) {
             E.printStackTrace();
+        }
+    }
+
+    private void getPayment(String ordid, String catalogId) {
+        try {
+            result = new CustomerOrderHelper.GetPaymentRupees().execute(ordid,catalogId).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
