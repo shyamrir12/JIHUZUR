@@ -38,7 +38,6 @@ public class PlumberActivity extends AppCompatActivity {
       //  getActionBar().setDisplayHomeAsUpEnabled(true);
         db = FirebaseFirestore.getInstance();
         getcount();
-
     }
 
     private void getcount()
@@ -60,7 +59,6 @@ public class PlumberActivity extends AppCompatActivity {
                         db.collection("PlumberCounting").document("1423").set(PlumberCounting).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-
                             }
                         });
                        // Log.d(TAG, "DocumentSnapshot data: " + document.getData());
