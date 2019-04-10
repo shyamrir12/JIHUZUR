@@ -111,13 +111,14 @@ public class EmployeeOrderHelper extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             String orderid = params[0];
+            String serviceid = params[0];
 
             String json = "";
             try {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Customer + "GetOrderPayment/" + orderid);
+                builder.url(AppConfig.BASE_URL_API_Customer + "GetNewOrderPayment/" + orderid+"/"+serviceid);
                 builder.addHeader("Content-Type", "application/json");
                 builder.addHeader("Accept", "application/json");
                 FormBody.Builder parameters = new FormBody.Builder();

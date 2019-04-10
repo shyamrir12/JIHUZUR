@@ -12,6 +12,16 @@ public class Order {
     private String OrderStartTime;
     private String OrderEndTime;
     private int CatalogID;
+    private int Quantity;
+
+    public int getQuantity() {
+        return Quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        Quantity = quantity;
+    }
+
     private boolean Payment;
     private String DiscountName;
 

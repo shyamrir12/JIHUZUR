@@ -560,7 +560,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
                 bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
-
         final int color = 0xff424242;
         final Paint paint = new Paint();
         final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
@@ -640,9 +639,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + phoneNumber));
             intent.putExtra("sms_body", message);
             startActivity(intent);
-
         }
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
