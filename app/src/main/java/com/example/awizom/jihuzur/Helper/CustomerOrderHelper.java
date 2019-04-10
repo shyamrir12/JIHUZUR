@@ -760,8 +760,6 @@ public class CustomerOrderHelper extends AppCompatActivity {
             String json = "";
             String orderId="";
             String catalogId="";
-
-
             try {
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
