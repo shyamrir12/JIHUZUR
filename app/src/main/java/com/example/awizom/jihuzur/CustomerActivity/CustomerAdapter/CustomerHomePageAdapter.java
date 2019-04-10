@@ -21,6 +21,7 @@ import com.bumptech.glide.request.target.Target;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.CustomerActivity.NewCustomerHome;
+import com.example.awizom.jihuzur.CustomerActivity.PlumberActivity;
 import com.example.awizom.jihuzur.Model.Catalog;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.SelectServices;
@@ -104,13 +105,21 @@ public class CustomerHomePageAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         showcustomloadingdialog();
-                        Intent intent = new Intent(mContext, SelectServices.class);
-                        intent.putExtra("CatalogID", String.valueOf(catalogNameList.get(i).getCatalogID()));
-                        intent.putExtra("CategoryName", catalogNameList.get(i).getCategory().toString());
-                        intent.putExtra("Image", imglinkurl.getText().toString());
-                        intent.putExtra("EmployeeSkill", "EmployeeSkill");
-                        mContext.startActivity(intent);
-                    }
+                        if(catalogNameList.get(i).getCategory().toString().equals("Plumber"))
+                        {
+                            Intent intent = new Intent(mContext, PlumberActivity.class);
+                            mContext.startActivity(intent);
+
+                        }
+                        else{
+                            Intent intent = new Intent(mContext, SelectServices.class);
+                            intent.putExtra("CatalogID", String.valueOf(catalogNameList.get(i).getCatalogID()));
+                            intent.putExtra("CategoryName", catalogNameList.get(i).getCategory().toString());
+                            intent.putExtra("Image", imglinkurl.getText().toString());
+                            intent.putExtra("EmployeeSkill", "EmployeeSkill");
+                            mContext.startActivity(intent);
+                        }
+                        }
                 });
 
 

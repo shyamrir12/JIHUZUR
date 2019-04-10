@@ -85,7 +85,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CustomerActivity.CustomerHomePage"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".DrawingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -115,16 +120,12 @@
         <activity
             android:name=".CustomerActivity.CustomerSplashActivity"
             android:theme="@style/AppFullScreenTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
+
         </activity>
         <activity
             android:name=".SplashActivityAdmin"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity
             android:name=".AdminActivity.AdminHomePage"
             android:label="@string/title_activity_admin_home_page"
@@ -173,8 +174,9 @@
         <activity
             android:name=".CustomerActivity.TrackActivity"
             android:parentActivityName=".MyBokingsActivity" />
-        <activity android:name=".CustomerActivity.CustomerReplyActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".CustomerActivity.CustomerReplyActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service
             android:name=".Service.GPS_Service"
@@ -232,9 +234,11 @@
             android:name=".HelpCenterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SMSTestActicity" />
-        <activity android:name=".ExampleFliper"></activity>
-        <activity android:name=".AdminActivity.GeoCoder"></activity>
-
+        <activity android:name=".ExampleFliper" />
+        <activity android:name=".AdminActivity.GeoCoder" />
+        <activity android:name=".CustomerActivity.PlumberActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            ></activity>
     </application>
 
 </manifest>

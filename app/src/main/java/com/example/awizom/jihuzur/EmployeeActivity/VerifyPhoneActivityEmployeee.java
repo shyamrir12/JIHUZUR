@@ -1,5 +1,6 @@
 package com.example.awizom.jihuzur.EmployeeActivity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -40,6 +41,7 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements V
     private Intent intent;
     private ProgressDialog progressDialog;
     private static int TIMER = 300;
+    ViewDialog viewDialog;
 
     /*For layout binding */
     @Override
@@ -77,6 +79,8 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements V
         countDown.setOnClickListener(this);
 
         progressDialog = new ProgressDialog(VerifyPhoneActivityEmployeee.this);
+        viewDialog = new ViewDialog((Activity) VerifyPhoneActivityEmployeee.this);
+
         otp = getIntent().getExtras().getString("OTP", "");
         userId = getIntent().getExtras().getString("Uid", "");
         role = getIntent().getExtras().getString("Role", "");
@@ -136,10 +140,12 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements V
                                 SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
 
                                 if (SharedPrefManager.getInstance(getApplicationContext()).getUser().Name != null) {
+                                    showCustomLoadingDialog();
                                     intent = new Intent(VerifyPhoneActivityEmployeee.this, EmployeeHomePage.class);
                                     startActivity(intent);
                                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                                 } else {
+                                    showCustomLoadingDialog();
                                     intent = new Intent(VerifyPhoneActivityEmployeee.this, EmployeeMyProfileActivity.class);
                                     startActivity(intent);
 
@@ -255,4 +261,21 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements V
         }
 
     }
+
+    public void showCustomLoadingDialog() {
+
+        //..show gif
+        viewDialog.showDialog();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //...here i'm waiting 5 seconds before hiding the custom dialog
+                //...you can do whenever you want or whenever your work is done
+                viewDialog.hideDialog();
+            }
+        }, 1000);
+    }
+
 }

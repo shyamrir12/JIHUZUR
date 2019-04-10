@@ -59,8 +59,6 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
         catalogID = getIntent().getStringExtra("CatalogID");
         imageLink = getIntent().getStringExtra("Image");
         empskill = getIntent().getStringExtra("EmployeeSkill");
-
-
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Services");
         toolbar.setTitleTextColor(Color.WHITE);
@@ -114,6 +112,8 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
                     .into(imageView);
         }
     }
+
+
 
     public void getServiceList() {
 
