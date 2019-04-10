@@ -49,12 +49,25 @@ public class CustomerPricingAdapter extends RecyclerView.Adapter<CustomerPricing
             PricingView pricingView = pricingViewList.get(position);
             /*  holder.radioText.setText(String.valueOf(pricingView.getServiceName()));*/
             holder.catagoryName.setText(pricingView.getServiceName());
-            holder.desText.setText(pricingView.getTime());
+            if(!pricingView.getTime().equals("Fix")){
+                holder.desText.setText(pricingView.getTime()+" "+"minutes");
+            }else {
+                holder.desText.setText(pricingView.getTime());
+            }
+
+
+
             holder.priceText.setText(String.valueOf(pricingView.getAmount()));
             holder.radioButton.setText(pricingView.getPricingTerms());
             holder.checkBox.setText(pricingView.getPricingTerms());
             holder.serviceDescText.setText(pricingView.getServiceName());
             holder.priceIDText.setText(String.valueOf(pricingView.getPricingID()));
+
+            if(String.valueOf(pricingView.getQuantity()).equals("0")) {
+             holder.quantity.setVisibility(View.GONE);
+            }else {
+                holder.quantity.setText(String.valueOf(pricingView.getQuantity()));
+            }
 
 //            holder.radioButton.setText(String.valueOf(pricingView.getPricingID()));
 //            holder.checkBox.setText(String.valueOf(pricingView.getPricingID()));
@@ -143,7 +156,7 @@ public class CustomerPricingAdapter extends RecyclerView.Adapter<CustomerPricing
 //        boolean isChecked = checkBox.isChecked();
 
 
-        private TextView priceText, desText, serviceDescText, catagoryName, priceIDText;
+        private TextView priceText, desText, serviceDescText, catagoryName, priceIDText,quantity;
 
 
         public OrderItemViewHolder(View view, Context mCtx, List<PricingView> pricingViewList) {
@@ -160,6 +173,7 @@ public class CustomerPricingAdapter extends RecyclerView.Adapter<CustomerPricing
             catagoryName = view.findViewById(R.id.catagoryName);
             serviceDescText = view.findViewById(R.id.ServiceDesc);
             priceIDText = view.findViewById(R.id.pID);
+            quantity=view.findViewById(R.id.quantity);
             // radioGroup = view.findViewById(R.id.radio);
 
             checkBox.setOnClickListener(this);

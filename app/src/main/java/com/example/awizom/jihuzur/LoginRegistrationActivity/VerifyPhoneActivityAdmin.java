@@ -88,7 +88,18 @@ public class VerifyPhoneActivityAdmin extends AppCompatActivity implements View.
         countDown.setOnClickListener(this);
 
 
-        new CountDownTimer(240000, 1000) {
+
+
+        SmsReceiver.bindListener(new SmsListener() {
+            @Override
+            public void messageReceived(String messageText) {
+                Log.d("Text",messageText);
+                String sms = messageText;
+                String[] smsSplit = messageText.split(":");
+                otpEditText.setText(smsSplit[1]);
+            }
+        });
+        new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 countDown.setText("" + millisUntilFinished / 1000);
@@ -101,16 +112,6 @@ public class VerifyPhoneActivityAdmin extends AppCompatActivity implements View.
             }
         }.start();
 
-
-        SmsReceiver.bindListener(new SmsListener() {
-            @Override
-            public void messageReceived(String messageText) {
-                Log.d("Text",messageText);
-                String sms = messageText;
-                String[] smsSplit = messageText.split(":");
-                otpEditText.setText(smsSplit[1]);
-            }
-        });
     }
 
     /*For Event Listeners */

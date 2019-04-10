@@ -88,18 +88,7 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements V
         mobile = getIntent().getExtras().getString("Mobile");
         name = getIntent().getExtras().getString("Name");
 
-        new CountDownTimer(240000, 1000) {
 
-            public void onTick(long millisUntilFinished) {
-                countDown.setText("" + millisUntilFinished / 1000);
-                resendOTP.setVisibility(View.GONE);
-            }
-
-            public void onFinish() {
-                countDown.setText("00:00");
-                resendOTP.setVisibility(View.VISIBLE);
-            }
-        }.start();
 
         SmsReceiver.bindListener(new SmsListener() {
             @Override
@@ -111,6 +100,19 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements V
                 otpEditText.setText(smsSplit[1]);
             }
         });
+
+        new CountDownTimer(60000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                countDown.setText("" + millisUntilFinished / 1000);
+                resendOTP.setVisibility(View.GONE);
+            }
+
+            public void onFinish() {
+                countDown.setText("00:00");
+                resendOTP.setVisibility(View.VISIBLE);
+            }
+        }.start();
     }
 
     /*For Event Listeners */

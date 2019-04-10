@@ -88,7 +88,18 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
         countDown.setOnClickListener(this);
         progressDialog = new ProgressDialog(VerifyPhoneActivity.this);
 
-        new CountDownTimer(240000, 1000) {
+
+
+        SmsReceiver.bindListener(new SmsListener() {
+            @Override
+            public void messageReceived(String messageText) {
+                Log.d("Text",messageText);
+                String sms = messageText;
+                String[] smsSplit = messageText.split(":");
+                otpEditText.setText(smsSplit[1]);
+            }
+        });
+        new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 countDown.setText("" + millisUntilFinished / 1000);
@@ -102,15 +113,6 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
         }.start();
 
 
-        SmsReceiver.bindListener(new SmsListener() {
-            @Override
-            public void messageReceived(String messageText) {
-                Log.d("Text",messageText);
-                String sms = messageText;
-                String[] smsSplit = messageText.split(":");
-                otpEditText.setText(smsSplit[1]);
-            }
-        });
     }
 
     /*For Event Listeners */
