@@ -102,7 +102,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             {holder.genrateBtn.setVisibility(View.GONE);}
             holder.endtime.setText(order.getOrderEndTime());
             holder.customerContact.setText(order.getMobileNo());
-            holder.catagoryName.setText(order.getServiceName());
+            holder.catagoryName.setText(order.getCategory());
             holder.serviceName.setText(order.getServiceName());
             holder.totalTime.setText(order.getTotalTime());
             holder.cusId.setText(order.getCustomerID());
@@ -147,7 +147,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                             serviceIntent.putExtra("inputExtra", "Order End");
                             serviceIntent.putExtra("orderId", orderId);
                             ContextCompat.startForegroundService(mCtx, serviceIntent);*/
-
                             String employeeid = resultModel.getEmployeeID().toString();
                             Map<String, Object> profile = new HashMap<>();
                             profile.put("busystatus", false);
@@ -587,7 +586,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             }.getType();
             orderList = new Gson().fromJson(result, listType);
             try {
-                String payment = orderList.getAmount().toString();
+                String payment = String.valueOf(orderList.getAmount().toString());
                 amount.setText(String.valueOf(payment));
             } catch (Exception e) {
                 e.printStackTrace();

@@ -36,6 +36,7 @@ import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.EmployeeProfileModel;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
+import com.example.awizom.jihuzur.ViewDialog;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -97,7 +98,19 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     }
 
     private void InitView() {
-        getSupportActionBar().setTitle("Track");
+        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        /*  catalogName = getIntent().getStringExtra("CatalogName");*/
+        toolbar.setTitle("Track Employee");
+        toolbar.setTitleTextColor(0xFFFFFFFF);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                onBackPressed();
+            }
+        });
         customerID = getIntent().getStringExtra("CustomerID");
         employeeID = getIntent().getStringExtra("EmployeeID");
         getCustomerProfileGet();

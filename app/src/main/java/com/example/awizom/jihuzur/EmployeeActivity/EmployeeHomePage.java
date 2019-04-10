@@ -304,7 +304,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
                     String channelId = "channel-01";
                     String channelName = "Channel Name";
                     int importance = NotificationManager.IMPORTANCE_HIGH;
-
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                         NotificationChannel mChannel = new NotificationChannel(
                                 channelId, channelName, importance);

@@ -184,7 +184,6 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                             try {
                                 if (!endtime.equals("0")) {
                                     notificationManager.cancel(Integer.parseInt(String.valueOf(ordid)));
-
                                 }
 
                             } catch (Exception d) {

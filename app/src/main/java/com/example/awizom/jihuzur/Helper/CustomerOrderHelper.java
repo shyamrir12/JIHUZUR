@@ -184,7 +184,7 @@ public class CustomerOrderHelper extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String serviceId = params[0];
+            String serviceId = params[ 0];
             String json = "";
             String s;
             try {

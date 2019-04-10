@@ -85,8 +85,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CustomerActivity.CustomerHomePage"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".DrawingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -107,6 +106,7 @@
         <activity
             android:name=".SplashActivityEmployee"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
         </activity>
         <activity
             android:name=".CustomerActivity.CustomerLoginRegActivity"
@@ -122,7 +122,9 @@
         </activity>
         <activity
             android:name=".SplashActivityAdmin"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        </activity>
         <activity
             android:name=".AdminActivity.AdminHomePage"
             android:label="@string/title_activity_admin_home_page"
@@ -170,7 +172,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CustomerActivity.TrackActivity"
-            android:parentActivityName=".MyBokingsActivity" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CustomerActivity.CustomerReplyActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -233,9 +235,9 @@
         <activity android:name=".SMSTestActicity" />
         <activity android:name=".ExampleFliper" />
         <activity android:name=".AdminActivity.GeoCoder" />
-        <activity android:name=".CustomerActivity.PlumberActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            ></activity>
+        <activity
+            android:name=".CustomerActivity.PlumberActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
