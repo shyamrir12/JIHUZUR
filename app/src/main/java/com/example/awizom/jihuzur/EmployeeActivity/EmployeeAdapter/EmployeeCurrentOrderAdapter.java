@@ -102,7 +102,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             {holder.genrateBtn.setVisibility(View.GONE);}
             holder.endtime.setText(order.getOrderEndTime());
             holder.customerContact.setText(order.getMobileNo());
-            holder.catagoryName.setText(order.getCatalogName());
+            holder.catagoryName.setText(order.getServiceName());
             holder.serviceName.setText(order.getServiceName());
             holder.totalTime.setText(order.getTotalTime());
             holder.cusId.setText(order.getCustomerID());
