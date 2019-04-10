@@ -31,15 +31,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.awizom.jihuzur.AdminActivity.AdminCategoryActivity;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerPricingAdapter;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
@@ -90,7 +93,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     private Button postPricingBtn;
     private Intent intent;
     private String result = "", serviceID = "", description = "", serviceName = "", displayType = "", btn = "", orderID = "", priceID = "0", data = "", pricingId = "";
-    private String empId = "", priceIDs = "", selectedEmpId;
+    private String empId = "", priceIDs = "", selectedEmpId,qauntity="";
     private String priceIds = "";
     private ArrayList<LatLng> latlngs = new ArrayList<>();
     private ArrayList<String> empID = new ArrayList<>();
@@ -109,6 +112,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     boolean skipMethod = false;
     ProgressDialog progressDoalog;
     private BroadcastReceiver broadcastReceiver;
+    int minteger=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +138,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         /*  catalogName = getIntent().getStringExtra("CatalogName");*/
 
+
         toolbar.setTitle(serviceName);
         toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
@@ -149,6 +154,9 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         progressDialog = new ProgressDialog(com.example.awizom.jihuzur.CustomerActivity.CustomerpricingActivity.this);
+
+
+
         nextButton = findViewById(R.id.buttonNext);
         nextButton.setOnClickListener(this);
         postPricingBtn = findViewById(R.id.postOrderPriceBtn);
@@ -289,25 +297,50 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         v.startAnimation(buttonClick);
         switch (v.getId()) {
             case R.id.buttonNext:
-
                 showCustomLoadingDialog();
-                try {
-                    if (postal_code.equals("492001") || postal_code.equals("492004") || postal_code.equals("492013") || postal_code.equals("492007") || postal_code.equals("492015")) {
-                        skipMethod = false;
-                        method();
-                    } else if (postal_code.equals(null)) {
-                        showCustomLoadingDialog();
-                        skipMethod = true;
-                        onResume();
 
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Sorry We Are Not Providing Service in Your Area", Toast.LENGTH_LONG).show();
+                if(description.equals("For CCTV")){
+
+                    try {
+                        if (postal_code.equals("492001") || postal_code.equals("492004") || postal_code.equals("492013") || postal_code.equals("492007") || postal_code.equals("492015")) {
+                            skipMethod = false;
+                            showindexchange();
+                        } else if (postal_code.equals(null)) {
+                            showCustomLoadingDialog();
+                            skipMethod = true;
+                            onResume();
+
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Sorry We Are Not Providing Service in Your Area", Toast.LENGTH_LONG).show();
+                        }
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
 
+                }else {
+                    try {
+                        if (postal_code.equals("492001") || postal_code.equals("492004") || postal_code.equals("492013") || postal_code.equals("492007") || postal_code.equals("492015")) {
+                            skipMethod = false;
+                            String quantity="0";
+                            method(quantity);
+                        } else if (postal_code.equals(null)) {
+                            showCustomLoadingDialog();
+                            skipMethod = true;
+                            onResume();
 
-                } catch (Exception e) {
-                    e.printStackTrace();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Sorry We Are Not Providing Service in Your Area", Toast.LENGTH_LONG).show();
+                        }
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
+
+
 
                 break;
             case R.id.postOrderPriceBtn:
@@ -329,7 +362,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         }
     }
 
-    private void method() {
+    private void method(final String quanTitys) {
         data = "";
         List<PricingView> stList = ((CustomerPricingAdapter) repairAndServiceAdapter).getPricinglist();
         for (int p = 0; p < stList.size(); p++) {
@@ -362,7 +395,8 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 
                         public void onClick(DialogInterface arg0,
                                             int arg1) {
-                            showTheAlertOrderDailogue();
+                            String  quant = quanTitys;
+                            showTheAlertOrderDailogue(quant);
                            /* if(postal_code.equals("492001")||postal_code.equals("492004")||postal_code.equals("492013")||postal_code.equals("492007")) {
                                 showTheAlertOrderDailogue();
                             }
@@ -395,7 +429,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         }
     }
 
-    private void showTheAlertOrderDailogue() {
+    private void showTheAlertOrderDailogue(final String qauntity) {
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle("Order Create");
@@ -407,6 +441,8 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                 LinearLayout.LayoutParams.MATCH_PARENT);
         input.setLayoutParams(lp);
         input.setHint("Enter coupon code");
+
+
         alertDialog.setView(input);
         alertDialog.setIcon(R.drawable.ic_dashboard_black_24dp);
 
@@ -423,7 +459,8 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                             @Override
                             public void run() {
                                 String dicountCoupan = input.getText().toString();
-                                postOderCreate(dicountCoupan);
+                                String orderQuantity =qauntity;
+                                postOderCreate(dicountCoupan,orderQuantity);
                             }
                         }, TIMER);
                     }
@@ -442,13 +479,14 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     }
 
 
-    private void postOderCreate(String dicountCoupan) {
+    private void postOderCreate(String dicountCoupan, String quanitity) {
         String date = new SimpleDateFormat("MM/dd/yy", Locale.getDefault()).format(new Date());
         String customerid = SharedPrefManager.getInstance(getApplicationContext()).getUser().getID();
         String empId = selectedEmpId;
         String orderDate = String.valueOf(date);
         String catalogId = String.valueOf(serviceID);
         String coupncode = dicountCoupan;
+        String quanTity = quanitity;
         if (priceID.equals(null)) {
             priceIds = priceIDs;
         } else {
@@ -456,7 +494,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         }
         try {
 
-            result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId, priceIds, coupncode).get();
+            result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId, priceIds, coupncode,quanTity).get();
             Gson gson = new Gson();
             Type getType = new TypeToken<ResultModel>() {
             }.getType();
@@ -660,6 +698,101 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                 viewDialog.hideDialog();
             }
         }, 1000);
+    }
+
+
+
+    private void showindexchange( ) {
+
+        final android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(CustomerpricingActivity.this);
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.cctv_proing_for, null);
+
+        dialogBuilder.setView(dialogView);
+        final ImageView decrease = (ImageView) dialogView.findViewById(R.id.decrease);
+        final ImageView increase = (ImageView) dialogView.findViewById(R.id.increase);
+        final  TextView displayInteger = (TextView) dialogView.findViewById( R.id.integer_number);
+        final  TextView currentpos=(TextView)dialogView.findViewById(R.id.currentpos);
+        final Button changePositon=(Button)dialogView.findViewById(R.id.changePosition);
+        final Button cancel=(Button)dialogView.findViewById(R.id.cancel);
+
+        dialogBuilder.setTitle("Add CCTV Quantity");
+        dialogBuilder.setIcon(R.drawable.ic_camera_black_24dp);
+        final android.support.v7.app.AlertDialog b;
+        b = dialogBuilder.create();
+
+        minteger= Integer.parseInt(currentpos.getText().toString());
+        displayInteger.setText(String.valueOf(minteger));
+        changePositon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+
+                    progressDialog.setMessage("Saving...");
+                    progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
+                    progressDialog.show();
+
+                    new Handler().postDelayed(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            qauntity = displayInteger.getText().toString();
+                            if(qauntity.equals("0")){
+                                progressDialog.dismiss();
+                                Toast.makeText(getApplicationContext(), "Please add quantity", Toast.LENGTH_LONG).show();
+
+                            }else {
+                                method(qauntity);
+                                b.dismiss();
+                            }
+
+
+                        }
+                    }, TIMER);
+
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        increase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                minteger++;
+                try {
+                    displayInteger.setText(String.valueOf(minteger));
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
+        decrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                minteger--;
+                try {
+                    displayInteger.setText(String.valueOf(minteger));
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+        b.show();
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                b.dismiss();
+            }
+        });
     }
 }
 
