@@ -2,21 +2,12 @@ package com.example.awizom.jihuzur.Model;
 
 public class PricingView {
 
-    public int CatalogID;
-    public String CatalogName;
+    public int CatalogID ;
+    public String CatalogName ;
     public int ServiceID;
     public String ServiceName ;
-    public String ServiceDesc ;
+    public String ServiceDesc;
     public int PricingID;
-    public String PrizingDesc;
-    public String PricingTerms;
-    public double Amount ;
-    public double PricingStart;
-    public double PricingEnd ;
-    public double PricingEndSlot;
-    public double StartAmount ;
-    public String DisplayType;
-    private boolean isSelected;
 
     public int getCatalogID() {
         return CatalogID;
@@ -122,19 +113,11 @@ public class PricingView {
         StartAmount = startAmount;
     }
 
-    public String getDisplayType() {
-        return DisplayType;
-    }
-
-    public void setDisplayType(String displayType) {
-        DisplayType = displayType;
-    }
-
-    public boolean isSelected() {
-        return isSelected;
-    }
-
-    public void setSelected(boolean selected) {
-        isSelected = selected;
-    }
+    public String PrizingDesc ;
+    public String PricingTerms;
+    public double Amount;
+    public double PricingStart ;
+    public double PricingEnd ;
+    public double PricingEndSlot;
+    public double StartAmount;
 }
