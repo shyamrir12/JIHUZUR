@@ -299,46 +299,50 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
             case R.id.buttonNext:
                 showCustomLoadingDialog();
 
-                Toast.makeText(getApplicationContext(),postal_code,Toast.LENGTH_LONG).show();
+               // Toast.makeText(getApplicationContext(),postal_code,Toast.LENGTH_LONG).show();
                 if(description.equals("For CCTV")){
-
-                    try {
-                        if (postal_code.equals("492001") || postal_code.equals("492004") || postal_code.equals("492013") || postal_code.equals("492007") || postal_code.equals("492015")) {
-                            skipMethod = false;
-                            showindexchange();
-                        } else if (postal_code.equals(null)) {
-                            showCustomLoadingDialog();
-                            skipMethod = true;
-                            onResume();
-
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Sorry We Are Not Providing Service in Your Area", Toast.LENGTH_LONG).show();
-                        }
-
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    showCustomLoadingDialog();
+                    showindexchange();
+//                    try {
+//                        if (postal_code.equals("492001") || postal_code.equals("492004") || postal_code.equals("492013") || postal_code.equals("492007") || postal_code.equals("492015")) {
+//                            skipMethod = false;
+//                            showindexchange();
+//                        } else if (postal_code.equals(null)) {
+//                            showCustomLoadingDialog();
+//                            skipMethod = true;
+//                            onResume();
+//
+//                        } else {
+//                            Toast.makeText(getApplicationContext(), "Sorry We Are Not Providing Service in Your Area", Toast.LENGTH_LONG).show();
+//                        }
+//
+//
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
 
                 }else {
-                    try {
-                        if (postal_code.equals("492001") || postal_code.equals("492004") || postal_code.equals("492013") || postal_code.equals("492007") || postal_code.equals("492015")) {
-                            skipMethod = false;
-                            String quantity="0";
-                            method(quantity);
-                        } else if (postal_code.equals(null)) {
-                            showCustomLoadingDialog();
-                            skipMethod = true;
-                            onResume();
-
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Sorry We Are Not Providing Service in Your Area", Toast.LENGTH_LONG).show();
-                        }
-
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    showCustomLoadingDialog();
+                    String quantity="0";
+                           method(quantity);
+//                    try {
+//                        if (postal_code.equals("492001") || postal_code.equals("492004") || postal_code.equals("492013") || postal_code.equals("492007") || postal_code.equals("492015")) {
+//                            skipMethod = false;
+//                            String quantity="0";
+//                            method(quantity);
+//                        } else if (postal_code.equals(null)) {
+//                            showCustomLoadingDialog();
+//                            skipMethod = true;
+//                            onResume();
+//
+//                        } else {
+//                            Toast.makeText(getApplicationContext(), "Sorry We Are Not Providing Service in Your Area", Toast.LENGTH_LONG).show();
+//                        }
+//
+//
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
                 }
 
 

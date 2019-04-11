@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:99461196015:android:2668bc719d6139db",
         "android_client_info": {
-          "package_name": "com.example.awizom.jihuzur"
+          "package_name": "com.service.awizom.jihuzur"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "99461196015-e9fbd7mnnh57ch36eo2e4fq95upru2r7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.awizom.jihuzur",
+            "package_name": "com.service.awizom.jihuzur",
             "certificate_hash": "393143e9971e7b41ca6a82f0c2ea3f52aea94b74"
           }
         },
@@ -26,7 +26,7 @@
           "client_id": "99461196015-taaelg65r6g3b99ropkvbn5jdicidm1a.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.awizom.jihuzur",
+            "package_name": "com.service.awizom.jihuzur",
             "certificate_hash": "c295170f9e8e6a7a4036a1625dd5191a47573bc1"
           }
         },
@@ -34,7 +34,7 @@
           "client_id": "99461196015-9i7jio4scju6ghuii51aov2lc4b9oaqn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.awizom.jihuzur",
+            "package_name": "com.service.awizom.jihuzur",
             "certificate_hash": "b01d040b3dd669c1929c25c3f8f9deb94f7f784a"
           }
         },
