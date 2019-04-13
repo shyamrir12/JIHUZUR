@@ -106,8 +106,6 @@ public class CustomerOrderHelper extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             String orderId = params[0];
-
-
             String json = "";
             try {
 

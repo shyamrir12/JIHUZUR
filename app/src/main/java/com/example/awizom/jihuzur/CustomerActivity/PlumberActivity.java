@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
@@ -23,7 +25,10 @@ import javax.annotation.Nullable;
 
 public class PlumberActivity extends AppCompatActivity {
     FirebaseFirestore db;
+    TextView plumberCLicks;
     String plumbercount;
+    LinearLayout timelayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,13 +45,19 @@ public class PlumberActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-      //  getActionBar().setDisplayHomeAsUpEnabled(true);
+        plumberCLicks = (TextView) findViewById(R.id.plumberclicks);
+        timelayout = (LinearLayout) findViewById(R.id.timerlinear);
+        timelayout.setVisibility(View.GONE);
         db = FirebaseFirestore.getInstance();
-            getcount();
+        if (SharedPrefManager.getInstance(this).getUser().getRole().equals("Admin")) {
+            timelayout.setVisibility(View.VISIBLE);
+        }
+        //  getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        getcount();
     }
 
-    private void getcount()
-    {
+    private void getcount() {
         DocumentReference docRef = db.collection("PlumberCounting").document("1423");
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -54,24 +65,29 @@ public class PlumberActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        plumbercount=document.get("count").toString();
-                        int x=Integer.parseInt(plumbercount.toString());
-                        int y=1;
-                        int z=x+y;
+                        plumbercount = document.get("count").toString();
+                        plumberCLicks.setText(plumbercount);
+                        int x = Integer.parseInt(plumbercount.toString());
+                        int y = 1;
+                        int z = x + y;
                         Map<String, Object> PlumberCounting = new HashMap<>();
-                        PlumberCounting.put("count",z);
+                        PlumberCounting.put("count", z);
 
-                        db.collection("PlumberCounting").document("1423").set(PlumberCounting).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                            }
-                        });
-                       // Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        if (SharedPrefManager.getInstance(PlumberActivity.this).getUser().getRole().equals("Customer")) {
+                            db.collection("PlumberCounting").document("1423").set(PlumberCounting).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                }
+                            });
+                        }
+
+                        // Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                     } else {
                         //Log.d(TAG, "No such document");
                     }
                 } else {
-                 //   Log.d(TAG, "get failed with ", task.getException());
+                    //   Log.d(TAG, "get failed with ", task.getException());
                 }
             }
         });

@@ -16,37 +16,40 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="60dp"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/timerlinear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <ImageView
-                android:visibility="gone"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 android:src="@drawable/timepng" />
+
             <LinearLayout
-                android:visibility="gone"
+
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Clicks On"
-                android:textColor="@color/colorBlack"
-                android:textSize="20sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Clicks On"
-                android:textColor="@color/colorBlack"
-                android:textSize="40sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clicks On"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/plumberclicks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clicks On"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="40sp" />
             </LinearLayout>
         </LinearLayout>
 
