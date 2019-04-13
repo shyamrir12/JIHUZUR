@@ -6,15 +6,20 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.awizom.jihuzur.R;
+import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.example.awizom.jihuzur.ViewDialog;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Nullable;
 
 public class PlumberActivity extends AppCompatActivity {
     FirebaseFirestore db;
@@ -37,7 +42,7 @@ public class PlumberActivity extends AppCompatActivity {
         });
       //  getActionBar().setDisplayHomeAsUpEnabled(true);
         db = FirebaseFirestore.getInstance();
-        getcount();
+            getcount();
     }
 
     private void getcount()

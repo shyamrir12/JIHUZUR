@@ -68,7 +68,6 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_admin_category);
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         /*  catalogName = getIntent().getStringExtra("CatalogName");*/
-
         catalogName = "Home Cleaning & Repairs";
         toolbar.setTitle("Category's");
         viewDialog = new ViewDialog(this);
@@ -99,16 +98,11 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
         addCategory.setOnClickListener(this);
         gridView = (GridView) findViewById(R.id.gridview);
         getCategoryList();
-
-
     }
 
-
     public void showCustomLoadingDialog(View view) {
-
         //..show gif
         viewDialog.showDialog();
-
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -123,7 +117,6 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
     private void getCategoryList() {
 
         try {
-
             mSwipeRefreshLayout.setRefreshing(true);
             result = new AdminHelper.GETCategoryList().execute(catalogName.toString()).get();
             Gson gson = new Gson();
@@ -133,7 +126,6 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
             adapterCategoryList = new CategoryListAdapter(AdminCategoryActivity.this, categorylist);
             mSwipeRefreshLayout.setRefreshing(false);
             recyclerView.setAdapter(adapterCategoryList);
-
             swipeController = new SwipeController(new SwipeControllerActions() {
                 @Override
                 public void onRightClicked(int position) {
@@ -151,12 +143,10 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                 }
-
             });
 
             ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
             itemTouchhelper.attachToRecyclerView(recyclerView);
-
             recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
                 @Override
                 public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {

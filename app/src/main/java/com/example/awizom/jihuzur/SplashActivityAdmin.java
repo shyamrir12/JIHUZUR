@@ -17,6 +17,8 @@ public class SplashActivityAdmin extends AppCompatActivity {
     String result = "";
     String id;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

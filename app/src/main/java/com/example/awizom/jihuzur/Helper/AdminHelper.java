@@ -26,16 +26,11 @@ public class AdminHelper extends AppCompatActivity {
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
                 builder.url(AppConfig.BASE_URL_API_Admin + "GetCategoryName");
-
                 builder.addHeader("Content-Type", "Application/json");
                 builder.addHeader("Accept", "application/json");
-
-
                 FormBody.Builder parameters = new FormBody.Builder();
                 parameters.add("CatalogName", catalogNameOne);
                 builder.post(parameters.build());
-
-
                 okhttp3.Response response = client.newCall(builder.build()).execute();
                 if (response.isSuccessful()) {
                     json = response.body().string();
@@ -206,6 +201,7 @@ public class AdminHelper extends AppCompatActivity {
         }
 
     }
+
     public static final class ChangeCategoryIndex extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
@@ -220,7 +216,7 @@ public class AdminHelper extends AppCompatActivity {
 
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Admin + "UpdateIndex/"+catalogname+"/"+oldindex+"/"+newindex);
+                builder.url(AppConfig.BASE_URL_API_Admin + "UpdateIndex/" + catalogname + "/" + oldindex + "/" + newindex);
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
                 //builder.addHeader("Authorization", "Bearer " + accesstoken);
@@ -309,7 +305,6 @@ public class AdminHelper extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
             //     InputStream inputStream
-
             String description = params[0];
             String pricing = params[1];
             String amount = params[2];
@@ -318,8 +313,6 @@ public class AdminHelper extends AppCompatActivity {
             String pricingtype = params[5];
             String pricingendslot = params[6];
             String pricingid = params[7];
-
-
             String json = "";
             try {
 
@@ -338,20 +331,12 @@ public class AdminHelper extends AppCompatActivity {
                 parameters.add("CatalogID", catalogID);
                 parameters.add("PricingSlot", pricingslots);
                 parameters.add("PricingType", pricingtype);
-
                 parameters.add("PricingEndSlot", pricingendslot);
-
-
 //                parameters.add("CatalogID", catalogID.split("-")[0]);
-
                 builder.post(parameters.build());
-
-
                 okhttp3.Response response = client.newCall(builder.build()).execute();
-
                 if (response.isSuccessful()) {
                     json = response.body().string();
-
 
                 }
             } catch (Exception e) {
@@ -371,8 +356,6 @@ public class AdminHelper extends AppCompatActivity {
                 super.onPostExecute(result);
 //
             }
-
-
         }
 
     }
@@ -389,8 +372,6 @@ public class AdminHelper extends AppCompatActivity {
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
                 builder.url(AppConfig.BASE_URL_API_Admin + "GetCatalogService/" + catalogid);
-
-
                 okhttp3.Response response = client.newCall(builder.build()).execute();
                 if (response.isSuccessful()) {
                     json = response.body().string();
@@ -527,18 +508,19 @@ public class AdminHelper extends AppCompatActivity {
 
 
     }
+
     public static final class DeleteDiscount extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
 
-            String discid=params[0];
+            String discid = params[0];
             String json = "";
 
 
             try {
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
-                builder.url(AppConfig.BASE_URL_API_Admin + "DiscountDelete/"+discid);
+                builder.url(AppConfig.BASE_URL_API_Admin + "DiscountDelete/" + discid);
 
                 builder.addHeader("Content-Type", "Application/json");
                 builder.addHeader("Accept", "application/json");
@@ -1051,7 +1033,7 @@ public class AdminHelper extends AppCompatActivity {
 
     }
 
-    public   static final class POSTDiscount extends AsyncTask<String, Void, String> {
+    public static final class POSTDiscount extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
             //     InputStream inputStream
@@ -1110,7 +1092,7 @@ public class AdminHelper extends AppCompatActivity {
             String address = params[3];
             String userName = params[4];
             String password = params[5];
-            String ConfirmPassword=params[6];
+            String ConfirmPassword = params[6];
 
             String json = "";
             try {

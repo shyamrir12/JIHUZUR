@@ -49,7 +49,7 @@ public class PricingListAdapter extends
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         PricingView c = pricingList.get(position);
-        holder.pricingterms.setText((c.getPricingTerms()));
+        holder.pricingterms.setText((c.getTime()));
         holder.amount.setText(String.valueOf("Rs " + c.getAmount()));
         holder.description.setText(c.getPrizingDesc());
         holder.pricingId.setText(String.valueOf(c.getPricingID()));
@@ -114,7 +114,6 @@ public class PricingListAdapter extends
                 String pricing = addpricingterms.getText().toString().trim();
                 String amount = editamount.getText().toString().split(" ")[1];
                 pricingendSlot = pricingEndSlot.getText().toString();
-
                 try {
                     //String res="";
                     result = new AdminHelper.POSTPricing().execute(description, pricing, amount, catalogid, pricingSlots, pricingType, pricingendSlot, pricingId).get();

@@ -1,68 +1,53 @@
 {
   "project_info": {
-    "project_number": "99461196015",
-    "firebase_url": "https://jihuzur-320bb.firebaseio.com",
-    "project_id": "jihuzur-320bb",
-    "storage_bucket": "jihuzur-320bb.appspot.com"
+    "project_number": "1071528960697",
+    "firebase_url": "https://prodjihuzur.firebaseio.com",
+    "project_id": "prodjihuzur",
+    "storage_bucket": "prodjihuzur.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:99461196015:android:2668bc719d6139db",
+        "mobilesdk_app_id": "1:1071528960697:android:650070d01a5e82ce",
         "android_client_info": {
-          "package_name": "com.service.awizom.jihuzur"
+          "package_name": "com.awizom.jihuzur"
         }
       },
       "oauth_client": [
         {
-          "client_id": "99461196015-e9fbd7mnnh57ch36eo2e4fq95upru2r7.apps.googleusercontent.com",
+          "client_id": "1071528960697-14mqgs3bfaq2div6a7ivlf8k0ujssj9g.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.service.awizom.jihuzur",
-            "certificate_hash": "393143e9971e7b41ca6a82f0c2ea3f52aea94b74"
-          }
-        },
-        {
-          "client_id": "99461196015-taaelg65r6g3b99ropkvbn5jdicidm1a.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.service.awizom.jihuzur",
-            "certificate_hash": "c295170f9e8e6a7a4036a1625dd5191a47573bc1"
-          }
-        },
-        {
-          "client_id": "99461196015-9i7jio4scju6ghuii51aov2lc4b9oaqn.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.service.awizom.jihuzur",
+            "package_name": "com.awizom.jihuzur",
             "certificate_hash": "b01d040b3dd669c1929c25c3f8f9deb94f7f784a"
           }
         },
         {
-          "client_id": "99461196015-eh8b6mplm5nbn08kvqh4rnufo3divosm.apps.googleusercontent.com",
+          "client_id": "1071528960697-6b457nkmbk29jkbcqvo1hhgj42vufhnt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.awizom.jihuzur",
+            "certificate_hash": "c295170f9e8e6a7a4036a1625dd5191a47573bc1"
+          }
+        },
+        {
+          "client_id": "1071528960697-lbt8konhgfft28236qecigbh28gjtd33.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAr7-Wz1ey7eVJV5xAuFDcqeTmeEDM4kbc"
+          "current_key": "AIzaSyAjuE0f7F8jDxtTZwYLipBHav3KEvg3IOE"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "99461196015-eh8b6mplm5nbn08kvqh4rnufo3divosm.apps.googleusercontent.com",
+              "client_id": "1071528960697-lbt8konhgfft28236qecigbh28gjtd33.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

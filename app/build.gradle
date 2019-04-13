@@ -2,10 +2,10 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId 'com.service.awizom.jihuzur'
+        applicationId 'com.awizom.jihuzur'
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 1
+        versionCode 8
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -16,9 +16,7 @@ android {
         }
     }
     lintOptions {
-
         checkReleaseBuilds false
-
     }
     buildToolsVersion '27.0.3'
     compileOptions {

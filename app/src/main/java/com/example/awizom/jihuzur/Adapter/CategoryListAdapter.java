@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.AdminActivity.AdminCategoryActivity;
 import com.example.awizom.jihuzur.Config.AppConfig;
+import com.example.awizom.jihuzur.CustomerActivity.PlumberActivity;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Model.Catalog;
@@ -114,18 +115,26 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         final String categorynem = holder.category.getText().toString();
         final String cetlogId = holder.catalogid.getText().toString();
         final String cetlogName = holder.catalogname.getText().toString();
-        final String imglnk = AppConfig.BASE_URL+holder.imglinkurl.getText().toString();
+        final String imglnk = AppConfig.BASE_URL + holder.imglinkurl.getText().toString();
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showCustomLoadingDialog(v);
-                intent = new Intent(mCtx, SelectServices.class);
-                intent.putExtra("Image", holder.imglinkurl.getText().toString());
-                intent.putExtra("CategoryName", holder.category.getText());
-                intent.putExtra("CatalogID", holder.catalogid.getText());
-                intent.putExtra("CatalogName", catalogName);
-                mCtx.startActivity(intent);
+
+                if (holder.category.getText().toString().equals("Plumber")) {
+                    showCustomLoadingDialog(v);
+                    Intent intent = new Intent(mCtx, PlumberActivity.class);
+                    mCtx.startActivity(intent);
+                } else {
+                    showCustomLoadingDialog(v);
+                    intent = new Intent(mCtx, SelectServices.class);
+                    intent.putExtra("Image", holder.imglinkurl.getText().toString());
+                    intent.putExtra("CategoryName", holder.category.getText());
+                    intent.putExtra("CatalogID", holder.catalogid.getText());
+                    intent.putExtra("CatalogName", catalogName);
+                    mCtx.startActivity(intent);
+                }
+
 
             }
         });
@@ -247,7 +256,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView category, seccategory, catalogid, catalogname,imglinkurl;
+        public TextView category, seccategory, catalogid, catalogname, imglinkurl;
         public ImageView categoryImage, seccategoryImage;
         private List<Catalog> catalogList;
 
@@ -256,7 +265,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             super(view);
 
             category = (TextView) view.findViewById(R.id.categoryName);
-            imglinkurl=(TextView)view.findViewById(R.id.imgLink);
+            imglinkurl = (TextView) view.findViewById(R.id.imgLink);
             categoryImage = (ImageView) view.findViewById(R.id.categoryImage);
             catalogname = (TextView) view.findViewById(R.id.catalogname);
             catalogid = (TextView) view.findViewById(R.id.catalogId);

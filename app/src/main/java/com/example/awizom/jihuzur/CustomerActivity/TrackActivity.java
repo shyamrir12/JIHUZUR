@@ -44,7 +44,9 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -300,6 +302,8 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
 
                     lat1 = Double.parseDouble(String.valueOf(snapshot.get("lat")));
                     long1 = Double.parseDouble(String.valueOf(snapshot.get("long")));
+
+
 
                     int height = 80;
                     int width = 80;

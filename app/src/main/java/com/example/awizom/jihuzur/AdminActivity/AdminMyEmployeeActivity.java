@@ -117,7 +117,7 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
         final Button buttonaddEmployee = (Button) dialogView.findViewById(R.id.buttonaddemployee);
         final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
         dialogBuilder.setTitle("Add Employee");
-        dialogBuilder.setIcon(R.drawable.ic_nature_people_black_24dp);
+        dialogBuilder.setIcon(R.drawable.useredit);
         final AlertDialog b = dialogBuilder.create();
         b.show();
 
