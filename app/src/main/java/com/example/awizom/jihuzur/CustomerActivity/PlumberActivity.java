@@ -72,7 +72,6 @@ public class PlumberActivity extends AppCompatActivity {
                         int z = x + y;
                         Map<String, Object> PlumberCounting = new HashMap<>();
                         PlumberCounting.put("count", z);
-
                         if (SharedPrefManager.getInstance(PlumberActivity.this).getUser().getRole().equals("Customer")) {
                             db.collection("PlumberCounting").document("1423").set(PlumberCounting).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

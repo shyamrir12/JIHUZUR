@@ -56,6 +56,12 @@ dependencies {
     implementation 'org.slf4j:slf4j-nop:1.7.25'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
+
+
+    implementation 'com.google.android.gms:play-services-base:11.6.0'
+    implementation 'com.google.android.gms:play-services-auth-api-phone:11.6.0'
+    //Optional for phone number hint
+    implementation 'com.google.android.gms:play-services-auth:11.6.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
