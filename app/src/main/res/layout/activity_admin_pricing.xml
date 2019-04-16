@@ -1,133 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AdminActivity.AdminPricingActivity">
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            >
-
-        </android.support.v7.widget.Toolbar>
-
-
-<android.support.v4.widget.NestedScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".AdminActivity.AdminPricingActivity">
-
-    <android.support.design.widget.CollapsingToolbarLayout
-        android:id="@+id/collapsing"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        app:layout_scrollFlags="scroll|exitUntilCollapsed"
-        android:fitsSystemWindows="true"
-        android:layout_marginLeft="90dp"
-        app:contentScrim="?attr/colorPrimary"
-        app:expandedTitleMarginStart="48dp"
-        app:expandedTitleMarginEnd="64dp"
-        >
-        <ImageView
-            android:id="@+id/backdrop"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:scaleType="centerCrop"
-            android:fitsSystemWindows="true"
-            android:src="@drawable/jihuzurapplogo"
-            app:layout_collapseMode="parallax"
-            />
-
-
-    </android.support.design.widget.CollapsingToolbarLayout>
-
-
-    <TextView
-        android:id="@+id/servicePricing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/collapsing"
-        android:layout_centerHorizontal="true"
-        android:text="Pricing"
-        android:textColor="@color/colorBlack"
-        android:textSize="25sp" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="196dp" />
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/recyclerView"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp">
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pricing Slot ->"
-            android:textStyle="bold"
-            android:textColor="@color/colorBlack"
-            android:textSize="20sp"/>
+            android:orientation="vertical">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            </android.support.v7.widget.Toolbar>
 
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:id="@+id/ll1"
-    android:gravity="center_horizontal"
-
-    >
-
-</LinearLayout>
-
-</LinearLayout>
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
 
-</RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:context=".AdminActivity.AdminPricingActivity">
 
-</android.support.v4.widget.NestedScrollView>
-    </LinearLayout>
+                    <android.support.design.widget.CollapsingToolbarLayout
+                        android:id="@+id/collapsing"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginLeft="90dp"
+                        android:fitsSystemWindows="true"
+                        app:contentScrim="?attr/colorPrimary"
+                        app:expandedTitleMarginEnd="64dp"
+                        app:expandedTitleMarginStart="48dp"
+                        app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                        <ImageView
+                            android:id="@+id/backdrop"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:fitsSystemWindows="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/jihuzurapplogo"
+                            app:layout_collapseMode="parallax" />
+
+
+                    </android.support.design.widget.CollapsingToolbarLayout>
+
+
+                    <TextView
+                        android:id="@+id/servicePricing"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/collapsing"
+                        android:layout_centerHorizontal="true"
+                        android:text="Pricing"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="25sp" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="196dp" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/recyclerView"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:text="Pricing Slot ->"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+
+                        <LinearLayout
+                            android:id="@+id/ll1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:orientation="horizontal"
+
+                            >
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+            </android.support.v4.widget.NestedScrollView>
+        </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
-<android.support.design.widget.FloatingActionButton
-android:id="@+id/addPricing"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:layout_alignParentBottom="true"
-android:layout_alignParentEnd="true"
-android:layout_gravity="bottom|end"
-android:layout_marginBottom="30dp"
-android:layout_marginEnd="24dp"
-app:srcCompat="@android:drawable/ic_input_add"
-tools:layout_editor_absoluteX="328dp"
-tools:layout_editor_absoluteY="448dp" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addPricing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="24dp"
+        app:srcCompat="@android:drawable/ic_input_add"
+        tools:layout_editor_absoluteX="328dp"
+        tools:layout_editor_absoluteY="448dp" />
 
 
 </RelativeLayout>

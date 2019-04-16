@@ -44,7 +44,6 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
     Spinner displayType;
     private ImageView imageView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +53,6 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
 
     private void initView() {
 
-
         categoryName = getIntent().getStringExtra("CategoryName");
         catalogID = getIntent().getStringExtra("CatalogID");
         imageLink = getIntent().getStringExtra("Image");
@@ -62,13 +60,9 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Services");
         toolbar.setTitleTextColor(Color.WHITE);
-
-
         toolbar.setSubtitleTextColor(Color.BLACK);
         toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
         toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
-
-
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -77,13 +71,10 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
                 onBackPressed();
             }
         });
-
-
         addService = (FloatingActionButton) findViewById(R.id.addService);
         addService.setOnClickListener(this);
         categoryname = findViewById(R.id.categoryName);
         imageView = findViewById(R.id.backdrop);
-
         categoryname.setText( "    " +categoryName);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);

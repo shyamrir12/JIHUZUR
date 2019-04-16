@@ -129,10 +129,11 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
                 if (Name.getText().toString().isEmpty()) {
                     Name.setError("Enter a valid Employee Name");
                     Name.requestFocus();
-                } else if (Phonenumber.getText().toString().isEmpty()) {
-                    Phonenumber.setError("Enter a valid Phonenumber");
+                } else if (Phonenumber.getText().toString().isEmpty() ||Phonenumber.getText().toString().length()>10 || Phonenumber.getText().toString().length()<10) {
+                    Phonenumber.setError("Please Enter Valid Phonenumber");
                     Phonenumber.requestFocus();
                 }
+
                 else {
                     showcustomloadindialogue();
                     String name = Name.getText().toString();
@@ -213,11 +214,8 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
             Gson gson = new Gson();
             Type listType = new TypeToken<List<MyEmployeeListModel>>() {
             }.getType();
-
             myEmployeeListModels = new Gson().fromJson(result, listType);
             myEmployeeListAdapter = new MyEmployeeListAdapter(AdminMyEmployeeActivity.this, myEmployeeListModels);
-
-
             mSwipeRefreshLayout.setRefreshing(false);
             recyclerView.setAdapter(myEmployeeListAdapter);
 

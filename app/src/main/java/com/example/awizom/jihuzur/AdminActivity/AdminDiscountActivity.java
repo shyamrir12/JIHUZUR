@@ -132,7 +132,7 @@ public class AdminDiscountActivity extends AppCompatActivity {
     }
 
     public void getDiscountList() {
-        showCustomLoadingDialog();
+      //  showCustomLoadingDialog();
         try {
             result = new AdminHelper.GETDiscountList().execute().get();
             if (result.isEmpty()) {
@@ -209,7 +209,6 @@ public class AdminDiscountActivity extends AppCompatActivity {
         editcategory = (Spinner) dialogView.findViewById(R.id.editDiscountcategory);
         imageView = (ImageView) dialogView.findViewById(R.id.imageView);
         addimage = (ImageView) dialogView.findViewById(R.id.addImage);
-
         getCategoryList();
         List<String> spinnerArray = new ArrayList<>();
         spinnerArray.add(String.valueOf("Fix"));
@@ -260,10 +259,15 @@ public class AdminDiscountActivity extends AppCompatActivity {
                 if (editDiscountName.getText().toString().isEmpty()) {
                     editDiscountName.setError("Enter a valid Discount Name");
                     editDiscountName.requestFocus();
-                } else if (editDiscountAmount.getText().toString().isEmpty()) {
+                } else if (editDiscountAmount.getText().toString().isEmpty())  {
                     editDiscountAmount.setError("Enter a valid Discount Amount");
                     editDiscountAmount.requestFocus();
-                } else {
+                }
+                else if ((discounttypes.equals("Percentage"))&& (Integer.parseInt(editDiscountAmount.getText().toString())>(100))) {
+                    editDiscountAmount.setError("Percentage should be less than 100");
+                    editDiscountAmount.requestFocus();
+                }
+                else {
                     imageView.buildDrawingCache();
                     Bitmap bitmap = imageView.getDrawingCache();
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();

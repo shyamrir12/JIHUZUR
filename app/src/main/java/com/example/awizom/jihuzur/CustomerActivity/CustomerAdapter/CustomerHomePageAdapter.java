@@ -1,9 +1,16 @@
 package com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +25,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.example.awizom.jihuzur.AdminActivity.AdminCategoryActivity;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.CustomerActivity.NewCustomerHome;
@@ -73,12 +81,12 @@ public class CustomerHomePageAdapter extends BaseAdapter {
             try {
                 String imgstr = AppConfig.BASE_URL + catalogNameList.get(i).getImage().toString();
 
-                if(catalogNameList.get(i).getImage().toString()!=null) {
+                if (catalogNameList.get(i).getImage().toString() != null) {
                     Glide.with(mContext).load(imgstr).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imageViewAndroid);
                 }
                 textViewAndroid.setText(catalogNameList.get(i).getCategory());
                 if (catalogNameList.get(i).getImage().toString() != null) {
-                     imglinkurl.setText(imgstr.toString());
+                    imglinkurl.setText(imgstr.toString());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -105,21 +113,27 @@ public class CustomerHomePageAdapter extends BaseAdapter {
                     @Override
                     public void onClick(View v) {
                         showcustomloadingdialog();
-                        if(catalogNameList.get(i).getCategory().toString().equals("Plumber"))
-                        {
+                        if (catalogNameList.get(i).getCategory().toString().equals("Plumber")) {
                             Intent intent = new Intent(mContext, PlumberActivity.class);
                             mContext.startActivity(intent);
-
+                        } else {
+                            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
+                                    != PackageManager.PERMISSION_GRANTED) {
+                                // Check Permissions Now
+                                ActivityCompat.requestPermissions(((CustomerHomePage)mContext),
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                        200);
+                            } else {
+                                // permission has been granted, continue as usual
+                                Intent intent = new Intent(mContext, SelectServices.class);
+                                intent.putExtra("CatalogID", String.valueOf(catalogNameList.get(i).getCatalogID()));
+                                intent.putExtra("CategoryName", catalogNameList.get(i).getCategory().toString());
+                                intent.putExtra("Image", imglinkurl.getText().toString());
+                                intent.putExtra("EmployeeSkill", "EmployeeSkill");
+                                mContext.startActivity(intent);
+                            }
                         }
-                        else{
-                            Intent intent = new Intent(mContext, SelectServices.class);
-                            intent.putExtra("CatalogID", String.valueOf(catalogNameList.get(i).getCatalogID()));
-                            intent.putExtra("CategoryName", catalogNameList.get(i).getCategory().toString());
-                            intent.putExtra("Image", imglinkurl.getText().toString());
-                            intent.putExtra("EmployeeSkill", "EmployeeSkill");
-                            mContext.startActivity(intent);
-                        }
-                        }
+                    }
                 });
 
 
@@ -133,6 +147,7 @@ public class CustomerHomePageAdapter extends BaseAdapter {
 
         return gridViewAndroid;
     }
+
 
     public void showcustomloadingdialog() {
 

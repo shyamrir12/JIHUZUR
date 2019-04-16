@@ -67,6 +67,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by Ravi on 07/01/2019.
@@ -94,6 +96,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     CustomerCatagoryAdapter customerCatagoryAdapter;
     ViewDialog viewDialog;
     GridView gridView;
+
     List<Catalog> categorylist;
     String imgstr;
     private AdapterViewFlipper simpleAdapterViewFlipper;
@@ -164,11 +167,9 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.activity_customer_home_page);
         gridView = (GridView) findViewById(R.id.gridview);
         getCategoryList();
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setLogo(R.mipmap.jihuzzur_home_logo);
         toolbar.setTitle("");
-
         toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
         toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
         setSupportActionBar(toolbar);
@@ -242,12 +243,24 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         });
         getProfile();
         getDiscountImageList();
+     /*   final Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                runtime_permissions();
+                handler.postDelayed(this, 1000);
+            }
+        };
+
+//Start
+        handler.postDelayed(runnable, 1000);
+*/
         if (!runtime_permissions()) {
             enable_buttons();
         }
     }
 
-    private boolean runtime_permissions() {
+    public boolean runtime_permissions() {
         if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
             return true;

@@ -29,7 +29,6 @@ import com.example.awizom.jihuzur.R;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-
 public class DiscountListAdapter extends RecyclerView.Adapter<DiscountListAdapter.MyViewHolder> implements View.OnTouchListener {
 
     private List<DiscountView> discountlist;
@@ -67,13 +66,14 @@ public class DiscountListAdapter extends RecyclerView.Adapter<DiscountListAdapte
                 {
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mCtx);
                     alertDialogBuilder.setMessage("Are You Sure You Want to Delete this Discount Coupon");
-                            alertDialogBuilder.setPositiveButton("yes",
+                    alertDialogBuilder.setIcon(R.drawable.exit);
+                            alertDialogBuilder.setPositiveButton("Yes",
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface arg0, int arg1) {
                                             try {
                                                 result = new AdminHelper.DeleteDiscount().execute(String.valueOf(holder.discountId.getText().toString())).get();
-                                                Toast.makeText(mCtx, result + "", Toast.LENGTH_SHORT).show();
+                                               // Toast.makeText(mCtx, result + "", Toast.LENGTH_SHORT).show();
                                                 ((AdminDiscountActivity)mCtx).getDiscountList();
                                             } catch (ExecutionException e) {
                                                 e.printStackTrace();
@@ -86,7 +86,6 @@ public class DiscountListAdapter extends RecyclerView.Adapter<DiscountListAdapte
                     alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
                         }
                     });
 

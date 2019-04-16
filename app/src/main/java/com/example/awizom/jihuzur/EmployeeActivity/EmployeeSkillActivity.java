@@ -52,9 +52,7 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_skill);
-
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-
         String employeeNmae = SharedPrefManager.getInstance(EmployeeSkillActivity.this).getUser().getName();
         toolbar.setTitle("Select Skill");
         setSupportActionBar(toolbar);
@@ -62,7 +60,8 @@ public class EmployeeSkillActivity extends AppCompatActivity implements View.OnC
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+              intent=new Intent(EmployeeSkillActivity.this,EmployeeHomePage.class);
+              startActivity(intent);
             }
         });
         toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
