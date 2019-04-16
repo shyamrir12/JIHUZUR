@@ -99,18 +99,18 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
 //                otpEditText.setText(smsSplit[1]);
 //            }
 //        });
-//        new CountDownTimer(60000, 1000) {
-//
-//            public void onTick(long millisUntilFinished) {
-//                countDown.setText("" + millisUntilFinished / 1000);
-//                resendOTP.setVisibility(View.GONE);
-//            }
-//
-//            public void onFinish() {
-//                countDown.setText("00:00");
-//                resendOTP.setVisibility(View.VISIBLE);
-//            }
-//        }.start();
+        new CountDownTimer(60000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                countDown.setText("" + millisUntilFinished / 1000);
+                resendOTP.setVisibility(View.GONE);
+            }
+
+            public void onFinish() {
+                countDown.setText("00:00");
+                resendOTP.setVisibility(View.VISIBLE);
+            }
+        }.start();
 
     }
 

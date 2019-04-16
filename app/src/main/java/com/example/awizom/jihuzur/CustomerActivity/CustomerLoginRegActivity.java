@@ -214,15 +214,12 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
                             Log.d("CustomerOTp", jsonbody.Otp);
                             result = String.valueOf(new AdminHelper.POSTProfileLatLong().execute(SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(), String.valueOf("21.22"), String.valueOf("80.66")));
+                            progressDialog.dismiss();
+                            intent = new Intent(CustomerLoginRegActivity.this, VerifyPhoneActivity.class);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
 
-                            if (jsonbody.Role.equals("Customer")) {
-                                progressDialog.dismiss();
-                                intent = new Intent(CustomerLoginRegActivity.this, VerifyPhoneActivity.class);
-                                startActivity(intent);
-                                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-
-                            }
                         } else {
                             progressDialog.dismiss();
                             intent = new Intent(CustomerLoginRegActivity.this, VerifyPhoneActivity.class);

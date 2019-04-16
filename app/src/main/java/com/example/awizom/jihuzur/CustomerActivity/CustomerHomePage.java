@@ -444,7 +444,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_signout) {
             try {
-                SharedPrefManager.getInstance(this).logout();
+                SharedPrefManager.getInstance(CustomerHomePage.this).logout();
                 intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
