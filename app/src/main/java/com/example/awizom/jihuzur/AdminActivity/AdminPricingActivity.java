@@ -122,6 +122,7 @@ public class AdminPricingActivity extends AppCompatActivity {
                     tv.setTextColor(Color.parseColor("#000000"));
                     tv.setTextSize(20);
                     tv.setText(pricinglistString[i] + "->");
+                    tv.setVisibility(View.GONE);
                     layout.addView(tv);
                 }
 

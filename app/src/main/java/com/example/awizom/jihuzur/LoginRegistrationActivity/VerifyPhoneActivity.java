@@ -112,7 +112,6 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
 //            }
 //        }.start();
 
-
     }
 
     /*For Event Listeners */

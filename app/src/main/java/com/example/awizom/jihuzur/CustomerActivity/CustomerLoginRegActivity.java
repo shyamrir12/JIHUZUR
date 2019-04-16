@@ -1,6 +1,5 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
-
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -59,7 +58,6 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
     boolean check = false;
     private static int TIMER = 300;
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
-
 
     /*For layout binding */
     @Override
@@ -137,7 +135,6 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                 return;
             }
         }
-
     }
 
     /*For Event Listeners*/
@@ -161,6 +158,7 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                 break;
             case R.id.skiplogin:
                 intent = new Intent(CustomerLoginRegActivity.this, CustomerHomePage.class);
+                intent.putExtra("Skip","SkipLogin");
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                 break;
@@ -178,7 +176,6 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
             Toast.makeText(getApplicationContext(), "Mobile No is not Valid", Toast.LENGTH_SHORT).show();
             progressDialog.dismiss();
         }
-
     }
 
     /*For Validation */

@@ -28,7 +28,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class VerifyPhoneActivityEmployee extends AppCompatActivity {
+public class VerifyPhoneActivityEmployee extends AppCompatActivity  {
 
     //These are the objects needed
     //It is the verification id that will be sent to the user

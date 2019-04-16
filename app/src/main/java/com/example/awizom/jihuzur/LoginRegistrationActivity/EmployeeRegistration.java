@@ -168,8 +168,6 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
     private void createuser() {
 
         if (validation()) {
-
-
             try {
                 result = new LoginHelper.GetLogin().execute(editTextMobile.getText().toString().trim(), "Jihuzur@123", "Jihuzur@123","Employee").get();
                 progressDialog.dismiss();

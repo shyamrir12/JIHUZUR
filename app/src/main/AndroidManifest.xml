@@ -47,6 +47,8 @@
             <!--</intent-filter>-->
         <!--</receiver>-->
 
+
+
         <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
@@ -109,15 +111,15 @@
         <activity
             android:name=".CustomerActivity.CustomerSplashActivity"
             android:theme="@style/AppFullScreenTheme">
-
-        </activity>
-        <activity
-            android:name=".SplashActivityAdmin"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".SplashActivityAdmin"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
         </activity>
         <activity
             android:name=".AdminActivity.AdminHomePage"
@@ -227,7 +229,6 @@
             android:name=".HelpCenterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SMSTestActicity" />
-        <activity android:name=".ExampleFliper" />
         <activity android:name=".ExampleFliper" />
         <activity android:name=".AdminActivity.GeoCoder" />
         <activity

@@ -272,7 +272,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             AlertDialog.Builder alertbox = new AlertDialog.Builder(AdminHomePage.this);
             alertbox.setIcon(R.drawable.exit);
             alertbox.setIconAttribute(90);
-            alertbox.setTitle("Do You Want To Exit Programme?");
+            alertbox.setTitle("Do You Want To Exit ?");
             alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface arg0, int arg1) {
                     // finish used for destroyed activity
@@ -913,6 +913,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                         data.putString("EmployeeID", ide);//put string, int, etc in bundle with a key value
                                         employeeHistoryCurrentFragment.setArguments(data);//Finally set argument bundle to fragment
                                         fragmentManager.beginTransaction().replace(R.id.home_container, employeeHistoryCurrentFragment).commit();//now replace the argument fragment
+
 
 
                                       /*  try {

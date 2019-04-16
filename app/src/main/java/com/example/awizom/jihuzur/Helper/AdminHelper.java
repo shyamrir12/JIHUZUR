@@ -1193,22 +1193,17 @@ public class AdminHelper extends AppCompatActivity {
                 builder.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 builder.addHeader("Accept", "application/json");
                 //builder.addHeader("Authorization", "Bearer " + accesstoken);
-
                 FormBody.Builder parameters = new FormBody.Builder();
                 parameters.add("ID", id);
                 parameters.add("Lat", latitude);
                 parameters.add("Long", logitude);
                 builder.post(parameters.build());
                 okhttp3.Response response = client.newCall(builder.build()).execute();
-
                 if (response.isSuccessful()) {
                     json = response.body().string();
-
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-
             }
             return json;
         }

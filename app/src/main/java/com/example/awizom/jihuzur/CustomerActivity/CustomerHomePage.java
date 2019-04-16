@@ -85,6 +85,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     TextView userName, userContact;
     ImageView imageView;
     String img_str;
+    String skipdata = "skiplogin";
     boolean check = false;
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
     Intent intent;
@@ -114,11 +115,14 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                     break;
 
                 case R.id.navigation_booking:
-                    showCustomLoadingDialog();
-                    intent = new Intent(CustomerHomePage.this, MyBokingsActivity.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-
+                    if (skipdata.equals("skiplogin")) {
+                        showCustomLoadingDialog();
+                        intent = new Intent(CustomerHomePage.this, MyBokingsActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "You Have To Login First", Toast.LENGTH_LONG).show();
+                    }
                     break;
 
                 case R.id.navigation_helpCenter:
@@ -168,7 +172,11 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
         toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
         setSupportActionBar(toolbar);
-
+        try {
+            skipdata = getIntent().getStringExtra("Skip").toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -205,23 +213,30 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         }*/
         userName = headerview.findViewById(R.id.profileName);
         userContact = headerview.findViewById(R.id.cusContact);
-        try {
-            String uname = SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getName().toString();
-            String ucontact = SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getMobileNo().toString();
-            userName.setText(uname);
-            userContact.setText(ucontact);
-            /**/
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (skipdata.equals("skiplogin")) {
+            try {
+                String uname = String.valueOf(SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getName().toString());
+                String ucontact = String.valueOf(SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getMobileNo().toString());
+                userName.setText(uname);
+                userContact.setText(ucontact);
+                /**/
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showCustomLoadingDialog();
-                intent = new Intent(CustomerHomePage.this, CustomerProfileActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+
+                if (skipdata.equals("skiplogin")) {
+                    showCustomLoadingDialog();
+                    intent = new Intent(CustomerHomePage.this, CustomerProfileActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                } else {
+                    Toast.makeText(getApplicationContext(), "You Have To Login First", Toast.LENGTH_LONG).show();
+                }
+
 
             }
         });
@@ -347,7 +362,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             AlertDialog.Builder alertbox = new AlertDialog.Builder(CustomerHomePage.this);
             alertbox.setIcon(R.drawable.exit);
-            alertbox.setTitle("Do You Want To Exit Programme?");
+            alertbox.setTitle("Do You Want To Exit ?");
             alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface arg0, int arg1) {
                     // finish used for destroyed activity
@@ -456,10 +471,17 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             return true;
         }
         if (id == R.id.action_profile) {
-            showCustomLoadingDialog();
-            Intent i = new Intent(CustomerHomePage.this, CustomerProfileActivity.class);
-            startActivity(i);
-            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+
+            if (skipdata.equals("skiplogin")) {
+                showCustomLoadingDialog();
+                Intent i = new Intent(CustomerHomePage.this, CustomerProfileActivity.class);
+                startActivity(i);
+                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+            } else {
+                Toast.makeText(getApplicationContext(), "You Have To Login First", Toast.LENGTH_LONG).show();
+            }
+
+
             return true;
         }
 
@@ -477,10 +499,15 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         int id = item.getItemId();
 
         if (id == R.id.nav_booking) {
-            showCustomLoadingDialog();
-            intent = new Intent(CustomerHomePage.this, MyBokingsActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+            if (skipdata.equals("skiplogin")) {
+                showCustomLoadingDialog();
+                intent = new Intent(CustomerHomePage.this, MyBokingsActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+            } else {
+                Toast.makeText(getApplicationContext(), "You Have To Login First", Toast.LENGTH_LONG).show();
+            }
+
         }
        /* else if (id == R.id.nav_review) {
                    getSupportActionBar().setTitle("My Review");
@@ -489,10 +516,15 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 
           }*/
         else if (id == R.id.nav_complaint) {
-            showCustomLoadingDialog();
-            intent = new Intent(CustomerHomePage.this, CustomerComplaintActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+            if (skipdata.equals("skiplogin")) {
+                showCustomLoadingDialog();
+                intent = new Intent(CustomerHomePage.this, CustomerComplaintActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+            } else {
+                Toast.makeText(getApplicationContext(), "You Have To Login First", Toast.LENGTH_LONG).show();
+            }
+
             //            ActivityOptions startAnimation = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.fui_slide_out_left, R.anim.fui_slide_in_right);
 //            startActivity(intent, startAnimation.toBundle());
 
@@ -504,10 +536,14 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             startActivity(login);
             finish();
         } else if (id == R.id.profile) {
-            showCustomLoadingDialog();
-            Intent i = new Intent(CustomerHomePage.this, CustomerProfileActivity.class);
-            startActivity(i);
-            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+            if (skipdata.equals("skiplogin")) {
+                showCustomLoadingDialog();
+                Intent i = new Intent(CustomerHomePage.this, CustomerProfileActivity.class);
+                startActivity(i);
+                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+            } else {
+                Toast.makeText(getApplicationContext(), "You Have To Login First", Toast.LENGTH_LONG).show();
+            }
 
         } else if (id == R.id.nav_share) {
 

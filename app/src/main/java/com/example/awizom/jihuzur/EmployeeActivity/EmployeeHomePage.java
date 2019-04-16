@@ -476,7 +476,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         if ((keyCode == KeyEvent.KEYCODE_BACK)) {
             AlertDialog.Builder alertbox = new AlertDialog.Builder(EmployeeHomePage.this);
             alertbox.setIcon(R.drawable.exit);
-            alertbox.setTitle("Do You Want To Exit Programme?");
+            alertbox.setTitle("Do You Want To Exit ?");
             alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface arg0, int arg1) {
                     // finish used for destroyed activity
