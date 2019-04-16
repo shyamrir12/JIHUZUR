@@ -22,6 +22,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
@@ -110,6 +111,30 @@ public class CustomerProfileActivity extends AppCompatActivity {
         address = (EditText) findViewById(R.id.Adress);
         imageView = findViewById(R.id.imageView);
         imgUrl = findViewById(R.id.imgurl);
+
+        yourname.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                yourname.setCursorVisible(true);
+                return false;
+            }
+        });
+
+        email.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                email.setCursorVisible(true);
+                return false;
+            }
+        });
+
+        address.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                address.setCursorVisible(true);
+                return false;
+            }
+        });
 
 
         FloatingActionButton fab = findViewById(R.id.fab);

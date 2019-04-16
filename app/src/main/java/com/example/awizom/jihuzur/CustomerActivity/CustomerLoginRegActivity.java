@@ -14,6 +14,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.ArrayAdapter;
@@ -89,6 +90,15 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
         checkInternet();
         editTextMobile = findViewById(R.id.editTextMobile);
         butonContinue = findViewById(R.id.buttonContinue);
+
+        editTextMobile.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                editTextMobile.setHint("");
+                return false;
+            }
+        });
+
         skiplogin = findViewById(R.id.skiplogin);
         butonContinue.setOnClickListener(this);
         skiplogin.setOnClickListener(this);

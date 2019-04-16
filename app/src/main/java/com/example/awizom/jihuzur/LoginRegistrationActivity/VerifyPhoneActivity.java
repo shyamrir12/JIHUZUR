@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
@@ -88,6 +89,13 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
         countDown.setOnClickListener(this);
         progressDialog = new ProgressDialog(VerifyPhoneActivity.this);
 
+        otpEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                otpEditText.setHint("");
+                return false;
+            }
+        });
 
 
 //        SmsReceiver.bindListener(new SmsListener() {
@@ -130,6 +138,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
 
                         @Override
                         public void run() {
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), "SuccessFully Verified", Toast.LENGTH_LONG).show();
                             if (validation()) {
                                 DataProfile dataProfile = new DataProfile();

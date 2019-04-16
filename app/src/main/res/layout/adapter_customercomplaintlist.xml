@@ -18,7 +18,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="5dp">
                 <view
                     android:id="@+id/v0"
@@ -102,6 +102,7 @@
                         android:layout_height="20dp"
                         android:backgroundTint="@color/white"
                         android:layout_weight="1"
+                        android:layout_gravity="center_horizontal|center"
                         app:srcCompat="@drawable/ic_rate_review_black_24dp" />
                 </LinearLayout>
                 <view

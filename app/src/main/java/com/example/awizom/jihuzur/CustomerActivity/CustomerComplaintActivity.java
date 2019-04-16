@@ -1,8 +1,10 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
 import android.app.ActivityOptions;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +41,8 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
     RecyclerView recyclerView;
     CustomerComplaintListAdapter customerComplainAdapetr;
     String[] SPINNERLIST = {"Active Complaint", "Create Complaint", "Solved Complaint"};
+    private ProgressDialog progressDialog;
+    private static int TIMER = 300;
 
     //test
     @Override
@@ -67,6 +71,8 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
         toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
         toolbar.setTitleTextColor(Color.WHITE);
 
+        progressDialog = new ProgressDialog(com.example.awizom.jihuzur.CustomerActivity.CustomerComplaintActivity.this);
+
         addComplaint = findViewById(R.id.addComplaint);
         editcomplaint = findViewById(R.id.complaint);
         recyclerView = findViewById(R.id.recyclerView);
@@ -82,7 +88,7 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
                 String createComplaint = parent.getItemAtPosition(position).toString();
                 if (createComplaint.equals("Create Complaint")) {
                     Toast.makeText(getApplicationContext(), "" + createComplaint, Toast.LENGTH_SHORT).show();
-                    showCreateComplaintDialog();
+                        showCreateComplaintDialog();
                 }
                 String activeComplaint = parent.getItemAtPosition(position).toString();
                 if (activeComplaint.equals("Active Complaint")) {
@@ -137,21 +143,26 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
             @Override
             public void onClick(View view) {
 
-                String complaint = editcomplaintinDialog.getText().toString();
-                String Active = "True";
-                String Status = "False";
-                String customerId = SharedPrefManager.getInstance(CustomerComplaintActivity.this).getUser().getID();
-                try {
-                    result = new CustomerOrderHelper.CustomerPOSTComplaint().execute(customerId, complaint, Active, Status).get();
-                    Gson gson = new Gson();
-                    final Result jsonbodyres = gson.fromJson(result, Result.class);
-                    Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
-                    // System.out.println("Error: " + e);
-                }
+                    String complaint = editcomplaintinDialog.getText().toString().trim();
+                    String Active = "True";
+                    String Status = "False";
+                    String customerId = SharedPrefManager.getInstance(CustomerComplaintActivity.this).getUser().getID();
+                    try {
+                        result = new CustomerOrderHelper.CustomerPOSTComplaint().execute(customerId, complaint, Active, Status).get();
+                        Gson gson = new Gson();
+                        final Result jsonbodyres = gson.fromJson(result, Result.class);
+                        Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+                        // System.out.println("Error: " + e);
+                    }
+
+
+
                 b.dismiss();
+
+
             }
         });
 
@@ -167,16 +178,31 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
         });
     }
 
+
+
     @Override
     public void onClick(View v) {
         if (v.getId() == addComplaint.getId()) {
-            AddComplaint();
+
+            progressDialog.setMessage("Adding in progress ...");
+            progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
+            progressDialog.show();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                        AddComplaint();
+
+                }
+            }, TIMER);
 
         }
     }
 
     private void AddComplaint() {
-        String complaint = editcomplaint.getText().toString();
+
+        String complaint=editcomplaint.getText().toString();
         String Active = "True";
         String Status = "False";
         String customerId = SharedPrefManager.getInstance(CustomerComplaintActivity.this).getUser().getID();

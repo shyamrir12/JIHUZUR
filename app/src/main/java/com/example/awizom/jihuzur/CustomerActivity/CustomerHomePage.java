@@ -448,7 +448,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-//                finish();
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -478,7 +478,10 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 startActivity(i);
                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
             } else {
-                Toast.makeText(getApplicationContext(), "You Have To Login First", Toast.LENGTH_LONG).show();
+                Intent i = new Intent(CustomerHomePage.this, CustomerLoginRegActivity.class);
+                startActivity(i);
+                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                //Toast.makeText(getApplicationContext(), "You Have To Login First", Toast.LENGTH_LONG).show();
             }
 
 
@@ -529,12 +532,16 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 //            startActivity(intent, startAnimation.toBundle());
 
         } else if (id == R.id.nav_logout) {
-            SharedPrefManager.getInstance(this).logout();
-            showCustomLoadingDialog();
-            Intent login = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
-            login = login.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(login);
-            finish();
+            try {
+                SharedPrefManager.getInstance(this).logout();
+                intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
+                intent = intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
         } else if (id == R.id.profile) {
             if (skipdata.equals("skiplogin")) {
                 showCustomLoadingDialog();

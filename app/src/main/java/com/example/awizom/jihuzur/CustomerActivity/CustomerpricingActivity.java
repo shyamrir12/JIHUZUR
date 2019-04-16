@@ -474,7 +474,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         alertDialog.setNegativeButton("NO",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
+                        finish();
                     }
                 });
 
@@ -714,17 +714,18 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         final View dialogView = inflater.inflate(R.layout.cctv_proing_for, null);
 
         dialogBuilder.setView(dialogView);
-        final ImageView decrease = (ImageView) dialogView.findViewById(R.id.decrease);
-        final ImageView increase = (ImageView) dialogView.findViewById(R.id.increase);
-        final  TextView displayInteger = (TextView) dialogView.findViewById( R.id.integer_number);
-        final  TextView currentpos=(TextView)dialogView.findViewById(R.id.currentpos);
-        final Button changePositon=(Button)dialogView.findViewById(R.id.changePosition);
-        final Button cancel=(Button)dialogView.findViewById(R.id.cancel);
+        final ImageView decrease =  dialogView.findViewById(R.id.decrease);
+        final ImageView increase = dialogView.findViewById(R.id.increase);
+        final  TextView displayInteger =  dialogView.findViewById( R.id.integer_number);
+        final  TextView currentpos=dialogView.findViewById(R.id.currentpos);
+        final Button changePositon=dialogView.findViewById(R.id.changePosition);
+        final Button cancel=dialogView.findViewById(R.id.cancel);
 
         dialogBuilder.setTitle("Add CCTV Quantity");
         dialogBuilder.setIcon(R.drawable.ic_camera_black_24dp);
         final android.support.v7.app.AlertDialog b;
         b = dialogBuilder.create();
+
 
         minteger= Integer.parseInt(currentpos.getText().toString());
         displayInteger.setText(String.valueOf(minteger));
@@ -789,11 +790,15 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                 }
             }
         });
+        if(displayInteger.getText().toString().length() >= 1){
+            decrease.setEnabled(true);
+        }
+
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                b.dismiss();
+               finish();
             }
         });
         b.show();

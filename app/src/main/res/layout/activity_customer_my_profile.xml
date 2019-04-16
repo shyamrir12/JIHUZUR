@@ -67,8 +67,10 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="17sp"
+                android:inputType="text"
                 android:layout_marginTop="7dp"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:cursorVisible="false"/>
 
             <EditText
                 android:id="@+id/Email"
@@ -85,7 +87,8 @@
                 android:textSize="17sp"
                 android:inputType="textEmailAddress"
                 android:layout_marginTop="7dp"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:cursorVisible="false"/>
 
             <EditText
                 android:id="@+id/Adress"
@@ -101,7 +104,8 @@
                 android:paddingRight="10dp"
                 android:textSize="17sp"
                 android:layout_marginTop="7dp"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:cursorVisible="false"/>
         </LinearLayout>
 
         <LinearLayout
