@@ -317,7 +317,6 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements S
       //  Toast.makeText(getApplicationContext(), otp + "OTP", Toast.LENGTH_LONG).show();
         String onetimepwd=otp.split(":")[1];
         otpEditText.setText(onetimepwd);
-
         if (smsReceiver != null) {
             LocalBroadcastManager.getInstance(this).unregisterReceiver(smsReceiver);
         }

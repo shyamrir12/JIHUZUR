@@ -2,10 +2,13 @@ package com.example.awizom.jihuzur.LoginRegistrationActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -29,12 +32,17 @@ import com.example.awizom.jihuzur.SMSTestActicity;
 import com.example.awizom.jihuzur.SmsListener;
 import com.example.awizom.jihuzur.SmsReceiver;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
+import com.google.android.gms.auth.api.phone.SmsRetriever;
+import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 
 import java.util.concurrent.ExecutionException;
 
 
-public class VerifyPhoneActivity extends AppCompatActivity implements View.OnClickListener {
+public class VerifyPhoneActivity extends AppCompatActivity implements SMSReceiver.OTPReceiveListener, View.OnClickListener {
 
     private static int TIMER = 300;
     boolean active = false;
@@ -42,6 +50,7 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
     private Button verifyOtpBtn, resendOTP, countDown;
     private String result, userId = "", otp = "", role = "", image = "", mobile = "", name = "";
     private Intent intent;
+    private SMSReceiver smsReceiver;
     private ProgressDialog progressDialog;
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
@@ -79,10 +88,10 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
         otp = getIntent().getExtras().getString("OTP");
         userId = getIntent().getExtras().getString("Uid");
 
-
         otpEditText = findViewById(R.id.editTextOtp);
         verifyOtpBtn = findViewById(R.id.buttonVerify);
         verifyOtpBtn.setOnClickListener(this);
+        startSMSListener();
         resendOTP = findViewById(R.id.resendOTP);
         countDown = findViewById(R.id.countDown);
         resendOTP.setOnClickListener(this);
@@ -121,6 +130,34 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
         }.start();
 
     }
+
+    private void startSMSListener() {
+        try {
+            smsReceiver = new SMSReceiver();
+            smsReceiver.setOTPListener(this);
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(SmsRetriever.SMS_RETRIEVED_ACTION);
+            this.registerReceiver(smsReceiver, intentFilter);
+            SmsRetrieverClient client = SmsRetriever.getClient(this);
+            Task<Void> task = client.startSmsRetriever();
+            task.addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    // API successfully started
+                }
+            });
+
+            task.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // Fail to start API
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /*For Event Listeners */
     @Override
@@ -260,4 +297,22 @@ public class VerifyPhoneActivity extends AppCompatActivity implements View.OnCli
     }
 
 
+    @Override
+    public void onOTPReceived(String otp) {
+        String onetimepwd=otp.split(":")[1];
+        otpEditText.setText(onetimepwd);
+        if (smsReceiver != null) {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(smsReceiver);
+        }
+    }
+
+    @Override
+    public void onOTPTimeOut() {
+
+    }
+
+    @Override
+    public void onOTPReceivedError(String error) {
+
+    }
 }
