@@ -97,29 +97,29 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements S
         mobile = getIntent().getExtras().getString("Mobile");
         name = getIntent().getExtras().getString("Name");
 
-        SmsReceiver.bindListener(new SmsListener() {
-            @Override
-            public void messageReceived(String messageText) {
-                Log.d("Text", messageText);
-                // Toast.makeText(VerifyPhoneActivity.this,"Message: "+messageText,Toast.LENGTH_LONG).show();
-                String sms = messageText;
-                String[] smsSplit = messageText.split(":");
-                otpEditText.setText(smsSplit[1]);
-            }
-        });
+//        SmsReceiver.bindListener(new SmsListener() {
+//            @Override
+//            public void messageReceived(String messageText) {
+//                Log.d("Text", messageText);
+//                // Toast.makeText(VerifyPhoneActivity.this,"Message: "+messageText,Toast.LENGTH_LONG).show();
+//                String sms = messageText;
+//                String[] smsSplit = messageText.split(":");
+//                otpEditText.setText(smsSplit[1]);
+//            }
+//        });
 
-//        new CountDownTimer(60000, 1000) {
-//
-//            public void onTick(long millisUntilFinished) {
-//                countDown.setText("" + millisUntilFinished / 1000);
-//                resendOTP.setVisibility(View.GONE);
-//            }
-//
-//            public void onFinish() {
-//                countDown.setText("00:00");
-//                resendOTP.setVisibility(View.VISIBLE);
-//            }
-//        }.start();
+        new CountDownTimer(60000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                countDown.setText("" + millisUntilFinished / 1000);
+                resendOTP.setVisibility(View.GONE);
+            }
+
+            public void onFinish() {
+                countDown.setText("00:00");
+                resendOTP.setVisibility(View.VISIBLE);
+            }
+        }.start();
     }
 
     private void startSMSListener() {

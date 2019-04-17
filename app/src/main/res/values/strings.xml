@@ -278,4 +278,5 @@
     <string name="title_activity_new_customer_home">NewCustomerHome</string>
     <string name="title_activity_quick_action">QuickAction</string>
     <string name="skiplogin"><u>Skip Login</u></string>
+    <string name="query">If you have any kind of query please call customer tollfree number here is</string>
 </resources>
