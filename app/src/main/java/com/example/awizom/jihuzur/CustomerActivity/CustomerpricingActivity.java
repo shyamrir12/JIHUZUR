@@ -759,6 +759,9 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
             }
         });
 
+
+
+
         increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -775,19 +778,17 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         decrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                minteger--;
-                try {
-                    displayInteger.setText(String.valueOf(minteger));
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
+                if(minteger != 1) {
+                    minteger--;
+                    try {
+                        displayInteger.setText(String.valueOf(minteger));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
-        if(displayInteger.getText().toString().length() >= 1){
-            decrease.setEnabled(true);
-        }
+
 
 
         cancel.setOnClickListener(new View.OnClickListener() {

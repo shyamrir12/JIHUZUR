@@ -33,19 +33,22 @@ public class CustomerSplashActivity  extends AppCompatActivity {
                         intent = new Intent(CustomerSplashActivity.this, CustomerHomePage.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                          finish();
 
                     } else {
                         Intent intent = new Intent(CustomerSplashActivity.this, CustomerLoginRegActivity.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                          finish();
                     }
                 } else {
                     Intent intent = new Intent(CustomerSplashActivity.this, CustomerLoginRegActivity.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                    finish();
                 }
                 // close this activity
-                finish();
+
             }
         }, SPLASH_TIME_OUT);
     }

@@ -103,7 +103,7 @@
                         android:backgroundTint="@color/white"
                         android:layout_weight="1"
                         android:layout_gravity="center_horizontal|center"
-                        app:srcCompat="@drawable/ic_rate_review_black_24dp" />
+                        app:srcCompat="@drawable/ic_assignment_black_24dp" />
                 </LinearLayout>
                 <view
                     android:id="@+id/v1"

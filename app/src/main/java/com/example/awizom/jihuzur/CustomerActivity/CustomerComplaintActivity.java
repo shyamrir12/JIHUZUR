@@ -87,18 +87,18 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String createComplaint = parent.getItemAtPosition(position).toString();
                 if (createComplaint.equals("Create Complaint")) {
-                    Toast.makeText(getApplicationContext(), "" + createComplaint, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "" + createComplaint, Toast.LENGTH_SHORT).show();
                         showCreateComplaintDialog();
                 }
                 String activeComplaint = parent.getItemAtPosition(position).toString();
                 if (activeComplaint.equals("Active Complaint")) {
-                    Toast.makeText(getApplicationContext(), "" + activeComplaint, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(), "" + activeComplaint, Toast.LENGTH_SHORT).show();
                     String status = "False";
                     getComplaintList(status);
                 }
                 String solvedComplaint = parent.getItemAtPosition(position).toString();
                 if (solvedComplaint.equals("Solved Complaint")) {
-                    Toast.makeText(getApplicationContext(), "" + solvedComplaint, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(), "" + solvedComplaint, Toast.LENGTH_SHORT).show();
                     String status = "True";
                     getComplaintList(status);
                 }
@@ -143,20 +143,24 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
             @Override
             public void onClick(View view) {
 
-                    String complaint = editcomplaintinDialog.getText().toString().trim();
-                    String Active = "True";
-                    String Status = "False";
-                    String customerId = SharedPrefManager.getInstance(CustomerComplaintActivity.this).getUser().getID();
-                    try {
-                        result = new CustomerOrderHelper.CustomerPOSTComplaint().execute(customerId, complaint, Active, Status).get();
-                        Gson gson = new Gson();
-                        final Result jsonbodyres = gson.fromJson(result, Result.class);
-                        Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
-                        // System.out.println("Error: " + e);
-                    }
+                  if(!editcomplaintinDialog.getText().toString().trim().equals("")) {
+                      String complaint = editcomplaintinDialog.getText().toString();
+                      String Active = "True";
+                      String Status = "False";
+                      String customerId = SharedPrefManager.getInstance(CustomerComplaintActivity.this).getUser().getID();
+                      try {
+                          result = new CustomerOrderHelper.CustomerPOSTComplaint().execute(customerId, complaint, Active, Status).get();
+                          Gson gson = new Gson();
+                          final Result jsonbodyres = gson.fromJson(result, Result.class);
+                          Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                      } catch (Exception e) {
+                          e.printStackTrace();
+                          Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+                          // System.out.println("Error: " + e);
+                      }
+                  }else {
+                      Toast.makeText(getApplicationContext(), "Please enter the value first", Toast.LENGTH_SHORT).show();
+                  }
 
 
 
@@ -171,6 +175,7 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
             @Override
             public void onClick(View view) {
                 b.dismiss();
+
                 /*
                  * we will code this method to delete the artist
                  * */
