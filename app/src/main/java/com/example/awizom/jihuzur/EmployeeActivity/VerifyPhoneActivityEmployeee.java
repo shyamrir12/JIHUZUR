@@ -39,10 +39,10 @@ import com.google.gson.Gson;
 
 import java.util.concurrent.ExecutionException;
 
-public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements  SMSReceiver.OTPReceiveListener,View.OnClickListener {
+public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements SMSReceiver.OTPReceiveListener, View.OnClickListener {
 
     private EditText otpEditText;
-    private Button verifyOtpBtn,resendOTP, countDown;
+    private Button verifyOtpBtn, resendOTP, countDown;
     private String result, userId = "", otp = "", role = "", image = "", mobile = "", name = "";
     public static final String TAG = VerifyPhoneActivityEmployeee.class.getSimpleName();
     private SMSReceiver smsReceiver;
@@ -51,6 +51,7 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements  
     private ProgressDialog progressDialog;
     private static int TIMER = 300;
     ViewDialog viewDialog;
+
     /*For layout binding */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +100,7 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements  
         SmsReceiver.bindListener(new SmsListener() {
             @Override
             public void messageReceived(String messageText) {
-                Log.d("Text",messageText);
+                Log.d("Text", messageText);
                 // Toast.makeText(VerifyPhoneActivity.this,"Message: "+messageText,Toast.LENGTH_LONG).show();
                 String sms = messageText;
                 String[] smsSplit = messageText.split(":");
@@ -174,7 +175,6 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements  
                                 dataProfile.MobileNo = mobile;
                                 dataProfile.Name = name;
                                 SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
-
                                 if (SharedPrefManager.getInstance(getApplicationContext()).getUser().Name != null) {
                                     showCustomLoadingDialog();
                                     intent = new Intent(VerifyPhoneActivityEmployeee.this, EmployeeHomePage.class);
@@ -231,7 +231,7 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements  
                 progressDialog.dismiss();
                 Gson gson = new Gson();
                 UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
-           //     Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
+                //     Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
 
                 if (!result.equals(null)) {
 
@@ -314,7 +314,9 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements  
 
     @Override
     public void onOTPReceived(String otp) {
-        Toast.makeText(getApplicationContext(),otp+"OTP",Toast.LENGTH_LONG).show();
+      //  Toast.makeText(getApplicationContext(), otp + "OTP", Toast.LENGTH_LONG).show();
+        String onetimepwd=otp.split(":")[1];
+        otpEditText.setText(onetimepwd);
 
         if (smsReceiver != null) {
             LocalBroadcastManager.getInstance(this).unregisterReceiver(smsReceiver);
@@ -323,11 +325,11 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements  
 
     @Override
     public void onOTPTimeOut() {
-      Toast.makeText(getApplicationContext(),"OTP Time out",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "OTP Time out", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onOTPReceivedError(String error) {
-        Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
     }
 }

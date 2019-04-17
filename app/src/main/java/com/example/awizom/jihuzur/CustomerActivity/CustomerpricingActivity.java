@@ -439,15 +439,12 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle("Order Create");
         alertDialog.setMessage("Do you want to place this order ?");
-
         final EditText input = new EditText(this);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
         input.setLayoutParams(lp);
         input.setHint("Enter coupon code");
-
-
         alertDialog.setView(input);
         alertDialog.setIcon(R.drawable.ic_dashboard_black_24dp);
 
@@ -498,7 +495,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
             priceIds = priceID;
         }
         try {
-
             result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId, priceIds, coupncode,quanTity).get();
             Gson gson = new Gson();
             Type getType = new TypeToken<ResultModel>() {
@@ -618,7 +614,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
             e.printStackTrace();
         }
 
-
         //   PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
       /*  Notification noti = new Notification.Builder(this)
                 .setContentTitle("JiHUzzur Otp for Order")
@@ -628,7 +623,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         // hide the notification after its selected
         noti.flags |= Notification.FLAG_NO_CLEAR;
-
         notificationManager.notify(randomNumber, noti);
 */
 

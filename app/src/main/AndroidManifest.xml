@@ -111,6 +111,7 @@
         <activity
             android:name=".CustomerActivity.CustomerSplashActivity"
             android:theme="@style/AppFullScreenTheme">
+
         </activity>
         <activity
             android:name=".SplashActivityAdmin"
