@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toolbar;
@@ -25,8 +26,9 @@ import com.example.awizom.jihuzur.EmployeeActivity.AppSignatureHashHelper;
 public class HelpCenterActivity extends AppCompatActivity {
 
     private ImageView call;
-    private String mobileNo="";
+    private String mobileNo = "";
     private TextView tollFreeNumber;
+    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,34 +52,37 @@ public class HelpCenterActivity extends AppCompatActivity {
             }
         });
 
-        toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
-        toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
+        toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
+        toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
         toolbar.setTitleTextColor(Color.WHITE);
 
         call = findViewById(R.id.calling);
         tollFreeNumber = findViewById(R.id.tollNumber);
 
-        AppSignatureHashHelper appSignatureHashHelper = new AppSignatureHashHelper(this);
-// This code requires one time to get Hash keys do comment and share key
-        Log.d("AppHashKEy", "Apps Hash Key: " + appSignatureHashHelper.getAppSignatures().get(0));
 
-        call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + tollFreeNumber.getText().toString()));
-                if (ActivityCompat.checkSelfPermission(HelpCenterActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return;
+        try {
+            call.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    v.startAnimation(buttonClick);
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + tollFreeNumber.getText().toString()));
+                    if (ActivityCompat.checkSelfPermission(HelpCenterActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    startActivity(intent);
                 }
-                startActivity(intent);
-            }
-        });
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 }

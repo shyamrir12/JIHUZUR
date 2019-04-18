@@ -1,5 +1,8 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -91,6 +95,9 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
     private String customerID = "", employeeID = "";
     ViewDialog viewDialog;
     private ImageView employeeImage;
+    private ProgressDialog progressDialog;
+    private static int TIMER = 00;
+
     //SwipeRefreshLayout mSwipeRefreshLayout;
 
 
@@ -130,6 +137,8 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         ratingBar = findViewById(R.id.rating);
         review = findViewById(R.id.review);
         txtRatingValue = findViewById(R.id.txtRatingValue);
+        progressDialog = new ProgressDialog(CustomerCommentActivity.this);
+
 
         employeeImage = findViewById(R.id.imageEmp);
         employeeImageLink = findViewById(R.id.imglink);
@@ -225,42 +234,7 @@ employeeImageLink.setText(AppConfig.BASE_URL+imagelink);
                 break;
             case R.id.cancel:
                 showCustomLoadingDialog();
-                try {
-                    result = new CustomerOrderHelper.CancelOrder().execute(orderID).get();
-//                    Toast.makeText(CustomerCommentActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
-                    Gson gson = new Gson();
-                    Type getType = new TypeToken<ResultModel>() {
-                    }.getType();
-                    ResultModel resultModel = new Gson().fromJson(result, getType);
-                    if (resultModel.getStatus().equals(true)) {
-                        String employeeid = resultModel.getEmployeeID().toString();
-                        Map<String, Object> profile = new HashMap<>();
-                        profile.put("busystatus", false);
-
-                        db.collection("Profile").document(employeeid).update(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "DocumentSnapshot successfully written!");
-                            }
-                        })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.w(TAG, "Error writing document", e);
-                                    }
-                                });
-                        //   canclBtn.setVisibility(View.GONE);
-
-                        intent = new Intent(this,MyBokingsActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-                    }
-
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                showTheAlertOrderDailogue();
 
                 break;
             case R.id.viewDetail:
@@ -270,23 +244,65 @@ employeeImageLink.setText(AppConfig.BASE_URL+imagelink);
                 break;
 
             case R.id.buttonAddCategory:
+                if(!review.getText().toString().trim().equals("")) {
+                    showCustomLoadingDialog();
+                    String rate = txtRatingValue.getText().toString().split("", 3)[1];
+                    String revie = review.getText().toString().trim();
+                    try {
+                        result = new CustomerOrderHelper.CustomerPostRating().execute(revie, rate, orderID).get();
+                        Gson gson = new Gson();
+                        final Result jsonbodyres = gson.fromJson(result, Result.class);
+                        Toast.makeText(this, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                    }
+                }else {
+                    Toast.makeText(getApplicationContext(), "Please enter the value first", Toast.LENGTH_SHORT).show();
 
-                showCustomLoadingDialog();
-                String rate = txtRatingValue.getText().toString().split("", 3)[1];
-                String revie = review.getText().toString().trim();
-                try {
-                    result = new CustomerOrderHelper.CustomerPostRating().execute(revie, rate, orderID).get();
-                    Gson gson = new Gson();
-                    final Result jsonbodyres = gson.fromJson(result, Result.class);
-                    Toast.makeText(this, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
                 }
 
                 break;
             case R.id.buttonCancel:
-                showCustomLoadingDialog();
                 review.setText("");
                 break;
+        }
+    }
+
+    private void orderCancelPost() {
+        try {
+            result = new CustomerOrderHelper.CancelOrder().execute(orderID).get();
+//                    Toast.makeText(CustomerCommentActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
+            Gson gson = new Gson();
+            Type getType = new TypeToken<ResultModel>() {
+            }.getType();
+            ResultModel resultModel = new Gson().fromJson(result, getType);
+            if (resultModel.getStatus().equals(true)) {
+                String employeeid = resultModel.getEmployeeID().toString();
+                Map<String, Object> profile = new HashMap<>();
+                profile.put("busystatus", false);
+
+                db.collection("Profile").document(employeeid).update(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+                //   canclBtn.setVisibility(View.GONE);
+
+                intent = new Intent(this,MyBokingsActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+            }
+
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -380,6 +396,50 @@ employeeImageLink.setText(AppConfig.BASE_URL+imagelink);
 
       }
   */
+
+    private void showTheAlertOrderDailogue() {
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Order Cancel");
+        alertDialog.setMessage("Do you want to cancel this order ?");
+        final EditText input = new EditText(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+
+        alertDialog.setIcon(R.drawable.ic_dashboard_black_24dp);
+
+        alertDialog.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String dicountCoupan = input.getText().toString();
+                        progressDialog.setMessage("Cancel in progress ...");
+                        progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
+                        progressDialog.show();
+
+                        new Handler().postDelayed(new Runnable() {
+
+                            @Override
+                            public void run() {
+
+                                orderCancelPost();
+                            }
+                        }, TIMER);
+                    }
+                });
+
+        alertDialog.setNegativeButton("NO",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+
+        alertDialog.show();
+
+
+    }
+
 
     public void showCustomLoadingDialog() {
 

@@ -297,7 +297,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         v.startAnimation(buttonClick);
         switch (v.getId()) {
             case R.id.buttonNext:
-                showCustomLoadingDialog();
+//                showCustomLoadingDialog();
 
                // Toast.makeText(getApplicationContext(),postal_code,Toast.LENGTH_LONG).show();
                 if(description.equals("For CCTV")){

@@ -2,6 +2,7 @@ package com.example.awizom.jihuzur.CustomerActivity;
 
 import android.app.ActivityOptions;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -43,6 +44,8 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
     String[] SPINNERLIST = {"Active Complaint", "Create Complaint", "Solved Complaint"};
     private ProgressDialog progressDialog;
     private static int TIMER = 300;
+    String check;
+    private Spinner spinner;
 
     //test
     @Override
@@ -63,6 +66,8 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
             @Override
             public void onClick(View v) {
                 ActivityOptions options = ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.fui_slide_out_left, R.anim.fui_slide_in_right);
+//                Intent intent = new Intent(getApplicationContext(),CustomerComplaintActivity.class);
+//                startActivity(intent);
                 onBackPressed();
             }
         });
@@ -78,17 +83,20 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        Spinner spinner = findViewById(R.id.spinner2);
+        spinner = findViewById(R.id.spinner2);
         addComplaint.setOnClickListener(this);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, SPINNERLIST);
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, SPINNERLIST);
         spinner.setAdapter(arrayAdapter);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 String createComplaint = parent.getItemAtPosition(position).toString();
+
                 if (createComplaint.equals("Create Complaint")) {
                     //Toast.makeText(getApplicationContext(), "" + createComplaint, Toast.LENGTH_SHORT).show();
-                        showCreateComplaintDialog();
+                    showCreateComplaintDialog();
                 }
                 String activeComplaint = parent.getItemAtPosition(position).toString();
                 if (activeComplaint.equals("Active Complaint")) {
@@ -128,8 +136,9 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
 
     private void showCreateComplaintDialog() {
 
+
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
+        final LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.add_customercomplaint, null);
         dialogBuilder.setView(dialogView);
         editcomplaintinDialog = (AutoCompleteTextView) dialogView.findViewById(R.id.editComplaint);
@@ -174,8 +183,9 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                b.dismiss();
-
+                final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(CustomerComplaintActivity.this, android.R.layout.simple_dropdown_item_1line, SPINNERLIST);
+                spinner.setAdapter(arrayAdapter);
+              b.dismiss();
                 /*
                  * we will code this method to delete the artist
                  * */
@@ -228,6 +238,8 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
 
 
     }
+
+
 
 
 }

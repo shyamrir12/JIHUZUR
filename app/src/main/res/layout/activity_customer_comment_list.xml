@@ -183,7 +183,7 @@
                         android:layout_height="50dp"
                         android:layout_gravity="center_horizontal|center"
                         android:numStars="5"
-                        android:rating="3.0"
+                        android:rating="0.0"
                         android:stepSize="1.0" />
 
 
@@ -276,7 +276,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:text="Cancel"
+                        android:text="Clear"
                         android:textColor="@color/white"
                         android:fontFamily="@font/fonts"
                         android:background="@drawable/adapter_btn_background"/>
