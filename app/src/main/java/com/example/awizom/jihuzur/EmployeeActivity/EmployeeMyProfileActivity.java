@@ -1,5 +1,6 @@
 package com.example.awizom.jihuzur.EmployeeActivity;
 
+import android.accounts.AccountManager;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -22,10 +23,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -40,6 +43,8 @@ import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
+import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.common.AccountPicker;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -64,7 +69,8 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
     Button upload;
     ProgressDialog pd;
     de.hdodenhof.circleimageview.CircleImageView imageView;
-    EditText yourname,email,address;
+    EditText yourname,address;
+    TextView email;
     Intent intent = new Intent();
     String result = "", img_str, identimage_str;
     ImageView identityImage;
@@ -83,7 +89,6 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
         upload = findViewById(R.id.upload);
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Profile");
-
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -92,15 +97,28 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
         toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
         toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
         toolbar.setTitleTextColor(Color.WHITE);
-
         pd = new ProgressDialog(this);
         pd.setMessage("Uploading....");
         yourname = (EditText) findViewById(R.id.name);
-        email=(EditText)findViewById(R.id.Email);
+        yourname.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                yourname.setCursorVisible(true);
+                return false;
+            }
+        });
+        email=(TextView) findViewById(R.id.Email);
+        email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent googlePicker = AccountPicker.newChooseAccountIntent(null, null, new String[]{GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE}, true, null, null, null, null);
+                startActivityForResult(googlePicker, 201);
+            }
+        });
+
         address=(EditText)findViewById(R.id.Adress);
         imageView = findViewById(R.id.imageView);
         identityImage = findViewById(R.id.identityImage);
@@ -148,9 +166,11 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }*/
+
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pd.show();
                 imageView.buildDrawingCache();
                 Bitmap bitmap = imageView.getDrawingCache();
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -186,7 +206,7 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     final Result jsonbodyres = gson.fromJson(result, Result.class);
                     DataProfile dataProfile = new DataProfile();
-
+                    Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_LONG).show();
                     dataProfile.Image = jsonbodyres.Image;
                     dataProfile.Name = jsonbodyres.Name;
                     dataProfile.Email = jsonbodyres.Email;
@@ -195,21 +215,24 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
                     SharedPrefManager.getInstance(EmployeeMyProfileActivity.this).getUser().setImage(String.valueOf(dataProfile));
                     /*   SharedPrefManager.getInstance(DrawingActivity.this).getUser().setName(String.valueOf(yourname.getText()));*/
                     if (SharedPrefManager.getInstance(EmployeeMyProfileActivity.this).getUser().getImage() != null) {
-                        Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
+
                     }
 
-                   {
+                 /*  {
                        if(dataProfile.isActiveStatus()) {
                            intent = new Intent(EmployeeMyProfileActivity.this, EmployeeHomePage.class);
                            startActivity(intent);
                        }else {
                            Toast.makeText(getApplicationContext(),"Please Contact your admin",Toast.LENGTH_SHORT).show();
                        }
-                    }
+                    }*/
 
                 } catch (Exception e) {
 
                 }
+                intent =new Intent(EmployeeMyProfileActivity.this,EmployeeHomePage.class);
+                startActivity(intent);
+
             }
 
         });
@@ -311,6 +334,11 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 201 && resultCode == RESULT_OK) {
+            String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+            email.setText(accountName);
+        }
+
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == IMAGE_RESULT) {
                 String filePath = getImageFilePath(data);

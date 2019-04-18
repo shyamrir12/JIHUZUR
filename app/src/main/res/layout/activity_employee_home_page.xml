@@ -11,107 +11,114 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/layout_order_tabitem"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tablayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            app:tabSelectedTextColor="@color/white"
-            app:tabTextAppearance="@style/styleB"
-            app:tabTextColor="@color/white"
-            android:layout_marginTop="50dp">
-
-            <android.support.design.widget.TabItem
-                android:id="@+id/outgoing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Current Order" />
-
-            <android.support.design.widget.TabItem
-                android:id="@+id/history"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Order History" />
-
-        </android.support.design.widget.TabLayout>
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_start_end_btn"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_below="@+id/layout_order_tabitem"
-        android:layout_alignParentBottom="true">
-        <view
-            class="android.support.v7.app.AlertController$RecycleListView"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/grey" />
-        <LinearLayout
-            android:id="@+id/l1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <view
-                class="android.support.v7.app.AlertController$RecycleListView"
-                android:layout_width="2dp"
+            <LinearLayout
+                android:id="@+id/layout_order_tabitem"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/grey" />
+                android:orientation="vertical">
+
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tablayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:background="@color/colorPrimary"
+                    app:tabSelectedTextColor="@color/white"
+                    app:tabTextAppearance="@style/styleB"
+                    app:tabTextColor="@color/white">
+
+                    <android.support.design.widget.TabItem
+                        android:id="@+id/outgoing"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Current Order" />
+
+                    <android.support.design.widget.TabItem
+                        android:id="@+id/history"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Order History" />
+
+                </android.support.design.widget.TabLayout>
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_start_end_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/layout_order_tabitem"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <view
+                    class="android.support.v7.app.AlertController$RecycleListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/grey" />
+
+                <LinearLayout
+                    android:id="@+id/l1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <view
+                        class="android.support.v7.app.AlertController$RecycleListView"
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/grey" />
 
 
-        </LinearLayout>
-        <view
-            class="android.support.v7.app.AlertController$RecycleListView"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/grey"
-            android:layout_marginTop="10dp"/>
+                </LinearLayout>
 
-    </LinearLayout>
+                <view
+                    class="android.support.v7.app.AlertController$RecycleListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/grey" />
+
+            </LinearLayout>
 
         </RelativeLayout>
     </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <FrameLayout
-            android:layout_marginTop="65dp"
+            android:id="@+id/home_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/home_container" />
+            android:layout_marginTop="65dp" />
+
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:itemBackground="@color/colorPrimary"
             android:background="#ffffff"
-            app:menu="@menu/navigation"
-            app:itemTextColor="@color/colorPrimary" />
+            android:itemBackground="@color/colorPrimary"
+            app:itemTextColor="@color/colorPrimary"
+            app:menu="@menu/navigation" />
     </RelativeLayout>
+
     <include
         layout="@layout/app_bar_employee_home_page"
         android:layout_width="match_parent"
@@ -123,9 +130,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_employee_home_page"
         app:itemIconTint="#8c000000"
         app:itemTextColor="#e6000000"
-        app:headerLayout="@layout/nav_header_employee_home_page"
         app:menu="@menu/activity_employee_home_page_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

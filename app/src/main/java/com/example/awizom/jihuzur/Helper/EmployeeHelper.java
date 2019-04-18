@@ -37,8 +37,7 @@ public class EmployeeHelper extends AppCompatActivity {
 
                 FormBody.Builder parameters = new FormBody.Builder();
                 parameters.add("ID", id);
-                parameters.add("Name",
-                        name);
+                parameters.add("Name", name);
                 parameters.add("Image", image);
                 parameters.add("IdentityImage", identityimage);
                 parameters.add("Lat", latitude);

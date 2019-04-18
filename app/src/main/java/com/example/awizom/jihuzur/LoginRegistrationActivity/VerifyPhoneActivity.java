@@ -270,7 +270,6 @@ public class VerifyPhoneActivity extends AppCompatActivity implements SMSReceive
                         dataProfile.MobileNo = mobile;
                         SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
 
-
                             if(dataProfile.Name != null){
                                 intent = new Intent(VerifyPhoneActivity.this, CustomerHomePage.class);
                                 startActivity(intent);

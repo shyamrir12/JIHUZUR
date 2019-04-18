@@ -176,12 +176,12 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements S
                                 dataProfile.Name = name;
                                 SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
                                 if (SharedPrefManager.getInstance(getApplicationContext()).getUser().Name != null) {
-                                    showCustomLoadingDialog();
+                                 /*   showCustomLoadingDialog();*/
                                     intent = new Intent(VerifyPhoneActivityEmployeee.this, EmployeeHomePage.class);
                                     startActivity(intent);
                                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                                 } else {
-                                    showCustomLoadingDialog();
+                                   /* showCustomLoadingDialog();*/
                                     intent = new Intent(VerifyPhoneActivityEmployeee.this, EmployeeMyProfileActivity.class);
                                     startActivity(intent);
 
@@ -324,11 +324,11 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements S
 
     @Override
     public void onOTPTimeOut() {
-        Toast.makeText(getApplicationContext(), "OTP Time out", Toast.LENGTH_LONG).show();
+      //  Toast.makeText(getApplicationContext(), "OTP Time out", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onOTPReceivedError(String error) {
-        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+      //  Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
     }
 }

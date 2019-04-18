@@ -569,7 +569,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 
             Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
             sharingIntent.setType("text/plain");
-            String shareBody = "Here is the share content body";
+            String shareBody = "https://play.google.com/store/apps/details?id=com.awizom.jihuzur";
             sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
             sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
             startActivity(Intent.createChooser(sharingIntent, "Share via"));

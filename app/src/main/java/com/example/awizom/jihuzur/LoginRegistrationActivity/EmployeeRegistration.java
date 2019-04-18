@@ -51,7 +51,7 @@ import java.util.concurrent.ExecutionException;
 public class EmployeeRegistration extends AppCompatActivity implements View.OnClickListener {
 
     private EditText editTextMobile;
-    private TextView skiplogin;
+
     private Button butonContinue;
     private String ur = "User", result = "";
     private ProgressDialog progressDialog;

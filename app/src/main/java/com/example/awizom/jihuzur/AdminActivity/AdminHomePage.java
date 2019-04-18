@@ -765,9 +765,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 ordernotification.put("employeemob", false);
                 ordernotification.put("servicename", false);*/
 
-
                                     ordernotification.put("employeeid", idmark);
-
                                     db.collection("SendOrderPhoto").document(idmark)
                                             .set(ordernotification)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
