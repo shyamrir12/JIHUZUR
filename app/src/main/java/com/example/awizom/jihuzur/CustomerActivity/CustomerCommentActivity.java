@@ -254,6 +254,7 @@ employeeImageLink.setText(AppConfig.BASE_URL+imagelink);
                         Gson gson = new Gson();
                         final Result jsonbodyres = gson.fromJson(result, Result.class);
                         Toast.makeText(this, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                        getreviewByOrder();
                     } catch (Exception e) {
                     }
                 }else {
