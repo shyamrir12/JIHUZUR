@@ -2,11 +2,13 @@ package com.example.awizom.jihuzur.CustomerActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +16,7 @@ import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerReply
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Model.Reply;
 import com.example.awizom.jihuzur.R;
+import com.example.awizom.jihuzur.ViewDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
@@ -31,6 +34,8 @@ public class CustomerReplyActivity extends AppCompatActivity implements View.OnC
     CustomerReplyAdapter customerReplyAdapter;
     private boolean active=true;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    ViewDialog viewDialog;
+    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,14 +71,14 @@ public class CustomerReplyActivity extends AppCompatActivity implements View.OnC
 
 
 
-
+        viewDialog=new ViewDialog(this);
         sendButton = findViewById(R.id.sendBtn);
         edittxtViewReply = findViewById(R.id.txtReply);
         reviewMsz = findViewById(R.id.reviewMsg);
         reviewDate = findViewById(R.id.reviewdate);
 
         reviewMsz.setText(reView.toString());
-        reviewDate.setText(reviewdate.toString());
+        reviewDate.setText(reviewdate.toString().split("T")[0]);
         mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -114,8 +119,10 @@ public class CustomerReplyActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View v) {
+        v.startAnimation(buttonClick);
         switch (v.getId()){
             case R.id.sendBtn:
+                showCustomLoadingDialog();
                 postReply();
                 break;
         }
@@ -126,12 +133,31 @@ public class CustomerReplyActivity extends AppCompatActivity implements View.OnC
         try {
             result = new CustomerOrderHelper.PostReviewReply().execute(replyID.toString(),edittxtViewReply.getText().toString(),reviewID.toString(), String.valueOf(active)).get();
             if (!result.isEmpty()) {
-                Toast.makeText(this, result.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, result.toString(), Toast.LENGTH_SHORT).show();
             }
+
+                        getReplyList();
+
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void showCustomLoadingDialog() {
+
+        //..show gif
+        viewDialog.showDialog();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //...here i'm waiting 5 seconds before hiding the custom dialog
+                //...you can do whenever you want or whenever your work is done
+                viewDialog.hideDialog();
+            }
+        }, 1000);
     }
 }

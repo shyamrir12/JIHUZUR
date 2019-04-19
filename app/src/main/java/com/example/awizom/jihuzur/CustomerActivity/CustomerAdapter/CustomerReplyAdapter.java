@@ -48,7 +48,7 @@ public class CustomerReplyAdapter extends  RecyclerView.Adapter<CustomerReplyAda
         try {
             holder.replyIDs.setText(String.valueOf(reply.getReplyID()));
             holder.replyTxt.setText(reply.getReply());
-            holder.replyDate.setText(reply.getReplyDate());
+            holder.replyDate.setText(reply.getReplyDate().split("T")[0]);
 
         }catch (Exception e){
             e.printStackTrace();

@@ -98,6 +98,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
     private ProgressDialog progressDialog;
     private static int TIMER = 00;
 
+
     //SwipeRefreshLayout mSwipeRefreshLayout;
 
 
@@ -399,10 +400,11 @@ employeeImageLink.setText(AppConfig.BASE_URL+imagelink);
 
     private void showTheAlertOrderDailogue() {
 
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle("Order Cancel");
         alertDialog.setMessage("Do you want to cancel this order ?");
-        final EditText input = new EditText(this);
+
+
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
@@ -412,7 +414,7 @@ employeeImageLink.setText(AppConfig.BASE_URL+imagelink);
         alertDialog.setPositiveButton("YES",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        String dicountCoupan = input.getText().toString();
+
                         progressDialog.setMessage("Cancel in progress ...");
                         progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
                         progressDialog.show();
@@ -431,7 +433,7 @@ employeeImageLink.setText(AppConfig.BASE_URL+imagelink);
         alertDialog.setNegativeButton("NO",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        finish();
+                        dialog.dismiss();
                     }
                 });
 

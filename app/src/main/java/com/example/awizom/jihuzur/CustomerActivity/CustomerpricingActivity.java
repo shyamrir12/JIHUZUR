@@ -400,6 +400,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 
                         public void onClick(DialogInterface arg0,
                                             int arg1) {
+
                             String  quant = quanTitys;
                             showTheAlertOrderDailogue(quant);
                            /* if(postal_code.equals("492001")||postal_code.equals("492004")||postal_code.equals("492013")||postal_code.equals("492007")) {
@@ -471,7 +472,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         alertDialog.setNegativeButton("NO",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        finish();
+                       dialog.dismiss();
                     }
                 });
 
