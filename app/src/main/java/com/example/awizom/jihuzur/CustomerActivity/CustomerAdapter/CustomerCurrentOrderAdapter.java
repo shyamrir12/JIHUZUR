@@ -503,7 +503,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                 //...you can do whenever you want or whenever your work is done
                 viewDialog.hideDialog();
             }
-        }, 1000);
+        }, 500);
     }
 
 
