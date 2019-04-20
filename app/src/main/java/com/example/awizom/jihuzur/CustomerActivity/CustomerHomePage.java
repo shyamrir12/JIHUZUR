@@ -289,7 +289,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     }
 
     private void showdialogforGPS() {
-
+//
         final String action = Settings.ACTION_LOCATION_SOURCE_SETTINGS;
         AlertDialog.Builder alertbox = new AlertDialog.Builder(CustomerHomePage.this);
         alertbox.setIcon(R.drawable.map_logo);
