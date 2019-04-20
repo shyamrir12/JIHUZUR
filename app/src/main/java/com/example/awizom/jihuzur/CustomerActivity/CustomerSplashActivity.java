@@ -31,21 +31,24 @@ public class CustomerSplashActivity  extends AppCompatActivity {
                       if (SharedPrefManager.getInstance(getApplicationContext()).getUser().getRole().equals("Customer")) {
 
                         intent = new Intent(CustomerSplashActivity.this, CustomerHomePage.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-                          finish();
+                        //finish();
 
                     } else {
                         Intent intent = new Intent(CustomerSplashActivity.this, CustomerLoginRegActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-                          finish();
+                        //finish();
                     }
                 } else {
                     Intent intent = new Intent(CustomerSplashActivity.this, CustomerLoginRegActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-                    finish();
+                   // finish();
                 }
                 // close this activity
 
