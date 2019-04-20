@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -90,6 +91,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
     FirebaseFirestore db;
     de.hdodenhof.circleimageview.CircleImageView employeeImage;
     ImageView call;
+    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -225,13 +227,14 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                     }
                     String name = dataProfileEmployee.getName();
                     final String mobileNo = dataProfileEmployee.getMobileNo();
-                    employeeDetails.setText(name + " ," + mobileNo);
+                    employeeDetails.setText(name + "," +" " + mobileNo);
 
                     empLatLng = new LatLng(Double.valueOf(String.valueOf(dataProfileEmployee.getLat())),
                             Double.valueOf(String.valueOf(dataProfileEmployee.getLong())));
                     call.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            v.startAnimation(buttonClick);
                             Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mobileNo));
                             if (ActivityCompat.checkSelfPermission(TrackActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                                 // TODO: Consider calling
@@ -372,7 +375,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         currentPolyline = mMap.addPolyline((PolylineOptions) values[0]);
         String distances = values[1].toString();
         String duration = values[2].toString();
-        distancefor.setText(distances + "," + duration);
+        distancefor.setText(distances + ","+" " + duration);
 
     }
 }

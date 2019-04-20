@@ -182,7 +182,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
           e.printStackTrace();
 
       }
-        txtRatingValue.setText("3.0");
+        txtRatingValue.setText("0.0");
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -253,7 +253,8 @@ employeeImageLink.setText(AppConfig.BASE_URL+imagelink);
                         result = new CustomerOrderHelper.CustomerPostRating().execute(revie, rate, orderID).get();
                         Gson gson = new Gson();
                         final Result jsonbodyres = gson.fromJson(result, Result.class);
-                        Toast.makeText(this, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                        review.setText("");
                         getreviewByOrder();
                     } catch (Exception e) {
                     }
@@ -296,9 +297,44 @@ employeeImageLink.setText(AppConfig.BASE_URL+imagelink);
                         });
                 //   canclBtn.setVisibility(View.GONE);
 
-                intent = new Intent(this,MyBokingsActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                alertDialog.setTitle("Successfully Cancel");
+                alertDialog.setMessage("Cancel !!");
+
+
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+
+                alertDialog.setIcon(R.drawable.ic_dashboard_black_24dp);
+
+                alertDialog.setPositiveButton("ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                progressDialog.setMessage("");
+                                progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
+                                progressDialog.show();
+
+                                new Handler().postDelayed(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        progressDialog.dismiss();
+                                        intent = new Intent(CustomerCommentActivity.this,MyBokingsActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                        overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                                    }
+                                }, TIMER);
+                            }
+                        });
+
+
+                alertDialog.show();
+
+
             }
 
         } catch (ExecutionException e) {
@@ -426,6 +462,7 @@ employeeImageLink.setText(AppConfig.BASE_URL+imagelink);
                             public void run() {
 
                                 orderCancelPost();
+                                progressDialog.dismiss();
                             }
                         }, TIMER);
                     }
@@ -457,7 +494,7 @@ employeeImageLink.setText(AppConfig.BASE_URL+imagelink);
                 //...you can do whenever you want or whenever your work is done
                 viewDialog.hideDialog();
             }
-        }, 1000);
+        }, 300);
     }
     private void getreviewByOrder() {
         try {

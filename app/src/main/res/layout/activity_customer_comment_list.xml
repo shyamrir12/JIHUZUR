@@ -20,59 +20,63 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:background="@drawable/background_home"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:background="@drawable/background_home">
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/backArrow"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_weight="1"
+                    android:background="@color/transparency"
                     android:drawableLeft="@drawable/ic_arrow_back_black_24dp"
                     android:drawableTint="@color/white"
-                    android:padding="6dp"
-                    android:gravity="left|center"
-                    android:text="  Back"
-                    android:textSize="17sp"
-                    android:textColor="@color/white"
                     android:fontFamily="@font/fonts"
-                    android:background="@color/transparency"/>
+                    android:gravity="left|center"
+                    android:padding="6dp"
+                    android:text="  Back"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
                 <view
                     class="android.support.v7.app.AlertController$RecycleListView"
                     android:layout_width="3dp"
                     android:layout_height="match_parent"
                     android:background="@color/grey" />
+
                 <Button
                     android:id="@+id/cancel"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_weight="1"
+                    android:background="@color/transparency"
                     android:drawableLeft="@drawable/ic_delete_forever_black_24dp"
-                   android:drawableTint="@color/white"
-                    android:padding="6dp"
+                    android:drawableTint="@color/white"
+                    android:fontFamily="@font/fonts"
                     android:gravity="left|center"
+                    android:padding="6dp"
                     android:text="Order Cancel"
                     android:textColor="@color/white"
-                    android:textSize="17sp"
-                    android:fontFamily="@font/fonts"
-                    android:background="@color/transparency"/>
+                    android:textSize="17sp" />
 
             </LinearLayout>
+
             <view
                 android:id="@+id/v"
                 class="android.support.v7.app.AlertController$RecycleListView"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/grey"
-                android:layout_below="@+id/l0"/>
+                android:layout_below="@+id/l0"
+                android:background="@color/grey" />
+
             <LinearLayout
                 android:id="@+id/l1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/l0"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="40dp"
-                android:layout_below="@+id/l0"
                 android:layout_marginRight="40dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
@@ -83,11 +87,12 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:src="@mipmap/profile" />
+
                 <TextView
                     android:id="@+id/imglink"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout
@@ -126,36 +131,38 @@
                     android:textColor="@color/colorBlack" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/l"
                 android:layout_width="match_parent"
                 android:layout_height="210dp"
-                android:orientation="vertical"
-                android:layout_below="@+id/l2">
+                android:layout_below="@+id/l2"
+                android:orientation="vertical">
+
                 <fragment
                     android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
                     tools:context=".CustomerActivity.CustomerCommentActivity" />
 
             </LinearLayout>
+
             <view
                 android:id="@+id/vv1"
                 class="android.support.v7.app.AlertController$RecycleListView"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/grey"
-                android:layout_below="@+id/l"/>
+                android:layout_below="@+id/l"
+                android:background="@color/grey" />
+
             <RelativeLayout
                 android:id="@+id/r1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@+id/vv1"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_below="@+id/vv1">
-
-
+                android:layout_marginRight="10dp">
 
 
                 <LinearLayout
@@ -163,19 +170,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/l2"
-                    android:orientation="horizontal"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
                     android:layout_marginTop="20dp"
                     android:gravity="center"
+                    android:orientation="horizontal"
                     tools:ignore="NotSibling">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Rate Me"
-                        android:textColor="@color/blue"/>
+                        android:textColor="@color/blue" />
 
                     <RatingBar
                         android:id="@+id/rating"
@@ -194,20 +201,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/l31"
-                    android:outlineAmbientShadowColor="@color/colorBlack"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
                     android:layout_marginTop="5dp"
-                    android:gravity="center">
-                   <!-- <Button
-                        android:id="@+id/acceptOtpBtn"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/adapter_btn_background"
-                        android:text="Accept Otp"
-                        android:textColor="@color/white"/>-->
+                    android:gravity="center"
+                    android:outlineAmbientShadowColor="@color/colorBlack">
+                    <!-- <Button
+                         android:id="@+id/acceptOtpBtn"
+                         android:layout_width="match_parent"
+                         android:layout_height="30dp"
+                         android:layout_weight="1"
+                         android:background="@drawable/adapter_btn_background"
+                         android:text="Accept Otp"
+                         android:textColor="@color/white"/>-->
                     <TextView
                         android:id="@+id/txtRatingValue"
                         android:layout_width="wrap_content"
@@ -239,7 +246,7 @@
                             android:layout_height="50dp"
                             android:hint="Add Your Review for Our Order "
                             android:text=""
-                            android:textAppearance="?android:attr/textAppearanceSmall"></EditText>
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
 
                     </android.support.v7.widget.CardView>
                 </LinearLayout>
@@ -249,12 +256,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/l34"
-                    android:orientation="horizontal"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
                     android:layout_marginTop="20dp"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
 
                     <Button
@@ -263,23 +270,25 @@
                         android:layout_height="30dp"
                         android:layout_weight="1"
                         android:background="@drawable/adapter_btn_background"
-                        android:text="Send"
                         android:fontFamily="@font/fonts"
-                        android:textColor="@color/white"/>
+                        android:text="Send"
+                        android:textColor="@color/white" />
+
                     <view
                         class="android.support.v7.app.AlertController$RecycleListView"
                         android:layout_width="10dp"
                         android:layout_height="30dp"
                         android:background="@color/white" />
+
                     <Button
                         android:id="@+id/buttonCancel"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:layout_weight="1"
-                        android:text="Clear"
-                        android:textColor="@color/white"
+                        android:background="@drawable/adapter_btn_background"
                         android:fontFamily="@font/fonts"
-                        android:background="@drawable/adapter_btn_background"/>
+                        android:text="Clear"
+                        android:textColor="@color/white" />
                     <!--android:background="@drawable/background_buttons"-->
 
                 </LinearLayout>
@@ -302,10 +311,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:background="@color/halfgrey"
+                        android:fontFamily="@font/fonts"
                         android:text="comment Review"
                         android:textColor="@color/blue"
-                        android:textStyle="bold"
-                        android:fontFamily="@font/fonts"/>
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -342,7 +351,7 @@
                                 android:text="Hii, How are you ?"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="16dip"
-                                android:visibility="gone"/>
+                                android:visibility="gone" />
 
                             <TextView
                                 android:id="@+id/reply"
@@ -354,14 +363,14 @@
                                 android:text="@string/reply"
                                 android:textColor="@color/blue"
                                 android:textSize="19dp"
-                                android:visibility="gone"/>
+                                android:visibility="gone" />
 
 
-                                <android.support.v7.widget.RecyclerView
-                                    android:id="@+id/recyclerView"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_below="@+id/reply" />
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/recyclerView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@+id/reply" />
 
 
                         </RelativeLayout>

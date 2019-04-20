@@ -52,182 +52,189 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:orientation="vertical"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <android.support.v7.widget.CardView
             android:id="@+id/c1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:cardCornerRadius="2dp"
-            app:cardElevation="2dp"
-            >
+            app:cardElevation="2dp">
 
             <RelativeLayout
+                android:id="@+id/component"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp">
-<LinearLayout
-    android:id="@+id/l1"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-    <TextView
-        android:id="@+id/senderTextMessage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Hii, How are you ?"
-        android:textColor="@color/colorBlack"
-        android:textSize="15sp"
-        android:fontFamily="@font/fonts"/>
 
-    <TextView
-        android:id="@+id/reply"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/reply"
-        android:textColor="@color/blue"
-        android:textSize="18sp"
-        android:fontFamily="@font/fonts"
-        android:visibility="gone"/>
-</LinearLayout>
+                <LinearLayout
+                    android:id="@+id/l1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/senderTextMessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/fonts"
+                        android:hint="Hii, How are you ?"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/reply"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/fonts"
+                        android:text="@string/reply"
+                        android:textColor="@color/blue"
+                        android:textSize="18sp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/l2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/l1"
                     android:orientation="vertical"
-                    android:layout_below="@+id/l1">
+                    android:visibility="visible">
+
                     <TextView
                         android:id="@+id/reviewDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Hii, How are you ?"
+                        android:fontFamily="@font/fonts"
+                        android:hint="Hii, How are you ?"
                         android:textColor="@color/greydark"
-                        android:textSize="13sp"
-                        android:fontFamily="@font/fonts"/>
+                        android:textSize="13sp" />
+
                     <TextView
                         android:id="@+id/reviewId"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:fontFamily="@font/fonts"
                         android:text="2"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
-                        android:fontFamily="@font/fonts"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/l3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/l2"
                     android:orientation="horizontal"
-                    android:layout_below="@+id/l2">
+                    android:visibility="visible">
+
                     <TextView
                         android:id="@+id/reviewRate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.4"
-                        android:text="4"
+                        android:fontFamily="@font/fonts"
                         android:textColor="@color/blue"
-                        android:textSize="13sp"
-                        android:fontFamily="@font/fonts"/>
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/replyBtn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:fontFamily="@font/fonts"
                         android:text="@string/reply"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
-                        android:fontFamily="@font/fonts"/>
+                        android:visibility="visible" />
+
                     <TextView
                         android:id="@+id/totalreplyBtn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:fontFamily="@font/fonts"
                         android:textColor="@color/blue"
                         android:textSize="13sp"
-                        android:fontFamily="@font/fonts"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/rateLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/l3"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+                    <!--<RatingBar-->
+                    <!--android:id="@+id/ratingSet"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_horizontal|center"-->
+                    <!--android:layout_weight="1"-->
+                    <!--style="?android:attr/ratingBarStyle"-->
+                    <!--android:numStars="5"-->
+                    <!--android:rating="0.0"-->
+                    <!--android:stepSize="1"-->
+                    <!--android:scaleX=".5"-->
+                    <!--android:scaleY=".5"-->
+                    <!--android:transformPivotX="0dp"-->
+                    <!--android:transformPivotY="0dp"-->
+                    <!--android:isIndicator="true"-->
+                    <!--android:max="5" />-->
                     <RatingBar
                         android:id="@+id/ratingSet"
-                        android:layout_width="match_parent"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal|center"
-                        android:layout_weight="1"
-                        style="?android:attr/ratingBarStyle"
-                        android:numStars="5"
-                        android:rating="3.0"
-                        android:stepSize="1.0"
-                        android:scaleX=".5"
-                        android:scaleY=".5"
-                        android:transformPivotX="0dp"
-                        android:transformPivotY="0dp"
-                        android:isIndicator="true"
-                        android:max="5" />
-                    <RatingBar
-                        android:id="@+id/ratingSets"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal|center"
-                        android:layout_weight="1"
-                        style="?android:attr/ratingBarStyle"
-                        android:numStars="5"
-                        android:rating="3.0"
-                        android:stepSize="1.0"
-                        android:scaleX=".5"
-                        android:scaleY=".5"
-                        android:transformPivotX="0dp"
-                        android:transformPivotY="0dp"
-                        android:isIndicator="true"
-                        android:max="5"
-                        android:visibility="gone"/>
+                        android:isIndicator="false"
+                        android:numStars="5" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/l0"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_below="@id/rateLayout"
+                    android:orientation="horizontal"
                     android:visibility="gone">
+
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/profile"/>
+                        android:src="@mipmap/profile" />
+
                     <EditText
                         android:id="@+id/txtReply"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.5"
                         android:hint="Write a reply..." />
+
                     <TextView
                         android:id="@+id/sendBtn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.5"
+                        android:fontFamily="@font/fonts"
                         android:text="send"
                         android:textAllCaps="false"
                         android:textColor="@color/blue"
-                        android:textSize="13sp"
-                        android:fontFamily="@font/fonts"/>
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <view
@@ -236,8 +243,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/l0"
-                    android:background="@color/grey"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:background="@color/grey" />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 

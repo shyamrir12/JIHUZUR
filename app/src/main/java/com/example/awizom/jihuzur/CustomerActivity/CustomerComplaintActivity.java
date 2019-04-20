@@ -162,6 +162,7 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
                           Gson gson = new Gson();
                           final Result jsonbodyres = gson.fromJson(result, Result.class);
                           Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+                         
                       } catch (Exception e) {
                           e.printStackTrace();
                           Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
@@ -173,7 +174,7 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
 
 
 
-                b.dismiss();
+                b.show();
 
 
             }

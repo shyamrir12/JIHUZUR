@@ -119,7 +119,8 @@ public class VerifyPhoneActivity extends AppCompatActivity implements SMSReceive
         new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                countDown.setText("" + millisUntilFinished / 1000);
+              //  countDown.setText("" + millisUntilFinished / 1000);
+                countDown.setText((millisUntilFinished / 60000)+":"+(millisUntilFinished % 60000 / 1000));
                 resendOTP.setVisibility(View.GONE);
             }
 
@@ -210,10 +211,24 @@ public class VerifyPhoneActivity extends AppCompatActivity implements SMSReceive
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        progressDialog.dismiss();
                         createuser();
                     }
 
                 }, TIMER);
+                new CountDownTimer(60000, 1000) {
+
+                    public void onTick(long millisUntilFinished) {
+                        //  countDown.setText("" + millisUntilFinished / 1000);
+                        countDown.setText((millisUntilFinished / 60000)+":"+(millisUntilFinished % 60000 / 1000));
+                        resendOTP.setVisibility(View.GONE);
+                    }
+
+                    public void onFinish() {
+                        countDown.setText("00:00");
+                        resendOTP.setVisibility(View.VISIBLE);
+                    }
+                }.start();
                 break;
             case R.id.countDown:
                 break;
