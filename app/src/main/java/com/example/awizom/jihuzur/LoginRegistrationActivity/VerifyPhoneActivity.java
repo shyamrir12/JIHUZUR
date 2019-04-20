@@ -175,8 +175,6 @@ public class VerifyPhoneActivity extends AppCompatActivity implements SMSReceive
 
                         @Override
                         public void run() {
-                            progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), "SuccessFully Verified", Toast.LENGTH_LONG).show();
                             if (validation()) {
                                 DataProfile dataProfile = new DataProfile();
                                 dataProfile.ID = userId;
@@ -184,10 +182,14 @@ public class VerifyPhoneActivity extends AppCompatActivity implements SMSReceive
                                 dataProfile.MobileNo = mobile;
                                 SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
                                 if (SharedPrefManager.getInstance(getApplicationContext()).getUser().Name != null) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getApplicationContext(), "SuccessFully Verified", Toast.LENGTH_LONG).show();
                                     intent = new Intent(VerifyPhoneActivity.this, CustomerHomePage.class);
                                     startActivity(intent);
                                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                                 } else {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getApplicationContext(), "SuccessFully Verified", Toast.LENGTH_LONG).show();
                                     intent = new Intent(VerifyPhoneActivity.this, CustomerProfileActivity.class);
                                     startActivity(intent);
                                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
