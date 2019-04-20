@@ -119,7 +119,6 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             switch (item.getItemId()) {
                 case R.id.navigation_search:
                     showCustomLoadingDialog();
-                    getSupportActionBar().setTitle("Employee Home");
                     intent = new Intent(EmployeeHomePage.this, EmployeeHomePage.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
@@ -320,7 +319,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
                     PendingIntent pendingIntent = PendingIntent.getActivity(EmployeeHomePage.this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     mBuilder.setContentIntent(pendingIntent);
 
-                    notificationManager.notify(randomNumber, mBuilder.build());
+                    notificationManager.notify(199, mBuilder.build());
 
                     // hide the notification after its selected
 

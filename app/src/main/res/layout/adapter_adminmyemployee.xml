@@ -71,7 +71,7 @@
                 <Switch
                     android:id="@+id/true_false"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
+                    android:layout_height="45dp"
                     android:background="@drawable/message_box_background"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1.6"

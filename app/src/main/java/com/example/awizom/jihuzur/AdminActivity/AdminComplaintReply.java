@@ -1,6 +1,7 @@
 package com.example.awizom.jihuzur.AdminActivity;
 
 import android.app.ActivityOptions;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -43,40 +44,29 @@ AdminComplaintReply extends AppCompatActivity {
 
     private void initView() {
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-
         toolbar.setTitle("Complain Reply");
-        setSupportActionBar(toolbar);
-
-
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.setTitleTextColor(0xFFFFFFFF);
+        setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                ActivityOptions options =
-                        ActivityOptions.makeCustomAnimation(getApplicationContext(), R.anim.fui_slide_out_left, R.anim.fui_slide_in_right);
-                onBackPressed();
+             onBackPressed();
             }
         });
-        toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
-        toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
-        toolbar.setTitleTextColor(Color.WHITE);
 
         addComplaintreply = (FloatingActionButton) findViewById(R.id.addComplaintReply);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        getComplaintList();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         addComplaintreply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showAddComplaintReply();
             }
         });
-
-
-    }
+        getComplaintList();
+          }
 
     private void getComplaintList() {
 

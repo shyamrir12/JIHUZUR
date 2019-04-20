@@ -133,6 +133,10 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
                     Phonenumber.setError("Please Enter Valid Phonenumber");
                     Phonenumber.requestFocus();
                 }
+                else if (Address.getText().toString().isEmpty()) {
+                    Address.setError("Please Enter Valid Address");
+                    Address.requestFocus();
+                }
 
                 else {
                     showcustomloadindialogue();

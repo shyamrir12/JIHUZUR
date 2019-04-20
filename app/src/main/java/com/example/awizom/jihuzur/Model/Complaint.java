@@ -6,6 +6,11 @@ public class Complaint {
     public int ComplaintID;
     public String CustomerID;
     public String Complaint;
+    public boolean Active;
+    public boolean Status;
+    public String ComplaintDate;
+    public int TotalReply;
+    public String Name;
 
     public int getComplaintID() {
         return ComplaintID;
@@ -71,9 +76,5 @@ public class Complaint {
         Name = name;
     }
 
-    public boolean Active;
-    public boolean Status;
-    public String ComplaintDate;
-    public int TotalReply;
-    public String Name;
+
 }

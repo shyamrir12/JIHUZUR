@@ -61,7 +61,8 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
     SwipeRefreshLayout mSwipeRefreshLayout;
     ViewDialog viewDialog;
     SwipeController swipeController;
-    int minteger=0;
+    int minteger = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,17 +130,18 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
             swipeController = new SwipeController(new SwipeControllerActions() {
                 @Override
                 public void onRightClicked(int position) {
-                  String catalogid= String.valueOf(categorylist.get(position).getCatalogID());
+                    String catalogid = String.valueOf(categorylist.get(position).getCatalogID());
                     Toast.makeText(getApplicationContext(), position + "position", Toast.LENGTH_LONG).show();
-                    showindexchange(catalogid,position);
+                    showindexchange(catalogid, position);
                    /* mAdapter.players.remove(position);
                     mAdapter.notifyItemRemoved(position);
                     mAdapter.notifyItemRangeChanged(position, mAdapter.getItemCount());*/
                 }
+
                 @Override
                 public void onLeftClicked(int position) {
                     super.onLeftClicked(position);
-                    Intent intent=new Intent(AdminCategoryActivity.this,AdminHomePage.class);
+                    Intent intent = new Intent(AdminCategoryActivity.this, AdminHomePage.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                 }
@@ -166,46 +168,42 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
         dialogBuilder.setView(dialogView);
         final ImageView decrease = (ImageView) dialogView.findViewById(R.id.decrease);
         final ImageView increase = (ImageView) dialogView.findViewById(R.id.increase);
-        final  TextView displayInteger = (TextView) dialogView.findViewById( R.id.integer_number);
-        final  TextView currentpos=(TextView)dialogView.findViewById(R.id.currentpos);
-        final Button changePositon=(Button)dialogView.findViewById(R.id.changePosition);
+        final TextView displayInteger = (TextView) dialogView.findViewById(R.id.integer_number);
+        final TextView currentpos = (TextView) dialogView.findViewById(R.id.currentpos);
+        final Button changePositon = (Button) dialogView.findViewById(R.id.changePosition);
         currentpos.setText(String.valueOf(position));
-        minteger= Integer.parseInt(currentpos.getText().toString());
+        minteger = Integer.parseInt(currentpos.getText().toString());
         displayInteger.setText(String.valueOf(minteger));
         changePositon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            try {
-                showCustomLoadingDialog(v);
-             result = new AdminHelper.ChangeCategoryIndex().execute(catalogid, String.valueOf(position), String.valueOf(minteger)).get();
-             //   Toast.makeText(AdminCategoryActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
-                Gson gson = new Gson();
-                Type getType = new TypeToken<ResultModel>() {
-                }.getType();
-                ResultModel resultModel = new Gson().fromJson(result, getType);
-                if (resultModel.getStatus().equals(true)) {
-                    Toast.makeText(AdminCategoryActivity.this, "True", Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(AdminCategoryActivity.this,AdminCategoryActivity.class);
-                    startActivity(intent);
+                try {
+                    showCustomLoadingDialog(v);
+                    result = new AdminHelper.ChangeCategoryIndex().execute(catalogid, String.valueOf(position), String.valueOf(minteger)).get();
+                    //   Toast.makeText(AdminCategoryActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
+                    Gson gson = new Gson();
+                    Type getType = new TypeToken<ResultModel>() {
+                    }.getType();
+                    ResultModel resultModel = new Gson().fromJson(result, getType);
+                    if (resultModel.getStatus().equals(true)) {
+                        Toast.makeText(AdminCategoryActivity.this, "True", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(AdminCategoryActivity.this, AdminCategoryActivity.class);
+                        startActivity(intent);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
             }
         });
         increase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 minteger++;
-             try {
-                 displayInteger.setText(String.valueOf(minteger));
-             }
-             catch (Exception e)
-             {
-                 e.printStackTrace();
-             }
+                try {
+                    displayInteger.setText(String.valueOf(minteger));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         decrease.setOnClickListener(new View.OnClickListener() {
@@ -214,9 +212,7 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
                 minteger--;
                 try {
                     displayInteger.setText(String.valueOf(minteger));
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -237,12 +233,12 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         if (v.getId() == addCategory.getId()) {
 
-            String categorynem = null, cetlogId = null, cetlogName = null,imgstr=null;
-            showAddCategoryDialog(categorynem, cetlogId, cetlogName,imgstr);
+            String categorynem = null, cetlogId = null, cetlogName = null, imgstr = null;
+            showAddCategoryDialog(categorynem, cetlogId, cetlogName, imgstr);
         }
     }
 
-    public void showAddCategoryDialog(String categorynem, final String cetlogId, String cetlogName,String imgstr ) {
+    public void showAddCategoryDialog(String categorynem, final String cetlogId, String cetlogName, String imgstr) {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();

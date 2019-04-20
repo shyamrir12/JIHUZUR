@@ -128,7 +128,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
                 } else {
                     showCustomLoadingDialog(v);
                     intent = new Intent(mCtx, SelectServices.class);
-                    intent.putExtra("Image", holder.imglinkurl.getText().toString());
+                    intent.putExtra("Image", AppConfig.BASE_URL + holder.imglinkurl.getText().toString());
                     intent.putExtra("CategoryName", holder.category.getText());
                     intent.putExtra("CatalogID", holder.catalogid.getText());
                     intent.putExtra("CatalogName", catalogName);

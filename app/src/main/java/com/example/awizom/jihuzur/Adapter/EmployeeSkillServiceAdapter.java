@@ -40,6 +40,7 @@ public class EmployeeSkillServiceAdapter extends
         holder.deleteSkill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 deleteskill(Skillid);
             }
         });

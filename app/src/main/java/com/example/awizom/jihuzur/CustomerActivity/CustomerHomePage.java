@@ -3,6 +3,7 @@ package com.example.awizom.jihuzur.CustomerActivity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,10 +14,12 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -255,16 +258,65 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 //Start
         handler.postDelayed(runnable, 1000);
 */
+
         if (!runtime_permissions()) {
-            enable_buttons();
+            openGPSSettings();
+
         }
+
     }
 
+    private void openGPSSettings() {
+        //Get GPS now state (open or closed)
+        try {
+            int locationMode = Settings.Secure.getInt(getContentResolver(), Settings.Secure.LOCATION_MODE);
+
+            if(locationMode==3)
+            {
+                enable_buttons();
+             //   Toast.makeText(getApplicationContext(),"All is Fine",Toast.LENGTH_LONG).show();
+
+            }
+            else {
+                showdialogforGPS();
+             //   Toast.makeText(getApplicationContext(),"Set Your Location Method:High Accurecy",Toast.LENGTH_LONG).show();
+           //    runtime_permissions();
+            }
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void showdialogforGPS() {
+
+        final String action = Settings.ACTION_LOCATION_SOURCE_SETTINGS;
+        AlertDialog.Builder alertbox = new AlertDialog.Builder(CustomerHomePage.this);
+        alertbox.setIcon(R.drawable.map_logo);
+        alertbox.setTitle("Location Method:High Accuracy");
+        alertbox.setMessage("Hello! You Have To Change your Location Method as High Accuracy another wise you can't track by our employee. ");
+        alertbox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                // finish used for destroyed activity
+                //Get GPS now state (open or closed)
+                startActivity(new Intent(action));
+            }
+        });
+
+
+        alertbox.show();
+
+    }
+
+
     public boolean runtime_permissions() {
+
         if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
+
             return true;
         }
+
         return false;
     }
 
@@ -272,6 +324,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100) {
+            openGPSSettings();
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 enable_buttons();
             } else {

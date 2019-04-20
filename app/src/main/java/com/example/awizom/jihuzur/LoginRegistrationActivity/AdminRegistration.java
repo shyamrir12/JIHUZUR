@@ -15,6 +15,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -89,6 +90,14 @@ public class AdminRegistration extends AppCompatActivity implements View.OnClick
         textView.setTextColor(Color.YELLOW);
         checkInternet();
         editTextMobile = findViewById(R.id.editTextMobile);
+        editTextMobile.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                editTextMobile.setCursorVisible(true);
+                editTextMobile.setHint(" ");
+                return false;
+            }
+        });
         butonContinue = findViewById(R.id.buttonContinue);
         butonContinue.setOnClickListener(this);
         loginHelper = new LoginHelper();

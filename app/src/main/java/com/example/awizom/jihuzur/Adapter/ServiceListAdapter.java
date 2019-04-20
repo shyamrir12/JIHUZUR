@@ -103,26 +103,25 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
                         /*    Toast.makeText(mCtx, "" + position, Toast.LENGTH_SHORT).show();
                          */
                     } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Employee")) {
-                        holder.itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String employeeid = SharedPrefManager.getInstance(mCtx).getUser().getID();
-                                showCustomLoadingDialog(v);
-                                try {
-                                    result = new EmployeeOrderHelper.EmployeePOSTSkill().execute(employeeid, serviceID).get();
-                                    Gson gson = new Gson();
-                                    final Result jsonbodyres = gson.fromJson(result, Result.class);
-                                    Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
 
-                                    if (!result.equals(null)) {
-                                        intent = new Intent(mCtx, EmployeeSkillActivity.class);
-                                        mCtx.startActivity(intent);
-                                    }
+                        showCustomLoadingDialog(v);
+                        String employeeid = SharedPrefManager.getInstance(mCtx).getUser().getID();
 
-                                } catch (Exception e) {
-                                }
+                        try {
+                            result = new EmployeeOrderHelper.EmployeePOSTSkill().execute(employeeid, serviceID).get();
+                            Gson gson = new Gson();
+                            final Result jsonbodyres = gson.fromJson(result, Result.class);
+                            Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+
+                            if (!result.equals(null)) {
+                                intent = new Intent(mCtx, EmployeeSkillActivity.class);
+                                mCtx.startActivity(intent);
                             }
-                        });
+
+                        } catch (Exception e) {
+                        }
+
+
                     } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Customer")) {
                         showCustomLoadingDialog(v);
                         intent = new Intent(mCtx, CustomerpricingActivity.class);

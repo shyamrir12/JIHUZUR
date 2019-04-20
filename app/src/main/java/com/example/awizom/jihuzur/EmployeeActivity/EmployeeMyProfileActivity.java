@@ -25,6 +25,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -63,13 +65,13 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 public class EmployeeMyProfileActivity extends AppCompatActivity {
 
 
+    ProgressDialog pd;
+    Button uploadData;
     String identityimage = "";
     Uri picUri;
     Uri outputFileUri;
-    Button upload;
-    ProgressDialog pd;
-    de.hdodenhof.circleimageview.CircleImageView imageView;
-    EditText yourname,address;
+     de.hdodenhof.circleimageview.CircleImageView imageView;
+    EditText yourname, address;
     TextView email;
     Intent intent = new Intent();
     String result = "", img_str, identimage_str;
@@ -86,7 +88,8 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_my_profile);
-        upload = findViewById(R.id.upload);
+
+        uploadData = (Button) findViewById(R.id.upload);
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Profile");
         setSupportActionBar(toolbar);
@@ -100,17 +103,10 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
         toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
         toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
         toolbar.setTitleTextColor(Color.WHITE);
-        pd = new ProgressDialog(this);
-        pd.setMessage("Uploading....");
+
         yourname = (EditText) findViewById(R.id.name);
-        yourname.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                yourname.setCursorVisible(true);
-                return false;
-            }
-        });
-        email=(TextView) findViewById(R.id.Email);
+
+        email = (TextView) findViewById(R.id.Email);
         email.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,7 +115,7 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
             }
         });
 
-        address=(EditText)findViewById(R.id.Adress);
+        address = (EditText) findViewById(R.id.Adress);
         imageView = findViewById(R.id.imageView);
         identityImage = findViewById(R.id.identityImage);
 
@@ -127,8 +123,8 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
 
         identityImage.setVisibility(View.GONE);
         fabidentityImage = (FloatingActionButton) findViewById(R.id.fab3);
-          identityImage.setVisibility(View.VISIBLE);
-              fabidentityImage.setVisibility(View.VISIBLE);
+        identityImage.setVisibility(View.VISIBLE);
+        fabidentityImage.setVisibility(View.VISIBLE);
 
         fabidentityImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,9 +144,9 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
         });
 
 
-       /* img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();*/
-     /*   try {
-               *//* DataProfile dataProfile = new DataProfile();
+        /* img_str = AppConfig.BASE_URL + SharedPrefManager.getInstance(this).getUser().getImage();*/
+        /*   try {
+         *//* DataProfile dataProfile = new DataProfile();
                 dataProfile.Image = img_str;*//*
             SharedPrefManager.getInstance(this).getUser().setImage(img_str);
             if (SharedPrefManager.getInstance(this).getUser().getImage() == null) {
@@ -167,56 +163,61 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
             e.printStackTrace();
         }*/
 
-        upload.setOnClickListener(new View.OnClickListener() {
+        uploadData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                pd = new ProgressDialog(EmployeeMyProfileActivity.this);
+                pd.setMessage("Uploading....");
                 pd.show();
-                imageView.buildDrawingCache();
-                Bitmap bitmap = imageView.getDrawingCache();
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
-                byte[] image = stream.toByteArray();
-                System.out.println("byte array:" + image);
-                String img_str = Base64.encodeToString(image, 0);
-                String name = yourname.getText().toString();
-                String emails=email.getText().toString();
-                String addresss=address.getText().toString();
+                if (address.getText().toString().isEmpty()) {
+                    pd.dismiss();
+                    address.setError("Please Fill the Address");
+                    address.requestFocus();
+                } else if (yourname.getText().toString().isEmpty()) {
+                    pd.dismiss();
+                    yourname.setError("Name is Mandatory");
+                    yourname.requestFocus();
+                } else {
 
-                try {
+                    imageView.buildDrawingCache();
+                    Bitmap bitmap = imageView.getDrawingCache();
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
+                    byte[] image = stream.toByteArray();
+                   // System.out.println("byte array:" + image);
+                    String img_str = Base64.encodeToString(image, 0);
+                    String name = yourname.getText().toString();
+                    String emails = email.getText().toString();
+                    String addresss = address.getText().toString();
 
-                    if (SharedPrefManager.getInstance(EmployeeMyProfileActivity.this).getUser().getRole().equals("Employee")) {
-                        identityImage.buildDrawingCache();
-                        Bitmap bitmap1 = identityImage.getDrawingCache();
-                        ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
-                        bitmap1.compress(Bitmap.CompressFormat.PNG, 90, stream1);
-                        byte[] image1 = stream1.toByteArray();
-                        identityimage = Base64.encodeToString(image1, 0);
-                    } else {
-                        identityimage = "";
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "You Have to Login First", Toast.LENGTH_LONG).show();
-                }
-                String id = SharedPrefManager.getInstance(EmployeeMyProfileActivity.this).getUser().getID();
-                String lat = "";
-                String longs = "";
-                try {
-                    result = new EmployeeHelper.POSTProfile().execute(id, name, img_str, identityimage, lat, longs,emails,addresss).get();
-                    Gson gson = new Gson();
-                    final Result jsonbodyres = gson.fromJson(result, Result.class);
-                    DataProfile dataProfile = new DataProfile();
-                    Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_LONG).show();
-                    dataProfile.Image = jsonbodyres.Image;
-                    dataProfile.Name = jsonbodyres.Name;
-                    dataProfile.Email = jsonbodyres.Email;
-                    dataProfile.Address = jsonbodyres.Address;
+                    identityImage.buildDrawingCache();
+                    Bitmap bitmap1 = identityImage.getDrawingCache();
+                    ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
+                    bitmap1.compress(Bitmap.CompressFormat.PNG, 90, stream1);
+                    byte[] image1 = stream1.toByteArray();
+                    identityimage = Base64.encodeToString(image1, 0);
 
-                    SharedPrefManager.getInstance(EmployeeMyProfileActivity.this).getUser().setImage(String.valueOf(dataProfile));
-                    /*   SharedPrefManager.getInstance(DrawingActivity.this).getUser().setName(String.valueOf(yourname.getText()));*/
-                    if (SharedPrefManager.getInstance(EmployeeMyProfileActivity.this).getUser().getImage() != null) {
+                    String id = SharedPrefManager.getInstance(EmployeeMyProfileActivity.this).getUser().getID();
+                    String lat = "";
+                    String longs = "";
+                    try {
 
-                    }
+                        result = new EmployeeHelper.POSTProfile().execute(id, name, img_str, identityimage, lat, longs, emails, addresss).get();
+                        Gson gson = new Gson();
+                        final Result jsonbodyres = gson.fromJson(result, Result.class);
+                        DataProfile dataProfile = new DataProfile();
+                        Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_LONG).show();
+                        dataProfile.Image = jsonbodyres.Image;
+                        dataProfile.Name = jsonbodyres.Name;
+                        dataProfile.Email = jsonbodyres.Email;
+                        dataProfile.Address = jsonbodyres.Address;
+
+                        SharedPrefManager.getInstance(EmployeeMyProfileActivity.this).getUser().setImage(String.valueOf(dataProfile));
+                        /*   SharedPrefManager.getInstance(DrawingActivity.this).getUser().setName(String.valueOf(yourname.getText()));*/
+                        if (SharedPrefManager.getInstance(EmployeeMyProfileActivity.this).getUser().getImage() != null) {
+
+                        }
 
                  /*  {
                        if(dataProfile.isActiveStatus()) {
@@ -227,14 +228,14 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
                        }
                     }*/
 
-                } catch (Exception e) {
+                    } catch (Exception e) {
+
+                    }
+                    intent = new Intent(EmployeeMyProfileActivity.this, EmployeeHomePage.class);
+                    startActivity(intent);
 
                 }
-                intent =new Intent(EmployeeMyProfileActivity.this,EmployeeHomePage.class);
-                startActivity(intent);
-
             }
-
         });
         permissions.add(CAMERA);
         permissions.add(WRITE_EXTERNAL_STORAGE);
@@ -246,6 +247,18 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
         }
 
         getProfile();
+        if (yourname.getText().toString().equals("")) {
+            yourname.setEnabled(true);
+        } else {
+            yourname.setEnabled(false);
+        }
+        yourname.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                yourname.setCursorVisible(true);
+                return false;
+            }
+        });
     }
 
     private void getProfile() {
@@ -259,19 +272,18 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
                 Type listType = new TypeToken<DataProfile>() {
                 }.getType();
                 DataProfile dataProfile = new Gson().fromJson(result, listType);
-                  String imageurl = dataProfile.getImage();
-                    String img_str = AppConfig.BASE_URL + imageurl;
-                     yourname.setText(dataProfile.getName().toString());
-                        email.setText(dataProfile.getEmail().toString());
-                        address.setText(dataProfile.getAddress().toString());
-                Glide.with(EmployeeMyProfileActivity.this).load(img_str). diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imageView);
+                String imageurl = dataProfile.getImage();
+                String img_str = AppConfig.BASE_URL + imageurl;
+                email.setText(dataProfile.getEmail().toString());
+                address.setText(dataProfile.getAddress().toString());
+                Glide.with(EmployeeMyProfileActivity.this).load(img_str).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imageView);
                 identimage_str = AppConfig.BASE_URL + dataProfile.getIdentityImage();
-                                       Glide.with(this)
-                                .load(identimage_str)
-                                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                                .skipMemoryCache(true)
-                                .into(identityImage);
-
+                Glide.with(this)
+                        .load(identimage_str)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(identityImage);
+                yourname.setText(dataProfile.getName().toString());
 
                 if (dataProfile != null) {
                     DataProfile dataProfile1 = new DataProfile();

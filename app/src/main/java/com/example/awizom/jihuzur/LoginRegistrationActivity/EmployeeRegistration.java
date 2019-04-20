@@ -15,6 +15,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -51,7 +52,6 @@ import java.util.concurrent.ExecutionException;
 public class EmployeeRegistration extends AppCompatActivity implements View.OnClickListener {
 
     private EditText editTextMobile;
-
     private Button butonContinue;
     private String ur = "User", result = "";
     private ProgressDialog progressDialog;
@@ -93,6 +93,14 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
         textView.setTextColor(Color.YELLOW);
         checkInternet();
         editTextMobile = findViewById(R.id.editTextMobile);
+        editTextMobile.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                editTextMobile.setCursorVisible(true);
+                editTextMobile.setHint(" ");
+                return false;
+            }
+        });
         butonContinue = findViewById(R.id.buttonContinue);
         butonContinue.setOnClickListener(this);
         loginHelper = new LoginHelper();
@@ -174,7 +182,6 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
                 Gson gson = new Gson();
                 final UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);
                 try {
-
                         progressDialog.dismiss();
 //                        Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
                         if (jsonbody.Otp.equals("mobile already verified")) {

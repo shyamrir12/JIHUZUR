@@ -202,6 +202,18 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements S
                     @Override
                     public void run() {
                         createuser();
+                        new CountDownTimer(60000, 1000) {
+
+                            public void onTick(long millisUntilFinished) {
+                                countDown.setText("" + millisUntilFinished / 1000);
+                                resendOTP.setVisibility(View.GONE);
+                            }
+
+                            public void onFinish() {
+                                countDown.setText("00:00");
+                                resendOTP.setVisibility(View.VISIBLE);
+                            }
+                        }.start();
                     }
 
                 }, TIMER);
@@ -276,7 +288,7 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements S
 
     private void createuser() {
         try {
-            result = new LoginHelper.GetLogin().execute(mobile, "Jihuzur@123", "Jihuzur@123", "Customer").get();
+            result = new LoginHelper.GetLogin().execute(mobile, "Jihuzur@123", "Jihuzur@123", "Employee").get();
             progressDialog.dismiss();
             Gson gson = new Gson();
             UserLogin.RootObject jsonbody = gson.fromJson(result, UserLogin.RootObject.class);

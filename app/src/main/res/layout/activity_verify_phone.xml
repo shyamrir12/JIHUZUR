@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/backdrop"
     android:orientation="vertical">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -14,127 +15,134 @@
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
     </android.support.v7.widget.Toolbar>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/linear_background_shape">
+
                 <LinearLayout
                     android:id="@+id/loginset"
                     android:layout_width="match_parent"
                     android:layout_height="230dp"
-                    android:orientation="vertical"
-                    android:layout_margin="10dp">
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
                         android:orientation="horizontal"
-                        android:padding="16dp"
-                        android:layout_marginTop="40dp">
+                        android:padding="16dp">
 
 
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/phonemo"
                             android:layout_gravity="center"
-                            android:tint="@color/white"/>
-
+                            android:src="@drawable/phonemo"
+                            android:tint="@color/white" />
 
 
                         <EditText
                             android:id="@+id/editTextOtp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Otp"
-                            android:textColorHint="@color/white"
                             android:layout_marginLeft="25dp"
                             android:background="#00000000"
-                            android:letterSpacing="0.1"
-                            android:textSize="19sp"
-                            android:textColor="@color/white"
-                            android:textStyle="bold"
+                            android:fontFamily="@font/fonts"
+                            android:hint="Otp"
                             android:inputType="number"
-                            android:paddingLeft="10dp"
+                            android:letterSpacing="0.1"
                             android:maxLength="4"
-                            android:fontFamily="@font/fonts"/>
+                            android:paddingLeft="10dp"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white"
+                            android:textSize="19sp"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="2dp"
-                        android:background="#dfe0e2"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"/>
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="2dp"
+                        android:background="#dfe0e2" />
 
                     <Button
                         android:id="@+id/buttonVerify"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
+                        android:layout_gravity="bottom"
+                        android:layout_marginTop="20dp"
                         android:background="@drawable/button_background"
+                        android:fontFamily="@font/fonts"
+                        android:gravity="center"
+                        android:letterSpacing="0.2"
+                        android:padding="10dp"
                         android:text="Verify"
                         android:textColor="#FFFFFF"
-                        android:textStyle="bold"
-                        android:gravity="center"
-                        android:layout_gravity="bottom"
-                        android:padding="10dp"
-                        android:layout_marginTop="20dp"
-                        android:letterSpacing="0.2"
-                        android:fontFamily="@font/fonts"/>
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
+
                         <Button
                             android:id="@+id/resendOTP"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
-                            android:text="Resend Otp"
-                            android:layout_weight="1"
-                            android:textColor="#FFFFFF"
-                            android:textAllCaps="false"
-                            android:background="@drawable/linear_background_shape"
-                            android:textStyle="bold"
-                            android:textSize="12sp"
-                            android:gravity="center"
                             android:layout_gravity="bottom"
-                            android:padding="8dp"
                             android:layout_marginTop="20dp"
-                            android:letterSpacing="0.2"
+                            android:layout_weight="1"
+                            android:background="@drawable/linear_background_shape"
                             android:fontFamily="@font/fonts"
-                            android:visibility="visible"/>
+                            android:gravity="center"
+                            android:letterSpacing="0.2"
+                            android:padding="8dp"
+                            android:text="Resend Otp"
+                            android:textAllCaps="false"
+                            android:textColor="#FFFFFF"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:visibility="visible" />
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1.6"/>
+                            android:layout_weight="1.6" />
+
                         <Button
                             android:id="@+id/countDown"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:text="00:00"
-                            android:layout_weight="1"
-                            android:textColor="#FFFFFF"
-                            android:textAllCaps="false"
-                            android:background="@color/transparency"
-                            android:textStyle="bold"
-                            android:gravity="right"
                             android:layout_gravity="bottom"
-                            android:padding="8dp"
                             android:layout_marginTop="20dp"
-                            android:letterSpacing="0.2"
+                            android:layout_weight="1"
+                            android:background="@color/transparency"
                             android:fontFamily="@font/fonts"
-                            android:visibility="visible"/>
+                            android:gravity="right"
+                            android:letterSpacing="0.2"
+                            android:padding="8dp"
+                            android:text="00:00"
+                            android:textAllCaps="false"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold"
+                            android:visibility="visible" />
                     </LinearLayout>
 
 
@@ -142,24 +150,23 @@
             </LinearLayout>
 
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/linear"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="60dp"
-            android:paddingRight="60dp"
-            android:orientation="vertical"
             android:gravity="bottom"
-            android:id="@+id/linear">
-
-
+            android:orientation="vertical"
+            android:paddingLeft="60dp"
+            android:paddingRight="60dp">
 
 
             <LinearLayout
+                android:id="@+id/coordinator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linear"
-                android:orientation="vertical"
-                android:id="@+id/coordinator">
+                android:orientation="vertical">
 
             </LinearLayout>
 
