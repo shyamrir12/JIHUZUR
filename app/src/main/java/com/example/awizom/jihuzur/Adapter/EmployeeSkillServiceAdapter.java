@@ -8,16 +8,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeSkillActivity;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.Skill;
 import com.example.awizom.jihuzur.R;
 import com.google.gson.Gson;
+
 import java.util.List;
 
-public class EmployeeSkillServiceAdapter extends
-        RecyclerView.Adapter<EmployeeSkillServiceAdapter.MyViewHolder> {
+public class EmployeeSkillServiceAdapter extends RecyclerView.Adapter<EmployeeSkillServiceAdapter.MyViewHolder> {
 
 
     List<Skill> serviceListforshow;
@@ -36,12 +37,12 @@ public class EmployeeSkillServiceAdapter extends
         Skill c = serviceListforshow.get(position);
         holder.serviceName.setText(c.getServiceName());
         holder.skillid.setText(String.valueOf(c.getID()));
-        Skillid=holder.skillid.getText().toString();
+        Skillid = holder.skillid.getText().toString();
         holder.deleteSkill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                deleteskill(Skillid);
+                deleteskill(holder.skillid.getText().toString());
             }
         });
     }
@@ -53,7 +54,7 @@ public class EmployeeSkillServiceAdapter extends
             Gson gson = new Gson();
             final Result jsonbodyres = gson.fromJson(result, Result.class);
             Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-            ((EmployeeSkillActivity)mCtx).getEmployeeSkill();
+            ((EmployeeSkillActivity) mCtx).getEmployeeSkill();
 ////                progressDialog.dismiss();
         } catch (Exception e) {
 
@@ -75,14 +76,14 @@ public class EmployeeSkillServiceAdapter extends
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView serviceName,skillid;
+        public TextView serviceName, skillid;
         public ImageView deleteSkill;
 
         public MyViewHolder(View view) {
             super(view);
             serviceName = view.findViewById(R.id.serviceName);
-            deleteSkill =  view.findViewById(R.id.deleteskill);
-            skillid=view.findViewById(R.id.skillid);
+            deleteSkill = view.findViewById(R.id.deleteskill);
+            skillid = view.findViewById(R.id.skillid);
         }
 
 
