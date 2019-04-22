@@ -3,19 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/backdrop"
     android:orientation="vertical"
     tools:context="com.example.awizom.jihuzur.CustomerActivity.CustomerChatBoat">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+
         android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="10dp"
             android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         </android.support.v7.widget.RecyclerView>
@@ -23,22 +34,22 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/dialog_bg"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/chatcontain"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="50dp"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"
+            android:layout_marginRight="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/dialog_chat" />
 
         <ImageView
             android:id="@+id/send"
             android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_height="50dp"
             android:src="@drawable/ic_send_black_24dp" />
     </LinearLayout>
 

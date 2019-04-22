@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -66,8 +67,17 @@ import com.example.awizom.jihuzur.Service.LocationMonitoringNotificationService;
 import com.example.awizom.jihuzur.SettingsActivity;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.example.awizom.jihuzur.ViewDialog;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -429,6 +439,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
 
         if (!runtime_permissions())
 
+
             try {
                 enable_buttons();
             } catch (Exception e) {
@@ -498,6 +509,40 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
 
     public void enable_buttons() {
         try {
+            LocationRequest mLocationRequest = LocationRequest.create()
+                    .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                    .setInterval(5 * 1000)
+                    .setFastestInterval(1 * 1000);
+            LocationSettingsRequest.Builder settingsBuilder = new LocationSettingsRequest.Builder()
+                    .addLocationRequest(mLocationRequest);
+            settingsBuilder.setAlwaysShow(true);
+            Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(this)
+                    .checkLocationSettings(settingsBuilder.build());
+            result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
+                @Override
+                public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
+                    try {
+                        LocationSettingsResponse response =
+                                task.getResult(ApiException.class);
+                    } catch (ApiException ex) {
+                        switch (ex.getStatusCode()) {
+                            case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                                try {
+                                    ResolvableApiException resolvableApiException =
+                                            (ResolvableApiException) ex;
+                                    resolvableApiException
+                                            .startResolutionForResult(EmployeeHomePage.this,
+                                                    201);
+                                } catch (IntentSender.SendIntentException e) {
+
+                                }
+                                break;
+                            case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                                break;
+                        }
+                    }
+                }
+            });
           /*  Intent serviceIntent = new Intent(EmployeeHomePage.this, LocationMonitoringNotificationService.class);
             serviceIntent.putExtra("inputExtra", "Location Service Enabled");
             ContextCompat.startForegroundService(EmployeeHomePage.this, serviceIntent);*/

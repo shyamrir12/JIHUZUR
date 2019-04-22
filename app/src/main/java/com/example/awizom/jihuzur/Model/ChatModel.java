@@ -2,23 +2,50 @@ package com.example.awizom.jihuzur.Model;
 
 public class ChatModel {
 
-   String Customermsg;
+    String ChatContainCustomer;
+    String CustomerID;
+    String EmployeeID;
+    String OrderID;
 
-    public String getCustomermsg() {
-        return Customermsg;
+    public String getChatContainEmployee() {
+        return ChatContainEmployee;
     }
 
-    public void setCustomermsg(String customermsg) {
-        Customermsg = customermsg;
+    public void setChatContainEmployee(String chatContainEmployee) {
+        ChatContainEmployee = chatContainEmployee;
     }
 
-    public String getEmployeemsg() {
-        return Employeemsg;
+    String ChatContainEmployee;
+
+    public String getChatContainCustomer() {
+        return ChatContainCustomer;
     }
 
-    public void setEmployeemsg(String employeemsg) {
-        Employeemsg = employeemsg;
+    public void setChatContainCustomer(String chatContainCustomer) {
+        ChatContainCustomer = chatContainCustomer;
     }
 
-    String Employeemsg;
+    public String getCustomerID() {
+        return CustomerID;
+    }
+
+    public void setCustomerID(String customerID) {
+        CustomerID = customerID;
+    }
+
+    public String getEmployeeID() {
+        return EmployeeID;
+    }
+
+    public void setEmployeeID(String employeeID) {
+        EmployeeID = employeeID;
+    }
+
+    public String getOrderID() {
+        return OrderID;
+    }
+
+    public void setOrderID(String orderID) {
+        OrderID = orderID;
+    }
 }

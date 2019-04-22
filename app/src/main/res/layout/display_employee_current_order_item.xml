@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
+
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -11,8 +12,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp">
 
             <android.support.v7.widget.CardView
@@ -22,9 +23,11 @@
                 android:layout_margin="10dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="10dp">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <LinearLayout
                         android:id="@+id/l1"
                         android:layout_width="match_parent"
@@ -35,37 +38,39 @@
                             android:id="@+id/cusName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Customer Name"
-                            android:textColor="@color/colorBlack"
                             android:layout_weight="1"
-                            android:textSize="13sp"
                             android:fontFamily="serif"
                             android:gravity="left"
                             android:padding="10dp"
+                            android:text="Customer Name"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="13sp"
                             android:textStyle="bold" />
+
                         <TextView
                             android:id="@+id/cusID"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:textColor="@color/colorBlack"
                             android:layout_weight="1"
-                            android:textSize="14sp"
                             android:fontFamily="serif"
                             android:gravity="left"
                             android:padding="10dp"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="14sp"
                             android:textStyle="bold"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
+
                         <TextView
                             android:id="@+id/cusMobile"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:fontFamily="serif"
                             android:gravity="left"
                             android:padding="10dp"
                             android:text="Customer Contact"
-                            android:textSize="13sp"
-                            android:fontFamily="serif"
                             android:textColor="@color/colorBlack"
+                            android:textSize="13sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -73,22 +78,35 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:fontFamily="serif"
                             android:gravity="left"
                             android:padding="10dp"
                             android:text="00:00"
-                            android:textSize="13sp"
-                            android:fontFamily="serif"
                             android:textColor="@color/colorBlack"
+                            android:textSize="13sp"
                             android:textStyle="bold" />
+
                         <ImageView
                             android:id="@+id/sendPhoto"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
                             android:layout_marginTop="8dp"
-                            android:tint="#a34e2c"
                             android:layout_weight="1"
-                            android:src="@drawable/ic_camera_black_24dp"/>
-              </LinearLayout>
+                            android:src="@drawable/ic_camera_black_24dp"
+                            android:tint="#a34e2c" />
+
+                        <TextView
+                            android:id="@+id/emp_id"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="1"
+                            android:src="@drawable/ic_camera_black_24dp"
+                            android:tint="#a34e2c"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
                     <view
                         android:id="@+id/views"
                         class="android.support.v7.app.AlertController$RecycleListView"
@@ -96,47 +114,51 @@
                         android:layout_height="1dp"
                         android:layout_below="@+id/l1"
                         android:background="@color/grey" />
+
                     <LinearLayout
                         android:id="@+id/l2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_below="@+id/views"
+                        android:orientation="horizontal"
                         android:visibility="gone">
 
                         <TextView
                             android:id="@+id/starttime"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Start Time"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="13sp"
+                            android:layout_weight="1"
                             android:fontFamily="serif"
                             android:gravity="left"
+                            android:hint="Start Time"
                             android:padding="10dp"
-                            android:textStyle="bold"
-                            android:layout_weight="1"/>
+                            android:textColor="@color/colorBlack"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
                         <TextView
                             android:id="@+id/endtime"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="End Time"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="13sp"
+                            android:layout_weight="1"
                             android:fontFamily="serif"
                             android:gravity="left"
+                            android:hint="End Time"
                             android:padding="10dp"
-                            android:textStyle="bold"
-                            android:layout_weight="1"/>
+                            android:textColor="@color/colorBlack"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
+
                     <view
                         android:id="@+id/v2"
+                        class="android.support.v7.app.AlertController$RecycleListView"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/grey"
                         android:layout_below="@+id/l2"
-                        class="android.support.v7.app.AlertController$RecycleListView"/>
+                        android:background="@color/grey" />
+
                     <LinearLayout
                         android:id="@+id/l3"
                         android:layout_width="match_parent"
@@ -149,12 +171,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="left"
-                            android:text="CatagoryName"
-                            android:textSize="13sp"
                             android:fontFamily="serif"
+                            android:gravity="left"
                             android:padding="10dp"
+                            android:text="CatagoryName"
                             android:textColor="@color/colorBlack"
+                            android:textSize="13sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -162,15 +184,16 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="left"
-                            android:text="Service Name"
-                            android:padding="10dp"
-                            android:textSize="13sp"
                             android:fontFamily="serif"
+                            android:gravity="left"
+                            android:padding="10dp"
+                            android:text="Service Name"
                             android:textColor="@color/colorBlack"
+                            android:textSize="13sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
+
                     <view
                         android:id="@+id/v3"
                         class="android.support.v7.app.AlertController$RecycleListView"
@@ -178,6 +201,7 @@
                         android:layout_height="1dp"
                         android:layout_below="@+id/l3"
                         android:background="@color/grey" />
+
                     <LinearLayout
                         android:id="@+id/l4"
                         android:layout_width="match_parent"
@@ -185,60 +209,64 @@
                         android:layout_below="@+id/v3"
                         android:orientation="horizontal"
                         android:visibility="gone">
+
                         <TextView
                             android:id="@+id/pricingterm"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="left"
-                            android:text="Pricing Term"
-                            android:padding="10dp"
-                            android:textColor="@color/colorBlack"
-                            android:textStyle="bold"
-                            android:textSize="13sp"
                             android:fontFamily="serif"
-                            android:visibility="visible"/>
+                            android:gravity="left"
+                            android:padding="10dp"
+                            android:text="Pricing Term"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:visibility="visible" />
+
                         <Button
                             android:id="@+id/priceupdateBtn"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
                             android:layout_weight="1"
+                            android:background="@drawable/background_btn_item"
+                            android:fontFamily="serif"
                             android:text="PricingUpdate"
                             android:textAllCaps="false"
-                            android:background="@drawable/background_btn_item"
                             android:textColor="@color/white"
-                            android:textStyle="bold"
                             android:textSize="14sp"
-                            android:fontFamily="serif"
-                            android:visibility="gone"/>
+                            android:textStyle="bold"
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/serviceID"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="left"
-                            android:text="Service ID"
-                            android:padding="10dp"
-                            android:textColor="@color/colorBlack"
-                            android:textStyle="bold"
-                            android:textSize="13sp"
                             android:fontFamily="serif"
-                            android:visibility="gone"/>
+                            android:gravity="left"
+                            android:padding="10dp"
+                            android:text="Service ID"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:visibility="gone" />
+
                         <TextView
                             android:id="@+id/catalogID"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="catalog ID"
-                            android:padding="10dp"
-                            android:textSize="13sp"
                             android:fontFamily="serif"
+                            android:padding="10dp"
+                            android:text="catalog ID"
                             android:textColor="@color/colorBlack"
+                            android:textSize="13sp"
                             android:textStyle="bold"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
 
                     </LinearLayout>
+
                     <view
                         android:id="@+id/v4"
                         class="android.support.v7.app.AlertController$RecycleListView"
@@ -246,6 +274,7 @@
                         android:layout_height="1dp"
                         android:layout_below="@+id/l4"
                         android:background="@color/grey" />
+
                     <LinearLayout
                         android:id="@+id/l5"
                         android:layout_width="match_parent"
@@ -253,6 +282,7 @@
                         android:layout_below="@+id/v4"
                         android:orientation="horizontal"
                         android:visibility="gone">
+
                         <TextView
                             android:id="@+id/discountName"
                             android:layout_width="match_parent"
@@ -262,106 +292,130 @@
                             android:padding="10dp"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"
-                            android:visibility="visible"/>
+                            android:visibility="visible" />
+
                         <Button
                             android:id="@+id/dicupdateBtn"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
                             android:layout_weight="1"
+                            android:background="@drawable/adapter_btn_background"
                             android:text="DiscountUpdate"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            android:background="@drawable/adapter_btn_background"
                             android:textStyle="bold"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
                     </LinearLayout>
 
                     <view
-                    android:id="@+id/v5"
-                    class="android.support.v7.app.AlertController$RecycleListView"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@+id/l5"
-                    android:background="@color/grey"
-                    android:visibility="gone"/>
+                        android:id="@+id/v5"
+                        class="android.support.v7.app.AlertController$RecycleListView"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/l5"
+                        android:background="@color/grey"
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:id="@+id/l6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_below="@+id/v5"
                         android:layout_margin="10dp"
+                        android:orientation="horizontal"
                         android:visibility="visible">
+
                         <Button
                             android:id="@+id/genOtpBtn"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
-                            android:text="Verify Otp"
                             android:layout_weight="1"
+                            android:background="@drawable/adapter_btn_background"
+                            android:fontFamily="monospace"
+                            android:text="Verify Otp"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textSize="10sp"
-                            android:fontFamily="monospace"
-                            android:background="@drawable/adapter_btn_background"
-                            android:visibility="visible"/>
+                            android:visibility="visible" />
+
                         <view
+                            class="android.support.v7.app.AlertController$RecycleListView"
                             android:layout_width="3dp"
                             android:layout_height="match_parent"
-                            android:background="@color/white"
-                            class="android.support.v7.app.AlertController$RecycleListView"/>
+                            android:background="@color/white" />
+
                         <Button
                             android:id="@+id/stopBtn"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/adapter_btn_background"
+                            android:fontFamily="monospace"
                             android:text="Stop"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textSize="10sp"
-                            android:fontFamily="monospace"
+                            android:visibility="visible" />
+
+                        <Button
+                            android:id="@+id/chatbutton"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
                             android:layout_weight="1"
                             android:background="@drawable/adapter_btn_background"
-                            android:visibility="visible"/>
+                            android:text="chat"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/customer_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone" />
+
                         <view
+                            class="android.support.v7.app.AlertController$RecycleListView"
                             android:layout_width="3dp"
                             android:layout_height="match_parent"
-                            android:background="@color/white"
-                            class="android.support.v7.app.AlertController$RecycleListView"/>
+                            android:background="@color/white" />
+
                         <Button
                             android:id="@+id/acceptPaymentBtn"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
-                            android:textColor="@color/white"
+                            android:layout_weight="1"
+                            android:background="@drawable/adapter_btn_background"
+                            android:fontFamily="monospace"
                             android:text="Payment"
                             android:textAllCaps="false"
-                            android:textSize="10sp"
-                            android:fontFamily="monospace"
-                            android:layout_weight="1"
-                            android:background="@drawable/adapter_btn_background"/>
+                            android:textColor="@color/white"
+                            android:textSize="10sp" />
 
                         <view
+                            class="android.support.v7.app.AlertController$RecycleListView"
                             android:layout_width="3dp"
                             android:layout_height="match_parent"
-                            android:background="@color/white"
-                            class="android.support.v7.app.AlertController$RecycleListView"/>
+                            android:background="@color/white" />
+
                         <Button
                             android:id="@+id/trackBtn"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
-                            android:textColor="@color/white"
+                            android:layout_weight="1"
+                            android:background="@drawable/adapter_btn_background"
+                            android:fontFamily="monospace"
                             android:text="Track"
                             android:textAllCaps="false"
-                            android:textSize="10sp"
-                            android:fontFamily="monospace"
-                            android:layout_weight="1"
-                            android:background="@drawable/adapter_btn_background"/>
+                            android:textColor="@color/white"
+                            android:textSize="10sp" />
+
                         <TextView
                             android:id="@+id/orderIDS"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
 
-               </LinearLayout>
+                    </LinearLayout>
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>
