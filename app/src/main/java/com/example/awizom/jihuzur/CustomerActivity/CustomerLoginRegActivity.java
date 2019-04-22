@@ -1,8 +1,10 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -31,6 +33,7 @@ import com.example.awizom.jihuzur.LoginRegistrationActivity.EmployeeRegistration
 import com.example.awizom.jihuzur.LoginRegistrationActivity.VerifyPhoneActivity;
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.UserLogin;
+import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -60,6 +63,7 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
     boolean check = false;
     private static int TIMER = 300;
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
+    String skipdata = "";
 
     /*For layout binding */
     @Override
@@ -101,6 +105,15 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
         });
 
         skiplogin = findViewById(R.id.skiplogin);
+        try {
+            skipdata = getIntent().getStringExtra("Skip").toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (skipdata.equals("SkipLogin")) {
+            skiplogin.setVisibility(View.GONE);
+        }
         butonContinue.setOnClickListener(this);
         skiplogin.setOnClickListener(this);
         loginHelper = new LoginHelper();
@@ -226,22 +239,72 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                             Log.d("CustomerOTp", jsonbody.Otp);
                             result = String.valueOf(new AdminHelper.POSTProfileLatLong().execute(SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(), String.valueOf("21.22"), String.valueOf("80.66")));
                             progressDialog.dismiss();
-                            intent = new Intent(CustomerLoginRegActivity.this, VerifyPhoneActivity.class);
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
 
+
+                            if(jsonbody.Role.equals("Customer")){
+                                intent = new Intent(CustomerLoginRegActivity.this, VerifyPhoneActivity.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                            }else {
+                                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                                alertDialog.setTitle("Sorry !!");
+                                alertDialog.setMessage("Your mobile no is register already"+" "+jsonbody.Role);
+
+
+                                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                                        LinearLayout.LayoutParams.MATCH_PARENT,
+                                        LinearLayout.LayoutParams.MATCH_PARENT);
+
+                                alertDialog.setIcon(R.drawable.warning);
+
+                                alertDialog.setPositiveButton("ok",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                dialog.dismiss();
+                                            }
+                                        });
+
+
+                                alertDialog.show();
+                            }
                         } else {
                             progressDialog.dismiss();
-                            intent = new Intent(CustomerLoginRegActivity.this, VerifyPhoneActivity.class);
-                            intent.putExtra("OTP", jsonbody.Otp);
-                            intent.putExtra("Uid", jsonbody.Id);
-                            intent.putExtra("Role", jsonbody.Role);
-                            intent.putExtra("Active", jsonbody.ActiveStatus);
-                            intent.putExtra("Mobile", jsonbody.Mobile);
-                            startActivity(intent);
-                            Log.d("CustomerOTp", jsonbody.Otp);
-                            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                            if(jsonbody.Role.equals("Customer")) {
+                                intent = new Intent(CustomerLoginRegActivity.this, VerifyPhoneActivity.class);
+                                intent.putExtra("OTP", jsonbody.Otp);
+                                intent.putExtra("Uid", jsonbody.Id);
+                                intent.putExtra("Role", jsonbody.Role);
+                                intent.putExtra("Active", jsonbody.ActiveStatus);
+                                intent.putExtra("Mobile", jsonbody.Mobile);
+                                startActivity(intent);
+                                Log.d("CustomerOTp", jsonbody.Otp);
+                                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                            }else {
+                                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                                alertDialog.setTitle("Sorry !!");
+                                alertDialog.setMessage("Your mobile no is register already"+" "+jsonbody.Role);
+
+
+                                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                                        LinearLayout.LayoutParams.MATCH_PARENT,
+                                        LinearLayout.LayoutParams.MATCH_PARENT);
+
+                                alertDialog.setIcon(R.drawable.warning);
+
+                                alertDialog.setPositiveButton("ok",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                dialog.dismiss();
+                                            }
+                                        });
+
+
+                                alertDialog.show();
+                            }
+
                         }
 
 

@@ -151,7 +151,8 @@
             android:textColor="@color/button_color"
             android:textStyle="bold"
             android:letterSpacing="0.1"
-            android:fontFamily="@font/fonts"/>
+            android:fontFamily="@font/fonts"
+            android:visibility="visible"/>
 
         <LinearLayout
             android:layout_width="match_parent"

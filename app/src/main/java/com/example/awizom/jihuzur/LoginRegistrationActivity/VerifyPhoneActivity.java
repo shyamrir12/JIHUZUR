@@ -186,12 +186,14 @@ public class VerifyPhoneActivity extends AppCompatActivity implements SMSReceive
                                     progressDialog.dismiss();
                                     Toast.makeText(getApplicationContext(), "SuccessFully Verified", Toast.LENGTH_LONG).show();
                                     intent = new Intent(VerifyPhoneActivity.this, CustomerHomePage.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(intent);
                                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                                 } else {
                                     progressDialog.dismiss();
                                     Toast.makeText(getApplicationContext(), "SuccessFully Verified", Toast.LENGTH_LONG).show();
                                     intent = new Intent(VerifyPhoneActivity.this, CustomerProfileActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(intent);
                                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                                 }

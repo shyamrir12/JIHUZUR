@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.AdminActivity.AdminPricingActivity;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerLoginRegActivity;
 import com.example.awizom.jihuzur.CustomerActivity.SingleShotLocationProvider;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeSkillActivity;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
@@ -132,6 +133,12 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
                         intent.putExtra("button", "serBtn");
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mCtx.startActivity(intent);
+                    }else {
+                        intent = new Intent(mCtx, CustomerLoginRegActivity.class);
+                        intent.putExtra("Skip","SkipLogin");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        mCtx.startActivity(intent);
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
