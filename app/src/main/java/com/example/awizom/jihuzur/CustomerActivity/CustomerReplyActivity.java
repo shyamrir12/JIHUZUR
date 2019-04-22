@@ -1,5 +1,6 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -56,6 +57,7 @@ public class CustomerReplyActivity extends AppCompatActivity implements View.OnC
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 onBackPressed();
             }
         });
@@ -131,18 +133,34 @@ public class CustomerReplyActivity extends AppCompatActivity implements View.OnC
     private void postReply() {
 
         try {
-            result = new CustomerOrderHelper.PostReviewReply().execute(replyID.toString(),edittxtViewReply.getText().toString(),reviewID.toString(), String.valueOf(active)).get();
-            if (!result.isEmpty()) {
-                //Toast.makeText(this, result.toString(), Toast.LENGTH_SHORT).show();
+            if(validate()){
+                result = new CustomerOrderHelper.PostReviewReply().execute(replyID.toString(),edittxtViewReply.getText().toString(),reviewID.toString(), String.valueOf(active)).get();
+                if (!result.isEmpty()) {
+                    //Toast.makeText(this, result.toString(), Toast.LENGTH_SHORT).show();
+                    edittxtViewReply.setText("");
+                }
+
+                getReplyList();
+            }else {
+                Toast.makeText(getApplicationContext(), "Please some write", Toast.LENGTH_SHORT).show();
+
             }
 
-                        getReplyList();
 
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean validate() {
+        if (edittxtViewReply.getText().toString().isEmpty()) {
+            edittxtViewReply.setError("Enter a valid mobile");
+            edittxtViewReply.requestFocus();
+            return false;
+        }
+        return true;
     }
 
     public void showCustomLoadingDialog() {

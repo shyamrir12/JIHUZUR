@@ -3,7 +3,6 @@ package com.example.awizom.jihuzur.CustomerActivity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,7 +13,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -62,7 +60,6 @@ import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.DiscountModel;
 import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
-import com.example.awizom.jihuzur.SettingsActivity;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.example.awizom.jihuzur.ViewDialog;
 import com.google.firebase.database.DatabaseReference;
@@ -71,8 +68,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by Ravi on 07/01/2019.
@@ -91,7 +86,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     TextView userName, userContact;
     ImageView imageView;
     String img_str;
-    String skipdata = "";
+    private String skipdata = "";
     boolean check = false;
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
     Intent intent;
@@ -138,7 +133,15 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
 
-                                        dialog.dismiss();
+                                        SharedPrefManager.getInstance(CustomerHomePage.this).logout();
+                                        intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
+                                        if(skipdata.equals("SkipLogin")) {
+                                            intent.putExtra("Skip", "SkipLogin");
+                                        }
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                        overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+
                                     }
                                 });
 
@@ -170,7 +173,15 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
 
-                                        dialog.dismiss();
+                                        SharedPrefManager.getInstance(CustomerHomePage.this).logout();
+                                        intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
+                                        if(skipdata.equals("SkipLogin")) {
+                                            intent.putExtra("Skip", "SkipLogin");
+                                        }
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                        overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+
                                     }
                                 });
 
@@ -217,6 +228,11 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         catalogFragment = new CatalogFragment();
         setContentView(R.layout.activity_customer_home_page);
         gridView = (GridView) findViewById(R.id.gridview);
+        try {
+            skipdata = getIntent().getStringExtra("Skip").toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         getCategoryList();
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setLogo(R.mipmap.jihuzzur_home_logo);
@@ -224,11 +240,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
         toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
         setSupportActionBar(toolbar);
-        try {
-            skipdata = getIntent().getStringExtra("Skip").toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -310,7 +322,15 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
 
-                                    dialog.dismiss();
+                                    SharedPrefManager.getInstance(CustomerHomePage.this).logout();
+                                    intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
+                                    if(skipdata.equals("SkipLogin")) {
+                                        intent.putExtra("Skip", "SkipLogin");
+                                    }
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+
                                 }
                             });
 
@@ -425,7 +445,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 Type listType = new TypeToken<List<Catalog>>() {
                 }.getType();
                 categorylist = new Gson().fromJson(result, listType);
-                CustomerHomePageAdapter customerCatagoryAdapter = new CustomerHomePageAdapter(CustomerHomePage.this, categorylist);
+                CustomerHomePageAdapter customerCatagoryAdapter = new CustomerHomePageAdapter(CustomerHomePage.this, categorylist,skipdata);
                 gridView.setAdapter(customerCatagoryAdapter);
             }
         } catch (Exception e) {
@@ -615,11 +635,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             return true;
         }
         if (id == R.id.action_settings) {
-            intent = new Intent(CustomerHomePage.this, SettingsActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+
             return true;
         }
         if (id == R.id.action_profile) {
@@ -677,8 +693,15 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 alertDialog.setPositiveButton("ok",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
+                                SharedPrefManager.getInstance(CustomerHomePage.this).logout();
+                                intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
+                                if(skipdata.equals("SkipLogin")) {
+                                    intent.putExtra("Skip", "SkipLogin");
+                                }
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
-                                dialog.dismiss();
                             }
                         });
 
@@ -715,7 +738,15 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
 
-                                dialog.dismiss();
+                                SharedPrefManager.getInstance(CustomerHomePage.this).logout();
+                                intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
+                                if(skipdata.equals("SkipLogin")) {
+                                    intent.putExtra("Skip", "SkipLogin");
+                                }
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+
                             }
                         });
 
@@ -764,7 +795,15 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
 
-                                dialog.dismiss();
+                                SharedPrefManager.getInstance(CustomerHomePage.this).logout();
+                                intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
+                                if(skipdata.equals("SkipLogin")) {
+                                    intent.putExtra("Skip", "SkipLogin");
+                                }
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+
                             }
                         });
 

@@ -32,10 +32,6 @@ public class CustomerCommentAdapter extends  RecyclerView.Adapter<CustomerCommen
     private boolean active=true;
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
-
-
-
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView sendMsz, reviewDate,reviewRateText,reviewDateText,replyBtn,reviewID,sendButton,totalReply;
         private EditText edittxtViewReply;

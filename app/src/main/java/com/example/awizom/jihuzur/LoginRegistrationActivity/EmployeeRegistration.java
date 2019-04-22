@@ -1,8 +1,10 @@
 package com.example.awizom.jihuzur.LoginRegistrationActivity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -225,17 +227,40 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
                                     }
                                 }
                             });
+                            if (jsonbody.Role.equals("Employee")) {
+
+                                intent = new Intent(EmployeeRegistration.this, VerifyPhoneActivityEmployeee.class);
+                                intent.putExtra("OTP", jsonbody.Otp);
+                                Log.d("OtpEmployee", jsonbody.Otp);
+                                intent.putExtra("Uid", jsonbody.Id);
+                                intent.putExtra("Role", jsonbody.Role);
+                                intent.putExtra("Active", jsonbody.ActiveStatus);
+                                startActivity(intent);
+                                Log.d("EmployeeOTp", jsonbody.Otp);
+                                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                            }else {
+                                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                                alertDialog.setTitle("Sorry !!");
+                                alertDialog.setMessage("Your mobile no is register already"+" "+jsonbody.Role);
 
 
-                            intent = new Intent(EmployeeRegistration.this, VerifyPhoneActivityEmployeee.class);
-                            intent.putExtra("OTP", jsonbody.Otp);
-                            Log.d("OtpEmployee", jsonbody.Otp);
-                            intent.putExtra("Uid", jsonbody.Id);
-                            intent.putExtra("Role", jsonbody.Role);
-                            intent.putExtra("Active", jsonbody.ActiveStatus);
-                            startActivity(intent);
-                            Log.d("EmployeeOTp", jsonbody.Otp);
-                            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                                        LinearLayout.LayoutParams.MATCH_PARENT,
+                                        LinearLayout.LayoutParams.MATCH_PARENT);
+
+                                alertDialog.setIcon(R.drawable.warning);
+
+                                alertDialog.setPositiveButton("ok",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                dialog.dismiss();
+                                            }
+                                        });
+
+
+                                alertDialog.show();
+                            }
                         }
 
 

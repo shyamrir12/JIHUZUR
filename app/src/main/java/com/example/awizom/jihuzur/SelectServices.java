@@ -42,7 +42,7 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
     RecyclerView recyclerView;
     List<Service> serviceList;
     ServiceListAdapter serviceListAdapter;
-    private String result = "";
+    private String result = "",skipdata="";
     TextView categoryname;
     FloatingActionButton addService;
     AutoCompleteTextView editServicename, editDescription;
@@ -58,10 +58,16 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
 
     private void initView() {
 
-        categoryName = getIntent().getStringExtra("CategoryName");
-        catalogID = getIntent().getStringExtra("CatalogID");
-        imageLink = getIntent().getStringExtra("Image");
-        empskill = getIntent().getStringExtra("EmployeeSkill");
+
+        try {
+            categoryName = getIntent().getStringExtra("CategoryName");
+            catalogID = getIntent().getStringExtra("CatalogID");
+            imageLink = getIntent().getStringExtra("Image");
+            empskill = getIntent().getStringExtra("EmployeeSkill");
+            skipdata = getIntent().getStringExtra("Skip").toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Services");
         toolbar.setTitleTextColor(Color.WHITE);
@@ -172,7 +178,7 @@ public class SelectServices extends AppCompatActivity implements View.OnClickLis
                 Type listType = new TypeToken<List<Service>>() {
                 }.getType();
                 serviceList = new Gson().fromJson(result, listType);
-                serviceListAdapter = new ServiceListAdapter(SelectServices.this, serviceList, empskill,imageLink);
+                serviceListAdapter = new ServiceListAdapter(SelectServices.this, serviceList, empskill,imageLink,skipdata);
                 recyclerView.setAdapter(serviceListAdapter);
 
             }

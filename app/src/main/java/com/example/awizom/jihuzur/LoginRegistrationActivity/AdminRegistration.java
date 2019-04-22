@@ -1,8 +1,10 @@
 package com.example.awizom.jihuzur.LoginRegistrationActivity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -188,7 +190,7 @@ public class AdminRegistration extends AppCompatActivity implements View.OnClick
                 try {
                     if (jsonbody.isStatus()) {
                         progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
                         if (jsonbody.Otp.equals("mobile already verified")) {
 
                             DataProfile dataProfile = new DataProfile();
@@ -199,27 +201,75 @@ public class AdminRegistration extends AppCompatActivity implements View.OnClick
                             SharedPrefManager.getInstance(getApplicationContext()).userLogin(dataProfile);
 
                             result = String.valueOf(new AdminHelper.POSTProfileLatLong().execute(SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(), String.valueOf("21.22"), String.valueOf("80.66")));
+                            progressDialog.dismiss();
 
                             if (jsonbody.Role.equals("Admin")) {
-                                 progressDialog.dismiss();
+                                progressDialog.dismiss();
+                                Toast.makeText(getApplicationContext(), "Login successfull", Toast.LENGTH_SHORT).show();
                                 intent = new Intent(AdminRegistration.this, AdminHomePage.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                            }else {
+                                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                                alertDialog.setTitle("Sorry !!");
+                                alertDialog.setMessage("Your mobile no is register already"+" "+jsonbody.Role);
+
+
+                                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                                        LinearLayout.LayoutParams.MATCH_PARENT,
+                                        LinearLayout.LayoutParams.MATCH_PARENT);
+
+                                alertDialog.setIcon(R.drawable.warning);
+
+                                alertDialog.setPositiveButton("ok",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                dialog.dismiss();
+                                            }
+                                        });
+
+
+                                alertDialog.show();
                             }
                         }
 
                         else {
+                            if (jsonbody.Role.equals("Admin")) {
+                                progressDialog.dismiss();
+                                Toast.makeText(getApplicationContext(), "Login successfull", Toast.LENGTH_SHORT).show();
+                                intent = new Intent(AdminRegistration.this, VerifyPhoneActivityAdmin.class);
+                                intent.putExtra("OTP", jsonbody.Otp);
+                                intent.putExtra("Uid", jsonbody.Id);
+                                intent.putExtra("Role", jsonbody.Role);
+                                intent.putExtra("Active", jsonbody.ActiveStatus);
+                                intent.putExtra("Mobile", jsonbody.Mobile);
+                                startActivity(intent);
+                                Log.d("AdminOTp", jsonbody.Otp);
+                                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                            }else {
+                                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                                alertDialog.setTitle("Sorry !!");
+                                alertDialog.setMessage("Your mobile no is register already"+" "+jsonbody.Role);
 
-                            progressDialog.dismiss();
-                            intent = new Intent(AdminRegistration.this, VerifyPhoneActivityAdmin.class);
-                            intent.putExtra("OTP", jsonbody.Otp);
-                            intent.putExtra("Uid", jsonbody.Id);
-                            intent.putExtra("Role", jsonbody.Role);
-                            intent.putExtra("Active", jsonbody.ActiveStatus);
-                            intent.putExtra("Mobile", jsonbody.Mobile);
-                            startActivity(intent);
-                            Log.d("AdminOTp", jsonbody.Otp);
-                            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+
+                                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                                        LinearLayout.LayoutParams.MATCH_PARENT,
+                                        LinearLayout.LayoutParams.MATCH_PARENT);
+
+                                alertDialog.setIcon(R.drawable.warning);
+
+                                alertDialog.setPositiveButton("ok",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                dialog.dismiss();
+                                            }
+                                        });
+
+
+                                alertDialog.show();
+                            }
                         }
 
                     }

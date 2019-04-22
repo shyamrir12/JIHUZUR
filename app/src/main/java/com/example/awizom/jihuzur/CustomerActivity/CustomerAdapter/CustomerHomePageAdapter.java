@@ -43,11 +43,13 @@ public class CustomerHomePageAdapter extends BaseAdapter {
     private List<Catalog> catalogNameList;
     ViewDialog viewDialog;
     private Context mContext;
+    private String skipdata="";
 
-    public CustomerHomePageAdapter(CustomerHomePage newCustomerHome, List<Catalog> categorylist) {
+    public CustomerHomePageAdapter(CustomerHomePage newCustomerHome, List<Catalog> categorylist, String skipdata) {
 
         this.mContext = newCustomerHome;
         this.catalogNameList = categorylist;
+        this.skipdata = skipdata;
     }
 
     @Override
@@ -130,6 +132,7 @@ public class CustomerHomePageAdapter extends BaseAdapter {
                                 intent.putExtra("CategoryName", catalogNameList.get(i).getCategory().toString());
                                 intent.putExtra("Image", imglinkurl.getText().toString());
                                 intent.putExtra("EmployeeSkill", "EmployeeSkill");
+                                intent.putExtra("Skip",skipdata);
                                 mContext.startActivity(intent);
                             }
                         }

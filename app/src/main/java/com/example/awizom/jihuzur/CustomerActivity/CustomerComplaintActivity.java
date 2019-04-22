@@ -173,8 +173,9 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
                   }
 
 
-
-                b.show();
+                final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(CustomerComplaintActivity.this, android.R.layout.simple_dropdown_item_1line, SPINNERLIST);
+                spinner.setAdapter(arrayAdapter);
+                b.dismiss();
 
 
             }
@@ -192,6 +193,8 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
                  * */
             }
         });
+        b.setCancelable(false);
+        b.setCanceledOnTouchOutside(false);
     }
 
 

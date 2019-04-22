@@ -2,7 +2,6 @@ package com.example.awizom.jihuzur.EmployeeActivity;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -21,7 +20,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -62,8 +60,6 @@ import com.example.awizom.jihuzur.LoginRegistrationActivity.EmployeeRegistration
 import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Service.GPS_Service;
-import com.example.awizom.jihuzur.Service.LocationMonitoringNotificationService;
-import com.example.awizom.jihuzur.SettingsActivity;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.example.awizom.jihuzur.ViewDialog;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -582,8 +578,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         //noinspection SimplifiableIfStatement
 
         if (id == R.id.action_settings) {
-            Intent i = new Intent(EmployeeHomePage.this, SettingsActivity.class);
-            startActivity(i);
+
             return true;
         }
         if (id == R.id.action_profile) {

@@ -49,9 +49,16 @@ public class PlumberActivity extends AppCompatActivity {
         timelayout = (LinearLayout) findViewById(R.id.timerlinear);
         timelayout.setVisibility(View.GONE);
         db = FirebaseFirestore.getInstance();
-        if (SharedPrefManager.getInstance(this).getUser().getRole().equals("Admin")) {
-            timelayout.setVisibility(View.VISIBLE);
+        try {
+            if (SharedPrefManager.getInstance(this).getUser().getRole().equals("Admin")) {
+                timelayout.setVisibility(View.VISIBLE);
+            }else {
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
         //  getActionBar().setDisplayHomeAsUpEnabled(true);
 
         getcount();

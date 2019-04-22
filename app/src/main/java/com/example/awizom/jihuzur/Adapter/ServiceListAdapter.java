@@ -47,17 +47,18 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
     String catalogName;
     AutoCompleteTextView editServicename, editDescription;
     Spinner displayType;
-    String result = "", empskills = "", imageLink = "";
+    String result = "", empskills = "", imageLink = "",skipdata="";
     private List<Service> serviceList;
     private Context mCtx;
     ViewDialog viewDialog;
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
-    public ServiceListAdapter(Context baseContext, List<Service> serviceList, String empskill, String imageLink) {
+    public ServiceListAdapter(Context baseContext, List<Service> serviceList, String empskill, String imageLink, String skipdata) {
         this.serviceList = serviceList;
         this.mCtx = baseContext;
         this.empskills = empskill;
         this.imageLink = imageLink;
+        this.skipdata = skipdata;
     }
 
     @Override
@@ -91,54 +92,59 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
                 v.startAnimation(buttonClick);
 
                 try {
-                    if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Admin")) {
-                        showCustomLoadingDialog(v);
-                        intent = new Intent(mCtx, AdminPricingActivity.class);
-                        intent.putExtra("serviceName", holder.serviceName.getText());
-                        intent.putExtra("description", holder.description.getText());
-                        intent.putExtra("serviceID", holder.serviceID.getText());
-                        intent.putExtra("displayType", holder.dType.getText());
-                        Intent i = new Intent(mCtx, SingleShotLocationProvider.class);
-                        mCtx.startService(i);
-                        mCtx.startActivity(intent);
-                        /*    Toast.makeText(mCtx, "" + position, Toast.LENGTH_SHORT).show();
-                         */
-                    } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Employee")) {
+                    if(skipdata.equals("SkipLogin")){
 
-                        showCustomLoadingDialog(v);
-                        String employeeid = SharedPrefManager.getInstance(mCtx).getUser().getID();
+                            intent = new Intent(mCtx, CustomerLoginRegActivity.class);
+                            intent.putExtra("Skip","SkipLogin");
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            mCtx.startActivity(intent);
 
-                        try {
-                            result = new EmployeeOrderHelper.EmployeePOSTSkill().execute(employeeid, serviceID).get();
-                            Gson gson = new Gson();
-                            final Result jsonbodyres = gson.fromJson(result, Result.class);
-                            Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
 
-                            if (!result.equals(null)) {
-                                intent = new Intent(mCtx, EmployeeSkillActivity.class);
-                                mCtx.startActivity(intent);
+                    }else {
+
+                        if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Admin")) {
+                            showCustomLoadingDialog(v);
+                            intent = new Intent(mCtx, AdminPricingActivity.class);
+                            intent.putExtra("serviceName", holder.serviceName.getText());
+                            intent.putExtra("description", holder.description.getText());
+                            intent.putExtra("serviceID", holder.serviceID.getText());
+                            intent.putExtra("displayType", holder.dType.getText());
+                            Intent i = new Intent(mCtx, SingleShotLocationProvider.class);
+                            mCtx.startService(i);
+                            mCtx.startActivity(intent);
+                            /*    Toast.makeText(mCtx, "" + position, Toast.LENGTH_SHORT).show();
+                             */
+                        } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Employee")) {
+
+                            showCustomLoadingDialog(v);
+                            String employeeid = SharedPrefManager.getInstance(mCtx).getUser().getID();
+
+                            try {
+                                result = new EmployeeOrderHelper.EmployeePOSTSkill().execute(employeeid, serviceID).get();
+                                Gson gson = new Gson();
+                                final Result jsonbodyres = gson.fromJson(result, Result.class);
+                                Toast.makeText(mCtx, jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                if (!result.equals(null)) {
+                                    intent = new Intent(mCtx, EmployeeSkillActivity.class);
+                                    mCtx.startActivity(intent);
+                                }
+
+                            } catch (Exception e) {
                             }
 
-                        } catch (Exception e) {
+
+                        } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Customer")) {
+                            showCustomLoadingDialog(v);
+                            intent = new Intent(mCtx, CustomerpricingActivity.class);
+                            intent.putExtra("serviceName", holder.serviceName.getText());
+                            intent.putExtra("description", holder.description.getText());
+                            intent.putExtra("serviceID", holder.serviceID.getText());
+                            intent.putExtra("DisplayType", holder.dType.getText());
+                            intent.putExtra("button", "serBtn");
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            mCtx.startActivity(intent);
                         }
-
-
-                    } else if (SharedPrefManager.getInstance(mCtx).getUser().getRole().equals("Customer")) {
-                        showCustomLoadingDialog(v);
-                        intent = new Intent(mCtx, CustomerpricingActivity.class);
-                        intent.putExtra("serviceName", holder.serviceName.getText());
-                        intent.putExtra("description", holder.description.getText());
-                        intent.putExtra("serviceID", holder.serviceID.getText());
-                        intent.putExtra("DisplayType", holder.dType.getText());
-                        intent.putExtra("button", "serBtn");
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        mCtx.startActivity(intent);
-                    }else {
-                        intent = new Intent(mCtx, CustomerLoginRegActivity.class);
-                        intent.putExtra("Skip","SkipLogin");
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        mCtx.startActivity(intent);
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

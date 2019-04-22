@@ -54,18 +54,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.BuildConfig;
 import com.example.awizom.jihuzur.Config.AppConfig;
-import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeCurrentOrderAdapter;
-import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeeHistoryAdapter;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment.EmployeeCurrentOrderFragment;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment.EmployeeHistoryCurrentFragment;
-import com.example.awizom.jihuzur.HelpCenterActivity;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Locationhelper.FetchURL;
 import com.example.awizom.jihuzur.Locationhelper.TaskLoadedCallback;
 import com.example.awizom.jihuzur.LoginRegistrationActivity.AdminRegistration;
 import com.example.awizom.jihuzur.Model.EmployeeProfileModel;
-import com.example.awizom.jihuzur.Model.Order;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Service.LocationMonitoringService;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
@@ -119,7 +115,6 @@ import android.view.MenuItem;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.DrawingActivity;
 import com.example.awizom.jihuzur.Model.DataProfile;
-import com.example.awizom.jihuzur.SettingsActivity;
 
 public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallback, TaskLoadedCallback, GoogleMap.OnMarkerClickListener, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -1297,8 +1292,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             return true;
         }
         if (id == R.id.action_settings) {
-            Intent i = new Intent(AdminHomePage.this, SettingsActivity.class);
-            startActivity(i);
+
             return true;
         }
         return super.onOptionsItemSelected(item);

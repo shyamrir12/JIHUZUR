@@ -50,6 +50,8 @@ import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
@@ -105,6 +107,7 @@ public class CustomerProfileActivity extends AppCompatActivity {
         pd = new ProgressDialog(this);
         pd.setMessage("Uploading....");
         yourname = (EditText) findViewById(R.id.name);
+
         email = (EditText) findViewById(R.id.Email);
         address = (EditText) findViewById(R.id.Adress);
         imageView = findViewById(R.id.imageView);
@@ -176,47 +179,47 @@ public class CustomerProfileActivity extends AppCompatActivity {
                     @Override
                     public void run() {
 
+                            imageView.buildDrawingCache();
+                            Bitmap bitmap = imageView.getDrawingCache();
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
+                            byte[] image = stream.toByteArray();
+                            System.out.println("byte array:" + image);
+                            String img_str = Base64.encodeToString(image, 0);
+                            String name = yourname.getText().toString();
+                            String emails = email.getText().toString();
+                            String addresss = address.getText().toString();
+                            String id = SharedPrefManager.getInstance(CustomerProfileActivity.this).getUser().getID();
+                            String lat = "";
+                            String longs = "";
 
-                        imageView.buildDrawingCache();
-                        Bitmap bitmap = imageView.getDrawingCache();
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
-                        byte[] image = stream.toByteArray();
-                        System.out.println("byte array:" + image);
-                        String img_str = Base64.encodeToString(image, 0);
-                        String name = yourname.getText().toString();
-                        String emails = email.getText().toString();
-                        String addresss = address.getText().toString();
-                        String id = SharedPrefManager.getInstance(CustomerProfileActivity.this).getUser().getID();
-                        String lat = "";
-                        String longs = "";
-                        try {
-                            result = new EmployeeHelper.POSTProfile().execute(id, name, img_str, identityimage, lat, longs, emails, addresss).get();
-                            Gson gson = new Gson();
-                            final Result jsonbodyres = gson.fromJson(result, Result.class);
-                            DataProfile dataProfile = new DataProfile();
+                            try {
+                                if(validation()) {
+                                    result = new EmployeeHelper.POSTProfile().execute(id, name, img_str, identityimage, lat, longs, emails, addresss).get();
+                                    Gson gson = new Gson();
+                                    final Result jsonbodyres = gson.fromJson(result, Result.class);
+                                    DataProfile dataProfile = new DataProfile();
 
-                            dataProfile.Image = jsonbodyres.Image;
-                            dataProfile.Name = jsonbodyres.Name;
-                            dataProfile.Email = jsonbodyres.Email;
-                            dataProfile.Address = jsonbodyres.Address;
+                                    dataProfile.Image = jsonbodyres.Image;
+                                    dataProfile.Name = jsonbodyres.Name;
+                                    dataProfile.Email = jsonbodyres.Email;
+                                    dataProfile.Address = jsonbodyres.Address;
 
-                            SharedPrefManager.getInstance(CustomerProfileActivity.this).getUser().setImage(String.valueOf(dataProfile));
-                            /*   SharedPrefManager.getInstance(DrawingActivity.this).getUser().setName(String.valueOf(yourname.getText()));*/
-                            if (SharedPrefManager.getInstance(CustomerProfileActivity.this).getUser().getImage() != null) {
-                                Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
-                                intent = new Intent(CustomerProfileActivity.this, CustomerHomePage.class);
-                                startActivity(intent);
+                                    SharedPrefManager.getInstance(CustomerProfileActivity.this).getUser().setImage(String.valueOf(dataProfile));
+                                    /*   SharedPrefManager.getInstance(DrawingActivity.this).getUser().setName(String.valueOf(yourname.getText()));*/
+                                    if (SharedPrefManager.getInstance(CustomerProfileActivity.this).getUser().getImage() != null) {
+                                        Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
+                                        intent = new Intent(CustomerProfileActivity.this, CustomerHomePage.class);
+                                        startActivity(intent);
+                                    }
+                                    {
+                                        intent = new Intent(CustomerProfileActivity.this, CustomerHomePage.class);
+                                        startActivity(intent);
+                                    }
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                            {
-                                intent = new Intent(CustomerProfileActivity.this, CustomerHomePage.class);
-                                startActivity(intent);
-                            }
-
-                        } catch (Exception e) {
-
-                        }
-
                     }
                 }, TIMER);
 
@@ -254,7 +257,26 @@ public class CustomerProfileActivity extends AppCompatActivity {
         }
 
         getProfile();
+
     }
+
+    private boolean validation() {
+        progressDialog.dismiss();
+        String emailValid = email.getText().toString();
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        if (emailValid.matches(emailPattern))
+        {
+           return true;
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"Invalid email address",Toast.LENGTH_SHORT).show();
+            email.setError("invalid email");
+            return false;
+        }
+
+    }
+
 
     private void getProfile() {
         String id = SharedPrefManager.getInstance(this).getUser().getID();
