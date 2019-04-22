@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+   android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:id="@+id/customermsg"
+        android:textSize="30sp"
+        android:textColor="@color/colorBlack"
+        android:text="Customer Msg"/>
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:id="@+id/employeemsg"
+        android:textSize="30sp"
+        android:textColor="@color/colorBlack"
+        android:text="Employee Msg"/>
+
+</LinearLayout>

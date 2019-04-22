@@ -611,7 +611,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                     result = new EmployeeOrderHelper.AcceptPayment().execute(orderId, empId).get();
                     intent = new Intent(mCtx, EmployeeHomePage.class);
                     mCtx.startActivity(intent);
-                    Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {

@@ -84,12 +84,15 @@
             android:name=".DrawingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".CustomerActivity.CustomerChatBoat"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".EmployeeActivity.EmployeeHomePage"
             android:hardwareAccelerated="true"
             android:label="@string/title_activity_employee_home_page"
             android:theme="@style/AppTheme.NoActionBar">
-
         </activity>
+
         <activity android:name=".EmployeeActivity.EmployeeDrawingActivity" />
         <activity
             android:name=".MenuActivity"

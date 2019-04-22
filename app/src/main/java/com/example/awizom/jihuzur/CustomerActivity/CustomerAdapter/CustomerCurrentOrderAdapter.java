@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.awizom.jihuzur.CustomerActivity.CustomerChatBoat;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerCommentActivity;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.CustomerActivity.TrackActivity;
@@ -38,8 +39,10 @@ import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Service.AlarmService;
 import com.example.awizom.jihuzur.ViewDialog;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -114,6 +117,18 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             holder.orderIds.setText(String.valueOf(order.getOrderID()));
             holder.cusid.setText(order.getCustomerID());
             holder.empid.setText(order.getEmployeeID());
+            holder.chatbutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    intent =new Intent(mCtx, CustomerChatBoat.class);
+                    intent.putExtra("EmployeeID",holder.empid.getText().toString());
+                    intent.putExtra("CustomerID",holder.cusid.getText().toString());
+                    intent.putExtra("OrderID",holder.orderIds.getText().toString());
+                    mCtx.startActivity(intent);
+                                  }
+
+            });
             holder.trackinBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -373,7 +388,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
         private Context mCtx;
         private TextView chronometer, serviceId, orderIds, otps;
         private TextView startTime, endtime, empName, timercount, empContAct, catagryName, servicName, pricingterm, dctName, empid, cusid;
-        private Button acceptBtn, trackinBtn, canclBtn, viewdetail;
+        private Button acceptBtn, trackinBtn, canclBtn,chatbutton, viewdetail;
         private List<Order> orderitemList;
         private LinearLayout linearLayout;
         private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
@@ -402,6 +417,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             acceptBtn = itemView.findViewById(R.id.acceptOtpBtn);
             trackinBtn = itemView.findViewById(R.id.trackBtn);
             canclBtn = itemView.findViewById(R.id.cancelBtn);
+            chatbutton=itemView.findViewById(R.id.chatbutton);
             chronometer = itemView.findViewById(R.id.chronometer);
             chronometer.setVisibility(View.GONE);
             empContAct = itemView.findViewById(R.id.empMobile);

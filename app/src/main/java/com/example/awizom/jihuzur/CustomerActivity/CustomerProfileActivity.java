@@ -69,8 +69,6 @@ public class CustomerProfileActivity extends AppCompatActivity {
     String result = "", img_str, identimage_str;
     private ProgressDialog progressDialog;
     private TextView imgUrl;
-
-
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected = new ArrayList<>();
     private ArrayList<String> permissions = new ArrayList<>();

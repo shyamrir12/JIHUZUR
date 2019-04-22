@@ -35,58 +35,61 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/chronometer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/ic_access_alarms_black_24dp"
                             android:text="Running Order"
-                            android:textStyle="italic"
                             android:textColor="@color/colorBlack"
-                            android:id="@+id/chronometer"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp"
+                            android:textStyle="italic" />
+
                         <TextView
                             android:id="@+id/cusName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:fontFamily="@font/fonts"
                             android:gravity="left"
                             android:padding="10dp"
                             android:text="Employee Name"
                             android:textColor="@color/colorBlack"
-                            android:textStyle="bold"
-                            android:fontFamily="@font/fonts"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
                         <view
 
                             class="android.support.v7.app.AlertController$RecycleListView"
                             android:layout_width="1dp"
                             android:layout_height="match_parent"
                             android:background="@color/grey" />
+
                         <TextView
                             android:id="@+id/empMobile"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:fontFamily="@font/fonts"
                             android:gravity="left"
                             android:padding="10dp"
                             android:text="Employee Contact"
-                            android:fontFamily="@font/fonts"
                             android:textColor="@color/colorBlack"
-                            android:textStyle="bold"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/timeCount"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:layout_weight="1"
+                            android:fontFamily="@font/fonts"
                             android:gravity="left"
                             android:padding="10dp"
                             android:text="00:00"
-                            android:fontFamily="@font/fonts"
                             android:textColor="@color/colorBlack"
-                            android:textStyle="bold"
                             android:textSize="10sp"
-                            android:visibility="gone"/>
+                            android:textStyle="bold"
+                            android:visibility="gone" />
 
                     </LinearLayout>
 
@@ -97,7 +100,7 @@
                         android:layout_height="1dp"
                         android:layout_below="@+id/l1"
                         android:background="@color/grey"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:id="@+id/l2"
@@ -116,8 +119,8 @@
                             android:hint="Start Time"
                             android:padding="10dp"
                             android:textColor="@color/colorBlack"
-                            android:textStyle="bold"
-                            android:textSize="10sp"/>
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/endtime"
@@ -128,8 +131,8 @@
                             android:hint="End Time"
                             android:padding="10dp"
                             android:textColor="@color/colorBlack"
-                            android:textStyle="bold"
-                            android:textSize="10sp"/>
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
@@ -140,7 +143,7 @@
                         android:layout_height="1dp"
                         android:layout_below="@+id/l2"
                         android:background="@color/grey"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:id="@+id/l3"
@@ -156,8 +159,8 @@
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:gravity="left"
-                            android:text="CatagoryName"
                             android:padding="10dp"
+                            android:text="CatagoryName"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold" />
 
@@ -167,8 +170,8 @@
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:gravity="left"
-                            android:text="Service Name"
                             android:padding="10dp"
+                            android:text="Service Name"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold" />
 
@@ -181,38 +184,42 @@
                         android:layout_below="@+id/l3"
                         android:orientation="horizontal"
                         android:visibility="gone">
+
                         <TextView
                             android:id="@+id/pricingterm"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:gravity="left"
-                            android:text="Pricing Term"
                             android:padding="10dp"
+                            android:text="Pricing Term"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
+
                         <TextView
                             android:id="@+id/discountName"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:layout_weight="1"
                             android:gravity="left"
-                            android:text="Discount Name"
                             android:padding="10dp"
+                            android:text="Discount Name"
                             android:textColor="@color/colorBlack"
                             android:textStyle="bold"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
+
                         <TextView
                             android:id="@+id/orderId"
-                            android:visibility="gone"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:visibility="gone" />
+
                         <TextView
                             android:id="@+id/serviceId"
-                            android:visibility="gone"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:visibility="gone" />
 
                         <!--<TextView-->
                         <!---->
@@ -227,6 +234,7 @@
 
 
                     </LinearLayout>
+
                     <view
                         android:id="@+id/v3"
                         class="android.support.v7.app.AlertController$RecycleListView"
@@ -234,6 +242,7 @@
                         android:layout_height="1dp"
                         android:layout_below="@+id/l4"
                         android:background="@color/grey" />
+
                     <LinearLayout
                         android:id="@+id/l5"
                         android:layout_width="match_parent"
@@ -248,12 +257,12 @@
                             android:layout_height="30dp"
                             android:layout_weight="1"
                             android:background="@drawable/adapter_btn_background"
+                            android:fontFamily="@font/fonts"
                             android:text="Accept Otp"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textSize="13sp"
-                            android:fontFamily="@font/fonts"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
 
                         <view
                             class="android.support.v7.app.AlertController$RecycleListView"
@@ -267,11 +276,11 @@
                             android:layout_height="30dp"
                             android:layout_weight="1"
                             android:background="@drawable/adapter_btn_background"
+                            android:fontFamily="@font/fonts"
                             android:text="Track"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            android:textSize="13sp"
-                            android:fontFamily="@font/fonts"/>
+                            android:textSize="13sp" />
 
                         <view
                             class="android.support.v7.app.AlertController$RecycleListView"
@@ -285,51 +294,68 @@
                             android:layout_height="30dp"
                             android:layout_weight="1"
                             android:background="@drawable/adapter_btn_background"
+                            android:fontFamily="@font/fonts"
                             android:text="Cancel"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textSize="13sp"
-                            android:fontFamily="@font/fonts"
                             android:visibility="gone" />
+
                         <view
                             class="android.support.v7.app.AlertController$RecycleListView"
                             android:layout_width="3dp"
                             android:layout_height="match_parent"
                             android:background="@color/white" />
+
                         <Button
                             android:id="@+id/viewDetail"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
                             android:layout_weight="1"
                             android:background="@drawable/adapter_btn_background"
+                            android:fontFamily="@font/fonts"
                             android:text="View Detail"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textSize="13sp"
-                            android:visibility="visible"
-                            android:fontFamily="@font/fonts"/>
+                            android:visibility="visible" />
+                        <Button
+                            android:id="@+id/chatbutton"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/adapter_btn_background"
+                            android:fontFamily="@font/fonts"
+                            android:text="Chat"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textSize="13sp"
+                            android:visibility="visible" />
+
                         <TextView
                             android:id="@+id/otp"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
                             android:layout_weight="1"
                             android:background="@drawable/adapter_btn_background"
+                            android:fontFamily="@font/fonts"
                             android:text="Otp"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
                             android:textSize="13sp"
-                            android:visibility="gone"
-                            android:fontFamily="@font/fonts"/>
-<TextView
-    android:id="@+id/cusID"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:visibility="gone"/>
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/cusID"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="gone" />
+
                         <TextView
                             android:id="@+id/empId"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
                     </LinearLayout>
                 </RelativeLayout>
 
