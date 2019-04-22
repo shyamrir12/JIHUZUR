@@ -592,7 +592,9 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 
                     SharedPrefManager.getInstance(CustomerHomePage.this).logout();
                     intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
-                    intent.putExtra("Skip","SkipLogin");
+                    if(skipdata.equals("SkipLogin")) {
+                        intent.putExtra("Skip", "SkipLogin");
+                    }
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
@@ -629,7 +631,9 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
             } else {
                 Intent i = new Intent(CustomerHomePage.this, CustomerLoginRegActivity.class);
-                i.putExtra("Skip","SkipLogin");
+                if(skipdata.equals("SkipLogin")) {
+                    i.putExtra("Skip", "SkipLogin");
+                }
                 startActivity(i);
                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                 //Toast.makeText(getApplicationContext(), "You Have To Need Login First", Toast.LENGTH_LONG).show();
@@ -727,7 +731,9 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 
                     SharedPrefManager.getInstance(this).logout();
                     intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
-                    intent.putExtra("Skip","SkipLogin");
+                    if(skipdata.equals("SkipLogin")) {
+                    intent.putExtra("Skip", "SkipLogin");
+                    }
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
