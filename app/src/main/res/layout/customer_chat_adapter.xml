@@ -1,25 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-   android:orientation="vertical"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cus_linear"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/dialog_cardview">
+
+            <ImageView
+                android:id="@+id/customer_dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+
+            <TextView
+                android:id="@+id/customermsg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:text="Customer Msg"
+                android:textColor="@color/colorBlack"
+                android:textSize="15sp" />
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:id="@+id/customermsg"
-        android:textSize="30sp"
-        android:textColor="@color/colorBlack"
-        android:text="Customer Msg"/>
-    <TextView
-        android:layout_marginTop="20dp"
+        android:layout_height="15dp" />
+
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/emp_card"
+        android:layout_marginRight="80dp"
+        android:background="@drawable/dialog_cardview">
 
-        android:id="@+id/employeemsg"
-        android:textSize="30sp"
-        android:textColor="@color/colorBlack"
-        android:text="Employee Msg"/>
+        <TextView
+            android:id="@+id/employeemsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Employee Msg"
+            android:textColor="@color/colorBlack"
+            android:textSize="15sp" />
+    </android.support.v7.widget.CardView>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="15dp" />
 </LinearLayout>

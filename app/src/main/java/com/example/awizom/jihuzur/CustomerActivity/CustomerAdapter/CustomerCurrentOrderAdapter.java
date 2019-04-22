@@ -112,6 +112,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             holder.endtime.setText(order.getOrderEndTime());
             holder.catagryName.setText(order.getCategory());
             holder.servicName.setText(order.getServiceName());
+            holder.employeename.setText(order.getEmpName());
             holder.pricingterm.setText(order.getPricingTerms());
             holder.dctName.setText(order.getDiscountName());
             holder.orderIds.setText(String.valueOf(order.getOrderID()));
@@ -125,6 +126,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
                     intent.putExtra("EmployeeID",holder.empid.getText().toString());
                     intent.putExtra("CustomerID",holder.cusid.getText().toString());
                     intent.putExtra("OrderID",holder.orderIds.getText().toString());
+                    intent.putExtra("Client",holder.employeename.getText().toString());
                     mCtx.startActivity(intent);
                                   }
 
@@ -386,7 +388,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context mCtx;
-        private TextView chronometer, serviceId, orderIds, otps;
+        private TextView chronometer,employeename, serviceId, orderIds, otps;
         private TextView startTime, endtime, empName, timercount, empContAct, catagryName, servicName, pricingterm, dctName, empid, cusid;
         private Button acceptBtn, trackinBtn, canclBtn,chatbutton, viewdetail;
         private List<Order> orderitemList;
@@ -408,6 +410,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
 //            description = itemView.findViewById(R.id.description);
 //            timing = itemView.findViewById(R.id.timing);
             serviceId=itemView.findViewById(R.id.serviceId);
+            employeename=itemView.findViewById(R.id.employeename);
             empName = itemView.findViewById(R.id.cusName);
             startTime = itemView.findViewById(R.id.starttime);
             cusid = itemView.findViewById(R.id.cusID);

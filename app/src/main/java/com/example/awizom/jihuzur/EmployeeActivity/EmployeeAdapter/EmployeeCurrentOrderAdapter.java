@@ -25,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.awizom.jihuzur.CustomerActivity.CustomerChatBoat;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerpricingActivity;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeLocationActivity;
@@ -91,7 +92,6 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
     @Override
     public void onBindViewHolder(@NonNull final EmployeeCurrentOrderAdapter.OrderItemViewHolder holder, int position) {
         order = orderitemList.get(position);
-
         priceid = String.valueOf(order.getPricingID());
         empId = order.getEmployeeID();
         try {
@@ -106,6 +106,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             holder.serviceName.setText(order.getServiceName());
             holder.totalTime.setText(order.getTotalTime());
             holder.cusId.setText(order.getCustomerID());
+            holder.emp_id.setText(order.getEmployeeID());
             holder.orderIssss.setText(String.valueOf(order.getOrderID()));
             orderId = holder.orderIssss.getText().toString();
             if (order.getDiscountName() != null) {
@@ -190,6 +191,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                     }
                 }
             });
+
             holder.genrateBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -353,6 +355,17 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                 }
             });
 
+            holder.chatbutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    intent =new Intent(mCtx, CustomerChatBoat.class);
+                    intent.putExtra("EmployeeID",holder.emp_id.getText().toString());
+                    intent.putExtra("CustomerID",holder.cusId.getText().toString());
+                    intent.putExtra("OrderID",holder.orderIssss.getText().toString());
+                    intent.putExtra("Client",holder.customerName.getText().toString());
+                    mCtx.startActivity(intent);
+                }
+            });
             holder.priceUpdateBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -406,9 +419,9 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context mCtx;
-        private TextView startTime, endtime, customerName, customerContact, catagoryName, serviceName, totalTime, pricingterm,
+        private TextView startTime,customer_name,emp_id, endtime, customerName, customerContact, catagoryName, serviceName, totalTime, pricingterm,
                 disctName, catlgId, catagryName, catlgName, pricingterms, serviceID, cusId, orderIssss;
-        private Button genrateBtn, trackinBtn, stopBtn, acceptPaymentBtn, priceUpdateBtn, discountUpdateBtn;
+        private Button genrateBtn, trackinBtn, stopBtn, acceptPaymentBtn, priceUpdateBtn, discountUpdateBtn,chatbutton;
         private LinearLayout linearLayout, linerButtonSide;
         private List<Order> orderitemList;
         private ImageView sendphoto;
@@ -421,8 +434,10 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             itemView.setOnClickListener(this);
             sendphoto = itemView.findViewById(R.id.sendPhoto);
             sendphoto.setOnClickListener(this);
+            emp_id=itemView.findViewById(R.id.emp_id);
             customerName = itemView.findViewById(R.id.cusName);
             cusId = itemView.findViewById(R.id.cusID);
+            chatbutton=itemView.findViewById(R.id.chatbutton);
             startTime = itemView.findViewById(R.id.starttime);
             endtime = itemView.findViewById(R.id.endtime);
             customerContact = itemView.findViewById(R.id.cusMobile);
