@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/linear_background_shape"
+    android:background="@drawable/backdrop"
     android:orientation="vertical"
     tools:context="com.example.awizom.jihuzur.CustomerActivity.CustomerChatBoat">
 
