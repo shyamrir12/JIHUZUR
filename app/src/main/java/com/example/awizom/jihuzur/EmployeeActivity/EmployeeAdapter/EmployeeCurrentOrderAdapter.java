@@ -3,28 +3,19 @@ package com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.awizom.jihuzur.CustomerActivity.CustomerChatBoat;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerpricingActivity;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeHomePage;
@@ -38,10 +29,7 @@ import com.example.awizom.jihuzur.Model.Order;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.Model.ResultModel;
 import com.example.awizom.jihuzur.Model.Service;
-import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
-import com.example.awizom.jihuzur.Service.AlarmService;
-import com.example.awizom.jihuzur.Service.LocationMonitoringNotificationService;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -51,17 +39,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-
 import static com.firebase.ui.auth.ui.email.RegisterEmailFragment.TAG;
 
 public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCurrentOrderAdapter.OrderItemViewHolder> {
