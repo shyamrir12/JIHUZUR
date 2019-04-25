@@ -81,65 +81,71 @@ public class CustomerChatBoat extends AppCompatActivity {
             sendmsg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final ProgressDialog progress = new ProgressDialog(CustomerChatBoat.this);
-                    progress.setMessage("Sending");
-                    progress.show();
-                    int x = listsize;
-                    int y = 1;
-                    z = x + y;
+                    if (chatcontain.getText().toString().equals("")) {
+                        chatcontain.setError("Chat Contain should not be blank");
+                        chatcontain.requestFocus();
+                    } else {
 
-                    if (SharedPrefManager.getInstance(CustomerChatBoat.this).getUser().getRole().equals("Customer")) {
-                        final Map<String, Object> chatboat = new HashMap<>();
-                        chatboat.put("Count", z);
-                        chatboat.put("EmployeeID", empid.toString());
-                        chatboat.put("CustomerID", cusid.toString());
-                        chatboat.put("OrderID", orderid.toString());
-                        chatboat.put("ChatContainCustomer", chatcontain.getText().toString());
-                        chatboat.put("ChatContainEmployee", null);
+                        final ProgressDialog progress = new ProgressDialog(CustomerChatBoat.this);
+                        progress.setMessage("Sending");
+                        progress.show();
+                        int x = listsize;
+                        int y = 1;
+                        z = x + y;
 
-                        db.collection("Chat").document(orderid.toString()).collection("Customermsg").document().set(chatboat).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
-                                chatcontain.setText("");
-                                initView();
-                                progress.dismiss();
-                                db.collection("ChatNotification").document(empid.toString()).set(chatboat).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
+                        if (SharedPrefManager.getInstance(CustomerChatBoat.this).getUser().getRole().equals("Customer")) {
+                            final Map<String, Object> chatboat = new HashMap<>();
+                            chatboat.put("Count", z);
+                            chatboat.put("EmployeeID", empid.toString());
+                            chatboat.put("CustomerID", cusid.toString());
+                            chatboat.put("OrderID", orderid.toString());
+                            chatboat.put("ChatContainCustomer", chatcontain.getText().toString());
+                            chatboat.put("ChatContainEmployee", null);
 
-                                    }
-                                });
+                            db.collection("Chat").document(orderid.toString()).collection("Customermsg").document().set(chatboat).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                                    chatcontain.setText("");
+                                    initView();
+                                    progress.dismiss();
+                                    db.collection("ChatNotification").document(empid.toString()).set(chatboat).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
 
-                            }
-                        });
+                                        }
+                                    });
 
-                    } else if (SharedPrefManager.getInstance(CustomerChatBoat.this).getUser().getRole().equals("Employee")) {
-                        final Map<String, Object> chatboat = new HashMap<>();
-                        chatboat.put("Count", z);
-                        chatboat.put("EmployeeID", empid.toString());
-                        chatboat.put("CustomerID", cusid.toString());
-                        chatboat.put("OrderID", orderid.toString());
-                        chatboat.put("ChatContainCustomer", null);
-                        chatboat.put("ChatContainEmployee", chatcontain.getText().toString());
+                                }
+                            });
 
-                        db.collection("Chat").document(orderid.toString()).collection("Customermsg").document().set(chatboat).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
-                                chatcontain.setText("");
-                                initView();
-                                progress.dismiss();
-                                db.collection("ChatNotification").document(cusid.toString()).set(chatboat).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
+                        } else if (SharedPrefManager.getInstance(CustomerChatBoat.this).getUser().getRole().equals("Employee")) {
+                            final Map<String, Object> chatboat = new HashMap<>();
+                            chatboat.put("Count", z);
+                            chatboat.put("EmployeeID", empid.toString());
+                            chatboat.put("CustomerID", cusid.toString());
+                            chatboat.put("OrderID", orderid.toString());
+                            chatboat.put("ChatContainCustomer", null);
+                            chatboat.put("ChatContainEmployee", chatcontain.getText().toString());
 
-                                    }
-                                });
-                            }
-                        });
+                            db.collection("Chat").document(orderid.toString()).collection("Customermsg").document().set(chatboat).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                                    chatcontain.setText("");
+                                    initView();
+                                    progress.dismiss();
+                                    db.collection("ChatNotification").document(cusid.toString()).set(chatboat).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+
+                                        }
+                                    });
+                                }
+                            });
 
 
+                        }
                     }
                 }
             });
