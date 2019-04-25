@@ -96,7 +96,6 @@ public class ServiceListAdapter extends RecyclerView.Adapter<ServiceListAdapter.
 
                             intent = new Intent(mCtx, CustomerLoginRegActivity.class);
                             intent.putExtra("Skip","SkipLogin");
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             mCtx.startActivity(intent);
 
 

@@ -263,7 +263,14 @@ public class CustomerProfileActivity extends AppCompatActivity {
     private boolean validation() {
         progressDialog.dismiss();
         String emailValid = email.getText().toString();
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+       // String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+\\.+[a-z]+";
+        String emailPattern = "[a-zA-Z0-9+._%-+]{1,256}" +
+                "@" +
+                "[a-zA-Z0-9][a-zA-Z0-9-]{0,64}" +
+                "(" +
+                "." +
+                "[a-zA-Z0-9][a-zA-Z0-9-]{0,25}" +
+                ")+";
         if (emailValid.matches(emailPattern))
         {
            return true;

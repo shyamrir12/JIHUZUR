@@ -163,7 +163,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                                         if(skipdata.equals("SkipLogin")) {
                                             intent.putExtra("Skip", "SkipLogin");
                                         }
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
                                         overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
@@ -203,7 +202,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                                         if(skipdata.equals("SkipLogin")) {
                                             intent.putExtra("Skip", "SkipLogin");
                                         }
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
                                         overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
@@ -244,50 +242,54 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
-
-
-        db.collection("ChatNotification").document(SharedPrefManager.getInstance(this).getUser().getID().toString()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w("failed", "Listen failed.", e);
-                    return;
-                }
-                String source = documentSnapshot != null && documentSnapshot.getMetadata().hasPendingWrites()
-                        ? "Local" : "Server";
-                if (documentSnapshot != null && documentSnapshot.exists()) {
-                    Log.d("Snapshot data", source + " data: " + documentSnapshot.getData());
-                    final Intent emptyIntent = new Intent(CustomerHomePage.this, MyBokingsActivity.class);
-                    NotificationManager notificationManager = (NotificationManager)CustomerHomePage.this.getSystemService(Context.NOTIFICATION_SERVICE);
-                    String channelId = "channel-01";
-                    String channelName = "Channel Name";
-                    int importance = NotificationManager.IMPORTANCE_HIGH;
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                        NotificationChannel mChannel = new NotificationChannel(
-                                channelId, channelName, importance);
-                        notificationManager.createNotificationChannel(mChannel);
+        try {
+            db.collection("ChatNotification").document(SharedPrefManager.getInstance(this).getUser().getID().toString()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                    if (e != null) {
+                        Log.w("failed", "Listen failed.", e);
+                        return;
                     }
-
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(CustomerHomePage.this, channelId)
-                            .setSmallIcon(R.mipmap.jihuzurapplogo)
-                            .setContentTitle("Hey! You Have Message")
-                            .setContentText(String.valueOf("Jihuzzur,You Have Message from Employee"));
-
-                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(CustomerHomePage.this);
-                    /*   stackBuilder.addNextIntent(intent);*/
-                    PendingIntent pendingIntent = PendingIntent.getActivity(CustomerHomePage.this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    mBuilder.setContentIntent(pendingIntent);
-
-                    notificationManager.notify(199, mBuilder.build());
-                    db.collection("ChatNotification").document(SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getID().toString()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-
+                    String source = documentSnapshot != null && documentSnapshot.getMetadata().hasPendingWrites()
+                            ? "Local" : "Server";
+                    if (documentSnapshot != null && documentSnapshot.exists()) {
+                        Log.d("Snapshot data", source + " data: " + documentSnapshot.getData());
+                        final Intent emptyIntent = new Intent(CustomerHomePage.this, MyBokingsActivity.class);
+                        NotificationManager notificationManager = (NotificationManager)CustomerHomePage.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                        String channelId = "channel-01";
+                        String channelName = "Channel Name";
+                        int importance = NotificationManager.IMPORTANCE_HIGH;
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            NotificationChannel mChannel = new NotificationChannel(
+                                    channelId, channelName, importance);
+                            notificationManager.createNotificationChannel(mChannel);
                         }
-                    });
+
+                        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(CustomerHomePage.this, channelId)
+                                .setSmallIcon(R.mipmap.jihuzurapplogo)
+                                .setContentTitle("Hey! You Have Message")
+                                .setContentText(String.valueOf("Jihuzzur,You Have Message from Employee"));
+
+                        TaskStackBuilder stackBuilder = TaskStackBuilder.create(CustomerHomePage.this);
+                        /*   stackBuilder.addNextIntent(intent);*/
+                        PendingIntent pendingIntent = PendingIntent.getActivity(CustomerHomePage.this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                        mBuilder.setContentIntent(pendingIntent);
+
+                        notificationManager.notify(199, mBuilder.build());
+                        db.collection("ChatNotification").document(SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getID().toString()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+
+                            }
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
     }
 
     private void initView() {
@@ -302,6 +304,8 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
         db=FirebaseFirestore.getInstance();
         getCategoryList();
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -324,6 +328,30 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         MenuItem target = menu.findItem(R.id.nav_logout);
         if (skipdata.equals("SkipLogin")) {
             target.setTitle("login");
+
+
+            final AlertDialog.Builder alertDialog = new AlertDialog.Builder(CustomerHomePage.this);
+            alertDialog.setTitle("Sorry !!");
+            alertDialog.setMessage("You Have To Need Login First");
+
+
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT);
+
+            alertDialog.setIcon(R.drawable.warning);
+
+            alertDialog.setPositiveButton("ok",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                           dialog.dismiss();
+
+                        }
+                    });
+
+
+            alertDialog.show();
         }
 
         View headerview = navigationView.getHeaderView(0);
@@ -391,12 +419,11 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
 
-                                    SharedPrefManager.getInstance(CustomerHomePage.this).logout();
+//                                    SharedPrefManager.getInstance(CustomerHomePage.this).logout();
                                     intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
                                     if(skipdata.equals("SkipLogin")) {
                                         intent.putExtra("Skip", "SkipLogin");
                                     }
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(intent);
                                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
@@ -794,12 +821,11 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 alertDialog.setPositiveButton("ok",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                SharedPrefManager.getInstance(CustomerHomePage.this).logout();
+                               // SharedPrefManager.getInstance(CustomerHomePage.this).logout();
                                 intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
                                 if(skipdata.equals("SkipLogin")) {
                                     intent.putExtra("Skip", "SkipLogin");
                                 }
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
@@ -839,13 +865,12 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
 
-                                SharedPrefManager.getInstance(CustomerHomePage.this).logout();
+                               // SharedPrefManager.getInstance(CustomerHomePage.this).logout();
                                 intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
                                 if(skipdata.equals("SkipLogin")) {
                                     intent.putExtra("Skip", "SkipLogin");
                                 }
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
+                                  startActivity(intent);
                                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
                             }
@@ -896,12 +921,11 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
 
-                                SharedPrefManager.getInstance(CustomerHomePage.this).logout();
+                               // SharedPrefManager.getInstance(CustomerHomePage.this).logout();
                                 intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
                                 if(skipdata.equals("SkipLogin")) {
                                     intent.putExtra("Skip", "SkipLogin");
                                 }
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
