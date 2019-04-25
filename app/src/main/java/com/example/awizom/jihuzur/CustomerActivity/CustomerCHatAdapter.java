@@ -67,7 +67,7 @@ public class CustomerCHatAdapter extends
     }
 
     /**
-     * View holder class
+      View holder class
      */
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView customermsg;
