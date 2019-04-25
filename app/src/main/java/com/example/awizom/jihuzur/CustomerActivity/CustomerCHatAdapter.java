@@ -37,6 +37,8 @@ public class CustomerCHatAdapter extends
     public void onBindViewHolder(CustomerCHatAdapter.MyViewHolder holder, int position) {
         final int itemPos = position;
         ChatModel c = chatlist.get(position);
+        /* introducing most important line for get data from firestore set this holder as recyclable*/
+        holder.setIsRecyclable(false);
         if (c.getChatContainCustomer() != null) {
             holder.customermsg.setText(String.valueOf(c.getChatContainCustomer()));
         } else {

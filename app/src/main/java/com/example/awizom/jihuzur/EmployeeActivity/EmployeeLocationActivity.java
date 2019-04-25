@@ -124,7 +124,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     String latl, long1, namemark, img_strmark, idmark;
-    Double lats,longss;
+    Double lats, longss;
     de.hdodenhof.circleimageview.CircleImageView customerimage;
     ImageView call;
     TextView customerDetails;
@@ -195,7 +195,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         setContentView(R.layout.activity_employee_location);
         checksomething();
         db = FirebaseFirestore.getInstance();
-        ActivityCompat.requestPermissions(EmployeeLocationActivity.this,  new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
+        ActivityCompat.requestPermissions(EmployeeLocationActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         mMsgView = (TextView) findViewById(R.id.msgView);
         customerimage = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.customer_dp);
         call = (ImageView) findViewById(R.id.call);
@@ -272,8 +272,8 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                         if (snapshot != null && snapshot.exists()) {
                             Log.d("Snapshot data", source + " data: " + snapshot.getData());
 
-                             lats = Double.parseDouble(String.valueOf(snapshot.get("lat")));
-                              longss = Double.parseDouble(String.valueOf(snapshot.get("long")));
+                            lats = Double.parseDouble(String.valueOf(snapshot.get("lat")));
+                            longss = Double.parseDouble(String.valueOf(snapshot.get("long")));
                             place2 = new MarkerOptions().position(new LatLng(Double.valueOf(String.valueOf(lats)),
                                     Double.valueOf(String.valueOf(longss)))).title("Location 1");
 
@@ -340,7 +340,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                                 Log.d("Snapshot data", source + " data: " + snapshot.getData());
 
                                 Double lat1 = Double.parseDouble(String.valueOf(snapshot.get("lat")));
-                                Double  long1 = Double.parseDouble(String.valueOf(snapshot.get("long")));
+                                Double long1 = Double.parseDouble(String.valueOf(snapshot.get("long")));
                                 place2 = new MarkerOptions().position(new LatLng(Double.valueOf(String.valueOf(lat1)),
                                         Double.valueOf(String.valueOf(long1)))).title("Location 1");
 
@@ -393,7 +393,7 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                     });
 
                     //                    LatLng customMarkerLocationOne = new LatLng(28.583911, 77.319116);
-                //    place2 = new MarkerOptions().position(new LatLng(Double.parseDouble(String.valueOf(dataProfileCustomer.getLat())), Double.parseDouble(String.valueOf(dataProfileCustomer.getLong())))).title("Location 1");
+                    //    place2 = new MarkerOptions().position(new LatLng(Double.parseDouble(String.valueOf(dataProfileCustomer.getLat())), Double.parseDouble(String.valueOf(dataProfileCustomer.getLong())))).title("Location 1");
                     int height = 100;
                     int width = 100;
                     BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.map_logo);

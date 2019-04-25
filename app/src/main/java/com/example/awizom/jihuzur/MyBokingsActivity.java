@@ -38,7 +38,6 @@ public class MyBokingsActivity extends AppCompatActivity {
         toolbar.setTitle("My Booking");
         setSupportActionBar(toolbar);
 //        String otp=  getIntent().getStringExtra("OrderOtp");
-
         toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
         toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
         toolbar.setTitleTextColor(Color.WHITE);

@@ -3,6 +3,11 @@ package com.example.awizom.jihuzur.CustomerActivity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -23,12 +28,14 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -74,11 +81,18 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 /**
  * Created by Ravi on 07/01/2019.
@@ -106,7 +120,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     CustomerCatagoryAdapter customerCatagoryAdapter;
     ViewDialog viewDialog;
     GridView gridView;
-
+    FirebaseFirestore db;
     List<Catalog> categorylist;
     String imgstr;
     private AdapterViewFlipper simpleAdapterViewFlipper;
@@ -230,6 +244,50 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
+
+
+        db.collection("ChatNotification").document(SharedPrefManager.getInstance(this).getUser().getID().toString()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w("failed", "Listen failed.", e);
+                    return;
+                }
+                String source = documentSnapshot != null && documentSnapshot.getMetadata().hasPendingWrites()
+                        ? "Local" : "Server";
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    Log.d("Snapshot data", source + " data: " + documentSnapshot.getData());
+                    final Intent emptyIntent = new Intent(CustomerHomePage.this, MyBokingsActivity.class);
+                    NotificationManager notificationManager = (NotificationManager)CustomerHomePage.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                    String channelId = "channel-01";
+                    String channelName = "Channel Name";
+                    int importance = NotificationManager.IMPORTANCE_HIGH;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        NotificationChannel mChannel = new NotificationChannel(
+                                channelId, channelName, importance);
+                        notificationManager.createNotificationChannel(mChannel);
+                    }
+
+                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(CustomerHomePage.this, channelId)
+                            .setSmallIcon(R.mipmap.jihuzurapplogo)
+                            .setContentTitle("Hey! You Have Message")
+                            .setContentText(String.valueOf("Jihuzzur,You Have Message from Employee"));
+
+                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(CustomerHomePage.this);
+                    /*   stackBuilder.addNextIntent(intent);*/
+                    PendingIntent pendingIntent = PendingIntent.getActivity(CustomerHomePage.this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    mBuilder.setContentIntent(pendingIntent);
+
+                    notificationManager.notify(199, mBuilder.build());
+                    db.collection("ChatNotification").document(SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getID().toString()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void initView() {
@@ -244,6 +302,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         } catch (Exception e) {
             e.printStackTrace();
         }
+        db=FirebaseFirestore.getInstance();
         getCategoryList();
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setLogo(R.mipmap.jihuzzur_home_logo);
@@ -266,7 +325,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         if (skipdata.equals("SkipLogin")) {
             target.setTitle("login");
         }
-
 
         View headerview = navigationView.getHeaderView(0);
         viewDialog = new ViewDialog((Activity) CustomerHomePage.this);
@@ -368,40 +426,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 */
 
         if (!runtime_permissions()) {
-            LocationRequest mLocationRequest = LocationRequest.create()
-                    .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                    .setInterval(5 * 1000)
-                    .setFastestInterval(1 * 1000);
-            LocationSettingsRequest.Builder settingsBuilder = new LocationSettingsRequest.Builder()
-                    .addLocationRequest(mLocationRequest);
-            settingsBuilder.setAlwaysShow(true);
-            Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(this)
-                    .checkLocationSettings(settingsBuilder.build());
-            result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
-                @Override
-                public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
-                    try {
-                        LocationSettingsResponse response =
-                                task.getResult(ApiException.class);
-                    } catch (ApiException ex) {
-                        switch (ex.getStatusCode()) {
-                            case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                                try {
-                                    ResolvableApiException resolvableApiException =
-                                            (ResolvableApiException) ex;
-                                    resolvableApiException
-                                            .startResolutionForResult(CustomerHomePage.this,
-                                                    201);
-                                } catch (IntentSender.SendIntentException e) {
 
-                                }
-                                break;
-                            case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                                break;
-                        }
-                    }
-                }
-            });
             openGPSSettings();
 
         }
@@ -444,15 +469,46 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 startActivity(new Intent(action));
             }
         });
-
-
         alertbox.show();
 
     }
 
 
     public boolean runtime_permissions() {
+        LocationRequest mLocationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(5 * 1000)
+                .setFastestInterval(1 * 1000);
+        LocationSettingsRequest.Builder settingsBuilder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(mLocationRequest);
+        settingsBuilder.setAlwaysShow(true);
+        Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(this)
+                .checkLocationSettings(settingsBuilder.build());
+        result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
+            @Override
+            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
+                try {
+                    LocationSettingsResponse response =
+                            task.getResult(ApiException.class);
+                } catch (ApiException ex) {
+                    switch (ex.getStatusCode()) {
+                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                            try {
+                                ResolvableApiException resolvableApiException =
+                                        (ResolvableApiException) ex;
+                                resolvableApiException
+                                        .startResolutionForResult(CustomerHomePage.this,
+                                                201);
+                            } catch (IntentSender.SendIntentException e) {
 
+                            }
+                            break;
+                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                            break;
+                    }
+                }
+            }
+        });
         if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
 

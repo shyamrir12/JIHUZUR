@@ -362,10 +362,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
                             android:layout_weight="1"
+                            android:textSize="10sp"
                             android:background="@drawable/adapter_btn_background"
                             android:text="chat"
                             android:textColor="@color/white"
-                            android:textStyle="bold" />
+                       />
 
                         <TextView
                             android:id="@+id/customer_name"

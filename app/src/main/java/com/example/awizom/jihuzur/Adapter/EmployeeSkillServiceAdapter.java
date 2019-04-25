@@ -26,7 +26,6 @@ public class EmployeeSkillServiceAdapter extends RecyclerView.Adapter<EmployeeSk
     private Context mCtx;
     String Skillid;
 
-
     public EmployeeSkillServiceAdapter(Context baseContext, List<Skill> serviceListforshow) {
         this.serviceListforshow = serviceListforshow;
         this.mCtx = baseContext;

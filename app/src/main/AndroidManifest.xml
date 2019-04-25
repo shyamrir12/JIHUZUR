@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.awizom.jihuzur">
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -109,11 +108,8 @@
             android:parentActivityName=".CustomerActivity.CustomerpricingActivity" />
         <activity
             android:name=".SplashActivityEmployee"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">.
+
         </activity>
         <activity
             android:name=".CustomerActivity.CustomerLoginRegActivity"
@@ -128,7 +124,10 @@
         <activity
             android:name=".SplashActivityAdmin"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".AdminActivity.AdminHomePage"
@@ -146,10 +145,10 @@
         <activity
             android:name=".SelectServices"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
+      <!--  <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />-->
         <activity
             android:name=".MyBokingsActivity"
             android:theme="@style/AppTheme.NoActionBar" />

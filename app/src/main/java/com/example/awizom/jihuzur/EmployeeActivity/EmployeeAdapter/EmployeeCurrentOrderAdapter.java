@@ -98,8 +98,9 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             order = orderitemList.get(position);
             holder.customerName.setText(order.getName());
             holder.startTime.setText(order.getOrderStartTime());
-            if(!holder.startTime.getText().toString().equals(""))
-            {holder.genrateBtn.setVisibility(View.GONE);}
+            if (!holder.startTime.getText().toString().equals("")) {
+                holder.genrateBtn.setVisibility(View.GONE);
+            }
             holder.endtime.setText(order.getOrderEndTime());
             holder.customerContact.setText(order.getMobileNo());
             holder.catagoryName.setText(order.getCategory());
@@ -181,7 +182,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                                             Log.w(TAG, "Error writing document", e);
                                         }
                                     });
-                            showpaymentdialog(holder.orderIssss.getText().toString(),holder.serviceID.getText().toString());
+                            showpaymentdialog(holder.orderIssss.getText().toString(), holder.serviceID.getText().toString());
                         }
                         //     Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                     } catch (ExecutionException e) {
@@ -358,11 +359,11 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             holder.chatbutton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    intent =new Intent(mCtx, CustomerChatBoat.class);
-                    intent.putExtra("EmployeeID",holder.emp_id.getText().toString());
-                    intent.putExtra("CustomerID",holder.cusId.getText().toString());
-                    intent.putExtra("OrderID",holder.orderIssss.getText().toString());
-                    intent.putExtra("Client",holder.customerName.getText().toString());
+                    intent = new Intent(mCtx, CustomerChatBoat.class);
+                    intent.putExtra("EmployeeID", holder.emp_id.getText().toString());
+                    intent.putExtra("CustomerID", holder.cusId.getText().toString());
+                    intent.putExtra("OrderID", holder.orderIssss.getText().toString());
+                    intent.putExtra("Client", holder.customerName.getText().toString());
                     mCtx.startActivity(intent);
                 }
             });
@@ -385,6 +386,8 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             holder.trackinBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    ((EmployeeHomePage)mCtx).runtime_permissions();
                     intent = new Intent(mCtx, EmployeeLocationActivity.class);
                     intent.putExtra("CustomerId", holder.cusId.getText().toString());
                     mCtx.startActivity(intent);
@@ -419,9 +422,9 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
     class OrderItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private Context mCtx;
-        private TextView startTime,customer_name,emp_id, endtime, customerName, customerContact, catagoryName, serviceName, totalTime, pricingterm,
+        private TextView startTime, customer_name, emp_id, endtime, customerName, customerContact, catagoryName, serviceName, totalTime, pricingterm,
                 disctName, catlgId, catagryName, catlgName, pricingterms, serviceID, cusId, orderIssss;
-        private Button genrateBtn, trackinBtn, stopBtn, acceptPaymentBtn, priceUpdateBtn, discountUpdateBtn,chatbutton;
+        private Button genrateBtn, trackinBtn, stopBtn, acceptPaymentBtn, priceUpdateBtn, discountUpdateBtn, chatbutton;
         private LinearLayout linearLayout, linerButtonSide;
         private List<Order> orderitemList;
         private ImageView sendphoto;
@@ -434,10 +437,10 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             itemView.setOnClickListener(this);
             sendphoto = itemView.findViewById(R.id.sendPhoto);
             sendphoto.setOnClickListener(this);
-            emp_id=itemView.findViewById(R.id.emp_id);
+            emp_id = itemView.findViewById(R.id.emp_id);
             customerName = itemView.findViewById(R.id.cusName);
             cusId = itemView.findViewById(R.id.cusID);
-            chatbutton=itemView.findViewById(R.id.chatbutton);
+            chatbutton = itemView.findViewById(R.id.chatbutton);
             startTime = itemView.findViewById(R.id.starttime);
             endtime = itemView.findViewById(R.id.endtime);
             customerContact = itemView.findViewById(R.id.cusMobile);
@@ -588,14 +591,14 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
         }
     }
 
-    private void showpaymentdialog(String s,String servieid) {
+    private void showpaymentdialog(String s, String servieid) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mCtx);
         LayoutInflater inflater = LayoutInflater.from(mCtx);
         final View dialogView = inflater.inflate(R.layout.show_payment, null);
         dialogBuilder.setView(dialogView);
         TextView amount = (TextView) dialogView.findViewById(R.id.amount);
         try {
-            result = new EmployeeOrderHelper.GetPayment().execute(s.toString(),servieid.toString()).get();
+            result = new EmployeeOrderHelper.GetPayment().execute(s.toString(), servieid.toString()).get();
             Gson gson = new Gson();
             Type listType = new TypeToken<Order>() {
             }.getType();
@@ -626,7 +629,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                     result = new EmployeeOrderHelper.AcceptPayment().execute(orderId, empId).get();
                     intent = new Intent(mCtx, EmployeeHomePage.class);
                     mCtx.startActivity(intent);
-                  //  Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {

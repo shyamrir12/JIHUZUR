@@ -54,11 +54,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.awizom.jihuzur.Config.AppConfig;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeAdapter.EmployeePageAdapter;
 import com.example.awizom.jihuzur.HelpCenterActivity;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.LoginRegistrationActivity.EmployeeRegistration;
 import com.example.awizom.jihuzur.Model.DataProfile;
+import com.example.awizom.jihuzur.MyBokingsActivity;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Service.GPS_Service;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
@@ -186,6 +188,48 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
         initView();
+        db.collection("ChatNotification").document(SharedPrefManager.getInstance(this).getUser().getID().toString()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w("failed", "Listen failed.", e);
+                    return;
+                }
+                String source = documentSnapshot != null && documentSnapshot.getMetadata().hasPendingWrites()
+                        ? "Local" : "Server";
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    Log.d("Snapshot data", source + " data: " + documentSnapshot.getData());
+                    final Intent emptyIntent = new Intent(EmployeeHomePage.this, EmployeeHomePage.class);
+                    NotificationManager notificationManager = (NotificationManager)EmployeeHomePage.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                    String channelId = "channel-01";
+                    String channelName = "Channel Name";
+                    int importance = NotificationManager.IMPORTANCE_HIGH;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        NotificationChannel mChannel = new NotificationChannel(
+                                channelId, channelName, importance);
+                        notificationManager.createNotificationChannel(mChannel);
+                    }
+                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(EmployeeHomePage.this, channelId)
+                            .setSmallIcon(R.mipmap.jihuzurapplogo)
+                            .setContentTitle("Hey! You Have Message")
+                            .setContentText(String.valueOf("Jihuzzur,You Have Message from Customer"));
+
+                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(EmployeeHomePage.this);
+                    /*   stackBuilder.addNextIntent(intent);*/
+                    PendingIntent pendingIntent = PendingIntent.getActivity(EmployeeHomePage.this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    mBuilder.setContentIntent(pendingIntent);
+
+                    notificationManager.notify(199, mBuilder.build());
+
+                    db.collection("ChatNotification").document(SharedPrefManager.getInstance(EmployeeHomePage.this).getUser().getID().toString()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void initView() {
@@ -268,6 +312,8 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             }
         });
         getProfile();
+
+
         final DocumentReference docRef = db.collection("OrderNotification").document(id);
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -443,6 +489,8 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
             }
     }
 
+
+
     private void getProfile() {
         String id = SharedPrefManager.getInstance(this).getUser().getID();
         try {
@@ -503,11 +551,12 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         return super.onKeyDown(keyCode, event);
     }
 
+
     public void enable_buttons() {
         try {
             LocationRequest mLocationRequest = LocationRequest.create()
                     .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                    .setInterval(5 * 1000)
+                    .setInterval(2 * 1000)
                     .setFastestInterval(1 * 1000);
             LocationSettingsRequest.Builder settingsBuilder = new LocationSettingsRequest.Builder()
                     .addLocationRequest(mLocationRequest);
@@ -550,7 +599,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
 
     }
 
-    private boolean runtime_permissions() {
+    public boolean runtime_permissions() {
         if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
             return true;
