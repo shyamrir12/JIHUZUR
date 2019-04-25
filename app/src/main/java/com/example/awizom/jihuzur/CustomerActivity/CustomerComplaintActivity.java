@@ -170,6 +170,8 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
                       }
                   }else {
                       Toast.makeText(getApplicationContext(), "Please enter the value first", Toast.LENGTH_SHORT).show();
+                      b.dismiss();
+
                   }
 
 

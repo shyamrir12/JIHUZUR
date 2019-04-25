@@ -45,7 +45,8 @@
             android:layout_height="match_parent"
             android:layout_marginRight="0dp"
             android:layout_weight="1"
-            android:background="@drawable/dialog_chat" />
+            android:background="@drawable/dialog_chat"
+            android:padding="8dp"/>
 
         <ImageView
             android:id="@+id/send"

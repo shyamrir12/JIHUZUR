@@ -284,7 +284,7 @@ public class CustomerLoginRegActivity extends AppCompatActivity implements View.
                             }else {
                                 final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
                                 alertDialog.setTitle("Sorry !!");
-                                alertDialog.setMessage("Your mobile no is register already"+" "+jsonbody.Role);
+                                alertDialog.setMessage("Your mobile number already registered as an"+" "+jsonbody.Role);
 
 
                                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
