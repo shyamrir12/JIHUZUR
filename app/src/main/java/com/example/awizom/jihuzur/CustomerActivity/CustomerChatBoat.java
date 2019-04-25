@@ -38,7 +38,7 @@ public class CustomerChatBoat extends AppCompatActivity {
     CustomerCHatAdapter customerCHatAdapter;
     RecyclerView recyclerView;
     String result = "";
-    String orderid;
+    String orderid,ImageCustomer,ImageEmployee;
     String client;
     String empid, cusid;
     List<String> list = new ArrayList<>();
@@ -88,7 +88,7 @@ public class CustomerChatBoat extends AppCompatActivity {
 
                         final ProgressDialog progress = new ProgressDialog(CustomerChatBoat.this);
                         progress.setMessage("Sending");
-                        progress.show();
+                      //  progress.show();
                         int x = listsize;
                         int y = 1;
                         z = x + y;
@@ -105,7 +105,7 @@ public class CustomerChatBoat extends AppCompatActivity {
                             db.collection("Chat").document(orderid.toString()).collection("Customermsg").document().set(chatboat).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                                  //  Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                                     chatcontain.setText("");
                                     initView();
                                     progress.dismiss();
@@ -131,7 +131,7 @@ public class CustomerChatBoat extends AppCompatActivity {
                             db.collection("Chat").document(orderid.toString()).collection("Customermsg").document().set(chatboat).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                                 //   Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                                     chatcontain.setText("");
                                     initView();
                                     progress.dismiss();

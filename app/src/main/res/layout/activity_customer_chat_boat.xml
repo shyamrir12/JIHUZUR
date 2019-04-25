@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backdrop"
+    android:background="#a9c5d4"
     android:orientation="vertical"
     tools:context="com.example.awizom.jihuzur.CustomerActivity.CustomerChatBoat">
 
@@ -33,20 +33,22 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/textcap"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/textcap"
         android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/chatcontain"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="0dp"
+
             android:layout_weight="1"
             android:background="@drawable/dialog_chat"
-            android:padding="8dp"/>
+            android:hint="Write something here..."
+            android:padding="8dp" />
 
         <ImageView
             android:id="@+id/send"

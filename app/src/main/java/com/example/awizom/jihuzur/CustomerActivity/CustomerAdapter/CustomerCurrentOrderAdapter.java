@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerChatBoat;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerCommentActivity;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
@@ -101,7 +102,7 @@ public class CustomerCurrentOrderAdapter extends RecyclerView.Adapter<CustomerCu
             final String prictrm = order.getPricingTerms();
             final String empname = order.getEmpName();
             final String empmob = order.getEmpMob();
-            final String imagelink = order.getImage();
+            final String imagelink = AppConfig.BASE_URL+order.getImage().toString();
             final  String catalogId = String.valueOf(order.getCatalogID());
             viewDialog = new ViewDialog((Activity) mCtx);
             holder.empName.setText(order.getServiceName());

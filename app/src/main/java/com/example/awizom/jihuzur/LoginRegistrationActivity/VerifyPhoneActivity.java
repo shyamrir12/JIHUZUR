@@ -87,7 +87,6 @@ public class VerifyPhoneActivity extends AppCompatActivity implements SMSReceive
         mobile = getIntent().getExtras().getString("Mobile");
         otp = getIntent().getExtras().getString("OTP");
         userId = getIntent().getExtras().getString("Uid");
-
         otpEditText = findViewById(R.id.editTextOtp);
         verifyOtpBtn = findViewById(R.id.buttonVerify);
         verifyOtpBtn.setOnClickListener(this);

@@ -67,7 +67,7 @@ public class CustomerCHatAdapter extends
     }
 
     /**
-        View holder class
+     * View holder class
      */
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView customermsg;
@@ -79,8 +79,8 @@ public class CustomerCHatAdapter extends
             super(view);
             customermsg = (TextView) view.findViewById(R.id.customermsg);
             employeemsg = (TextView) view.findViewById(R.id.employeemsg);
-            cus_linear=(LinearLayout)view.findViewById(R.id.cus_linear);
-            emp_card=(android.support.v7.widget.CardView)view.findViewById(R.id.emp_card);
+            cus_linear = (LinearLayout) view.findViewById(R.id.cus_linear);
+            emp_card = (android.support.v7.widget.CardView) view.findViewById(R.id.emp_card);
         }
     }
 }
