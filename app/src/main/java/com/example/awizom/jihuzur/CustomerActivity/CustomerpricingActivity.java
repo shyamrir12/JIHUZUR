@@ -387,6 +387,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 //                data, Toast.LENGTH_LONG)
 //                .show();
 
+        //
         if (data != null) {
             priceID = data;
             AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
