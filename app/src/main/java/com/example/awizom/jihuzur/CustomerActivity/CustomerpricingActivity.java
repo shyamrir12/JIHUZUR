@@ -531,6 +531,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                                         Toast.LENGTH_LONG).show();
                             }
                         });
+               sendordermsg(employeeid);
                 generateRandomNumber(orrderid);
                 intent = new Intent(this, MyBokingsActivity.class);
                 startActivity(intent);
@@ -560,6 +561,16 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                 startActivity(intent);
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendordermsg(String employeeid) {
+        try {
+            result = new CustomerOrderHelper.SendOrderMsg().execute(employeeid.toString()).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
