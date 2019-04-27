@@ -17,6 +17,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -110,8 +111,19 @@ public class AdminRegistration extends AppCompatActivity implements View.OnClick
 
         ActivityCompat.requestPermissions(AdminRegistration.this,
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.CALL_PHONE, Manifest.permission.READ_CONTACTS, Manifest.permission.RECEIVE_SMS,Manifest.permission.READ_SMS},
+                        Manifest.permission.CALL_PHONE, Manifest.permission.READ_CONTACTS, Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_SMS},
                 1);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+
+            finishAffinity();
+            System.exit(0);
+
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void checkInternet() {
@@ -148,15 +160,21 @@ public class AdminRegistration extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonContinue:
-                progressDialog.setMessage("Login in progress ...");
-                progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
-                progressDialog.show();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        createuser();
-                    }
-                }, TIMER);
+                if (editTextMobile.getText().toString().isEmpty() || editTextMobile.getText().toString().length() < 10) {
+                    editTextMobile.setError("Enter a valid mobile");
+                    editTextMobile.requestFocus();
+
+                } else {
+                    progressDialog.setMessage("Login in progress ...");
+                    progressDialog.setProgressStyle(progressDialog.STYLE_SPINNER);
+                    progressDialog.show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            createuser();
+                        }
+                    }, TIMER);
+                }
                 break;
             case R.id.skiplogin:
                 intent = new Intent(AdminRegistration.this, CustomerHomePage.class);
@@ -190,7 +208,7 @@ public class AdminRegistration extends AppCompatActivity implements View.OnClick
                 try {
                     if (jsonbody.isStatus()) {
                         progressDialog.dismiss();
-                      //  Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
+                        //  Toast.makeText(getApplicationContext(), jsonbody.Message, Toast.LENGTH_SHORT).show();
                         if (jsonbody.Otp.equals("mobile already verified")) {
 
                             DataProfile dataProfile = new DataProfile();
@@ -209,10 +227,10 @@ public class AdminRegistration extends AppCompatActivity implements View.OnClick
                                 intent = new Intent(AdminRegistration.this, AdminHomePage.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-                            }else {
+                            } else {
                                 final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
                                 alertDialog.setTitle("Sorry !!");
-                                alertDialog.setMessage("Your mobile no is register already"+" "+jsonbody.Role);
+                                alertDialog.setMessage("Your mobile no is register already" + " " + jsonbody.Role);
 
 
                                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -232,9 +250,7 @@ public class AdminRegistration extends AppCompatActivity implements View.OnClick
 
                                 alertDialog.show();
                             }
-                        }
-
-                        else {
+                        } else {
                             if (jsonbody.Role.equals("Admin")) {
                                 progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "Login successfull", Toast.LENGTH_SHORT).show();
@@ -247,10 +263,10 @@ public class AdminRegistration extends AppCompatActivity implements View.OnClick
                                 startActivity(intent);
                                 Log.d("AdminOTp", jsonbody.Otp);
                                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
-                            }else {
+                            } else {
                                 final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
                                 alertDialog.setTitle("Sorry !!");
-                                alertDialog.setMessage("Your mobile no is register already"+" "+jsonbody.Role);
+                                alertDialog.setMessage("Your mobile no is register already" + " " + jsonbody.Role);
 
 
                                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(

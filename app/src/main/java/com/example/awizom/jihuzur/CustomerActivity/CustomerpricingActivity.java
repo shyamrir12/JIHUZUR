@@ -93,7 +93,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     private Button postPricingBtn;
     private Intent intent;
     private String result = "", serviceID = "", description = "", serviceName = "", displayType = "", btn = "", orderID = "", priceID = "0", data = "", pricingId = "";
-    private String empId = "", priceIDs = "", selectedEmpId,qauntity="";
+    private String empId = "", priceIDs = "", selectedEmpId, qauntity = "";
     private String priceIds = "";
     private ArrayList<LatLng> latlngs = new ArrayList<>();
     private ArrayList<String> empID = new ArrayList<>();
@@ -112,7 +112,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     boolean skipMethod = false;
     ProgressDialog progressDoalog;
     private BroadcastReceiver broadcastReceiver;
-    int minteger=0;
+    int minteger = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,8 +155,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         progressDialog = new ProgressDialog(com.example.awizom.jihuzur.CustomerActivity.CustomerpricingActivity.this);
 
-
-
         nextButton = findViewById(R.id.buttonNext);
         nextButton.setOnClickListener(this);
         postPricingBtn = findViewById(R.id.postOrderPriceBtn);
@@ -191,10 +189,12 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     private void enable_buttons() {
 
         Intent i = new Intent(this, SingleShotLocationProvider.class);
+
         startService(i);
     }
 
     private boolean runtime_permissions() {
+        Toast.makeText(getApplicationContext(),"make sure your location method is in: HIGH ACCURACY",Toast.LENGTH_LONG).show();
         if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
             return true;
@@ -299,8 +299,8 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
             case R.id.buttonNext:
 //                showCustomLoadingDialog();
 
-               // Toast.makeText(getApplicationContext(),postal_code,Toast.LENGTH_LONG).show();
-                if(description.equals("For CCTV")){
+                // Toast.makeText(getApplicationContext(),postal_code,Toast.LENGTH_LONG).show();
+                if (description.equals("For CCTV")) {
                     showCustomLoadingDialog();
                     showindexchange();
 //                    try {
@@ -321,10 +321,10 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 //                        e.printStackTrace();
 //                    }
 
-                }else {
+                } else {
                     showCustomLoadingDialog();
-                    String quantity="0";
-                           method(quantity);
+                    String quantity = "0";
+                    method(quantity);
 //                    try {
 //                        if (postal_code.equals("492001") || postal_code.equals("492004") || postal_code.equals("492013") || postal_code.equals("492007") || postal_code.equals("492015")) {
 //                            skipMethod = false;
@@ -344,7 +344,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
 //                        e.printStackTrace();
 //                    }
                 }
-
 
 
                 break;
@@ -401,7 +400,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                         public void onClick(DialogInterface arg0,
                                             int arg1) {
 
-                            String  quant = quanTitys;
+                            String quant = quanTitys;
                             showTheAlertOrderDailogue(quant);
                            /* if(postal_code.equals("492001")||postal_code.equals("492004")||postal_code.equals("492013")||postal_code.equals("492007")) {
                                 showTheAlertOrderDailogue();
@@ -462,8 +461,8 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                             @Override
                             public void run() {
                                 String dicountCoupan = input.getText().toString();
-                                String orderQuantity =qauntity;
-                                postOderCreate(dicountCoupan,orderQuantity);
+                                String orderQuantity = qauntity;
+                                postOderCreate(dicountCoupan, orderQuantity);
                             }
                         }, TIMER);
                     }
@@ -472,7 +471,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         alertDialog.setNegativeButton("NO",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                       dialog.dismiss();
+                        dialog.dismiss();
                     }
                 });
 
@@ -496,7 +495,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
             priceIds = priceID;
         }
         try {
-            result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId, priceIds, coupncode,quanTity).get();
+            result = new CustomerOrderHelper.OrderPost().execute(customerid, empId, orderDate, catalogId, priceIds, coupncode, quanTity).get();
             Gson gson = new Gson();
             Type getType = new TypeToken<ResultModel>() {
             }.getType();
@@ -534,7 +533,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                         });
                 generateRandomNumber(orrderid);
                 intent = new Intent(this, MyBokingsActivity.class);
-
                 startActivity(intent);
             } else {
                 Toast toast = Toast.makeText(CustomerpricingActivity.this, "Sorry Our Employee's are Busy on another Order please try after sometime", Toast.LENGTH_LONG);
@@ -606,7 +604,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                     }
                 });
         Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
-
         String custmob = SharedPrefManager.getInstance(this).getUser().getMobileNo().toString();
         try {
             result = new CustomerOrderHelper.SendOrderOtp().execute(custmob, String.valueOf(randomNumber)).get();
@@ -702,20 +699,19 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     }
 
 
-
-    private void showindexchange( ) {
+    private void showindexchange() {
 
         final android.support.v7.app.AlertDialog.Builder dialogBuilder = new android.support.v7.app.AlertDialog.Builder(CustomerpricingActivity.this);
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.cctv_proing_for, null);
 
         dialogBuilder.setView(dialogView);
-        final ImageView decrease =  dialogView.findViewById(R.id.decrease);
+        final ImageView decrease = dialogView.findViewById(R.id.decrease);
         final ImageView increase = dialogView.findViewById(R.id.increase);
-        final  TextView displayInteger =  dialogView.findViewById( R.id.integer_number);
-        final  TextView currentpos=dialogView.findViewById(R.id.currentpos);
-        final Button changePositon=dialogView.findViewById(R.id.changePosition);
-        final Button cancel=dialogView.findViewById(R.id.cancel);
+        final TextView displayInteger = dialogView.findViewById(R.id.integer_number);
+        final TextView currentpos = dialogView.findViewById(R.id.currentpos);
+        final Button changePositon = dialogView.findViewById(R.id.changePosition);
+        final Button cancel = dialogView.findViewById(R.id.cancel);
 
         dialogBuilder.setTitle("Add CCTV Quantity");
         dialogBuilder.setIcon(R.drawable.ic_camera_black_24dp);
@@ -723,7 +719,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         b = dialogBuilder.create();
 
 
-        minteger= Integer.parseInt(currentpos.getText().toString());
+        minteger = Integer.parseInt(currentpos.getText().toString());
         displayInteger.setText(String.valueOf(minteger));
         changePositon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -739,11 +735,11 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                         @Override
                         public void run() {
                             qauntity = displayInteger.getText().toString();
-                            if(qauntity.equals("0")){
+                            if (qauntity.equals("0")) {
                                 progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "Please add quantity", Toast.LENGTH_LONG).show();
 
-                            }else {
+                            } else {
                                 method(qauntity);
                                 b.dismiss();
                             }
@@ -752,15 +748,11 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                         }
                     }, TIMER);
 
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
-
-
 
 
         increase.setOnClickListener(new View.OnClickListener() {
@@ -769,9 +761,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                 minteger++;
                 try {
                     displayInteger.setText(String.valueOf(minteger));
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -779,7 +769,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         decrease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(minteger != 1) {
+                if (minteger != 1) {
                     minteger--;
                     try {
                         displayInteger.setText(String.valueOf(minteger));
@@ -791,11 +781,10 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         });
 
 
-
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               finish();
+                finish();
             }
         });
         b.show();

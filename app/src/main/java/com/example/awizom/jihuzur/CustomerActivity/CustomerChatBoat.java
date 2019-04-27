@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 import com.example.awizom.jihuzur.Model.ChatModel;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
@@ -76,7 +75,6 @@ public class CustomerChatBoat extends AppCompatActivity {
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getApplicationContext(), LinearLayoutManager.VERTICAL, true);
       //  recyclerLayoutManager.setReverseLayout(true);
         recyclerView.setLayoutManager(recyclerLayoutManager);
-
         {
             sendmsg.setOnClickListener(new View.OnClickListener() {
                 @Override

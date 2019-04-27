@@ -81,7 +81,7 @@ public class VerifyPhoneActivityEmployeee extends AppCompatActivity implements S
         AppSignatureHashHelper appSignatureHashHelper = new AppSignatureHashHelper(this);
         // This code requires one time to get Hash keys do comment and share key
         Log.d(TAG, "Apps Hash Key: " + appSignatureHashHelper.getAppSignatures().get(0));
-        Toast.makeText(getApplicationContext(),appSignatureHashHelper.getAppSignatures().get(0),Toast.LENGTH_LONG).show();
+       // Toast.makeText(getApplicationContext(),appSignatureHashHelper.getAppSignatures().get(0),Toast.LENGTH_LONG).show();
         startSMSListener();
         verifyOtpBtn = findViewById(R.id.buttonVerify);
         verifyOtpBtn.setOnClickListener(this);

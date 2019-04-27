@@ -56,6 +56,7 @@ import com.example.awizom.jihuzur.BuildConfig;
 import com.example.awizom.jihuzur.Config.AppConfig;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment.EmployeeCurrentOrderFragment;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment.EmployeeHistoryCurrentFragment;
+import com.example.awizom.jihuzur.HelpCenterActivity;
 import com.example.awizom.jihuzur.Helper.AdminHelper;
 import com.example.awizom.jihuzur.Helper.EmployeeOrderHelper;
 import com.example.awizom.jihuzur.Locationhelper.FetchURL;
@@ -199,9 +200,9 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                     break;
 
                 case R.id.navigation_helpCenter:
-                    intent = new Intent(AdminHomePage.this, GeoCoder.class);
+                    intent = new Intent(AdminHomePage.this, HelpCenterActivity.class);
                     startActivity(intent);
-                 //   generateRandomNumber();
+                    //   generateRandomNumber();
                     //  overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 //                    getSupportActionBar().setTitle("Help Center");
 //                    fragment = helpCenterFragment;
@@ -643,7 +644,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             }
             selectedEmpId = employeeProfileModelList.get(i).getID();
         }
-         mGoogleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+        mGoogleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
 
@@ -673,20 +674,19 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                                 Bitmap smallMarker = null;
                                 latLng = new LatLng(Double.valueOf(String.valueOf(task.getResult().get("lat"))),
                                         Double.valueOf(String.valueOf(task.getResult().get("long"))));
-                                boolean busystatus= (boolean) task.getResult().get("busystatus");
-                              if(busystatus){
-                                  int height = 100;
-                                  int width = 100;
-                                  BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.map_logo);
-                                  Bitmap b = bitmapdraw.getBitmap();
-                                   smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
-                              }
-                              else{
+                                boolean busystatus = (boolean) task.getResult().get("busystatus");
+                                if (busystatus) {
+                                    int height = 100;
+                                    int width = 100;
+                                    BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.map_logo);
+                                    Bitmap b = bitmapdraw.getBitmap();
+                                    smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                                } else {
                                     int height = 100;
                                     int width = 100;
                                     BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.map_logo_green_removebg);
                                     Bitmap b = bitmapdraw.getBitmap();
-                                     smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                                    smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
                                 }
 
 
@@ -747,41 +747,38 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                             return true;
                         }
                     });
+
                     orderphotorequest.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            orderphotorequest.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Map<String, Object> ordernotification = new HashMap<>();
+                            Map<String, Object> ordernotification = new HashMap<>();
 
               /*  ordernotification.put("customerid", false);
                 ordernotification.put("customermob", 20.22);
                 ordernotification.put("employeemob", false);
                 ordernotification.put("servicename", false);*/
 
-                                    ordernotification.put("employeeid", idmark);
-                                    db.collection("SendOrderPhoto").document(idmark)
-                                            .set(ordernotification)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    //   Log.d(TAG, "DocumentSnapshot successfully written!");
-                                                    Toast.makeText(getApplicationContext(), "Success!",
-                                                            Toast.LENGTH_LONG).show();
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(getApplicationContext(), "Failed!",
-                                                            Toast.LENGTH_LONG).show();
-                                                }
-                                            });
+                            ordernotification.put("employeeid", idmark);
+                            db.collection("SendOrderPhoto").document(idmark)
+                                    .set(ordernotification)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            //   Log.d(TAG, "DocumentSnapshot successfully written!");
+                                            Toast.makeText(getApplicationContext(), "Success!",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(getApplicationContext(), "Failed!",
+                                                    Toast.LENGTH_LONG).show();
+                                        }
+                                    });
 
-                                }
-                            });
                         }
+
                     });
 
                     call.setOnClickListener(new View.OnClickListener() {
@@ -952,7 +949,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
                 .build();
         mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         /* set zoom position by this value */
- //
+        //
     }
 
     private String getUrl(LatLng origin, LatLng dest, String directionMode) {
@@ -1363,8 +1360,20 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             startActivity(login);
             finish();
         } else if (id == R.id.nav_share) {
+            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+            sharingIntent.setType("text/plain");
+            String shareBody = "https://play.google.com/store/apps/details?id=com.awizom.jihuzur";
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+            startActivity(Intent.createChooser(sharingIntent, "Share via"));
+            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
         } else if (id == R.id.nav_send) {
+            String phoneNumber = "", message = "";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + phoneNumber));
+            intent.putExtra("sms_body", message);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

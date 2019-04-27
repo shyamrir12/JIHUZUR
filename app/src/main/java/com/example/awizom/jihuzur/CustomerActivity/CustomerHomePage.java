@@ -472,7 +472,41 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 
             }
             else {
-                showdialogforGPS();
+                LocationRequest mLocationRequest = LocationRequest.create()
+                        .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                        .setInterval(1 * 1000)
+                        .setFastestInterval(1 * 1000);
+                LocationSettingsRequest.Builder settingsBuilder = new LocationSettingsRequest.Builder()
+                        .addLocationRequest(mLocationRequest);
+                settingsBuilder.setAlwaysShow(true);
+                Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(this)
+                        .checkLocationSettings(settingsBuilder.build());
+                result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
+                    @Override
+                    public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
+                        try {
+                            LocationSettingsResponse response =
+                                    task.getResult(ApiException.class);
+                        } catch (ApiException ex) {
+                            switch (ex.getStatusCode()) {
+                                case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                                    try {
+                                        ResolvableApiException resolvableApiException =
+                                                (ResolvableApiException) ex;
+                                        resolvableApiException
+                                                .startResolutionForResult(CustomerHomePage.this,
+                                                        201);
+                                        enable_buttons();
+                                    } catch (IntentSender.SendIntentException e) {
+
+                                    }
+                                    break;
+                                case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                                    break;
+                            }
+                        }
+                    }
+                });
              //   Toast.makeText(getApplicationContext(),"Set Your Location Method:High Accurecy",Toast.LENGTH_LONG).show();
            //    runtime_permissions();
             }
@@ -497,45 +531,10 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             }
         });
         alertbox.show();
-
     }
 
-
     public boolean runtime_permissions() {
-        LocationRequest mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(5 * 1000)
-                .setFastestInterval(1 * 1000);
-        LocationSettingsRequest.Builder settingsBuilder = new LocationSettingsRequest.Builder()
-                .addLocationRequest(mLocationRequest);
-        settingsBuilder.setAlwaysShow(true);
-        Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(this)
-                .checkLocationSettings(settingsBuilder.build());
-        result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
-            @Override
-            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
-                try {
-                    LocationSettingsResponse response =
-                            task.getResult(ApiException.class);
-                } catch (ApiException ex) {
-                    switch (ex.getStatusCode()) {
-                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                            try {
-                                ResolvableApiException resolvableApiException =
-                                        (ResolvableApiException) ex;
-                                resolvableApiException
-                                        .startResolutionForResult(CustomerHomePage.this,
-                                                201);
-                            } catch (IntentSender.SendIntentException e) {
 
-                            }
-                            break;
-                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                            break;
-                    }
-                }
-            }
-        });
         if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
 

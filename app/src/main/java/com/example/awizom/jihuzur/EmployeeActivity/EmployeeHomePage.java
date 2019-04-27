@@ -371,7 +371,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
                     PendingIntent pendingIntent = PendingIntent.getActivity(EmployeeHomePage.this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     mBuilder.setContentIntent(pendingIntent);
 
-                    notificationManager.notify(199, mBuilder.build());
+                    notificationManager.notify(randomNumber, mBuilder.build());
 
                     // hide the notification after its selected
 
@@ -410,31 +410,7 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
                         ? "Local" : "Server";
                 if (documentSnapshot != null && documentSnapshot.exists()) {
                     Log.d("Snapshot data", source + " data: " + documentSnapshot.getData());
-                   /* final Intent emptyIntent = new Intent(EmployeeHomePage.this,EmployeeHomePage.class);
-                    PendingIntent pendingIntent = PendingIntent.getActivity(EmployeeHomePage.this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    Notification noti = new Notification.Builder(EmployeeHomePage.this)
-                            .setContentTitle("Send Your Current Order Photo ")
-                            .setContentText(String.valueOf("Jihuzzur,Hey! Admin Is wants to See Yoour Current Order Photo")).setSmallIcon(R.drawable.jihuzurapplogo)
-                            .setContentIntent(pendingIntent)
-                            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                            .build();
-                    NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                    // hide the notification after its selected
-                    int randomNumber;
-                    int range = 9;  // to generate a single number with this range, by default its 0..9
-                    int length = 4;
-                    SecureRandom secureRandom = new SecureRandom();
-                    String s = "";
-                    for (int i = 0; i < length; i++) {
-                        int number = secureRandom.nextInt(range);
-                        if (number == 0 && i == 0) { // to prevent the Zero to be the first number as then it will reduce the length of generated pin to three or even more if the second or third number came as zeros
-                            i = -1;
-                            continue;
-                        }
-                        s = s + number;
-                    }
-                    randomNumber = Integer.parseInt(s);
-                    notificationManager.notify(260,noti);*/
+
                     final Intent emptyIntent = new Intent(EmployeeHomePage.this, EmployeeHomePage.class);
                     NotificationManager notificationManager = (NotificationManager)EmployeeHomePage.this.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -480,15 +456,12 @@ public class EmployeeHomePage extends AppCompatActivity implements NavigationVie
         });
 
         if (!runtime_permissions())
-
-
             try {
                 enable_buttons();
             } catch (Exception e) {
                 e.printStackTrace();
             }
     }
-
 
 
     private void getProfile() {
