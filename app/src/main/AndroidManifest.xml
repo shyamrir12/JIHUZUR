@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.awizom.jihuzur">
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -11,17 +12,19 @@
     <!--<uses-permission android:name="android.permission.RECEIVE_SMS" />-->
     <!--<uses-permission android:name="android.permission.READ_SMS" />-->
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.javapapers.android.androidlocationmaps.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name= "android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"
+    <uses-permission
+        android:name="android.permission.WRITE_SECURE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
 
     <uses-feature
@@ -47,9 +50,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <!--<receiver android:name=".SmsReceiver">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.provider.Telephony.SMS_RECEIVED" />-->
-            <!--</intent-filter>-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.provider.Telephony.SMS_RECEIVED" />-->
+        <!--</intent-filter>-->
         <!--</receiver>-->
         <activity
             android:name=".MainActivity"
@@ -83,7 +86,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CustomerActivity.CustomerHomePage"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <activity
             android:name=".DrawingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -95,6 +100,7 @@
             android:hardwareAccelerated="true"
             android:label="@string/title_activity_employee_home_page"
             android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
 
         <activity android:name=".EmployeeActivity.EmployeeDrawingActivity" />
@@ -109,7 +115,6 @@
         <activity
             android:name=".SplashActivityEmployee"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
         </activity>
         <activity
             android:name=".CustomerActivity.CustomerLoginRegActivity"
@@ -145,10 +150,10 @@
         <activity
             android:name=".SelectServices"
             android:theme="@style/AppTheme.NoActionBar" />
-      <!--  <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />-->
+        <!--  <activity
+              android:name=".SettingsActivity"
+              android:label="@string/title_activity_settings"
+              android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />-->
         <activity
             android:name=".MyBokingsActivity"
             android:theme="@style/AppTheme.NoActionBar" />

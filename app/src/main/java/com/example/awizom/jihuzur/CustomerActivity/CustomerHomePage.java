@@ -137,10 +137,10 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
             switch (item.getItemId()) {
                 case R.id.navigation_search:
                     if (!skipdata.equals("SkipLogin")) {
-                    showCustomLoadingDialog();
-                    intent = new Intent(CustomerHomePage.this, CustomerHomePage.class);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                        showCustomLoadingDialog();
+                        intent = new Intent(CustomerHomePage.this, CustomerHomePage.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                     } else {
 
                         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(CustomerHomePage.this);
@@ -160,7 +160,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 
                                         SharedPrefManager.getInstance(CustomerHomePage.this).logout();
                                         intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
-                                        if(skipdata.equals("SkipLogin")) {
+                                        if (skipdata.equals("SkipLogin")) {
                                             intent.putExtra("Skip", "SkipLogin");
                                         }
                                         startActivity(intent);
@@ -199,7 +199,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 
                                         SharedPrefManager.getInstance(CustomerHomePage.this).logout();
                                         intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
-                                        if(skipdata.equals("SkipLogin")) {
+                                        if (skipdata.equals("SkipLogin")) {
                                             intent.putExtra("Skip", "SkipLogin");
                                         }
                                         startActivity(intent);
@@ -255,7 +255,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                     if (documentSnapshot != null && documentSnapshot.exists()) {
                         Log.d("Snapshot data", source + " data: " + documentSnapshot.getData());
                         final Intent emptyIntent = new Intent(CustomerHomePage.this, MyBokingsActivity.class);
-                        NotificationManager notificationManager = (NotificationManager)CustomerHomePage.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                        NotificationManager notificationManager = (NotificationManager) CustomerHomePage.this.getSystemService(Context.NOTIFICATION_SERVICE);
                         String channelId = "channel-01";
                         String channelName = "Channel Name";
                         int importance = NotificationManager.IMPORTANCE_HIGH;
@@ -285,7 +285,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                     }
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -306,7 +306,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         }
 
 
-        db=FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         getCategoryList();
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setLogo(R.mipmap.jihuzzur_home_logo);
@@ -324,7 +324,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        Menu menu =navigationView.getMenu();
+        Menu menu = navigationView.getMenu();
         MenuItem target = menu.findItem(R.id.nav_logout);
         if (skipdata.equals("SkipLogin")) {
             target.setTitle("login");
@@ -345,7 +345,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
 
-                           dialog.dismiss();
+                            dialog.dismiss();
 
                         }
                     });
@@ -421,7 +421,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 
 //                                    SharedPrefManager.getInstance(CustomerHomePage.this).logout();
                                     intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
-                                    if(skipdata.equals("SkipLogin")) {
+                                    if (skipdata.equals("SkipLogin")) {
                                         intent.putExtra("Skip", "SkipLogin");
                                     }
                                     startActivity(intent);
@@ -465,13 +465,11 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         try {
             int locationMode = Settings.Secure.getInt(getContentResolver(), Settings.Secure.LOCATION_MODE);
 
-            if(locationMode==3)
-            {
+            if (locationMode == 3) {
                 enable_buttons();
-             //   Toast.makeText(getApplicationContext(),"All is Fine",Toast.LENGTH_LONG).show();
+                //   Toast.makeText(getApplicationContext(),"All is Fine",Toast.LENGTH_LONG).show();
 
-            }
-            else {
+            } else {
                 LocationRequest mLocationRequest = LocationRequest.create()
                         .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                         .setInterval(1 * 1000)
@@ -507,8 +505,8 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                         }
                     }
                 });
-             //   Toast.makeText(getApplicationContext(),"Set Your Location Method:High Accurecy",Toast.LENGTH_LONG).show();
-           //    runtime_permissions();
+                //   Toast.makeText(getApplicationContext(),"Set Your Location Method:High Accurecy",Toast.LENGTH_LONG).show();
+                //    runtime_permissions();
             }
         } catch (Settings.SettingNotFoundException e) {
             e.printStackTrace();
@@ -572,7 +570,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 Type listType = new TypeToken<List<Catalog>>() {
                 }.getType();
                 categorylist = new Gson().fromJson(result, listType);
-                CustomerHomePageAdapter customerCatagoryAdapter = new CustomerHomePageAdapter(CustomerHomePage.this, categorylist,skipdata);
+                CustomerHomePageAdapter customerCatagoryAdapter = new CustomerHomePageAdapter(CustomerHomePage.this, categorylist, skipdata);
                 gridView.setAdapter(customerCatagoryAdapter);
             }
         } catch (Exception e) {
@@ -732,19 +730,18 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         int id = item.getItemId();
 
 
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_signout) {
             try {
 
-                    SharedPrefManager.getInstance(CustomerHomePage.this).logout();
-                    intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
-                    if(skipdata.equals("SkipLogin")) {
-                        intent.putExtra("Skip", "SkipLogin");
-                    }
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
+                SharedPrefManager.getInstance(CustomerHomePage.this).logout();
+                intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
+                if (skipdata.equals("SkipLogin")) {
+                    intent.putExtra("Skip", "SkipLogin");
+                }
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
 
             } catch (Exception e) {
@@ -774,7 +771,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
             } else {
                 Intent i = new Intent(CustomerHomePage.this, CustomerLoginRegActivity.class);
-                if(skipdata.equals("SkipLogin")) {
+                if (skipdata.equals("SkipLogin")) {
                     i.putExtra("Skip", "SkipLogin");
                 }
                 startActivity(i);
@@ -820,9 +817,9 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 alertDialog.setPositiveButton("ok",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                               // SharedPrefManager.getInstance(CustomerHomePage.this).logout();
+                                // SharedPrefManager.getInstance(CustomerHomePage.this).logout();
                                 intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
-                                if(skipdata.equals("SkipLogin")) {
+                                if (skipdata.equals("SkipLogin")) {
                                     intent.putExtra("Skip", "SkipLogin");
                                 }
                                 startActivity(intent);
@@ -864,12 +861,12 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
 
-                               // SharedPrefManager.getInstance(CustomerHomePage.this).logout();
+                                // SharedPrefManager.getInstance(CustomerHomePage.this).logout();
                                 intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
-                                if(skipdata.equals("SkipLogin")) {
+                                if (skipdata.equals("SkipLogin")) {
                                     intent.putExtra("Skip", "SkipLogin");
                                 }
-                                  startActivity(intent);
+                                startActivity(intent);
                                 overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 
                             }
@@ -885,16 +882,16 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         } else if (id == R.id.nav_logout) {
             try {
 
-                    SharedPrefManager.getInstance(this).logout();
-                    intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
-                    if(skipdata.equals("SkipLogin")) {
+                SharedPrefManager.getInstance(this).logout();
+                intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
+                if (skipdata.equals("SkipLogin")) {
                     intent.putExtra("Skip", "SkipLogin");
-                    }
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
+                }
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -920,9 +917,9 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
 
-                               // SharedPrefManager.getInstance(CustomerHomePage.this).logout();
+                                // SharedPrefManager.getInstance(CustomerHomePage.this).logout();
                                 intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
-                                if(skipdata.equals("SkipLogin")) {
+                                if (skipdata.equals("SkipLogin")) {
                                     intent.putExtra("Skip", "SkipLogin");
                                 }
                                 startActivity(intent);

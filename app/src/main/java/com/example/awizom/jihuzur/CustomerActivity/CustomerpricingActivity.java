@@ -137,8 +137,6 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
         priceID = getIntent().getStringExtra("priceId");
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         /*  catalogName = getIntent().getStringExtra("CatalogName");*/
-
-
         toolbar.setTitle(serviceName);
         toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
@@ -194,7 +192,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
     }
 
     private boolean runtime_permissions() {
-        Toast.makeText(getApplicationContext(),"make sure your location method is in: HIGH ACCURACY",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "make sure your location method is in: HIGH ACCURACY", Toast.LENGTH_LONG).show();
         if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
             return true;
@@ -532,7 +530,7 @@ public class CustomerpricingActivity extends AppCompatActivity implements View.O
                                         Toast.LENGTH_LONG).show();
                             }
                         });
-               sendordermsg(employeeid);
+                sendordermsg(employeeid);
                 generateRandomNumber(orrderid);
                 intent = new Intent(this, MyBokingsActivity.class);
                 startActivity(intent);
