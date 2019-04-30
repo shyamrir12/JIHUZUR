@@ -166,7 +166,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                                 Log.d("Snapshot data", source + " data: " + snapshot.getData());
 
                                 Double lat1 = Double.parseDouble(String.valueOf(snapshot.get("lat")));
-                                Double  long1 = Double.parseDouble(String.valueOf(snapshot.get("long")));
+                                Double long1 = Double.parseDouble(String.valueOf(snapshot.get("long")));
                                 place2 = new MarkerOptions().position(new LatLng(Double.valueOf(String.valueOf(lat1)),
                                         Double.valueOf(String.valueOf(long1)))).title("Location 1");
 
@@ -227,7 +227,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                     }
                     String name = dataProfileEmployee.getName();
                     final String mobileNo = dataProfileEmployee.getMobileNo();
-                    employeeDetails.setText(name + "," +" " + mobileNo);
+                    employeeDetails.setText(name + "," + " " + mobileNo);
 
                     empLatLng = new LatLng(Double.valueOf(String.valueOf(dataProfileEmployee.getLat())),
                             Double.valueOf(String.valueOf(dataProfileEmployee.getLong())));
@@ -307,7 +307,6 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
                     long1 = Double.parseDouble(String.valueOf(snapshot.get("long")));
 
 
-
                     int height = 80;
                     int width = 80;
                     BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.map_logo);
@@ -375,7 +374,7 @@ public class TrackActivity extends AppCompatActivity implements OnMapReadyCallba
         currentPolyline = mMap.addPolyline((PolylineOptions) values[0]);
         String distances = values[1].toString();
         String duration = values[2].toString();
-        distancefor.setText(distances + ","+" " + duration);
+        distancefor.setText(distances + "," + " " + duration);
 
     }
 }

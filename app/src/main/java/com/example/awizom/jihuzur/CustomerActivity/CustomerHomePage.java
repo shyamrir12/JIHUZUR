@@ -14,11 +14,14 @@ import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,6 +30,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -108,9 +112,12 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     String Url;
     Boolean active = false;
     View header;
+    LinearLayout coordinatorLayout;
+    ImageView nointernet;
     TextView userName, userContact;
     ImageView imageView;
     String img_str;
+    Snackbar snackbar;
     private String skipdata = "";
     boolean check = false;
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
@@ -220,6 +227,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
 //                    getSupportActionBar().setTitle("Help Center");
 //                    fragment = helpCenterFragment;
+//                    fragment = helpCenterFragment;
 //                    framentClass = HelpCenterFragment.class;
                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                     break;
@@ -241,7 +249,26 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initView();
+        setContentView(R.layout.activity_customer_home_page);
+         nointernet=findViewById(R.id.no_internet);
+        coordinatorLayout = (LinearLayout) findViewById(R.id.coordinator);
+        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
+                .setAction("RETRY", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(CustomerHomePage.this,
+                                CustomerHomePage.class);
+
+                        startActivity(intent);
+                    }
+                });
+        snackbar.setActionTextColor(Color.RED);
+        snackbar.setActionTextColor(Color.RED);
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.YELLOW);
+        checkInternet();
+
         try {
             db.collection("ChatNotification").document(SharedPrefManager.getInstance(this).getUser().getID().toString()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
@@ -297,7 +324,8 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         searchFragment = new SearchFragment();
         myBookingFragment = new MyBookingFragment();
         catalogFragment = new CatalogFragment();
-        setContentView(R.layout.activity_customer_home_page);
+
+
         gridView = (GridView) findViewById(R.id.gridview);
         try {
             skipdata = getIntent().getStringExtra("Skip").toString();
@@ -314,21 +342,18 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
         toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
         setSupportActionBar(toolbar);
-
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         Menu menu = navigationView.getMenu();
         MenuItem target = menu.findItem(R.id.nav_logout);
         if (skipdata.equals("SkipLogin")) {
             target.setTitle("login");
-
 
             final AlertDialog.Builder alertDialog = new AlertDialog.Builder(CustomerHomePage.this);
             alertDialog.setTitle("Sorry !!");
@@ -460,6 +485,24 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 
     }
 
+    private void checkInternet() {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            initView();
+            //we are connected to a network
+            //    connected = true;
+            //   Toast.makeText(getApplicationContext(), "Internet is On", Toast.LENGTH_SHORT).show();
+        } else {
+            // Toast.makeText(getApplicationContext(), "Internet is off", Toast.LENGTH_SHORT).show();
+            nointernet.setVisibility(View.VISIBLE);
+            snackbar.show();
+        /*    connected = false;
+            snackbar.show();*/
+        }
+    }
+
     private void openGPSSettings() {
         //Get GPS now state (open or closed)
         try {
@@ -520,7 +563,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         AlertDialog.Builder alertbox = new AlertDialog.Builder(CustomerHomePage.this);
         alertbox.setIcon(R.drawable.map_logo);
         alertbox.setTitle("Location Method:High Accuracy");
-        alertbox.setMessage("Hello! You Have To Change your Location Method as High Accuracy another wise you can't track by our employee. ");
+        alertbox.setMessage("Hello! You Have To Change your Location Setting as High Accuracy other wise you can't be track by our employee. ");
         alertbox.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
                 // finish used for destroyed activity
@@ -571,7 +614,9 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                 }.getType();
                 categorylist = new Gson().fromJson(result, listType);
                 CustomerHomePageAdapter customerCatagoryAdapter = new CustomerHomePageAdapter(CustomerHomePage.this, categorylist, skipdata);
+
                 gridView.setAdapter(customerCatagoryAdapter);
+
             }
         } catch (Exception e) {
             e.printStackTrace();

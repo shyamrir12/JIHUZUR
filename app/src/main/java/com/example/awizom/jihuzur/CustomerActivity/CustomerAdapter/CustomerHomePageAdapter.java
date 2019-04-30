@@ -54,7 +54,9 @@ public class CustomerHomePageAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return catalogNameList.size();
+
+            return catalogNameList.size();
+
     }
 
     @Override

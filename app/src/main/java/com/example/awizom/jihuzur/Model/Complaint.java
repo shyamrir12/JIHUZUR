@@ -3,14 +3,17 @@ package com.example.awizom.jihuzur.Model;
 import java.util.Date;
 
 public class Complaint {
+    public boolean Active;
+    public String Complaint;
+    public String ComplaintDate;
     public int ComplaintID;
     public String CustomerID;
-    public String Complaint;
-    public boolean Active;
-    public boolean Status;
-    public String ComplaintDate;
-    public int TotalReply;
     public String Name;
+
+    public boolean Status;
+
+    public int TotalReply;
+
 
     public int getComplaintID() {
         return ComplaintID;

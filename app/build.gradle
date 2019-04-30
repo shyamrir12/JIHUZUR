@@ -5,8 +5,8 @@ android {
         applicationId 'com.awizom.jihuzur'
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 20
-        versionName "1.0.7"
+        versionCode 21
+        versionName "1.0.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

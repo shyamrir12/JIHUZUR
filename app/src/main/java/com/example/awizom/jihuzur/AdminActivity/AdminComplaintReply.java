@@ -51,7 +51,7 @@ AdminComplaintReply extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             onBackPressed();
+                onBackPressed();
             }
         });
 
@@ -59,6 +59,7 @@ AdminComplaintReply extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         addComplaintreply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +67,7 @@ AdminComplaintReply extends AppCompatActivity {
             }
         });
         getComplaintList();
-          }
+    }
 
     private void getComplaintList() {
 
@@ -78,6 +79,7 @@ AdminComplaintReply extends AppCompatActivity {
             complaintlist = new Gson().fromJson(result, listType);
             adminComplaintReplyAdapter = new AdminComplaintReplyAdapter(AdminComplaintReply.this, complaintlist);
             recyclerView.setAdapter(adminComplaintReplyAdapter);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -399,8 +399,6 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                     BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.map_logo);
                     Bitmap b = bitmapdraw.getBitmap();
                     Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
-
-
                     mGoogleMap.addMarker(new MarkerOptions().position(latLng).
                             icon(BitmapDescriptorFactory.fromBitmap(smallMarker))).setTitle(name + "," + empid + "," + img_str);
                     try {
@@ -420,12 +418,10 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
                                 idmark = marker.getTitle().split(",")[1];
                                 namemark = marker.getTitle().split(",")[0];
                                 img_strmark = marker.getTitle().split(",")[2];
-
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                             new FetchURL(EmployeeLocationActivity.this).execute(getUrl(mylocation.getPosition(), place2.getPosition(), "driving"), "driving");
-
                             if (namemark != null) {
                                 final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EmployeeLocationActivity.this);
                                 alertDialogBuilder.setMessage("Do You Want To Call " + namemark);
@@ -500,7 +496,6 @@ public class EmployeeLocationActivity extends AppCompatActivity implements OnMap
         mGoogleMap.setOnMyLocationButtonClickListener(onMyLocationButtonClickListener);
         mGoogleMap.setOnMyLocationClickListener(onMyLocationClickListener);
         enableMyLocationIfPermitted();
-
         mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
         mGoogleMap.setMinZoomPreference(13);
 

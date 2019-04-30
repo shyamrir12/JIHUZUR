@@ -6,159 +6,177 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <LinearLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear"
+        android:orientation="vertical">
+
+    </LinearLayout>
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <RelativeLayout
             android:id="@+id/relativeOne"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:src="@drawable/nointernet"
+                android:id="@+id/no_internet"/>
 
             <LinearLayout
                 android:id="@+id/l"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:orientation="horizontal"
-                android:layout_marginTop="40dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:focusedByDefault="true">
+                android:layout_marginTop="40dp"
+                android:focusedByDefault="true"
+                android:orientation="horizontal">
 
                 <AdapterViewFlipper
                     android:id="@+id/simpleAdapterViewFlipper"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#00000000"
                     android:autoStart="true"
+                    android:background="#00000000"
                     android:scrollHorizontally="true"
-                    android:scrollbars="horizontal"
                     android:scrollIndicators="right"
-                    android:scrollbarAlwaysDrawHorizontalTrack="true" />
+                    android:scrollbarAlwaysDrawHorizontalTrack="true"
+                    android:scrollbars="horizontal" />
 
 
             </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/transparency"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_below="@+id/l">
-            <RelativeLayout
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@+id/l"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:background="@color/transparency"
-                android:layout_marginTop="0dp">
+                android:orientation="vertical">
 
-
-                <GridView
-                    android:id="@+id/gridview"
-                    android:layout_width="match_parent"
-                    android:layout_height="500dp"
-                    android:numColumns="2"
-                    android:columnWidth="140dp"
-                    android:horizontalSpacing="10dp"
-                    android:verticalSpacing="10dp"
-                    android:gravity="center|center_horizontal"
-                    android:stretchMode="columnWidth" />
-
-
-                <LinearLayout
-                    android:id="@+id/l3"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_margin="20dp"
-                    android:layout_below="@+id/gridview"
-                    android:visibility="gone">
+                    android:layout_marginTop="0dp"
+                    android:background="@color/transparency">
+
+
+                    <GridView
+                        android:id="@+id/gridview"
+                        android:layout_width="match_parent"
+                        android:layout_height="500dp"
+                        android:columnWidth="140dp"
+                        android:gravity="center|center_horizontal"
+                        android:horizontalSpacing="10dp"
+                        android:numColumns="2"
+                        android:stretchMode="columnWidth"
+                        android:verticalSpacing="10dp" />
 
 
                     <LinearLayout
-                        android:id="@+id/layoutContainer2"
+                        android:id="@+id/l3"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/popular_textView"
-                        android:layout_margin="10dp"
-                        android:layout_marginTop="30dp"
-                        android:orientation="horizontal">
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/gridview"
+                        android:layout_margin="20dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
 
                         <LinearLayout
+                            android:id="@+id/layoutContainer2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="15"
-                            android:orientation="vertical">
+                            android:layout_below="@+id/popular_textView"
+                            android:layout_margin="10dp"
+                            android:layout_marginTop="30dp"
+                            android:orientation="horizontal">
 
-                            <ImageView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_marginTop="10dp"
-                                android:padding="3dp"
-                                android:src="@drawable/prtection" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="15"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:layout_marginTop="10dp"
+                                    android:padding="3dp"
+                                    android:src="@drawable/prtection" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp"
+                                    android:text="@string/Jihuju_thought"
+                                    android:textAlignment="viewStart"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp"
+                                    android:text="@string/upto"
+                                    android:textAlignment="viewStart"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="14sp"
+                                    android:textStyle="normal" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp"
+                                    android:text="@string/learn_more"
+                                    android:textAlignment="viewStart"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="15sp"
+                                    android:textStyle="normal"
+                                    android:visibility="gone" />
+                            </LinearLayout>
+
+
                         </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="4"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="8dp"
-                                android:text="@string/Jihuju_thought"
-                                android:textAlignment="viewStart"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="8dp"
-                                android:text="@string/upto"
-                                android:textAlignment="viewStart"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="14sp"
-                                android:textStyle="normal" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:padding="8dp"
-                                android:text="@string/learn_more"
-                                android:textAlignment="viewStart"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="15sp"
-                                android:textStyle="normal"
-                                android:visibility="gone"/>
-                        </LinearLayout>
-
-
                     </LinearLayout>
-                </LinearLayout>
 
-                <LinearLayout
-                    android:layout_below="@+id/l3"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_weight="4"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp" />
-                </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_below="@+id/l3"
+                        android:layout_weight="4"
+                        android:orientation="vertical">
 
-            </RelativeLayout>
-        </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+            </LinearLayout>
         </RelativeLayout>
     </ScrollView>
-
 
 
     <RelativeLayout
