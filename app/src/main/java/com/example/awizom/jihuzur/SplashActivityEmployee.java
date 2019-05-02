@@ -18,7 +18,7 @@ import java.lang.reflect.Type;
 
 public class SplashActivityEmployee extends AppCompatActivity {
 
-    private static int SPLASH_TIME_OUT = 3000;
+    private static int SPLASH_TIME_OUT = 300;
     private Intent intent;
     String result = "";
     String id;
@@ -60,7 +60,7 @@ public class SplashActivityEmployee extends AppCompatActivity {
                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                 }
                 // close this activity
-                finish();
+              //  finish();
             }
         }, SPLASH_TIME_OUT);
     }

@@ -192,18 +192,14 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(CustomerHomePage.this);
                         alertDialog.setTitle("Sorry !!");
                         alertDialog.setMessage("You Have To Need Login First");
-
-
                         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.MATCH_PARENT,
                                 LinearLayout.LayoutParams.MATCH_PARENT);
 
                         alertDialog.setIcon(R.drawable.warning);
-
-                        alertDialog.setPositiveButton("ok",
+                        alertDialog.setPositiveButton("Ok",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-
                                         SharedPrefManager.getInstance(CustomerHomePage.this).logout();
                                         intent = new Intent(getApplicationContext(), CustomerLoginRegActivity.class);
                                         if (skipdata.equals("SkipLogin")) {
@@ -250,7 +246,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_home_page);
-         nointernet=findViewById(R.id.no_internet);
+        nointernet = findViewById(R.id.no_internet);
         coordinatorLayout = (LinearLayout) findViewById(R.id.coordinator);
         snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
                 .setAction("RETRY", new View.OnClickListener() {
@@ -476,11 +472,8 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 //Start
         handler.postDelayed(runnable, 1000);
 */
-
         if (!runtime_permissions()) {
-
             openGPSSettings();
-
         }
 
     }

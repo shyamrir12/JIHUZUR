@@ -100,8 +100,6 @@ public class EmployeeCurrentOrderFragment extends Fragment implements View.OnCli
                 }.getType();
                 orderList = new Gson().fromJson(result, listType);
                 employeeCurrentOrderAdapter = new EmployeeCurrentOrderAdapter(getContext(), orderList);
-
-
                 recyclerView.postDelayed(new Runnable() {
                     @Override
                     public void run() {

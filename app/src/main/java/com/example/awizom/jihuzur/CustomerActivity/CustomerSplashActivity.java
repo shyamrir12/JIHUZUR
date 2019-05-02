@@ -9,7 +9,7 @@ import com.example.awizom.jihuzur.Util.SharedPrefManager;
 
 public class CustomerSplashActivity  extends AppCompatActivity {
 
-    private static int SPLASH_TIME_OUT = 6000;
+    private static int SPLASH_TIME_OUT = 300;
     private Intent intent;
     String result = "";
     String id;
@@ -31,21 +31,21 @@ public class CustomerSplashActivity  extends AppCompatActivity {
                       if (SharedPrefManager.getInstance(getApplicationContext()).getUser().getRole().equals("Customer")) {
 
                         intent = new Intent(CustomerSplashActivity.this, CustomerHomePage.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                      /*  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);*/
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                         //finish();
 
                     } else {
                         Intent intent = new Intent(CustomerSplashActivity.this, CustomerLoginRegActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                       /* intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);*/
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                         //finish();
                     }
                 } else {
                     Intent intent = new Intent(CustomerSplashActivity.this, CustomerLoginRegActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                  /*  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);*/
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                    // finish();

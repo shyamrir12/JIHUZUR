@@ -15,6 +15,7 @@
         android:orientation="vertical">
 
     </LinearLayout>
+
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -27,12 +28,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white">
+
             <ImageView
+                android:id="@+id/no_internet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:src="@drawable/nointernet"
-                android:id="@+id/no_internet"/>
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/l"
@@ -44,7 +46,7 @@
                 android:focusedByDefault="true"
                 android:orientation="horizontal">
 
-                <AdapterViewFlipper
+              <!--  <AdapterViewFlipper
                     android:id="@+id/simpleAdapterViewFlipper"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -53,8 +55,12 @@
                     android:scrollHorizontally="true"
                     android:scrollIndicators="right"
                     android:scrollbarAlwaysDrawHorizontalTrack="true"
-                    android:scrollbars="horizontal" />
+                    android:scrollbars="horizontal" />-->
 
+                <com.smarteist.autoimageslider.SliderLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:id="@+id/simpleAdapterViewFlipper"/>
 
             </LinearLayout>
 

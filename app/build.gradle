@@ -5,8 +5,8 @@ android {
         applicationId 'com.awizom.jihuzur'
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 21
-        versionName "1.0.8"
+        versionCode 22
+        versionName "1.0.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -61,6 +61,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth-api-phone:11.6.0'
     //Optional for phone number hint
     implementation 'com.google.android.gms:play-services-auth:11.6.0'
+    implementation 'com.github.smarteist:autoimageslider:1.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
