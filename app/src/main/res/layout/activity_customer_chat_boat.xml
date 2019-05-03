@@ -44,7 +44,7 @@
             android:id="@+id/chatcontain"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
+            android:inputType="text"
             android:layout_weight="1"
             android:background="@drawable/dialog_chat"
             android:hint="Write something here..."

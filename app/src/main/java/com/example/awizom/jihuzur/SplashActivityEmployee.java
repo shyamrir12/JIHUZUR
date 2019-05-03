@@ -89,7 +89,9 @@ public class SplashActivityEmployee extends AppCompatActivity {
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_out, R.anim.slide_in);
                     } else {
-                        Toast.makeText(getApplicationContext(), "Contact Your Admin", Toast.LENGTH_LONG).show();
+
+                         Toast.makeText(getApplicationContext(), "Contact Your Admin", Toast.LENGTH_LONG).show();
+                    finish();
                     }
                 }
             }

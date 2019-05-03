@@ -154,7 +154,6 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                         alertDialog.setTitle("Sorry !!");
                         alertDialog.setMessage("You Have To Need Login First");
 
-
                         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.MATCH_PARENT,
                                 LinearLayout.LayoutParams.MATCH_PARENT);

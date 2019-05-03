@@ -100,7 +100,10 @@
             android:hardwareAccelerated="true"
             android:label="@string/title_activity_employee_home_page"
             android:theme="@style/AppTheme.NoActionBar">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".EmployeeActivity.EmployeeDrawingActivity" />
@@ -125,10 +128,7 @@
             android:name=".CustomerActivity.CustomerSplashActivity"
             android:theme="@style/AppFullScreenTheme"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".SplashActivityAdmin"
@@ -246,7 +246,9 @@
         <activity android:name=".AdminActivity.GeoCoder" />
         <activity
             android:name=".CustomerActivity.PlumberActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>

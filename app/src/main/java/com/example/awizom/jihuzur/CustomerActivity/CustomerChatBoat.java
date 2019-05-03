@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.example.awizom.jihuzur.Model.ChatModel;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
@@ -74,11 +77,14 @@ public class CustomerChatBoat extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getApplicationContext(), LinearLayoutManager.VERTICAL, true);
       //  recyclerLayoutManager.setReverseLayout(true);
+
+
         recyclerView.setLayoutManager(recyclerLayoutManager);
         {
             sendmsg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     if (chatcontain.getText().toString().equals("")) {
                         chatcontain.setError("Chat Contain should not be blank");
                         chatcontain.requestFocus();
