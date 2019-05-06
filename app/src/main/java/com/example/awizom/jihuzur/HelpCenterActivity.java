@@ -19,13 +19,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
+import com.example.awizom.jihuzur.AdminActivity.AdminCusList;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerPageAdapterBookings;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerNewChatBoat;
 import com.example.awizom.jihuzur.CustomerActivity.TrackActivity;
 import com.example.awizom.jihuzur.EmployeeActivity.AppSignatureHashHelper;
+import com.example.awizom.jihuzur.Util.SharedPrefManager;
 
 public class HelpCenterActivity extends AppCompatActivity {
 
-    private ImageView call;
+    private ImageView call, chat;
     private String mobileNo = "";
     private TextView tollFreeNumber;
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
@@ -41,8 +44,6 @@ public class HelpCenterActivity extends AppCompatActivity {
 
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Help Center");
-
-
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -51,14 +52,25 @@ public class HelpCenterActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
         toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
         toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
         toolbar.setTitleTextColor(Color.WHITE);
-
         call = findViewById(R.id.calling);
+        chat = findViewById(R.id.chatting);
         tollFreeNumber = findViewById(R.id.tollNumber);
-
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (SharedPrefManager.getInstance(HelpCenterActivity.this).getUser().getRole().equals("Customer"))
+                {
+                    Intent intent = new Intent(HelpCenterActivity.this, CustomerNewChatBoat.class);
+                    startActivity(intent);
+                } else if (SharedPrefManager.getInstance(HelpCenterActivity.this).getUser().getRole().equals("Admin")) {
+                    Intent intent = new Intent(HelpCenterActivity.this, AdminCusList.class);
+                    startActivity(intent);
+                }
+            }
+        });
 
         try {
             call.setOnClickListener(new View.OnClickListener() {

@@ -279,4 +279,5 @@
     <string name="title_activity_quick_action">QuickAction</string>
     <string name="skiplogin"><u>Skip Login</u></string>
     <string name="query">If you have any kind of query, Please feel free to call customer tollfree number</string>
+    <string name="title_activity_admin_cus_list">AdminCusList</string>
 </resources>

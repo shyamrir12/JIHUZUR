@@ -9,8 +9,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission. " />
-    <!--<uses-permission android:name="android.permission.RECEIVE_SMS" />-->
-    <!--<uses-permission android:name="android.permission.READ_SMS" />-->
+    <!-- <uses-permission android:name="android.permission.RECEIVE_SMS" /> -->
+    <!-- <uses-permission android:name="android.permission.READ_SMS" /> -->
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -49,11 +49,12 @@
         android:roundIcon="@mipmap/final_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--<receiver android:name=".SmsReceiver">-->
-        <!--<intent-filter>-->
-        <!--<action android:name="android.provider.Telephony.SMS_RECEIVED" />-->
-        <!--</intent-filter>-->
-        <!--</receiver>-->
+
+        <!-- <receiver android:name=".SmsReceiver"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.provider.Telephony.SMS_RECEIVED" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
         <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
@@ -86,9 +87,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CustomerActivity.CustomerHomePage"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".DrawingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -96,16 +95,13 @@
             android:name=".CustomerActivity.CustomerChatBoat"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".CustomerActivity.CustomerNewChatBoat"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".EmployeeActivity.EmployeeHomePage"
             android:hardwareAccelerated="true"
             android:label="@string/title_activity_employee_home_page"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".EmployeeActivity.EmployeeDrawingActivity" />
         <activity
             android:name=".MenuActivity"
@@ -128,7 +124,10 @@
             android:name=".CustomerActivity.CustomerSplashActivity"
             android:theme="@style/AppFullScreenTheme"
             android:windowSoftInputMode="stateHidden">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".SplashActivityAdmin"
@@ -151,10 +150,12 @@
         <activity
             android:name=".SelectServices"
             android:theme="@style/AppTheme.NoActionBar" />
-        <!--  <activity
+        <!--
+              <activity
               android:name=".SettingsActivity"
               android:label="@string/title_activity_settings"
-              android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />-->
+              android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        -->
         <activity
             android:name=".MyBokingsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -246,7 +247,11 @@
         <activity android:name=".AdminActivity.GeoCoder" />
         <activity
             android:name=".CustomerActivity.PlumberActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".AdminActivity.AdminCusList"
             android:theme="@style/AppTheme.NoActionBar">
+
 
         </activity>
     </application>

@@ -183,6 +183,8 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
             holder.genrateBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+
                     try {
                        /* result = new EmployeeOrderHelper.GenerateOtp().execute(orderId).get();
                         Toast.makeText(mCtx, result.toString(), Toast.LENGTH_SHORT).show();*/
@@ -206,6 +208,10 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                                     enterOtp.requestFocus();
                                 }
                                 else {
+                                    ProgressDialog progress = new ProgressDialog(mCtx);
+                                    progress.setTitle("Verifying");
+                                    progress.show();
+
                                     db.collection("OrderOtp").document(holder.orderIssss.getText().toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {

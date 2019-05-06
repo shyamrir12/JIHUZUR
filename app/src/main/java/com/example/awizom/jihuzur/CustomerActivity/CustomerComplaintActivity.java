@@ -72,8 +72,8 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
             }
         });
 
-        toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
-        toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
+        toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
+        toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
         toolbar.setTitleTextColor(Color.WHITE);
 
         progressDialog = new ProgressDialog(com.example.awizom.jihuzur.CustomerActivity.CustomerComplaintActivity.this);
@@ -100,13 +100,13 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
                 }
                 String activeComplaint = parent.getItemAtPosition(position).toString();
                 if (activeComplaint.equals("Active Complaint")) {
-                   // Toast.makeText(getApplicationContext(), "" + activeComplaint, Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getApplicationContext(), "" + activeComplaint, Toast.LENGTH_SHORT).show();
                     String status = "False";
                     getComplaintList(status);
                 }
                 String solvedComplaint = parent.getItemAtPosition(position).toString();
                 if (solvedComplaint.equals("Solved Complaint")) {
-                   // Toast.makeText(getApplicationContext(), "" + solvedComplaint, Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getApplicationContext(), "" + solvedComplaint, Toast.LENGTH_SHORT).show();
                     String status = "True";
                     getComplaintList(status);
                 }
@@ -152,27 +152,27 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
             @Override
             public void onClick(View view) {
 
-                  if(!editcomplaintinDialog.getText().toString().trim().equals("")) {
-                      String complaint = editcomplaintinDialog.getText().toString();
-                      String Active = "True";
-                      String Status = "False";
-                      String customerId = SharedPrefManager.getInstance(CustomerComplaintActivity.this).getUser().getID();
-                      try {
-                          result = new CustomerOrderHelper.CustomerPOSTComplaint().execute(customerId, complaint, Active, Status).get();
-                          Gson gson = new Gson();
-                          final Result jsonbodyres = gson.fromJson(result, Result.class);
-                          Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
-                         
-                      } catch (Exception e) {
-                          e.printStackTrace();
-                          Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
-                          // System.out.println("Error: " + e);
-                      }
-                  }else {
-                      Toast.makeText(getApplicationContext(), "Please enter the value first", Toast.LENGTH_SHORT).show();
-                      b.dismiss();
+                if (!editcomplaintinDialog.getText().toString().trim().equals("")) {
+                    String complaint = editcomplaintinDialog.getText().toString();
+                    String Active = "True";
+                    String Status = "False";
+                    String customerId = SharedPrefManager.getInstance(CustomerComplaintActivity.this).getUser().getID();
+                    try {
+                        result = new CustomerOrderHelper.CustomerPOSTComplaint().execute(customerId, complaint, Active, Status).get();
+                        Gson gson = new Gson();
+                        final Result jsonbodyres = gson.fromJson(result, Result.class);
+                        Toast.makeText(getApplicationContext(), jsonbodyres.getMessage(), Toast.LENGTH_SHORT).show();
 
-                  }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "Error: " + e, Toast.LENGTH_SHORT).show();
+                        // System.out.println("Error: " + e);
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please enter the value first", Toast.LENGTH_SHORT).show();
+                    b.dismiss();
+
+                }
 
 
                 final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(CustomerComplaintActivity.this, android.R.layout.simple_dropdown_item_1line, SPINNERLIST);
@@ -189,7 +189,7 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
             public void onClick(View view) {
                 final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(CustomerComplaintActivity.this, android.R.layout.simple_dropdown_item_1line, SPINNERLIST);
                 spinner.setAdapter(arrayAdapter);
-              b.dismiss();
+                b.dismiss();
                 /*
                  * we will code this method to delete the artist
                  * */
@@ -198,7 +198,6 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
         b.setCancelable(false);
         b.setCanceledOnTouchOutside(false);
     }
-
 
 
     @Override
@@ -213,7 +212,7 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
                 @Override
                 public void run() {
 
-                        AddComplaint();
+                    AddComplaint();
 
                 }
             }, TIMER);
@@ -223,7 +222,7 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
 
     private void AddComplaint() {
 
-        String complaint=editcomplaint.getText().toString();
+        String complaint = editcomplaint.getText().toString();
         String Active = "True";
         String Status = "False";
         String customerId = SharedPrefManager.getInstance(CustomerComplaintActivity.this).getUser().getID();
@@ -244,8 +243,6 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
 
 
     }
-
-
 
 
 }
