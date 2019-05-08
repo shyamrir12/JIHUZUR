@@ -57,6 +57,7 @@ public class HelpCenterActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(Color.WHITE);
         call = findViewById(R.id.calling);
         chat = findViewById(R.id.chatting);
+
         tollFreeNumber = findViewById(R.id.tollNumber);
         chat.setOnClickListener(new View.OnClickListener() {
             @Override

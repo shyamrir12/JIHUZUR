@@ -53,14 +53,15 @@
                             android:letterSpacing="0.1"
                             android:maxLength="10"
                             android:paddingLeft="8dp"
-                            android:text="Employee"
+                            android:text="Partner"
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             android:textStyle="bold" />
+
                         <TextView
-                            android:layout_marginLeft="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
                             android:fontFamily="serif"
                             android:text="Login"
                             android:textColor="@color/white"
@@ -68,7 +69,6 @@
                             android:textStyle="bold" />
 
                     </LinearLayout>
-
 
 
                     <LinearLayout
@@ -98,11 +98,11 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
                             android:background="#00000000"
+                            android:cursorVisible="false"
                             android:fontFamily="serif"
                             android:hint="Mobile Number"
                             android:inputType="number"
                             android:letterSpacing="0.1"
-                            android:cursorVisible="false"
                             android:maxLength="10"
                             android:paddingLeft="8dp"
                             android:singleLine="true"

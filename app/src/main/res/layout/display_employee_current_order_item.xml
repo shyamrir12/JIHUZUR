@@ -70,7 +70,7 @@
                             android:padding="10dp"
                             android:text="Customer Contact"
                             android:textColor="@color/colorBlack"
-                            android:textSize="13sp"
+                            android:textSize="12sp"
                             android:textStyle="bold" />
 
                         <TextView

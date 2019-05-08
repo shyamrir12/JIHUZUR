@@ -17,6 +17,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -91,6 +92,7 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
                 });
         snackbar.setActionTextColor(Color.RED);
         View sbView = snackbar.getView();
+
         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(Color.YELLOW);
         checkInternet();
@@ -114,6 +116,31 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.CALL_PHONE, Manifest.permission.READ_CONTACTS, Manifest.permission.RECEIVE_SMS,Manifest.permission.READ_SMS},
                 1);
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            AlertDialog.Builder alertbox = new AlertDialog.Builder(EmployeeRegistration.this);
+            alertbox.setIcon(R.drawable.exit);
+            alertbox.setTitle("Do You Want To Exit ?");
+            alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface arg0, int arg1) {
+                    // finish used for destroyed activity
+                    finishAffinity();
+                    System.exit(0);
+
+                }
+            });
+
+            alertbox.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface arg0, int arg1) {
+                    // Nothing will be happened when clicked on no button
+                    // of Dialog
+                }
+            });
+            alertbox.show();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void checkInternet() {

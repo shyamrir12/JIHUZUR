@@ -60,7 +60,7 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_myemployee);
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("My Employee List");
+        toolbar.setTitle("My Partner List");
         toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
         viewDialog = new ViewDialog(this);
@@ -116,7 +116,7 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
         final AutoCompleteTextView Address = (AutoCompleteTextView) dialogView.findViewById(R.id.address);
         final Button buttonaddEmployee = (Button) dialogView.findViewById(R.id.buttonaddemployee);
         final Button buttonCancel = (Button) dialogView.findViewById(R.id.buttonCancel);
-        dialogBuilder.setTitle("Add Employee");
+        dialogBuilder.setTitle("Add Partner");
         dialogBuilder.setIcon(R.drawable.useredit);
         final AlertDialog b = dialogBuilder.create();
         b.show();
@@ -127,7 +127,7 @@ public class AdminMyEmployeeActivity extends AppCompatActivity implements View.O
             public void onClick(View view) {
 
                 if (Name.getText().toString().isEmpty()) {
-                    Name.setError("Enter a valid Employee Name");
+                    Name.setError("Enter a valid Partner Name");
                     Name.requestFocus();
                 } else if (Phonenumber.getText().toString().isEmpty() ||Phonenumber.getText().toString().length()>10 || Phonenumber.getText().toString().length()<10) {
                     Phonenumber.setError("Please Enter Valid Phonenumber");

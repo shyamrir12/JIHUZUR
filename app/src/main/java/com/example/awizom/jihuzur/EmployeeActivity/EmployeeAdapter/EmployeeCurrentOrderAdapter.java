@@ -208,8 +208,9 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                                     enterOtp.requestFocus();
                                 }
                                 else {
-                                    ProgressDialog progress = new ProgressDialog(mCtx);
+                                    final ProgressDialog progress = new ProgressDialog(mCtx);
                                     progress.setTitle("Verifying");
+                                    progress.setMessage("please wait! we are verifying   your order...");
                                     progress.show();
 
                                     db.collection("OrderOtp").document(holder.orderIssss.getText().toString()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -282,6 +283,7 @@ public class EmployeeCurrentOrderAdapter extends RecyclerView.Adapter<EmployeeCu
                                                     e.printStackTrace();
                                                 }
                                             } else {
+                                                progress.dismiss();
                                                 Toast.makeText(v.getContext(), "Entered Otp is wrong", Toast.LENGTH_LONG).show();
                                             }
                                         }

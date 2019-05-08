@@ -984,7 +984,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 
         } else if (id == R.id.nav_send) {
 
-            String phoneNumber = "", message = "";
+            String phoneNumber = "", message = "https://play.google.com/store/apps/details?id=com.awizom.jihuzur";
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + phoneNumber));
             intent.putExtra("sms_body", message);
             startActivity(intent);
