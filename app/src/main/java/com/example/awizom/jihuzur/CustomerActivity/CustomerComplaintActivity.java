@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.awizom.jihuzur.Adapter.CustomerComplaintListAdapter;
+import com.example.awizom.jihuzur.HelpCenterActivity;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Model.Complaint;
 import com.example.awizom.jihuzur.Model.Result;
@@ -41,7 +42,7 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
     List<Complaint> complaintist;
     RecyclerView recyclerView;
     CustomerComplaintListAdapter customerComplainAdapetr;
-    String[] SPINNERLIST = {"Active Complaint", "Create Complaint", "Solved Complaint"};
+    String[] SPINNERLIST = {"Active Complaint", "Create Complaint", "Solved Complaint","Chat With Admin"};
     private ProgressDialog progressDialog;
     private static int TIMER = 300;
     String check;
@@ -110,6 +111,12 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
                     String status = "True";
                     getComplaintList(status);
                 }
+                String chatwithAdmin = parent.getItemAtPosition(position).toString();
+                if (solvedComplaint.equals("Chat With Admin")) {
+                  Intent intent=new Intent(CustomerComplaintActivity.this, HelpCenterActivity.class);
+                  startActivity(intent);
+                }
+
             }
 
             @Override

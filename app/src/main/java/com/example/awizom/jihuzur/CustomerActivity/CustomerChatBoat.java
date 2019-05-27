@@ -25,10 +25,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Nullable;
 
 public class CustomerChatBoat extends AppCompatActivity {
@@ -40,7 +42,7 @@ public class CustomerChatBoat extends AppCompatActivity {
     CustomerCHatAdapter customerCHatAdapter;
     RecyclerView recyclerView;
     String result = "";
-    String orderid,ImageCustomer,ImageEmployee;
+    String orderid, ImageCustomer, ImageEmployee;
     String client;
     String empid, cusid;
     List<String> list = new ArrayList<>();
@@ -76,7 +78,7 @@ public class CustomerChatBoat extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager recyclerLayoutManager = new LinearLayoutManager(this.getApplicationContext(), LinearLayoutManager.VERTICAL, true);
-      //  recyclerLayoutManager.setReverseLayout(true);
+        //  recyclerLayoutManager.setReverseLayout(true);
 
 
         recyclerView.setLayoutManager(recyclerLayoutManager);
@@ -92,7 +94,7 @@ public class CustomerChatBoat extends AppCompatActivity {
 
                         final ProgressDialog progress = new ProgressDialog(CustomerChatBoat.this);
                         progress.setMessage("Sending");
-                      //  progress.show();
+                        //  progress.show();
                         int x = listsize;
                         int y = 1;
                         z = x + y;
@@ -109,19 +111,16 @@ public class CustomerChatBoat extends AppCompatActivity {
                             db.collection("Chat").document(orderid.toString()).collection("Customermsg").document().set(chatboat).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                  //  Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                                    //  Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                                     chatcontain.setText("");
                                     initView();
                                     progress.dismiss();
-                                    db.collection("ChatNotification").document(empid.toString()).set(chatboat).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
 
-                                        }
-                                    });
 
                                 }
                             });
+
+
 
                         } else if (SharedPrefManager.getInstance(CustomerChatBoat.this).getUser().getRole().equals("Employee")) {
                             final Map<String, Object> chatboat = new HashMap<>();
@@ -135,7 +134,7 @@ public class CustomerChatBoat extends AppCompatActivity {
                             db.collection("Chat").document(orderid.toString()).collection("Customermsg").document().set(chatboat).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                 //   Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                                    //   Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
                                     chatcontain.setText("");
                                     initView();
                                     progress.dismiss();

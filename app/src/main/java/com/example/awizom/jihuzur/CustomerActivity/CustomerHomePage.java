@@ -264,8 +264,12 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         textView.setTextColor(Color.YELLOW);
         checkInternet();
 
+       String cus_name = SharedPrefManager.getInstance(this).getUser().getName().toString();
+        String  cus_mob = SharedPrefManager.getInstance(this).getUser().getMobileNo().toString();
+        final String customerfirebaseid=cus_name+","+cus_mob.toString();
+
         try {
-            db.collection("ChatNotification").document(SharedPrefManager.getInstance(this).getUser().getID().toString()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            db.collection("CustomerNewChatNotification").document(customerfirebaseid).addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                     if (e != null) {
@@ -276,7 +280,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                             ? "Local" : "Server";
                     if (documentSnapshot != null && documentSnapshot.exists()) {
                         Log.d("Snapshot data", source + " data: " + documentSnapshot.getData());
-                        final Intent emptyIntent = new Intent(CustomerHomePage.this, MyBokingsActivity.class);
+                        final Intent emptyIntent = new Intent(CustomerHomePage.this, HelpCenterActivity.class);
                         NotificationManager notificationManager = (NotificationManager) CustomerHomePage.this.getSystemService(Context.NOTIFICATION_SERVICE);
                         String channelId = "channel-01";
                         String channelName = "Channel Name";
@@ -290,7 +294,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(CustomerHomePage.this, channelId)
                                 .setSmallIcon(R.mipmap.jihuzurapplogo)
                                 .setContentTitle("Hey! You Have Message")
-                                .setContentText(String.valueOf("Jihuzzur,You Have Message from Employee"));
+                                .setContentText(String.valueOf("Jihuzzur,You Have Message from Admin"));
 
                         TaskStackBuilder stackBuilder = TaskStackBuilder.create(CustomerHomePage.this);
                         /*   stackBuilder.addNextIntent(intent);*/
@@ -298,7 +302,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                         mBuilder.setContentIntent(pendingIntent);
 
                         notificationManager.notify(199, mBuilder.build());
-                        db.collection("ChatNotification").document(SharedPrefManager.getInstance(CustomerHomePage.this).getUser().getID().toString()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        db.collection("CustomerNewChatNotification").document(customerfirebaseid.toString()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
 
@@ -877,8 +881,9 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
 
           }*/
         else if (id == R.id.nav_complaint) {
-
-
+        /*   Intent intent=new Intent(CustomerHomePage.this,HelpCenterActivity.class);
+           startActivity(intent);
+*/
             if (!skipdata.equals("SkipLogin")) {
                 showCustomLoadingDialog();
                 intent = new Intent(CustomerHomePage.this, CustomerComplaintActivity.class);

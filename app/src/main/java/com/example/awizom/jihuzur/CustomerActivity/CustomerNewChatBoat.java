@@ -47,7 +47,7 @@ public class CustomerNewChatBoat extends AppCompatActivity {
     List<String> list = new ArrayList<>();
     int z;
     Integer listsize;
-    String cus_name, cus_mob, cus_id, docid;
+    String cus_name, cus_mob, cus_id, customer_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +66,7 @@ public class CustomerNewChatBoat extends AppCompatActivity {
         } else {
             cus_name = getIntent().getStringExtra("cus_name");
             cus_mob = getIntent().getStringExtra("cus_mob");
+            customer_id = getIntent().getStringExtra("cus_id");
             toolbar.setTitle(cus_name);
         }
 
@@ -106,6 +107,18 @@ public class CustomerNewChatBoat extends AppCompatActivity {
 
 
                         if (SharedPrefManager.getInstance(CustomerNewChatBoat.this).getUser().getRole().equals("Customer")) {
+
+                            final Map<String, Object> adminnotify = new HashMap<>();
+
+                            adminnotify.put("Chat", "Admin");
+                            adminnotify.put("Name", cus_name+" "+cus_mob.toString());
+                            db.collection("AdminChatNotify").document("Admin").set(adminnotify).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                }
+                            });
+
                             final Map<String, Object> chatboat = new HashMap<>();
                             chatboat.put("Count", z);
                             chatboat.put("customer_id", cus_id.toString());
@@ -128,6 +141,8 @@ public class CustomerNewChatBoat extends AppCompatActivity {
 
                                     initView();
                                     progress.dismiss();
+
+
                                     db.collection("ChatNotification").document().set(chatboat).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
@@ -144,6 +159,18 @@ public class CustomerNewChatBoat extends AppCompatActivity {
                             chatboat.put("customer_mob", cus_mob.toString());
                             chatboat.put("ChatContainCustomer", null);
                             chatboat.put("ChatContainAdmin", chatcontain.getText().toString());
+
+
+                            final Map<String, Object> customernewchatnoti = new HashMap<>();
+                            customernewchatnoti.put("customer_id", customer_id.toString());
+
+
+                            db.collection("CustomerNewChatNotification").document(customer_id.toString()).set(customernewchatnoti).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                }
+                            });
 
                             db.collection("CustomerChat").document(cus_name + "," + cus_mob).collection("Customermsg").document().set(chatboat).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

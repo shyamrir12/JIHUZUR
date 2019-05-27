@@ -67,6 +67,7 @@ public class AdminCusList extends AppCompatActivity {
                 Intent intent = new Intent(AdminCusList.this, CustomerNewChatBoat.class);
                 intent.putExtra("cus_name", cus_name);
                 intent.putExtra("cus_mob", cus_mob);
+                intent.putExtra("cus_id",texts);
                 startActivity(intent);
             }
         });

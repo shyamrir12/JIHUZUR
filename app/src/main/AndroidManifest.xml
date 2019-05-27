@@ -101,7 +101,9 @@
             android:name=".EmployeeActivity.EmployeeHomePage"
             android:hardwareAccelerated="true"
             android:label="@string/title_activity_employee_home_page"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <activity android:name=".EmployeeActivity.EmployeeDrawingActivity" />
         <activity
             android:name=".MenuActivity"
@@ -124,14 +126,15 @@
             android:name=".CustomerActivity.CustomerSplashActivity"
             android:theme="@style/AppFullScreenTheme"
             android:windowSoftInputMode="stateHidden">
-        </activity>
-        <activity
-            android:name=".SplashActivityAdmin"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".SplashActivityAdmin"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
         </activity>
         <activity
             android:name=".AdminActivity.AdminHomePage"
@@ -149,12 +152,7 @@
         <activity
             android:name=".SelectServices"
             android:theme="@style/AppTheme.NoActionBar" />
-        <!--
-              <activity
-              android:name=".SettingsActivity"
-              android:label="@string/title_activity_settings"
-              android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
-        -->
+
         <activity
             android:name=".MyBokingsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -249,10 +247,7 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".AdminActivity.AdminCusList"
-            android:theme="@style/AppTheme.NoActionBar">
-
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

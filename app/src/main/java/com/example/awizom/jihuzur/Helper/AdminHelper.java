@@ -26,7 +26,7 @@ public class AdminHelper extends AppCompatActivity {
                 OkHttpClient client = new OkHttpClient();
                 Request.Builder builder = new Request.Builder();
                 builder.url(AppConfig.BASE_URL_API_Admin + "GetCategoryName");
-                builder.addHeader("Content-Type", "Application/json");
+                    builder.addHeader("Content-Type", "Application/json");
                 builder.addHeader("Accept", "application/json");
                 FormBody.Builder parameters = new FormBody.Builder();
                 parameters.add("CatalogName", catalogNameOne);

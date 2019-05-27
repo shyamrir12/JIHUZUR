@@ -14,7 +14,7 @@ public class AppConfig {
     public static final String BASE_URL_API = "http://jihuzzur.com/Admin/Admin/";
     public static final String BASE_URL_Account_API = "http://jihuzzur.com/api/AccountApi/";
 
-   /* public static final String BASE_URL = "http://192.168.1.14:7096/";
+  /*  public static final String BASE_URL = "http://192.168.1.14:7096/";
     public static final String BASE_URL_API_Customer = "http://192.168.1.14:7096/api/Customer/CustomerApi/";
     public static final String BASE_URL_API_REG = "http://192.168.1.14:7096/api/AccountApi/";
     public static final String BASE_URL_API_Employee = "http://192.168.1.14:7096/api/Employee/EmployeeApi/";

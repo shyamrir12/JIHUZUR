@@ -73,8 +73,8 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
     private Intent intent;
     private String orderID = "", cusID = "", empID = "", orderStartTime = "", orderEndtime = "",
             catagoryName = "", serviceName = "", pricingterm = "", employeeName = "",
-            employeeContact = "", result = "", serviceId = "",  ordid="",imagelink="";
-    private TextView arrowBack, cancel, empName, empMobile, serviceNAme, txtRatingValue,employeeImageLink;
+            employeeContact = "", result = "", serviceId = "", ordid = "", imagelink = "";
+    private TextView arrowBack, cancel, empName, empMobile, serviceNAme, txtRatingValue, employeeImageLink;
     private CustomerCommentAdapter customerCommentAdapter;
 
     private List<Review> reviews;
@@ -112,8 +112,8 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
     private void initView() {
 
         employeeID = getIntent().getStringExtra("EmployeeID");
-       // ordid =  getIntent().getStringExtra("OrderIDs");
-        db=FirebaseFirestore.getInstance();
+        // ordid =  getIntent().getStringExtra("OrderIDs");
+        db = FirebaseFirestore.getInstance();
 //        sendBtn = findViewById(R.id.sendBtn);
 //        receiverName = findViewById(R.id.receverName);
 //        messageCommentText = findViewById(R.id.messageEditText);
@@ -129,7 +129,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
                 acceptotp(v);
             }
         });*/
-        viewDialog=new ViewDialog(this);
+        viewDialog = new ViewDialog(this);
         cancel = findViewById(R.id.cancel);
         empName = findViewById(R.id.empName);
         empMobile = findViewById(R.id.contactNumber);
@@ -158,30 +158,28 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         buttonCancel.setOnClickListener(this);
 
         try {
-        // orderID = getIntent().getStringExtra("OrderID");
-        orderID = String.valueOf(getIntent().getStringExtra("OrderID"));
-        cusID = getIntent().getStringExtra("CustomerID");
-        empID = getIntent().getStringExtra("EmployeeID");
-        orderEndtime = getIntent().getStringExtra("OrderEndTime");
-        catagoryName = getIntent().getStringExtra("CategoryName");
-        serviceName = getIntent().getStringExtra("ServiceName");
-        pricingterm = getIntent().getStringExtra("PricingTerms");
-        employeeName = getIntent().getStringExtra("EmployeeName");
-        employeeContact = getIntent().getStringExtra("EmployeeContact");
-        orderStartTime = getIntent().getStringExtra("OrderStartTime");
-        serviceId = String.valueOf(getIntent().getIntExtra("ServiceID", 0));
-        imagelink = getIntent().getStringExtra("ImageLink");
+            // orderID = getIntent().getStringExtra("OrderID");
+            orderID = String.valueOf(getIntent().getStringExtra("OrderID"));
+            cusID = getIntent().getStringExtra("CustomerID");
+            empID = getIntent().getStringExtra("EmployeeID");
+            orderEndtime = getIntent().getStringExtra("OrderEndTime");
+            catagoryName = getIntent().getStringExtra("CategoryName");
+            serviceName = getIntent().getStringExtra("ServiceName");
+            pricingterm = getIntent().getStringExtra("PricingTerms");
+            employeeName = getIntent().getStringExtra("EmployeeName");
+            employeeContact = getIntent().getStringExtra("EmployeeContact");
+            orderStartTime = getIntent().getStringExtra("OrderStartTime");
+            serviceId = String.valueOf(getIntent().getIntExtra("ServiceID", 0));
+            imagelink = getIntent().getStringExtra("ImageLink");
 
-        empName.setText(employeeName.toString());
-        empMobile.setText(employeeContact.toString());
-        serviceNAme.setText(serviceName.toString());
+            empName.setText(employeeName.toString());
+            empMobile.setText(employeeContact.toString());
+            serviceNAme.setText(serviceName.toString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
 
         }
-      catch (Exception e)
-      {
-          e.printStackTrace();
-
-      }
         txtRatingValue.setText("0.0");
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -191,13 +189,11 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
         });
 
         try {
-        getreviewByOrder();
+            getreviewByOrder();
 
-        getCustomerProfileGet();
-        getEmployeeProfileGet();
-        }
-        catch (Exception e)
-        {
+            getCustomerProfileGet();
+            getEmployeeProfileGet();
+        } catch (Exception e) {
             e.printStackTrace();
 
         }
@@ -216,7 +212,7 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
 //                }
 //            }
 //        });
-employeeImageLink.setText(AppConfig.BASE_URL+imagelink);
+        employeeImageLink.setText(AppConfig.BASE_URL + imagelink);
         Glide.with(this).load(employeeImageLink.getText().toString())
                 .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
                 .into(employeeImage);
@@ -245,7 +241,7 @@ employeeImageLink.setText(AppConfig.BASE_URL+imagelink);
                 break;
 
             case R.id.buttonAddCategory:
-                if(!review.getText().toString().trim().equals("")) {
+                if (!review.getText().toString().trim().equals("")) {
                     showCustomLoadingDialog();
                     String rate = txtRatingValue.getText().toString().split("", 3)[1];
                     String revie = review.getText().toString().trim();
@@ -258,7 +254,7 @@ employeeImageLink.setText(AppConfig.BASE_URL+imagelink);
                         getreviewByOrder();
                     } catch (Exception e) {
                     }
-                }else {
+                } else {
                     Toast.makeText(getApplicationContext(), "Please enter the value first", Toast.LENGTH_SHORT).show();
 
                 }
@@ -321,7 +317,7 @@ employeeImageLink.setText(AppConfig.BASE_URL+imagelink);
                                     @Override
                                     public void run() {
                                         progressDialog.dismiss();
-                                        intent = new Intent(CustomerCommentActivity.this,MyBokingsActivity.class);
+                                        intent = new Intent(CustomerCommentActivity.this, MyBokingsActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
@@ -496,6 +492,7 @@ employeeImageLink.setText(AppConfig.BASE_URL+imagelink);
             }
         }, 300);
     }
+
     private void getreviewByOrder() {
         try {
 //            mSwipeRefreshLayout.setRefreshing(true);

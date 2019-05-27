@@ -6,9 +6,10 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,6 +32,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -54,6 +56,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.awizom.jihuzur.BuildConfig;
 import com.example.awizom.jihuzur.Config.AppConfig;
+import com.example.awizom.jihuzur.CustomerActivity.CustomerNewChatBoat;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment.EmployeeCurrentOrderFragment;
 import com.example.awizom.jihuzur.EmployeeActivity.EmployeeFragment.EmployeeHistoryCurrentFragment;
 import com.example.awizom.jihuzur.HelpCenterActivity;
@@ -87,8 +90,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
@@ -116,6 +122,8 @@ import android.view.MenuItem;
 import com.example.awizom.jihuzur.CustomerActivity.CustomerHomePage;
 import com.example.awizom.jihuzur.DrawingActivity;
 import com.example.awizom.jihuzur.Model.DataProfile;
+
+import javax.annotation.Nullable;
 
 public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallback, TaskLoadedCallback, GoogleMap.OnMarkerClickListener, NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -224,7 +232,7 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
     int range = 9;  // to generate a single number with this range, by default its 0..9
     int length = 4; // by default length is 4
 
-    public int generateRandomNumber() {
+    public void generateRandomNumber(String customer) {
         int randomNumber;
 
         SecureRandom secureRandom = new SecureRandom();
@@ -240,23 +248,43 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
 
 
         randomNumber = Integer.parseInt(s);
-        final Intent emptyIntent = new Intent();
+        final Intent emptyIntent = new Intent(this, AdminCusList.class);
+        NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        String channelId = "channel-01";
+        String channelName = "Channel Name";
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel mChannel = new NotificationChannel(
+                    channelId, channelName, importance);
+            notificationManager.createNotificationChannel(mChannel);
+        }
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.mipmap.jihuzurapplogo)
+                .setContentTitle("You have message")
+                .setContentText("Check your helpcentre, you have message from "+ customer);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        /*   stackBuilder.addNextIntent(intent);*/
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, emptyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        Notification noti = new Notification.Builder(this)
-                .setContentTitle("JiHUzzur Otp for Order")
-                .setContentText(String.valueOf(randomNumber)).setSmallIcon(R.drawable.jihuzurapplogo)
-                .setContentIntent(pendingIntent)
-                .build();
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        // hide the notification after its selected
-        noti.flags |= Notification.FLAG_NO_CLEAR;
+        mBuilder.setContentIntent(pendingIntent);
+        notificationManager.notify(5, mBuilder.build());
 
-        notificationManager.notify(randomNumber, noti);
+        final Map<String, Object> adminnotify = new HashMap<>();
 
+        adminnotify.put("Chat", "Customer");
 
-        Toast.makeText(getApplicationContext(), randomNumber + " number", Toast.LENGTH_LONG).show();
+        db.collection("AdminChatNotify").document("Admin").set(adminnotify).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
 
-        return randomNumber;
+            }
+        });
+
+        // Toast.makeText(getApplicationContext(), randomNumber + " number", Toast.LENGTH_LONG).show();
+
     }
 
 
@@ -411,7 +439,24 @@ public class AdminHomePage extends AppCompatActivity implements OnMapReadyCallba
             }
         });
         getProfile();
+
+
+        db.collection("AdminChatNotify").document("Admin").addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+
+                if (documentSnapshot.getData().get("Chat").equals("Admin")) {
+                    String customer=documentSnapshot.getData().get("Name").toString();
+                    generateRandomNumber(customer);
+
+                }
+
+            }
+        });
+
+
     }
+
 
     private void showGPSDisabledAlertToUser() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);

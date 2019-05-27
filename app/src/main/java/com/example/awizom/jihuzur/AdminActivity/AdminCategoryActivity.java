@@ -325,7 +325,7 @@ public class AdminCategoryActivity extends AppCompatActivity implements View.OnC
             public void onClick(View view) {
                 b.dismiss();
                 /*
-                 * we will code this method to delete the artist
+                 * we will code this method  to delete the artist
                  * */
 
             }

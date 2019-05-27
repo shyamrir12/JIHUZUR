@@ -196,6 +196,7 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
         if (editTextMobile.getText().toString().isEmpty() || editTextMobile.getText().toString().length() < 10) {
             editTextMobile.setError("Enter a valid mobile");
             editTextMobile.requestFocus();
+            progressDialog.dismiss();
             return false;
         }
         return true;
