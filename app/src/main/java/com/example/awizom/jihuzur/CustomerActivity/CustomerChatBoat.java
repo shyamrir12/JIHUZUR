@@ -1,7 +1,13 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +17,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.awizom.jihuzur.Model.ChatModel;
@@ -47,7 +54,10 @@ public class CustomerChatBoat extends AppCompatActivity {
     String empid, cusid;
     List<String> list = new ArrayList<>();
     int z;
+    LinearLayout coordinatorLayout;
+    Snackbar snackbar;
     Integer listsize;
+    ImageView nointernet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +67,41 @@ public class CustomerChatBoat extends AppCompatActivity {
         cusid = getIntent().getStringExtra("CustomerID");
         client = getIntent().getStringExtra("Client");
         orderid = getIntent().getStringExtra("OrderID");
-        initView();
+        nointernet=findViewById(R.id.no_internet);
+        coordinatorLayout = (LinearLayout) findViewById(R.id.coordinator);
+        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
+                .setAction("RETRY", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(CustomerChatBoat.this,
+                                CustomerHomePage.class);
+
+                        startActivity(intent);
+                    }
+                });
+        snackbar.setActionTextColor(Color.RED);
+        snackbar.setActionTextColor(Color.RED);
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.YELLOW);
+        checkInternet();
+     //   initView();
+    }
+
+    private void checkInternet() {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            initView();
+
+        } else {
+            // Toast.makeText(getApplicationContext(), "Internet is off", Toast.LENGTH_SHORT).show();
+            nointernet.setVisibility(View.VISIBLE);
+            snackbar.show();
+        /*    connected = false;
+            snackbar.show();*/
+        }
     }
 
     private void initView() {

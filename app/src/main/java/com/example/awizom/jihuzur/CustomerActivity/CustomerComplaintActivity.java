@@ -42,7 +42,7 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
     List<Complaint> complaintist;
     RecyclerView recyclerView;
     CustomerComplaintListAdapter customerComplainAdapetr;
-    String[] SPINNERLIST = {"Active Complaint", "Create Complaint", "Solved Complaint","Chat With Admin"};
+    String[] SPINNERLIST = {"Active Complaint", "Create Complaint", "Solved Complaint","Contact With Admin"};
     private ProgressDialog progressDialog;
     private static int TIMER = 300;
     String check;
@@ -112,7 +112,7 @@ public class CustomerComplaintActivity extends AppCompatActivity implements View
                     getComplaintList(status);
                 }
                 String chatwithAdmin = parent.getItemAtPosition(position).toString();
-                if (solvedComplaint.equals("Chat With Admin")) {
+                if (solvedComplaint.equals("Contact With Admin")) {
                   Intent intent=new Intent(CustomerComplaintActivity.this, HelpCenterActivity.class);
                   startActivity(intent);
                 }

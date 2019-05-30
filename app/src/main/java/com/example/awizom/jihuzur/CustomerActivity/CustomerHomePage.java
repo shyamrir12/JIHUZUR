@@ -264,9 +264,9 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         textView.setTextColor(Color.YELLOW);
         checkInternet();
 
-       String cus_name = SharedPrefManager.getInstance(this).getUser().getName().toString();
-        String  cus_mob = SharedPrefManager.getInstance(this).getUser().getMobileNo().toString();
-        final String customerfirebaseid=cus_name+","+cus_mob.toString();
+        String cus_name = SharedPrefManager.getInstance(this).getUser().getName().toString();
+        String cus_mob = SharedPrefManager.getInstance(this).getUser().getMobileNo().toString();
+        final String customerfirebaseid = cus_name + "," + cus_mob.toString();
 
         try {
             db.collection("CustomerNewChatNotification").document(customerfirebaseid).addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -280,7 +280,7 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                             ? "Local" : "Server";
                     if (documentSnapshot != null && documentSnapshot.exists()) {
                         Log.d("Snapshot data", source + " data: " + documentSnapshot.getData());
-                        final Intent emptyIntent = new Intent(CustomerHomePage.this, HelpCenterActivity.class);
+                        final Intent emptyIntent = new Intent(CustomerHomePage.this, CustomerNewChatBoat.class);
                         NotificationManager notificationManager = (NotificationManager) CustomerHomePage.this.getSystemService(Context.NOTIFICATION_SERVICE);
                         String channelId = "channel-01";
                         String channelName = "Channel Name";
@@ -353,11 +353,9 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         MenuItem target = menu.findItem(R.id.nav_logout);
         if (skipdata.equals("SkipLogin")) {
             target.setTitle("login");
-
             final AlertDialog.Builder alertDialog = new AlertDialog.Builder(CustomerHomePage.this);
             alertDialog.setTitle("Sorry !!");
             alertDialog.setMessage("You Have To Need Login First");
-
 
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
@@ -604,7 +602,10 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
         String catalogname = "Home Cleaning & Repairs";
         try {
             result = new CustomerOrderHelper.GETCustomerCategoryList().execute(catalogname).get();
-            if (result != null) {
+            if (result.isEmpty()) {
+                result = new CustomerOrderHelper.GETCustomerCategoryList().execute(catalogname).get();
+                /*Toast.makeText(getApplicationContext(), "Invalid request", Toast.LENGTH_SHORT).show();*/
+            } else {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<List<Catalog>>() {
                 }.getType();

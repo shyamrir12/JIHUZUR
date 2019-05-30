@@ -2,12 +2,16 @@ package com.example.awizom.jihuzur.CustomerActivity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -84,10 +88,12 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
     private Reply reply;
     private List<Reply> replyList;
     private String s = "";
-
+    ImageView nointernet;
+    LinearLayout coordinatorLayout;
     LatLng cusLatLng, empLatLng;
     private MapView mapView;
     private GoogleMap mMap;
+    Snackbar snackbar;
     private ArrayList<LatLng> latlngCustomer = new ArrayList<>();
     private ArrayList<LatLng> latlngEmployee = new ArrayList<>();
     private DataProfile dataProfileCustomer;
@@ -106,7 +112,43 @@ public class CustomerCommentActivity extends AppCompatActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_comment_list);
-        initView();
+        nointernet = findViewById(R.id.no_internet);
+        coordinatorLayout = (LinearLayout) findViewById(R.id.coordinator);
+        snackbar = Snackbar.make(coordinatorLayout, "No internet connection!", Snackbar.LENGTH_INDEFINITE)
+                .setAction("RETRY", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(CustomerCommentActivity.this,
+                                CustomerHomePage.class);
+
+                        startActivity(intent);
+                    }
+                });
+        snackbar.setActionTextColor(Color.RED);
+        snackbar.setActionTextColor(Color.RED);
+        View sbView = snackbar.getView();
+        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.YELLOW);
+        checkInternet();
+
+    }
+
+    private void checkInternet() {
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            initView();
+            //we are connected to a network
+            //    connected = true;
+            //   Toast.makeText(getApplicationContext(), "Internet is On", Toast.LENGTH_SHORT).show();
+        } else {
+            // Toast.makeText(getApplicationContext(), "Internet is off", Toast.LENGTH_SHORT).show();
+            nointernet.setVisibility(View.VISIBLE);
+            snackbar.show();
+        /*    connected = false;
+            snackbar.show();*/
+        }
     }
 
     private void initView() {

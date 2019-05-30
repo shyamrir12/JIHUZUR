@@ -131,11 +131,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".SplashActivityAdmin"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
         </activity>
+
         <activity
             android:name=".AdminActivity.AdminHomePage"
             android:label="@string/title_activity_admin_home_page"
