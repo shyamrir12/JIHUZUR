@@ -135,7 +135,6 @@
         <activity
             android:name=".SplashActivityAdmin"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
         </activity>
 
         <activity

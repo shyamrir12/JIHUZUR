@@ -76,6 +76,7 @@
                 android:id="@+id/Email"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
+
                 android:background="@drawable/background_layout"
                 android:drawableRight="@drawable/ic_create_black_24dp"
                 android:drawableTint="#892b0b"
@@ -85,7 +86,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textSize="17sp"
-                android:inputType="textEmailAddress"
+                android:inputType=""
                 android:layout_marginTop="7dp"
                 android:singleLine="true"
                 android:cursorVisible="false"/>

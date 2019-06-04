@@ -1,6 +1,8 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -53,10 +55,14 @@ public class CustomerNewChatBoat extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_chat_boat);
+        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(199);
         initView();
     }
 
     private void initView() {
+
+
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         if (SharedPrefManager.getInstance(this).getUser().getRole().equals("Customer")) {
             cus_name = SharedPrefManager.getInstance(this).getUser().getName().toString();
@@ -93,7 +99,7 @@ public class CustomerNewChatBoat extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    if (chatcontain.getText().toString().equals("") || (chatcontain.getText().toString().startsWith(" ") &&chatcontain.getText().toString().endsWith(" ") )) {
+                    if (chatcontain.getText().toString().equals("") || (chatcontain.getText().toString().startsWith(" ") && chatcontain.getText().toString().endsWith(" "))) {
                         chatcontain.setError("Chat Contain should not be blank");
                         chatcontain.requestFocus();
                     } else {
@@ -111,7 +117,7 @@ public class CustomerNewChatBoat extends AppCompatActivity {
                             final Map<String, Object> adminnotify = new HashMap<>();
 
                             adminnotify.put("Chat", "Admin");
-                            adminnotify.put("Name", cus_name+" "+cus_mob.toString());
+                            adminnotify.put("Name", cus_name + " " + cus_mob.toString());
                             db.collection("AdminChatNotify").document("Admin").set(adminnotify).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

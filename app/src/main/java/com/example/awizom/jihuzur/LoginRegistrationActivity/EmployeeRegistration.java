@@ -225,6 +225,36 @@ public class EmployeeRegistration extends AppCompatActivity implements View.OnCl
                             result = String.valueOf(new AdminHelper.POSTProfileLatLong().execute(SharedPrefManager.getInstance(getApplicationContext()).getUser().getID(), String.valueOf("21.22"), String.valueOf("80.66")));
                             //20/02/2019 ravi
 
+                            db.collection("Profile").document(jsonbody.Id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if(task.getResult().equals(null))
+                                    {
+                                        Map<String, Object> profile = new HashMap<>();
+                                        profile.put("busystatus", false);
+                                        profile.put("lat", 21.22);
+                                        profile.put("long", 81.66);
+                                        db.collection("Profile").document(jsonbody.Id)
+                                                .set(profile)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        //   Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                        Toast.makeText(getApplicationContext(), "Success!",
+                                                                Toast.LENGTH_LONG).show();
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(getApplicationContext(), "Failed!",
+                                                                Toast.LENGTH_LONG).show();
+                                                    }
+                                                });
+                                    }
+                                }
+                            });
+
                         } else {
                             db.collection("Profile").document(jsonbody.Id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override

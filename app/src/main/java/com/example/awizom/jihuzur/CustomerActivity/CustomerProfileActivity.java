@@ -1,5 +1,6 @@
 package com.example.awizom.jihuzur.CustomerActivity;
 
+import android.accounts.AccountManager;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -42,6 +43,8 @@ import com.example.awizom.jihuzur.Model.DataProfile;
 import com.example.awizom.jihuzur.Model.Result;
 import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.Util.SharedPrefManager;
+import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.common.AccountPicker;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -109,6 +112,13 @@ public class CustomerProfileActivity extends AppCompatActivity {
         yourname = (EditText) findViewById(R.id.name);
 
         email = (EditText) findViewById(R.id.Email);
+        email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent googlePicker = AccountPicker.newChooseAccountIntent(null, null, new String[]{GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE}, true, null, null, null, null);
+                startActivityForResult(googlePicker, 201);
+            }
+        });
         address = (EditText) findViewById(R.id.Adress);
         imageView = findViewById(R.id.imageView);
         imgUrl = findViewById(R.id.imgurl);
@@ -121,13 +131,8 @@ public class CustomerProfileActivity extends AppCompatActivity {
             }
         });
 
-        email.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                email.setCursorVisible(true);
-                return false;
-            }
-        });
+
+
 
         address.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -372,6 +377,13 @@ public class CustomerProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 201 && resultCode == RESULT_OK) {
+            String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+            email.setText(accountName);
+        }
+
+
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == IMAGE_RESULT) {
                 String filePath = getImageFilePath(data);

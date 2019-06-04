@@ -70,7 +70,7 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
     String identityimage = "";
     Uri picUri;
     Uri outputFileUri;
-     de.hdodenhof.circleimageview.CircleImageView imageView;
+    de.hdodenhof.circleimageview.CircleImageView imageView;
     EditText yourname, address;
     TextView email;
     Intent intent = new Intent();
@@ -185,7 +185,7 @@ public class EmployeeMyProfileActivity extends AppCompatActivity {
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
                     byte[] image = stream.toByteArray();
-                   // System.out.println("byte array:" + image);
+                    // System.out.println("byte array:" + image);
                     String img_str = Base64.encodeToString(image, 0);
                     String name = yourname.getText().toString();
                     String emails = email.getText().toString();

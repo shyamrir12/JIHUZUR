@@ -72,6 +72,8 @@
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/circle_image"
+                android:visibility="gone"
                 android:src="@mipmap/profile"/>
             <EditText
                 android:id="@+id/txtReply"
@@ -79,6 +81,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/fonts"
                 android:layout_weight="1.5"
+                android:visibility="gone"
                 android:hint="Write a reply..." />
             <TextView
                 android:id="@+id/sendBtn"
@@ -86,6 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
                 android:text="send"
+                android:visibility="gone"
                 android:fontFamily="@font/fonts"
                 android:textAllCaps="false"
                 android:textColor="@color/blue"

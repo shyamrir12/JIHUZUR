@@ -20,6 +20,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -290,10 +291,11 @@ public class CustomerHomePage extends AppCompatActivity implements NavigationVie
                                     channelId, channelName, importance);
                             notificationManager.createNotificationChannel(mChannel);
                         }
-
+                        Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(CustomerHomePage.this, channelId)
                                 .setSmallIcon(R.mipmap.jihuzurapplogo)
                                 .setContentTitle("Hey! You Have Message")
+                                .setSound(uri)
                                 .setContentText(String.valueOf("Jihuzzur,You Have Message from Admin"));
 
                         TaskStackBuilder stackBuilder = TaskStackBuilder.create(CustomerHomePage.this);

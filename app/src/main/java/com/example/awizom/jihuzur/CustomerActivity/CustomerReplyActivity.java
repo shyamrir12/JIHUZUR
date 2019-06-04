@@ -11,8 +11,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.awizom.jihuzur.CustomerActivity.CustomerAdapter.CustomerReplyAdapter;
 import com.example.awizom.jihuzur.Helper.CustomerOrderHelper;
 import com.example.awizom.jihuzur.Model.Reply;
@@ -20,6 +22,7 @@ import com.example.awizom.jihuzur.R;
 import com.example.awizom.jihuzur.ViewDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -27,16 +30,18 @@ import java.util.concurrent.ExecutionException;
 public class CustomerReplyActivity extends AppCompatActivity implements View.OnClickListener {
 
     private RecyclerView recyclerView;
-    private TextView sendButton,reviewMsz,reviewDate;
+    private TextView sendButton, reviewMsz, reviewDate;
     private EditText edittxtViewReply;
     private Reply reply;
     private List<Reply> replyList;
-    private String result = "",reviewID="",reView,reviewdate,replyID="0";
+    private String result = "", reviewID = "", reView, reviewdate, replyID = "0", total = "2";
+    private LinearLayout linearLayout;
     CustomerReplyAdapter customerReplyAdapter;
-    private boolean active=true;
+    private boolean active = true;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     ViewDialog viewDialog;
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
+    private de.hdodenhof.circleimageview.CircleImageView circleImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,31 +67,39 @@ public class CustomerReplyActivity extends AppCompatActivity implements View.OnC
             }
         });
 
-        toolbar.setSubtitleTextAppearance(getApplicationContext(),R.style.styleA);
-        toolbar.setTitleTextAppearance(getApplicationContext(),R.style.styleA);
+        toolbar.setSubtitleTextAppearance(getApplicationContext(), R.style.styleA);
+        toolbar.setTitleTextAppearance(getApplicationContext(), R.style.styleA);
         toolbar.setTitleTextColor(Color.WHITE);
-
-
+        linearLayout = findViewById(R.id.l1);
         reviewID = getIntent().getStringExtra("ReviewID");
         reView = getIntent().getStringExtra("ReView");
         reviewdate = getIntent().getStringExtra("Reviewdate");
-
-
-
-        viewDialog=new ViewDialog(this);
+        total = getIntent().getStringExtra("total");
+        viewDialog = new ViewDialog(this);
         sendButton = findViewById(R.id.sendBtn);
+        circleImageView = findViewById(R.id.circle_image);
         edittxtViewReply = findViewById(R.id.txtReply);
         reviewMsz = findViewById(R.id.reviewMsg);
         reviewDate = findViewById(R.id.reviewdate);
-
         reviewMsz.setText(reView.toString());
         reviewDate.setText(reviewdate.toString().split("T")[0]);
         mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         sendButton.setOnClickListener(this);
+        if (total.equals("check".toString())) {
+
+        }
+        else{
+
+            circleImageView.setVisibility(View.GONE);
+            sendButton.setVisibility(View.VISIBLE);
+            edittxtViewReply.setVisibility(View.VISIBLE);
+        }
+
         getReplyList();
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -94,13 +107,14 @@ public class CustomerReplyActivity extends AppCompatActivity implements View.OnC
             public void onRefresh() {
                 try {
                     getReplyList();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
 
                 }
             }
         });
     }
+
     private void getReplyList() {
         try {
             mSwipeRefreshLayout.setRefreshing(true);
@@ -110,7 +124,7 @@ public class CustomerReplyActivity extends AppCompatActivity implements View.OnC
             Type listType = new TypeToken<List<Reply>>() {
             }.getType();
             replyList = new Gson().fromJson(result, listType);
-            customerReplyAdapter = new CustomerReplyAdapter(CustomerReplyActivity.this,replyList );
+            customerReplyAdapter = new CustomerReplyAdapter(CustomerReplyActivity.this, replyList);
             recyclerView.setAdapter(customerReplyAdapter);
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -122,7 +136,7 @@ public class CustomerReplyActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
         v.startAnimation(buttonClick);
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.sendBtn:
                 showCustomLoadingDialog();
                 postReply();
@@ -133,15 +147,15 @@ public class CustomerReplyActivity extends AppCompatActivity implements View.OnC
     private void postReply() {
 
         try {
-            if(validate()){
-                result = new CustomerOrderHelper.PostReviewReply().execute(replyID.toString(),edittxtViewReply.getText().toString(),reviewID.toString(), String.valueOf(active)).get();
+            if (validate()) {
+                result = new CustomerOrderHelper.PostReviewReply().execute(replyID.toString(), edittxtViewReply.getText().toString(), reviewID.toString(), String.valueOf(active)).get();
                 if (!result.isEmpty()) {
                     //Toast.makeText(this, result.toString(), Toast.LENGTH_SHORT).show();
                     edittxtViewReply.setText("");
                 }
 
                 getReplyList();
-            }else {
+            } else {
                 Toast.makeText(getApplicationContext(), "Please some write", Toast.LENGTH_SHORT).show();
 
             }

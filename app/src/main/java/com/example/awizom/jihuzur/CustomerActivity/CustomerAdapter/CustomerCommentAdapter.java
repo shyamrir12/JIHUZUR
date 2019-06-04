@@ -84,7 +84,7 @@ public class CustomerCommentAdapter extends  RecyclerView.Adapter<CustomerCommen
 
             if(String.valueOf(reviews.getTotalReply()) != null){
                 holder.totalReply.setVisibility(View.VISIBLE);
-                holder.totalReply.setText("Total reply" + " " +String.valueOf(reviews.getTotalReply()));
+                holder.totalReply.setText("Total replies" + " " +String.valueOf(reviews.getTotalReply()));
 
                 holder.totalReply.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -95,6 +95,7 @@ public class CustomerCommentAdapter extends  RecyclerView.Adapter<CustomerCommen
                         intent.putExtra("ReviewID",holder.reviewID.getText().toString());
                         intent.putExtra("ReView",holder.sendMsz.getText().toString());
                         intent.putExtra("Reviewdate",holder.reviewDateText.getText().toString());
+                        intent.putExtra("total","check".toString());
                         mCtx.startActivity(intent);
                     }
                 });
@@ -110,6 +111,7 @@ public class CustomerCommentAdapter extends  RecyclerView.Adapter<CustomerCommen
                     intent.putExtra("ReviewID",holder.reviewID.getText().toString());
                     intent.putExtra("ReView",holder.sendMsz.getText().toString());
                     intent.putExtra("Reviewdate",holder.reviewDateText.getText().toString());
+                    intent.putExtra("total","uncheck".toString());
                     mCtx.startActivity(intent);
                 }
             });
